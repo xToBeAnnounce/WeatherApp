@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9203E63220FD47DD00F8C858 /* APIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9203E63120FD47DD00F8C858 /* APIManager.m */; };
 		CC7D391D20FD053A00913023 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CC7D391C20FD053A00913023 /* AppDelegate.m */; };
 		CC7D392020FD053A00913023 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC7D391F20FD053A00913023 /* ViewController.m */; };
 		CC7D392320FD053A00913023 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CC7D392120FD053A00913023 /* Main.storyboard */; };
@@ -35,6 +36,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9203E63020FD47DD00F8C858 /* APIManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APIManager.h; sourceTree = "<group>"; };
+		9203E63120FD47DD00F8C858 /* APIManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APIManager.m; sourceTree = "<group>"; };
 		CC7D391820FD053A00913023 /* WeatherApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CC7D391B20FD053A00913023 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		CC7D391C20FD053A00913023 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -78,9 +81,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9203E62F20FD47C700F8C858 /* API */ = {
+			isa = PBXGroup;
+			children = (
+				9203E63020FD47DD00F8C858 /* APIManager.h */,
+				9203E63120FD47DD00F8C858 /* APIManager.m */,
+			);
+			path = API;
+			sourceTree = "<group>";
+		};
 		CC7D390F20FD053A00913023 = {
 			isa = PBXGroup;
 			children = (
+				9203E62F20FD47C700F8C858 /* API */,
 				CC7D391A20FD053A00913023 /* WeatherApp */,
 				CC7D393320FD053D00913023 /* WeatherAppTests */,
 				CC7D393E20FD053D00913023 /* WeatherAppUITests */,
@@ -262,6 +275,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9203E63220FD47DD00F8C858 /* APIManager.m in Sources */,
 				CC7D392020FD053A00913023 /* ViewController.m in Sources */,
 				CC7D392B20FD053D00913023 /* main.m in Sources */,
 				CC7D391D20FD053A00913023 /* AppDelegate.m in Sources */,
