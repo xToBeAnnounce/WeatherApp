@@ -7,6 +7,7 @@
 //
 
 #import "ViewController.h"
+#import "APIManager.h"
 
 @interface ViewController ()
 
@@ -19,6 +20,16 @@
     // Do any additional setup after loading the view, typically from a nib.
 }
 
+- (IBAction)onTapTestAPI:(id)sender {
+    [[APIManager shared] getDataWithLatitude:42.3601 Longitude: -71.0589 WithCompletion:^(NSDictionary *data, NSError *error) {
+        if(error != nil){
+            NSLog(@"%@", data);
+        }
+        else{
+            NSLog(@"FAILED");
+        }
+    }];
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
