@@ -10,5 +10,6 @@
 
 @interface APIManager : NSObject
 + (instancetype)shared;
-- (void)getDataWithLatitude:(int)lat Longitude:(int)lng WithCompletion:(void(^)(NSDictionary *data, NSError *error))completion;
+-(void)setURLWithLatitude:(double)lat Longitude:(double)lng Time:(NSDate*)date Range:(NSString*)range;
+- (void)getDataWithCompletion:(void(^)(NSDictionary *data, NSError *error))completion;
 @end

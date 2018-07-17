@@ -28,28 +28,39 @@ static NSString * urlString;
     return self;
 }
 
-- (void)getDataWithLatitude:(int)lat Longitude:(int)lng WithCompletion:(void(^)(NSDictionary *data, NSError *error))completion{
-    NSString *coordinateStr = [NSString stringWithFormat:@"%d,%d", lat, lng];
-    
+-(void)setURLWithLatitude:(double)lat Longitude:(double)lng Time:(NSDate*)date Range:(NSString*)range{
+    NSString *coordinateStr = [NSString stringWithFormat:@"%f,%f", lat, lng];
     urlString = [urlString stringByAppendingString:coordinateStr];
     
+    if(date != nil){
+        NSTimeInterval timeDiff = [date timeIntervalSince1970];
+        NSString *timeDiffStr = [NSString stringWithFormat:@",%d", (int)timeDiff];
+        urlString = [urlString stringByAppendingString:timeDiffStr];
+    }
+    if(range != nil){
+        if([range isEqualToString:@"daily"]){
+            //Excluded alerts for now, contains data for hourly per day and currently
+            urlString = [urlString stringByAppendingString:@"?exclude=minutely,daily,alerts,flags"];
+        }
+        else if([range isEqualToString:@"weekly"]){
+            urlString = [urlString stringByAppendingString:@"?exclude=minutely,hourly,alerts,flags"];
+        }
+    }
+}
+
+- (void)getDataWithCompletion:(void(^)(NSDictionary *data, NSError *error))completion{
     NSURL *url = [NSURL URLWithString:urlString];
-    NSLog(@"%@", url);
     
     NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10.0];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
         NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-            NSLog(@"%@", error);
             if (error != nil) {
-                NSLog(@"ERROR");
                 completion(nil, error);
             }
             else {
-                NSLog(@"Worked");
                 NSDictionary *dataDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-                NSLog(@"%@", dataDictionary);
                 completion(dataDictionary, nil);
             }
         }];

@@ -8,8 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		9203E63220FD47DD00F8C858 /* APIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9203E63120FD47DD00F8C858 /* APIManager.m */; };
+		9203E63620FD546900F8C858 /* WeeklyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9203E63520FD546900F8C858 /* WeeklyViewController.m */; };
+		9203E63A20FD73C600F8C858 /* WeeklyCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9203E63920FD73C600F8C858 /* WeeklyCell.m */; };
 		CC7D391D20FD053A00913023 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CC7D391C20FD053A00913023 /* AppDelegate.m */; };
-		CC7D392020FD053A00913023 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC7D391F20FD053A00913023 /* ViewController.m */; };
 		CC7D392320FD053A00913023 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CC7D392120FD053A00913023 /* Main.storyboard */; };
 		CC7D392520FD053D00913023 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CC7D392420FD053D00913023 /* Assets.xcassets */; };
 		CC7D392820FD053D00913023 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CC7D392620FD053D00913023 /* LaunchScreen.storyboard */; };
@@ -38,11 +39,13 @@
 /* Begin PBXFileReference section */
 		9203E63020FD47DD00F8C858 /* APIManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APIManager.h; sourceTree = "<group>"; };
 		9203E63120FD47DD00F8C858 /* APIManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APIManager.m; sourceTree = "<group>"; };
+		9203E63420FD546900F8C858 /* WeeklyViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WeeklyViewController.h; sourceTree = "<group>"; };
+		9203E63520FD546900F8C858 /* WeeklyViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WeeklyViewController.m; sourceTree = "<group>"; };
+		9203E63820FD73C600F8C858 /* WeeklyCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WeeklyCell.h; sourceTree = "<group>"; };
+		9203E63920FD73C600F8C858 /* WeeklyCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WeeklyCell.m; sourceTree = "<group>"; };
 		CC7D391820FD053A00913023 /* WeatherApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CC7D391B20FD053A00913023 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		CC7D391C20FD053A00913023 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		CC7D391E20FD053A00913023 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		CC7D391F20FD053A00913023 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		CC7D392220FD053A00913023 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		CC7D392420FD053D00913023 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CC7D392720FD053D00913023 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -90,9 +93,29 @@
 			path = API;
 			sourceTree = "<group>";
 		};
+		9203E63320FD544300F8C858 /* View Controller */ = {
+			isa = PBXGroup;
+			children = (
+				9203E63420FD546900F8C858 /* WeeklyViewController.h */,
+				9203E63520FD546900F8C858 /* WeeklyViewController.m */,
+			);
+			path = "View Controller";
+			sourceTree = "<group>";
+		};
+		9203E63720FD73B100F8C858 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				9203E63820FD73C600F8C858 /* WeeklyCell.h */,
+				9203E63920FD73C600F8C858 /* WeeklyCell.m */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		CC7D390F20FD053A00913023 = {
 			isa = PBXGroup;
 			children = (
+				9203E63720FD73B100F8C858 /* View */,
+				9203E63320FD544300F8C858 /* View Controller */,
 				9203E62F20FD47C700F8C858 /* API */,
 				CC7D391A20FD053A00913023 /* WeatherApp */,
 				CC7D393320FD053D00913023 /* WeatherAppTests */,
@@ -116,8 +139,6 @@
 			children = (
 				CC7D391B20FD053A00913023 /* AppDelegate.h */,
 				CC7D391C20FD053A00913023 /* AppDelegate.m */,
-				CC7D391E20FD053A00913023 /* ViewController.h */,
-				CC7D391F20FD053A00913023 /* ViewController.m */,
 				CC7D392120FD053A00913023 /* Main.storyboard */,
 				CC7D392420FD053D00913023 /* Assets.xcassets */,
 				CC7D392620FD053D00913023 /* LaunchScreen.storyboard */,
@@ -275,9 +296,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9203E63A20FD73C600F8C858 /* WeeklyCell.m in Sources */,
 				9203E63220FD47DD00F8C858 /* APIManager.m in Sources */,
-				CC7D392020FD053A00913023 /* ViewController.m in Sources */,
 				CC7D392B20FD053D00913023 /* main.m in Sources */,
+				9203E63620FD546900F8C858 /* WeeklyViewController.m in Sources */,
 				CC7D391D20FD053A00913023 /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
