@@ -8,6 +8,8 @@
 
 #import "AppDelegate.h"
 #import "WeeklyViewController.h"
+#import <Parse/Parse.h>
+#import "User.h"
 
 @interface AppDelegate ()
 
@@ -23,6 +25,15 @@
     WeeklyViewController *weeklyVC = [[WeeklyViewController alloc] init];
     self.window.rootViewController = weeklyVC;
     [self.window makeKeyAndVisible];
+    
+    ParseClientConfiguration *config = [ParseClientConfiguration   configurationWithBlock:^(id<ParseMutableClientConfiguration> configuration) {
+        
+        configuration.applicationId = @"ttjWeatherApp";
+        configuration.clientKey = @"ttjWAMasterKey";
+        configuration.server = @"https://ttj-weather-app.herokuapp.com/parse";
+    }];
+    
+    [Parse initializeWithConfiguration:config];
     return YES;
 }
 
