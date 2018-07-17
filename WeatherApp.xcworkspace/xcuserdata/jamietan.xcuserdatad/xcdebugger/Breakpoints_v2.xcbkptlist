@@ -2,6 +2,8 @@
 <Bucket
    type = "0"
    version = "2.0">
+<<<<<<< HEAD
+=======
    <Breakpoints>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
@@ -10,7 +12,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WeatherApp/AppDelegate.m"
-            timestampString = "553544282.159359"
+            timestampString = "553545826.2076761"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "37"
@@ -20,4 +22,5 @@
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
+>>>>>>> 95bcd2c... Added method to get location from key in User model
 </Bucket>

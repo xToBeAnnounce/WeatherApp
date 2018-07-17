@@ -80,4 +80,10 @@
     self.locations = (NSMutableDictionary *)self.locations;
     self.locationOrder = (NSMutableArray *)self.locationOrder;
 }
+
+- (Location *) getLocationWithKey:(NSString *)key{
+    PFQuery *query = [PFQuery queryWithClassName:@"Location"];
+    Location *location = [query getObjectWithId:self.locations[key]];
+    return location;
+}
 @end

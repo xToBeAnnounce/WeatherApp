@@ -22,9 +22,13 @@
 // Sign up
 - (void)signUpInBackgroundWithBlock:(PFBooleanResultBlock)block;
 
-// Methods to update user
+// Preference methods
 - (void) saveNewPreferences:(Preferences *)preferences withCompletion:(PFBooleanResultBlock)completion;
-- (void) addLocationWithLongitude:(double)longitude lattitude:(double)lattitude key:(NSString *)key attributes:(NSDictionary *)attributes completion:(PFBooleanResultBlock)completion;
 - (void) updatePreferencesWithDictionary:(NSDictionary *)dictionary withCompletion:(PFBooleanResultBlock)completion;
+
+// Location methods
+- (void) addLocationWithLongitude:(double)longitude lattitude:(double)lattitude key:(NSString *)key attributes:(NSDictionary *)attributes completion:(PFBooleanResultBlock)completion;
 - (void) updateDefaultLocationWithBlock:(PFBooleanResultBlock)completion;
+- (void) updateLocationWithKey:(NSString *)key;
+- (Location *) getLocationWithKey:(NSString *)key;
 @end

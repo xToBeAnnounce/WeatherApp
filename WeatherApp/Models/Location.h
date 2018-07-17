@@ -18,7 +18,10 @@
 @property (strong, nonatomic) NSDate *endDate;
 @property (strong, nonatomic) PFFile *backdropImage;
 
+// Save new location
 + (void) saveLocationWithLongitude:(double)longitude lattitude:(double)lattitude key:(NSString *)key attributes:(NSDictionary *)dictionary withBlock:(void(^)(Location *, NSError *))block;
+
+// Update existing location
 - (void) addBackdropImage:(UIImage *)image withCompletion:(PFBooleanResultBlock)completion;
 - (void) updateTimeFrame:(NSDate *)startDate withEndDate:(NSDate *)endDate withCompletion:(PFBooleanResultBlock)completion;
 @end

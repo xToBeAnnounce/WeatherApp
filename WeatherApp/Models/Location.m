@@ -54,23 +54,23 @@
     [self saveInBackgroundWithBlock:completion];
 }
 
-- (NSString *)getReverseGeocodedString {
-    CLLocation *location = [[CLLocation alloc] initWithLatitude:self.lattitude longitude:self.longitude];
-    CLGeocoder *geocoder = [CLGeocoder new];
-
-    [geocoder reverseGeocodeLocation:location completionHandler:^(NSArray<CLPlacemark *> * _Nullable placemarks, NSError * _Nullable error) {
-        if (error) {
-            NSLog(@"Geocode failed with error: %@", error);
-            return; // Request failed, log error
-        }
-        else if (placemarks && placemarks.count > 0) {
-            CLPlacemark *placemark = placemarks[0];
-            
-        }
-        else {
-        }
-    }];
-}
+//- (NSString *)getReverseGeocodedString {
+//    CLLocation *location = [[CLLocation alloc] initWithLatitude:self.lattitude longitude:self.longitude];
+//    CLGeocoder *geocoder = [CLGeocoder new];
+//
+//    [geocoder reverseGeocodeLocation:location completionHandler:^(NSArray<CLPlacemark *> * _Nullable placemarks, NSError * _Nullable error) {
+//        if (error) {
+//            NSLog(@"Geocode failed with error: %@", error);
+//            return; // Request failed, log error
+//        }
+//        else if (placemarks && placemarks.count > 0) {
+//            CLPlacemark *placemark = placemarks[0];
+//
+//        }
+//        else {
+//        }
+//    }];
+//}
 
 + (PFFile *) getPFFileFromImage: (UIImage * _Nullable) image {
     if (!image) {
