@@ -38,9 +38,24 @@
         configuration.applicationId = @"ttjWeatherApp";
         configuration.clientKey = @"ttjWAMasterKey";
         configuration.server = @"https://ttj-weather-app.herokuapp.com/parse";
+        configuration.localDatastoreEnabled = YES;
     }];
     
     [Parse initializeWithConfiguration:config];
+    
+    [User logInWithUsernameInBackground:@"hello" password:@"world" block:^(PFUser * _Nullable user, NSError * _Nullable error) {
+        if (user) {
+            [User.currentUser addLocationWithLongitude:4567 lattitude:100 key:@"Home2" attributes:nil completion:^(BOOL succeeded, NSError * _Nullable error) {
+                if (succeeded) {
+                    NSLog(@"Success!");
+                }
+                else {
+                    NSLog(@"Failure: %@", error.localizedDescription);
+                }
+            }];
+        }
+    }];
+    
     return YES;
 }
 
