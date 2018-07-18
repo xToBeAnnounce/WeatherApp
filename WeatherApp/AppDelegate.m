@@ -10,6 +10,7 @@
 #import "WeeklyViewController.h"
 #import <Parse/Parse.h>
 #import "User.h"
+#import "DailyViewController.h"
 
 @interface AppDelegate ()
 
@@ -25,6 +26,12 @@
     WeeklyViewController *weeklyVC = [[WeeklyViewController alloc] init];
     self.window.rootViewController = weeklyVC;
     [self.window makeKeyAndVisible];
+    
+    self.window = [[UIWindow alloc]initWithFrame:[[UIScreen mainScreen]bounds]];
+    self.window.backgroundColor = UIColor.blueColor;
+    self.window.rootViewController = [DailyViewController new];
+    [self.window makeKeyAndVisible];
+                   
     
     ParseClientConfiguration *config = [ParseClientConfiguration   configurationWithBlock:^(id<ParseMutableClientConfiguration> configuration) {
         
