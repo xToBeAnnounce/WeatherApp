@@ -29,6 +29,5 @@
 // Location methods
 - (void) addLocationWithLongitude:(double)longitude lattitude:(double)lattitude key:(NSString *)key attributes:(NSDictionary *)attributes completion:(PFBooleanResultBlock)completion;
 - (void) updateDefaultLocationWithBlock:(PFBooleanResultBlock)completion;
-- (void) updateLocationWithKey:(NSString *)key;
 - (Location *) getLocationWithKey:(NSString *)key;
 @end

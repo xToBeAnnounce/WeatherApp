@@ -39,8 +39,9 @@
             if (location) {
                 [self.locations setValue:location.objectId forKey:location.locationTypeKey];
                 [self.locationOrder addObject:location.locationTypeKey];
-                self.locations = (NSDictionary *)self.locations;
-                self.locationOrder = (NSArray *)self.locationOrder;
+                
+                self.locations = [self.locations copy];
+                self.locationOrder = [self.locationOrder copy];
                 [self saveInBackgroundWithBlock:completion];
                 self.locations = (NSMutableDictionary *)self.locations;
                 self.locationOrder = (NSMutableArray *)self.locationOrder;
@@ -61,7 +62,7 @@
         [self.locationOrder removeObject:self.preferences.defaultLocationKey];
         [self.locationOrder insertObject:self.preferences.defaultLocationKey atIndex:0];
         
-        self.locationOrder = (NSArray *)self.locationOrder;
+        self.locationOrder = [self.locationOrder copy];
         [self saveInBackgroundWithBlock:completion];
         self.locationOrder = (NSMutableArray *)self.locationOrder;
     }
@@ -74,8 +75,8 @@
     [self.locations removeObjectForKey:key];
     [self.locationOrder removeObject:key];
     
-    self.locations = (NSDictionary *)self.locations;
-    self.locationOrder = (NSArray *)self.locationOrder;
+    self.locations = [self.locations copy];
+    self.locationOrder = [self.locationOrder copy];
     [self saveInBackgroundWithBlock:completion];
     self.locations = (NSMutableDictionary *)self.locations;
     self.locationOrder = (NSMutableArray *)self.locationOrder;

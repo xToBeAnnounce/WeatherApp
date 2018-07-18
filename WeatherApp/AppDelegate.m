@@ -11,6 +11,7 @@
 #import <Parse/Parse.h>
 #import "User.h"
 #import "DailyViewController.h"
+#import "SettingsViewController.h"
 
 @interface AppDelegate ()
 
@@ -42,6 +43,10 @@
     }];
     
     [Parse initializeWithConfiguration:config];
+    
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    self.window.rootViewController = SettingsViewController.new;
+    [self.window makeKeyAndVisible];
     return YES;
 }
 

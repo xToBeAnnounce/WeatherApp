@@ -12,8 +12,8 @@
 
 @property (nonatomic) double lattitude;
 @property (nonatomic) double longitude;
-@property (strong, nonatomic) NSString *name;
-@property (strong, nonatomic) NSString *locationTypeKey;   //Home, work, travel
+@property (strong, nonatomic) NSString *placeName; // ex. San Francisco
+@property (strong, nonatomic) NSString *customName;   //Home, work, travel
 @property (strong, nonatomic) NSDate *startDate;
 @property (strong, nonatomic) NSDate *endDate;
 @property (strong, nonatomic) PFFile *backdropImage;
