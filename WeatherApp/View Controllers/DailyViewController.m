@@ -35,8 +35,6 @@ NSString *cellId = @"CellID";
     self.ourtableView.dataSource = self;
 }
 
-
-
 -(void)setUI{
     self.view = [[UIView alloc]initWithFrame:[[UIScreen mainScreen]bounds]];
     self.view.backgroundColor = [UIColor whiteColor];

@@ -24,7 +24,6 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     [self.window makeKeyAndVisible];
 
@@ -57,6 +56,12 @@
         configuration.localDatastoreEnabled = YES;
     }];
     [Parse initializeWithConfiguration:config];
+    
+//    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+//    SettingsViewController *settingsVC = SettingsViewController.new;
+//    UINavigationController *navigationController= [[UINavigationController alloc] initWithRootViewController:settingsVC];
+//    self.window.rootViewController = navigationController;
+//    [self.window makeKeyAndVisible];
 }
 
 -(void)segueToSettings{
