@@ -37,8 +37,8 @@
     if (![[self.locations allKeys] containsObject:key]) {
         [Location saveLocationWithLongitude:longitude lattitude:lattitude key:key attributes:attributes withBlock:^(Location *location, NSError *error) {
             if (location) {
-                [self.locations setValue:location.objectId forKey:location.locationTypeKey];
-                [self.locationOrder addObject:location.locationTypeKey];
+                [self.locations setValue:location.objectId forKey:location.customName];
+                [self.locationOrder addObject:location.customName];
                 
                 self.locations = [self.locations copy];
                 self.locationOrder = [self.locationOrder copy];

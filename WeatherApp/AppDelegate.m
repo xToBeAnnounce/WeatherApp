@@ -14,25 +14,25 @@
 #import "SettingsViewController.h"
 
 @interface AppDelegate ()
-
+@property UITabBarController *tabBarController;
 @end
 
 @implementation AppDelegate
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+    self.tabBarController = [[UITabBarController alloc] init];
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    self.window.backgroundColor = [UIColor blueColor];
-    WeeklyViewController *weeklyVC = [[WeeklyViewController alloc] init];
-    self.window.rootViewController = weeklyVC;
-    [self.window makeKeyAndVisible];
     
-    self.window = [[UIWindow alloc]initWithFrame:[[UIScreen mainScreen]bounds]];
-    self.window.backgroundColor = UIColor.blueColor;
-    self.window.rootViewController = [DailyViewController new];
+    WeeklyViewController *weeklyVC = [[WeeklyViewController alloc] init];
+    DailyViewController *dailyVC = [[DailyViewController alloc] init];
+    
+    NSArray *viewControllers = [NSArray arrayWithObjects:dailyVC, weeklyVC, nil];
+    self.tabBarController.viewControllers = viewControllers;
+    [[self.tabBarController.tabBar.items objectAtIndex:0] setTitle:@"Daily"];
+    [[self.tabBarController.tabBar.items objectAtIndex:1] setTitle:@"Weekly"];
+    self.window.rootViewController = self.tabBarController;
     [self.window makeKeyAndVisible];
-                   
     
     ParseClientConfiguration *config = [ParseClientConfiguration   configurationWithBlock:^(id<ParseMutableClientConfiguration> configuration) {
         
@@ -41,11 +41,8 @@
         configuration.server = @"https://ttj-weather-app.herokuapp.com/parse";
         configuration.localDatastoreEnabled = YES;
     }];
-    
     [Parse initializeWithConfiguration:config];
     
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    self.window.rootViewController = SettingsViewController.new;
     [self.window makeKeyAndVisible];
     return YES;
 }

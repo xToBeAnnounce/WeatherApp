@@ -35,6 +35,7 @@ static bool loadData = NO;
     self.tableView.delegate = self;
     [self.view addSubview:self.tableView];
     [self.tableView registerClass: WeeklyCell.class forCellReuseIdentifier:cellIdentifier];
+    self.tableView.rowHeight = UITableViewAutomaticDimension;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -50,7 +51,9 @@ static bool loadData = NO;
     APIManager *apiManager = [APIManager shared];
 
     NSDate *currDate = [NSDate date];
-    [apiManager setURLWithLatitude:lat Longitude:lng Time:[currDate dateByAddingTimeInterval:(60*60*24*count)] Range:@"weekly"];
+    NSDate *nextDate = [currDate dateByAddingTimeInterval:(60*60*24*count)];
+
+    [apiManager setURLWithLatitude:lat Longitude:lng Time:nextDate Range:@"weekly"];
     [apiManager getDataWithCompletion:^(NSDictionary *data, NSError *error) {
         if(error != nil){
             NSLog(@"%@", error.localizedDescription);
