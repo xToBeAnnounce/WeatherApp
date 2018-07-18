@@ -24,17 +24,21 @@ static NSString * urlString;
 }
 
 - (instancetype)init{
+    urlString = @"";
     urlString = [baseURLString stringByAppendingString:consumerSecret];
     return self;
 }
 
 -(void)setURLWithLatitude:(double)lat Longitude:(double)lng Time:(NSDate*)date Range:(NSString*)range{
+    urlString = @"";
+    urlString = [baseURLString stringByAppendingString:consumerSecret];
     NSString *coordinateStr = [NSString stringWithFormat:@"%f,%f", lat, lng];
     urlString = [urlString stringByAppendingString:coordinateStr];
     
     if(date != nil){
         NSTimeInterval timeDiff = [date timeIntervalSince1970];
-        NSString *timeDiffStr = [NSString stringWithFormat:@",%d", (int)timeDiff];
+        NSInteger timeDiffInt = timeDiff;
+        NSString *timeDiffStr = [NSString stringWithFormat:@",%ld", (long)timeDiffInt];
         urlString = [urlString stringByAppendingString:timeDiffStr];
     }
     if(range != nil){
@@ -46,6 +50,7 @@ static NSString * urlString;
             urlString = [urlString stringByAppendingString:@"?exclude=minutely,hourly,alerts,flags"];
         }
     }
+    NSLog(@"%@", urlString);
 }
 
 - (void)getDataWithCompletion:(void(^)(NSDictionary *data, NSError *error))completion{

@@ -9,7 +9,7 @@
 #import "Location.h"
 
 @implementation Location
-@dynamic lattitude, longitude, locationTypeKey, startDate, endDate, backdropImage, name;
+@dynamic lattitude, longitude, customName, startDate, endDate, backdropImage, placeName;
 
 + (nonnull NSString *)parseClassName {
     return @"Location";
@@ -19,7 +19,7 @@
     Location *newLoc = Location.new;
     newLoc.longitude = longitude;
     newLoc.lattitude = lattitude;
-    newLoc.locationTypeKey = key;
+    newLoc.customName = key;
     newLoc.startDate = [NSDate date];
     newLoc.endDate = nil;
     newLoc.backdropImage = nil;
@@ -28,7 +28,7 @@
         [newLoc setValuesForKeysWithDictionary:dictionary];
     }
     
-    if (newLoc.locationTypeKey) {
+    if (newLoc.customName) {
         [newLoc saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
             if (succeeded) {
                 block(newLoc, nil);
