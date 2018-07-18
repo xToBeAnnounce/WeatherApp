@@ -9,24 +9,38 @@
 #import "Location.h"
 
 @implementation Location
-@dynamic lattitude, longitude, locationTypeKey, startDate, endDate, backdropImage;
+@dynamic lattitude, longitude, locationTypeKey, startDate, endDate, backdropImage, name;
 
 + (nonnull NSString *)parseClassName {
     return @"Location";
 }
 
-+ (instancetype) initWithLongitude:(double)longitude lattitude:(double)lattitude attributes:(NSDictionary *)dictionary{
++ (void) saveLocationWithLongitude:(double)longitude lattitude:(double)lattitude key:(NSString *)key attributes:(NSDictionary *)dictionary withBlock:(void(^)(Location *, NSError *))block{
     Location *newLoc = Location.new;
     newLoc.longitude = longitude;
     newLoc.lattitude = lattitude;
+    newLoc.locationTypeKey = key;
+    newLoc.startDate = [NSDate date];
+    newLoc.endDate = nil;
+    newLoc.backdropImage = nil;
+    
     if (dictionary) {
         [newLoc setValuesForKeysWithDictionary:dictionary];
     }
     
-    if (!newLoc.locationTypeKey) {
-        newLoc.locationTypeKey = newLoc.objectId;
+    if (newLoc.locationTypeKey) {
+        [newLoc saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+            if (succeeded) {
+                block(newLoc, nil);
+            }
+            else {
+                block(nil, error);
+            }
+        }];
     }
-    return newLoc;
+    else {
+        NSLog(@"Key cannot be null");
+    }
 }
 
 - (void) updateTimeFrame:(NSDate *)startDate withEndDate:(NSDate *)endDate withCompletion:(PFBooleanResultBlock)completion {

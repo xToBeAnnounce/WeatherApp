@@ -11,6 +11,7 @@
 #import <Parse/Parse.h>
 #import "User.h"
 #import "DailyViewController.h"
+#import "SettingsViewController.h"
 
 @interface AppDelegate ()
 
@@ -38,9 +39,14 @@
         configuration.applicationId = @"ttjWeatherApp";
         configuration.clientKey = @"ttjWAMasterKey";
         configuration.server = @"https://ttj-weather-app.herokuapp.com/parse";
+        configuration.localDatastoreEnabled = YES;
     }];
     
     [Parse initializeWithConfiguration:config];
+    
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    self.window.rootViewController = SettingsViewController.new;
+    [self.window makeKeyAndVisible];
     return YES;
 }
 
