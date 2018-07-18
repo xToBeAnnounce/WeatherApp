@@ -9,7 +9,7 @@
 #import "User.h"
 
 @implementation User
-@dynamic preferences, locations;
+@dynamic preferences, locations, locationOrder;
 
 + (instancetype)currentUser {
     return (User *)PFUser.currentUser;
@@ -18,6 +18,7 @@
 - (void)signUpInBackgroundWithBlock:(PFBooleanResultBlock)block {
     self.preferences = Preferences.defaultPreferences;
     self.locations = NSMutableDictionary.new;
+    self.locationOrder = NSMutableArray.new;
     [super signUpInBackgroundWithBlock:block];
 }
 
@@ -32,13 +33,58 @@
     [self.preferences saveInBackgroundWithBlock:completion];
 }
 
-- (void) addNewLocation:(Location *)location withCompletion:(PFBooleanResultBlock)completion{
-    [self.locations setValue:location forKey:location.locationTypeKey];
-    [self saveInBackgroundWithBlock:completion];
+- (void) addLocationWithLongitude:(double)longitude lattitude:(double)lattitude key:(NSString *)key attributes:(NSDictionary *)attributes completion:(PFBooleanResultBlock)completion{
+    if (![[self.locations allKeys] containsObject:key]) {
+        [Location saveLocationWithLongitude:longitude lattitude:lattitude key:key attributes:attributes withBlock:^(Location *location, NSError *error) {
+            if (location) {
+                [self.locations setValue:location.objectId forKey:location.locationTypeKey];
+                [self.locationOrder addObject:location.locationTypeKey];
+                
+                self.locations = [self.locations copy];
+                self.locationOrder = [self.locationOrder copy];
+                [self saveInBackgroundWithBlock:completion];
+                self.locations = (NSMutableDictionary *)self.locations;
+                self.locationOrder = (NSMutableArray *)self.locationOrder;
+            }
+            else {
+                NSLog(@"Error: %@", error.localizedDescription);
+            }
+            
+        }];
+    }
+    else {
+        NSLog(@"Key %@ already exists", key);
+    }
+}
+
+- (void) updateDefaultLocationWithBlock:(PFBooleanResultBlock)completion {
+    if ([self.locationOrder containsObject:self.preferences.defaultLocationKey]) {
+        [self.locationOrder removeObject:self.preferences.defaultLocationKey];
+        [self.locationOrder insertObject:self.preferences.defaultLocationKey atIndex:0];
+        
+        self.locationOrder = [self.locationOrder copy];
+        [self saveInBackgroundWithBlock:completion];
+        self.locationOrder = (NSMutableArray *)self.locationOrder;
+    }
+    else {
+        NSLog(@"Location with given key does not exist");
+    }
 }
 
 - (void) removeLocationWithKey:(NSString *)key withCompletion:(PFBooleanResultBlock)completion {
     [self.locations removeObjectForKey:key];
+    [self.locationOrder removeObject:key];
+    
+    self.locations = [self.locations copy];
+    self.locationOrder = [self.locationOrder copy];
     [self saveInBackgroundWithBlock:completion];
+    self.locations = (NSMutableDictionary *)self.locations;
+    self.locationOrder = (NSMutableArray *)self.locationOrder;
+}
+
+- (Location *) getLocationWithKey:(NSString *)key{
+    PFQuery *query = [PFQuery queryWithClassName:@"Location"];
+    Location *location = [query getObjectWithId:self.locations[key]];
+    return location;
 }
 @end
