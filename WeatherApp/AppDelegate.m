@@ -70,7 +70,8 @@
 -(void)segueToSettings{
     self.navController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
     self.navController.modalPresentationStyle = UIModalPresentationFullScreen;
-    [self.navController presentViewController:SettingsViewController.new animated:YES completion:nil];
+    UINavigationController *settingsNavigationController = [[UINavigationController alloc] initWithRootViewController:SettingsViewController.new];
+    [self.navController presentViewController:settingsNavigationController animated:YES completion:nil];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
