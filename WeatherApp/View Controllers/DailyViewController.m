@@ -35,7 +35,7 @@ static bool loadedData = NO;
     //[self setUI];
     self.testArrary = @[@"10am",@"11am",@"12am",@"1pm",@"2pm",@"3pm",];
     self.DailyArrary = [[NSMutableArray alloc] init];
-    
+    self.hourlyArrary = [[NSMutableArray alloc] init];
     [self.view setBackgroundColor:[UIColor whiteColor]];
     
     //sets table view
@@ -103,7 +103,9 @@ static bool loadedData = NO;
         cell = [[DailyTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cellID"];
     }
     if(loadedData){
-        [cell setCellUI:self.DailyArrary];
+    NSDictionary *dailyDictionary = self.DailyArrary[0];
+    NSArray *dailyData = dailyDictionary[@"hourly"][@"data"];
+    [cell setCellUI:dailyData[indexPath.row]];
     }
     return cell;
 }
