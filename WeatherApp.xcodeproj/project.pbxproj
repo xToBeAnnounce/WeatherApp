@@ -23,6 +23,7 @@
 		CC7D393520FD053D00913023 /* WeatherAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CC7D393420FD053D00913023 /* WeatherAppTests.m */; };
 		CC7D394020FD053D00913023 /* WeatherAppUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = CC7D393F20FD053D00913023 /* WeatherAppUITests.m */; };
 		CCA2D09320FE6E920095D4E7 /* DailyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CCA2D09220FE6E920095D4E7 /* DailyViewController.m */; };
+		CCC8951920FFCCBA00DEF6AD /* DailyTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC8951820FFCCBA00DEF6AD /* DailyTableViewCell.m */; };
 		CE280C0B166C66C23D6B080B /* libPods-WeatherAppTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ABCEC71E4DF87C4C79A8B9BF /* libPods-WeatherAppTests.a */; };
 /* End PBXBuildFile section */
 
@@ -81,6 +82,8 @@
 		CC7D394120FD053D00913023 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CCA2D09120FE6E920095D4E7 /* DailyViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DailyViewController.h; sourceTree = "<group>"; };
 		CCA2D09220FE6E920095D4E7 /* DailyViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DailyViewController.m; sourceTree = "<group>"; };
+		CCC8951720FFCCBA00DEF6AD /* DailyTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DailyTableViewCell.h; sourceTree = "<group>"; };
+		CCC8951820FFCCBA00DEF6AD /* DailyTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DailyTableViewCell.m; sourceTree = "<group>"; };
 		E045F920045B440297515456 /* Pods-WeatherApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeatherApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-WeatherApp/Pods-WeatherApp.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -175,6 +178,8 @@
 			children = (
 				9203E63820FD73C600F8C858 /* WeeklyCell.h */,
 				9203E63920FD73C600F8C858 /* WeeklyCell.m */,
+				CCC8951720FFCCBA00DEF6AD /* DailyTableViewCell.h */,
+				CCC8951820FFCCBA00DEF6AD /* DailyTableViewCell.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -451,6 +456,7 @@
 				33F00C1220FD1244008F56CE /* Preferences.m in Sources */,
 				CC7D392B20FD053D00913023 /* main.m in Sources */,
 				9203E63620FD546900F8C858 /* WeeklyViewController.m in Sources */,
+				CCC8951920FFCCBA00DEF6AD /* DailyTableViewCell.m in Sources */,
 				CC7D391D20FD053A00913023 /* AppDelegate.m in Sources */,
 				CCA2D09320FE6E920095D4E7 /* DailyViewController.m in Sources */,
 				3330AE1920FE739700B37975 /* SettingsViewController.m in Sources */,
