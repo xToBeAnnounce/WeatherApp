@@ -10,10 +10,13 @@
 #import "WeeklyViewController.h"
 #import "WeeklyCell.h"
 #import "APIManager.h"
+#import "Location.h"
+#import "Weather.h"
 
-@interface WeeklyViewController () <UITableViewDelegate, UITableViewDataSource>
+@interface WeeklyViewController () <UITableViewDelegate, UITableViewDataSource, LocationDelegate>
 @property UITableView *tableView;
 @property NSMutableArray *weeklyWeather;
+@property Location *location;
 @end
 
 static int const numDaysInWeek = 7;
@@ -28,11 +31,14 @@ static bool loadData = NO;
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.weeklyWeather = [[NSMutableArray alloc] init];
-    [self fetchWeeklyData:0];
- 
+    self.location = [[Location alloc] init];
+    [self.location fetchWeeklyData];
+    //[self fetchWeeklyData:0];
+
     self.tableView = [[UITableView alloc] initWithFrame: CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
+    self.location.delegate = self;
     [self.view addSubview:self.tableView];
     [self.tableView registerClass: WeeklyCell.class forCellReuseIdentifier:cellIdentifier];
     self.tableView.rowHeight = UITableViewAutomaticDimension;
@@ -65,7 +71,6 @@ static bool loadData = NO;
     }];
 }
 
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return numDaysInWeek;
 }
@@ -76,11 +81,16 @@ static bool loadData = NO;
         cell = [[WeeklyCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
     if(loadData){
-        NSDictionary *dailyDictionary = self.weeklyWeather[indexPath.row];
-        NSArray *dailyData = dailyDictionary[@"daily"][@"data"];
-        [cell setWeeklyCell:dailyData[0]];
+        Weather *dailyWeather = self.location.weeklyData[indexPath.row];
+//        NSArray *dailyData = dailyDictionary[@"daily"][@"data"];
+        [cell setWeeklyCell:dailyWeather];
     }
     return cell;
+}
+
+- (void)reloadDataTableView{
+    loadData = YES;
+    [self.tableView reloadData];
 }
 
 /*

@@ -16,6 +16,7 @@
 		9203E63220FD47DD00F8C858 /* APIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9203E63120FD47DD00F8C858 /* APIManager.m */; };
 		9203E63620FD546900F8C858 /* WeeklyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9203E63520FD546900F8C858 /* WeeklyViewController.m */; };
 		9203E63A20FD73C600F8C858 /* WeeklyCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9203E63920FD73C600F8C858 /* WeeklyCell.m */; };
+		927E18A2210106B700CA03F6 /* Weather.m in Sources */ = {isa = PBXBuildFile; fileRef = 927E18A1210106B700CA03F6 /* Weather.m */; };
 		CC7D391D20FD053A00913023 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CC7D391C20FD053A00913023 /* AppDelegate.m */; };
 		CC7D392520FD053D00913023 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CC7D392420FD053D00913023 /* Assets.xcassets */; };
 		CC7D392820FD053D00913023 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CC7D392620FD053D00913023 /* LaunchScreen.storyboard */; };
@@ -64,6 +65,8 @@
 		9203E63520FD546900F8C858 /* WeeklyViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WeeklyViewController.m; sourceTree = "<group>"; };
 		9203E63820FD73C600F8C858 /* WeeklyCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WeeklyCell.h; sourceTree = "<group>"; };
 		9203E63920FD73C600F8C858 /* WeeklyCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WeeklyCell.m; sourceTree = "<group>"; };
+		927E18A0210106B700CA03F6 /* Weather.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Weather.h; sourceTree = "<group>"; };
+		927E18A1210106B700CA03F6 /* Weather.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Weather.m; sourceTree = "<group>"; };
 		ABCEC71E4DF87C4C79A8B9BF /* libPods-WeatherAppTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WeatherAppTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6F87DD29FB6698DF722B3DF /* Pods-WeatherAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeatherAppTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WeatherAppTests/Pods-WeatherAppTests.debug.xcconfig"; sourceTree = "<group>"; };
 		C8F1DA2B1A28A8278AEEF034 /* Pods-WeatherApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeatherApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WeatherApp/Pods-WeatherApp.debug.xcconfig"; sourceTree = "<group>"; };
@@ -131,12 +134,12 @@
 		3330AE1620FE736900B37975 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				9203E63520FD546900F8C858 /* WeeklyViewController.m */,
-				9203E63420FD546900F8C858 /* WeeklyViewController.h */,
-				3330AE1720FE739700B37975 /* SettingsViewController.h */,
-				3330AE1820FE739700B37975 /* SettingsViewController.m */,
 				CCA2D09120FE6E920095D4E7 /* DailyViewController.h */,
 				CCA2D09220FE6E920095D4E7 /* DailyViewController.m */,
+				9203E63420FD546900F8C858 /* WeeklyViewController.h */,
+				9203E63520FD546900F8C858 /* WeeklyViewController.m */,
+				3330AE1720FE739700B37975 /* SettingsViewController.h */,
+				3330AE1820FE739700B37975 /* SettingsViewController.m */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -150,6 +153,8 @@
 				33F00C0E20FD1215008F56CE /* Location.m */,
 				33F00C1020FD1244008F56CE /* Preferences.h */,
 				33F00C1120FD1244008F56CE /* Preferences.m */,
+				927E18A0210106B700CA03F6 /* Weather.h */,
+				927E18A1210106B700CA03F6 /* Weather.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -449,6 +454,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				927E18A2210106B700CA03F6 /* Weather.m in Sources */,
 				9203E63A20FD73C600F8C858 /* WeeklyCell.m in Sources */,
 				9203E63220FD47DD00F8C858 /* APIManager.m in Sources */,
 				33F00C0C20FD116C008F56CE /* User.m in Sources */,

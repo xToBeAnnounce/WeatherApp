@@ -8,6 +8,10 @@
 
 #import <Parse/Parse.h>
 
+@protocol LocationDelegate
+-(void)reloadDataTableView;
+@end
+
 @interface Location : PFObject <PFSubclassing>
 
 @property (nonatomic) double lattitude;
@@ -18,10 +22,18 @@
 @property (strong, nonatomic) NSDate *endDate;
 @property (strong, nonatomic) PFFile *backdropImage;
 
+@property (strong, nonatomic) NSMutableArray *weeklyData;
+@property (strong, nonatomic) NSMutableArray *dailyData;
+@property (strong, nonatomic) id<LocationDelegate> delegate;
+
 // Save new location
 + (void) saveLocationWithLongitude:(double)longitude lattitude:(double)lattitude key:(NSString *)key attributes:(NSDictionary *)dictionary withBlock:(void(^)(Location *, NSError *))block;
 
 // Update existing location
 - (void) addBackdropImage:(UIImage *)image withCompletion:(PFBooleanResultBlock)completion;
 - (void) updateTimeFrame:(NSDate *)startDate withEndDate:(NSDate *)endDate withCompletion:(PFBooleanResultBlock)completion;
+
+-(void)fetchWeeklyData;
+-(void)fetchDailyData;
+
 @end

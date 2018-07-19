@@ -7,11 +7,13 @@
 //
 
 #import "WeeklyCell.h"
+#import "Weather.h"
 
 @implementation WeeklyCell
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    
     return self;
 }
 
@@ -20,37 +22,40 @@
     // Initialization code
 }
 
--(void)setWeeklyCell:(NSDictionary*)dailyData{
+-(void)setWeeklyCell:(Weather*)dailyWeather{
        UIStackView *weeklyCellStackView = [[UIStackView alloc] init];
        weeklyCellStackView.axis = UILayoutConstraintAxisHorizontal;
        weeklyCellStackView.distribution = UIStackViewDistributionFill;
        weeklyCellStackView.alignment = UIStackViewAlignmentCenter;
     
-       double timeSince = [dailyData[@"time"] doubleValue];
-       NSDate *dayOfWeek = [NSDate dateWithTimeIntervalSince1970:timeSince];
-    
-       NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-       formatter.dateStyle = NSDateFormatterMediumStyle;
-       formatter.timeStyle = NSDateFormatterNoStyle;
-       formatter.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US"];
-       [formatter setLocalizedDateFormatFromTemplate:@"EEEE MMMMd"];
+//       double timeSince = [dailyData[@"time"] doubleValue];
+//       NSDate *dayOfWeek = [NSDate dateWithTimeIntervalSince1970:timeSince];
+//
+//       NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+//       formatter.dateStyle = NSDateFormatterMediumStyle;
+//       formatter.timeStyle = NSDateFormatterNoStyle;
+//       formatter.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US"];
+//       [formatter setLocalizedDateFormatFromTemplate:@"EEEE MMMMd"];
     
        UILabel *dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 0, 0)];
-       dateLabel.text = [formatter stringFromDate:dayOfWeek];
+       //dateLabel.text = [formatter stringFromDate:dayOfWeek];
+       dateLabel.text = [dailyWeather getDayOfWeekWithTime:dailyWeather.time];
        dateLabel.textColor = [UIColor blackColor];
        [dateLabel sizeToFit];
        [self.contentView addSubview:dateLabel];
     
        UILabel *highTempLabel = [[UILabel alloc] initWithFrame:CGRectMake(100, 10, 0, 0)];
-       double highTemp = [dailyData[@"temperatureHigh"] doubleValue];
-       highTempLabel.text = [NSString stringWithFormat:@"%.2f", highTemp];
+//       double highTemp = [dailyData[@"temperatureHigh"] doubleValue];
+//       highTempLabel.text = [NSString stringWithFormat:@"%.0f", highTemp];
+    highTempLabel.text = [dailyWeather getTempInString:dailyWeather.temperatureHigh];
        highTempLabel.textColor = [UIColor redColor];
        [highTempLabel sizeToFit];
        [self.contentView addSubview:highTempLabel];
     
        UILabel *lowTempLabel = [[UILabel alloc] initWithFrame:CGRectMake(150, 10, 0, 0)];
-       double lowTemp = [dailyData[@"temperatureLow"] doubleValue];
-       lowTempLabel.text = [NSString stringWithFormat:@"%.0f", lowTemp];
+//       double lowTemp = [dailyData[@"temperatureLow"] doubleValue];
+//       lowTempLabel.text = [NSString stringWithFormat:@"%.0f", lowTemp];
+    lowTempLabel.text = [dailyWeather getTempInString:dailyWeather.temperatureLow];
        lowTempLabel.textColor = [UIColor blueColor];
        [lowTempLabel sizeToFit];
        [self.contentView addSubview:lowTempLabel];

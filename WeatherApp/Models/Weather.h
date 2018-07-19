@@ -7,7 +7,20 @@
 //
 
 #import <Foundation/Foundation.h>
+@protocol WeatherDelegate
+-(void)reloadDataTableView;
+@end
 
 @interface Weather : NSObject
+@property NSDate *time;
+@property int temperature;
+@property int temperatureHigh;
+@property int temperatureLow;
+@property NSString *icon;
 
+- (NSString*)getHourInDayWithTime:(NSDate*)date;
+- (NSString*)getDayOfWeekWithTime:(NSDate*)date;
+- (NSString*)getDateInString:(NSDate*)date;
+- (NSString*)getTempInString:(int)temp;
+- (instancetype)initWithData:(NSDictionary*)data;
 @end
