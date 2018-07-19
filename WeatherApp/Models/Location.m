@@ -11,6 +11,7 @@
 @implementation Location
 @dynamic lattitude, longitude, customName, startDate, endDate, backdropImage, placeName;
 
+
 + (nonnull NSString *)parseClassName {
     return @"Location";
 }

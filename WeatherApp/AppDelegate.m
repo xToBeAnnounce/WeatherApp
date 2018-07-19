@@ -58,9 +58,12 @@
     [Parse initializeWithConfiguration:config];
     
 //    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+
 //    SettingsViewController *settingsVC = SettingsViewController.new;
 //    UINavigationController *navigationController= [[UINavigationController alloc] initWithRootViewController:settingsVC];
 //    self.window.rootViewController = navigationController;
+//    [self.window makeKeyAndVisible];
+//    self.window.rootViewController = SettingsViewController.new;
 //    [self.window makeKeyAndVisible];
 }
 
