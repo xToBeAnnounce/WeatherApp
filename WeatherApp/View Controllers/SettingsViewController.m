@@ -20,6 +20,7 @@
 @property (strong, nonatomic) UISegmentedControl *tempTypeSegementedControl;
 @property (strong, nonatomic) UISwitch *locationOnSwitch;
 @property (strong, nonatomic) UISwitch *notificationsOnSwitch;
+@property (strong, nonatomic) UIButton *resetButton;
 
 @end
 
@@ -59,25 +60,12 @@
 }
 
 - (void) initalizeInteractiveProperties {
-    // Location on switch
-    self.locationOnSwitch = [[UISwitch alloc] initWithFrame:CGRectMake(10, 10, 51, 31)];
-    [self.locationOnSwitch addTarget: self action: @selector(onToggleLocation:) forControlEvents: UIControlEventValueChanged];
-    
-    // Notifications on switch
-    self.notificationsOnSwitch = [[UISwitch alloc] initWithFrame:CGRectMake(10, 10, 51, 31)];
-    [self.notificationsOnSwitch addTarget: self action: @selector(onToggleNotifications:) forControlEvents: UIControlEventValueChanged];
-
-    // Temperature Type Control
-    self.tempTypeSegementedControl = [[UISegmentedControl alloc] initWithItems:@[@"C", @"F"]];
-    [self.tempTypeSegementedControl addTarget: self action: @selector(onSetTempType:) forControlEvents: UIControlEventValueChanged];
-    
     // Too Hot Temperature Text Field
     self.tooHotTextField = [[UITextField alloc] initWithFrame:CGRectMake(100, 100, 10, 31)];
     self.tooHotTextField.keyboardType = UIKeyboardTypeNumberPad;
     self.tooHotTextField.borderStyle = UITextBorderStyleRoundedRect;
     [self.tooHotTextField.widthAnchor constraintEqualToConstant:self.view.frame.size.width/4].active = YES;
     [self.tooHotTextField addTarget: self action: @selector(onEditedHot:) forControlEvents: UIControlEventEditingChanged];
-
     
     // Too Cold Temperature Text Field
     self.tooColdTextField = [[UITextField alloc] initWithFrame:CGRectMake(100, 100, 10, 31)];
@@ -85,6 +73,24 @@
     self.tooColdTextField.borderStyle = UITextBorderStyleRoundedRect;
     [self.tooColdTextField.widthAnchor constraintEqualToConstant:self.view.frame.size.width/4].active = YES;
     [self.tooColdTextField addTarget: self action: @selector(onEditedCold:) forControlEvents: UIControlEventEditingChanged];
+    
+    // Temperature Type Control
+    self.tempTypeSegementedControl = [[UISegmentedControl alloc] initWithItems:@[@"C", @"F"]];
+    [self.tempTypeSegementedControl addTarget: self action: @selector(onSetTempType:) forControlEvents: UIControlEventValueChanged];
+    
+    // Location on switch
+    self.locationOnSwitch = [[UISwitch alloc] initWithFrame:CGRectMake(10, 10, 51, 31)];
+    [self.locationOnSwitch addTarget: self action: @selector(onToggleLocation:) forControlEvents: UIControlEventValueChanged];
+    
+    // Notifications on switch
+    self.notificationsOnSwitch = [[UISwitch alloc] initWithFrame:CGRectMake(10, 10, 51, 31)];
+    [self.notificationsOnSwitch addTarget: self action: @selector(onToggleNotifications:) forControlEvents: UIControlEventValueChanged];
+    
+    // Reset to Default Button
+    self.resetButton = [[UIButton alloc] init];
+    [self.resetButton setTitle:@"Reset to Default Preferences" forState:UIControlStateNormal];
+    [self.resetButton setTitleColor:[UIColor colorWithRed:0.0 green:122.0/255.0 blue:1.0 alpha:1.0] forState:UIControlStateNormal];
+    [self.resetButton addTarget:self action:@selector(onTapReset:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (UIStackView *) makeHStackViewLabeled:(NSString *)text withSwitch:(UISwitch *)labeledSwitch {
@@ -131,6 +137,7 @@
     [settingsStackView addArrangedSubview:[self makeHStackViewFor:self.tempTypeSegementedControl withLabel:@"Temperature Type"]];
     [settingsStackView addArrangedSubview:[self makeHStackViewFor:self.locationOnSwitch withLabel:@"Location"]];
     [settingsStackView addArrangedSubview:[self makeHStackViewFor:self.notificationsOnSwitch withLabel:@"Notifications"]];
+    [settingsStackView addArrangedSubview:self.resetButton];
     
     settingsStackView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.view addSubview:settingsStackView];
@@ -213,6 +220,30 @@
     else {
         [self.updatePrefDict removeObjectForKey:@"tooColdTemp"];
     }
+}
+
+- (IBAction)onTapReset:(id)sender {
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Warning" message:@"You are about to reset all your preferences to the default settings. Do you wish to continue?" preferredStyle:(UIAlertControllerStyleAlert)];
+    
+    // create a cancel action
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {}];
+    [alert addAction:cancelAction];
+    
+    UIAlertAction *yesAction = [UIAlertAction actionWithTitle:@"Yes" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self.user saveNewPreferences:Preferences.defaultPreferences withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
+            if (succeeded) {
+                [self loadPreferences];
+            }
+            else {
+                NSLog(@"Error occured: %@", error.localizedDescription);
+            }
+        }];
+    }];
+    [alert addAction:yesAction];
+    
+    [self presentViewController:alert animated:YES completion:^{
+        // optional code for what happens after the alert controller has finished presenting
+    }];
 }
 
 /*
