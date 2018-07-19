@@ -21,6 +21,7 @@
 @property (strong,nonatomic) UIImageView *backgroundImageView;
 
 
+
 @end
 
 static int numHoursInDay = 24;
@@ -77,8 +78,6 @@ static bool loadData = NO;
 }
 
 
-
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     DailyTableViewCell *cell = [self.ourtableView dequeueReusableCellWithIdentifier:@"cellID"];
     
@@ -89,9 +88,9 @@ static bool loadData = NO;
         Weather *hourlyWeather = self.location.dailyData[indexPath.row];
         [cell setCellUI:hourlyWeather];
         cell = [[DailyTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cellID"];
+        cell = [[DailyTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cellID"];
     }
     
-
     return cell;
 }
 
