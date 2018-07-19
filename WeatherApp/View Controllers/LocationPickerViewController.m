@@ -8,18 +8,24 @@
 
 #import "LocationPickerViewController.h"
 #import <CoreLocation/CoreLocation.h>
+#import "Location.h"
+#import "GeoAPIManager.h"
 
 @interface LocationPickerViewController () <CLLocationManagerDelegate>
 
 @property (strong, nonatomic) CLLocationManager *locationManager;
+@property (strong, nonatomic) UITextField *searchTextField;
 
 @end
 
 @implementation LocationPickerViewController
 
+static BOOL loadingData;
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.view setBackgroundColor:[UIColor greenColor]];
+    loadingData = NO;
     
     UIButton *getLocationButton = [[UIButton alloc] initWithFrame:CGRectMake(100, 100, 150, 50)];
     [getLocationButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
@@ -27,18 +33,39 @@
     [getLocationButton addTarget:self action:@selector(getLocation) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:getLocationButton];
     
+    UIButton *searchButton = [[UIButton alloc] initWithFrame:CGRectMake(100, 175, 150, 50)];
+    [searchButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    [searchButton setTitle:@"Search!" forState:UIControlStateNormal];
+    [searchButton addTarget:self action:@selector(onTapSearch) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:searchButton];
+    
+    self.searchTextField = [[UITextField alloc] initWithFrame:CGRectMake(100, 300, 250, 40)];
+    self.searchTextField.backgroundColor = [UIColor whiteColor];
+    self.searchTextField.borderStyle = UITextBorderStyleRoundedRect;
+    [self.searchTextField addTarget:self action:@selector(onTapSearch) forControlEvents:UIControlEventEditingChanged];
+    [self.view addSubview:self.searchTextField];
+    
     self.locationManager = [[CLLocationManager alloc] init];
     self.locationManager.delegate = self;
     self.locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
     self.locationManager.distanceFilter = kCLDistanceFilterNone;
     
-    [self.locationManager startMonitoringSignificantLocationChanges];
+//    [self.locationManager startMonitoringSignificantLocationChanges];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     if ([self.locationManager respondsToSelector:@selector(requestWhenInUseAuthorization)]) {
         [self.locationManager requestWhenInUseAuthorization];
     }
+    Location *currentLoc = Location.currentLocation;
+    [currentLoc updatePlaceNameWithBlock:^(NSDictionary *data, NSError *error) {
+        if (data) {
+            NSLog(@"%@", currentLoc.placeName);
+        }
+        else {
+            NSLog(@"Error");
+        }
+    }];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -61,6 +88,10 @@
     CLLocation *location = [self.locationManager location];
     CLLocationCoordinate2D coordinate = [location coordinate];
     NSLog(@"Here's the coordinate: %f %f", coordinate.longitude, coordinate.latitude);
+//    [Location saveLocationWithLongitude:coordinate.longitude lattitude:coordinate.latitude attributes:@{@"customName":@"Building 29"} withBlock:^(Location *loc, NSError *error) {
+//        if (loc) NSLog(@"You're in %@", loc.placeName);
+//        else NSLog(@"Error: %@", error.localizedDescription);
+//    }];
     return coordinate;
 }
 
@@ -77,6 +108,26 @@
     }];
     [errorAlert addAction:retryAction];
     [self presentViewController:errorAlert animated:YES completion:nil];
+}
+
+- (void) onTapSearch {
+    if (!loadingData) {
+        loadingData = YES;
+        [[GeoAPIManager shared] searchForLocationByName:self.searchTextField.text withOffset:0 withCompletion:^(NSDictionary *data, NSError *error) {
+            if (data) {
+                NSArray *geonamesArray = data[@"geonames"];
+                for (NSDictionary *geoname in geonamesArray) {
+                    Location *loc = [Location initWithSearchDictionary:geoname];
+                    NSLog(@"%@", loc.placeName);
+                }
+                NSLog(@"%@", data[@"totalResultsCount"]);
+                loadingData = NO;
+            }
+            else {
+                NSLog(@"%@", error.localizedDescription);
+            }
+        }];
+    }
 }
 
 @end

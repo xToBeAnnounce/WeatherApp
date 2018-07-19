@@ -13,8 +13,7 @@
 @interface User : PFUser
 
 @property (strong, nonatomic) Preferences *preferences;
-@property (strong, nonatomic) NSMutableDictionary *locations;  // Dictionary with NSString to Location objectId
-@property (strong, nonatomic) NSMutableArray *locationOrder;
+@property (strong, nonatomic) NSMutableArray *locationsIDArray; // array of location object ids
 
 // Get current user
 + (instancetype)currentUser;
@@ -28,7 +27,7 @@
 - (void) getUserPreferencesWithBlock:(void(^)(Preferences *pref, NSError *error))block;
 
 // Location methods
-- (void) addLocationWithLongitude:(double)longitude lattitude:(double)lattitude key:(NSString *)key attributes:(NSDictionary *)attributes completion:(PFBooleanResultBlock)completion;
-- (void) updateDefaultLocationWithBlock:(PFBooleanResultBlock)completion;
-- (Location *) getLocationWithKey:(NSString *)key;
+- (void) addLocationWithLongitude:(double)longitude lattitude:(double)lattitude attributes:(NSDictionary *)attributes completion:(PFBooleanResultBlock)completion;
+- (void) deleteLocationWithID:(NSString *)locID withCompletion:(PFBooleanResultBlock)completion;
+- (NSMutableArray *) getLocationsArray;
 @end

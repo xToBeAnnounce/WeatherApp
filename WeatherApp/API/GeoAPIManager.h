@@ -11,5 +11,7 @@
 @interface GeoAPIManager : NSObject
 
 + (instancetype)shared;
+- (void) getNearestAddressOfLattitude:(double)lat longitude:(double)lng completion:(void(^)(NSDictionary *data, NSError *error))completion;
+- (void) searchForLocationByName:(NSString *)searchString withOffset:(int)offset withCompletion:(void(^)(NSDictionary *data, NSError *error))completion;
 
 @end
