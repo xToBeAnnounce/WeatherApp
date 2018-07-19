@@ -19,7 +19,7 @@
 @property (strong, nonatomic) PFFile *backdropImage;
 
 // Save new location
-+ (void) saveLocationWithLongitude:(double)longitude lattitude:(double)lattitude key:(NSString *)key attributes:(NSDictionary *)dictionary withBlock:(void(^)(Location *, NSError *))block;
++ (void) saveLocationWithLongitude:(double)longitude lattitude:(double)lattitude customName:(NSString *)name attributes:(NSDictionary *)dictionary withBlock:(void(^)(Location *, NSError *))block;
 
 // Update existing location
 - (void) addBackdropImage:(UIImage *)image withCompletion:(PFBooleanResultBlock)completion;

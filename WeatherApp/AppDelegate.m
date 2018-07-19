@@ -12,12 +12,14 @@
 #import "User.h"
 #import "DailyViewController.h"
 #import "SettingsViewController.h"
+#import "LocationPickerViewController.h"
 
 @interface AppDelegate ()
 @property UITabBarController *tabBarController;
 @property UINavigationController *navController;
 @property WeeklyViewController *weeklyVC;
 @property DailyViewController *dailyVC;
+
 @end
 
 @implementation AppDelegate
@@ -43,7 +45,7 @@
     self.navController.navigationBar.topItem.rightBarButtonItem = settingsButton;
     
     [self parseBackendSetup];
-    
+    self.window.rootViewController = LocationPickerViewController.new;
     return YES;
 }
 
@@ -99,6 +101,5 @@
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
-
 
 @end

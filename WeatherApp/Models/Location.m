@@ -16,11 +16,11 @@
     return @"Location";
 }
 
-+ (void) saveLocationWithLongitude:(double)longitude lattitude:(double)lattitude key:(NSString *)key attributes:(NSDictionary *)dictionary withBlock:(void(^)(Location *, NSError *))block{
++ (void) saveLocationWithLongitude:(double)longitude lattitude:(double)lattitude customName:(NSString *)name attributes:(NSDictionary *)dictionary withBlock:(void(^)(Location *, NSError *))block{
     Location *newLoc = Location.new;
     newLoc.longitude = longitude;
     newLoc.lattitude = lattitude;
-    newLoc.customName = key;
+    newLoc.customName = name;
     newLoc.startDate = [NSDate date];
     newLoc.endDate = nil;
     newLoc.backdropImage = nil;

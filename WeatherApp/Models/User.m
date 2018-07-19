@@ -43,7 +43,7 @@
 
 - (void) addLocationWithLongitude:(double)longitude lattitude:(double)lattitude key:(NSString *)key attributes:(NSDictionary *)attributes completion:(PFBooleanResultBlock)completion{
     if (![[self.locations allKeys] containsObject:key]) {
-        [Location saveLocationWithLongitude:longitude lattitude:lattitude key:key attributes:attributes withBlock:^(Location *location, NSError *error) {
+        [Location saveLocationWithLongitude:longitude lattitude:lattitude customName:key attributes:attributes withBlock:^(Location *location, NSError *error) {
             if (location) {
                 [self.locations setValue:location.objectId forKey:location.customName];
                 [self.locationOrder addObject:location.customName];

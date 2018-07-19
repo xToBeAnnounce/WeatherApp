@@ -170,7 +170,7 @@
     [self.user updatePreferencesWithDictionary:[NSDictionary dictionaryWithDictionary:self.updatePrefDict] withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
         if (succeeded) {
             NSLog(@"Saved preferences!");
-            [self loadPreferences];
+            [self dismissViewControllerAnimated:YES completion:nil];
         }
         else {
             NSLog(@"Unsuccessful");
@@ -179,7 +179,7 @@
 }
 
 - (IBAction)onTapCancel:(id)sender {
-    [self loadPreferences];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (IBAction)onSetTempType:(id)sender {
