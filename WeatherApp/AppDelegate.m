@@ -15,25 +15,40 @@
 
 @interface AppDelegate ()
 @property UITabBarController *tabBarController;
+@property UINavigationController *navController;
+@property WeeklyViewController *weeklyVC;
+@property DailyViewController *dailyVC;
 @end
 
 @implementation AppDelegate
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    self.tabBarController = [[UITabBarController alloc] init];
+    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    [self.window makeKeyAndVisible];
+
+    self.tabBarController = [[UITabBarController alloc] init];
+    self.navController = [[UINavigationController alloc] initWithRootViewController:_tabBarController];
+    self.weeklyVC = [[WeeklyViewController alloc] init];
+    self.dailyVC = [[DailyViewController alloc] init];
     
-    WeeklyViewController *weeklyVC = [[WeeklyViewController alloc] init];
-    DailyViewController *dailyVC = [[DailyViewController alloc] init];
-    
-    NSArray *viewControllers = [NSArray arrayWithObjects:dailyVC, weeklyVC, nil];
+    NSArray *viewControllers = [NSArray arrayWithObjects:self.dailyVC, self.weeklyVC, nil];
     self.tabBarController.viewControllers = viewControllers;
+    
     [[self.tabBarController.tabBar.items objectAtIndex:0] setTitle:@"Daily"];
     [[self.tabBarController.tabBar.items objectAtIndex:1] setTitle:@"Weekly"];
-    self.window.rootViewController = self.tabBarController;
-    [self.window makeKeyAndVisible];
+    self.window.rootViewController = self.navController;
     
+    UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc] initWithTitle:@"Setting" style:UIBarButtonItemStylePlain target:self action:@selector(segueToSettings)];
+    self.navController.navigationBar.topItem.rightBarButtonItem = settingsButton;
+    
+    [self parseBackendSetup];
+    
+    return YES;
+}
+
+-(void)parseBackendSetup{
     ParseClientConfiguration *config = [ParseClientConfiguration   configurationWithBlock:^(id<ParseMutableClientConfiguration> configuration) {
         
         configuration.applicationId = @"ttjWeatherApp";
@@ -42,11 +57,13 @@
         configuration.localDatastoreEnabled = YES;
     }];
     [Parse initializeWithConfiguration:config];
-    
-    [self.window makeKeyAndVisible];
-    return YES;
 }
 
+-(void)segueToSettings{
+    self.navController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+    self.navController.modalPresentationStyle = UIModalPresentationFullScreen;
+    [self.navController presentViewController:SettingsViewController.new animated:YES completion:nil];
+}
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
