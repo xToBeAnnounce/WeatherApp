@@ -12,7 +12,8 @@
 @dynamic preferences, locations, locationOrder;
 
 + (instancetype)currentUser {
-    return (User *)PFUser.currentUser;
+    User *user = (User *)PFUser.currentUser;
+    return user;
 }
 
 - (void)signUpInBackgroundWithBlock:(PFBooleanResultBlock)block {
@@ -31,6 +32,13 @@
 - (void) updatePreferencesWithDictionary:(NSDictionary *)dictionary withCompletion:(PFBooleanResultBlock)completion {
     [self.preferences setValuesForKeysWithDictionary:dictionary];
     [self.preferences saveInBackgroundWithBlock:completion];
+}
+
+- (void) getUserPreferencesWithBlock:(void(^)(Preferences *pref, NSError *error)) block {
+    PFQuery *query = [PFQuery queryWithClassName:@"Preferences"];
+    [query getObjectInBackgroundWithId:self.preferences.objectId block:^(PFObject * _Nullable object, NSError * _Nullable error) {
+        block((Preferences *)object, error);
+    }];
 }
 
 - (void) addLocationWithLongitude:(double)longitude lattitude:(double)lattitude key:(NSString *)key attributes:(NSDictionary *)attributes completion:(PFBooleanResultBlock)completion{

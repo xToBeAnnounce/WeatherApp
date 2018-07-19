@@ -25,6 +25,7 @@
 // Preference methods
 - (void) saveNewPreferences:(Preferences *)preferences withCompletion:(PFBooleanResultBlock)completion;
 - (void) updatePreferencesWithDictionary:(NSDictionary *)dictionary withCompletion:(PFBooleanResultBlock)completion;
+- (void) getUserPreferencesWithBlock:(void(^)(Preferences *pref, NSError *error)) block;
 
 // Location methods
 - (void) addLocationWithLongitude:(double)longitude lattitude:(double)lattitude key:(NSString *)key attributes:(NSDictionary *)attributes completion:(PFBooleanResultBlock)completion;
