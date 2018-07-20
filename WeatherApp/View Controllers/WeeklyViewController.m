@@ -21,7 +21,6 @@
 
 @end
 
-static int const numDaysInWeek = 7;
 static NSString *cellIdentifier = @"WeeklyCell";
 
 static bool loadData = NO;
@@ -30,7 +29,6 @@ static bool loadData = NO;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.weeklyWeather = [[NSMutableArray alloc] init];
     
     self.location = [Location currentLocation]; //For testing purpose
     [self.location fetchDataType:@"weekly" WithCompletion:^(NSDictionary * data, NSError * error) {

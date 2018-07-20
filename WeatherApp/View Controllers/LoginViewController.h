@@ -11,7 +11,4 @@
 @interface LoginViewController : UIViewController
 @property UINavigationController *navController;
 
-@property UINavigationController *navController;
-
-
 @end

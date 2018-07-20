@@ -14,7 +14,6 @@
 @interface DailyViewController () <UITableViewDelegate,UITableViewDataSource>
 
 @property (strong,nonatomic) NSMutableArray *DailyArrary;
-@property (strong,nonatomic) UITableView *ourtableView;
 @property (strong,nonatomic) UIImageView *IconImageView;
 @property (strong,nonatomic) UILabel *temperatureLabel;
 @property (strong,nonatomic) UILabel *locationLabel;
@@ -43,10 +42,6 @@ static bool loadData = NO;
         else NSLog(@"%@", error.localizedDescription);
     }];
     
-
-    [self getDailyData];
-    //[self setUI];
-    self.DailyArrary = [[NSMutableArray alloc] init];
     [self.view setBackgroundColor:[UIColor whiteColor]];
     
     //sets table view
@@ -94,20 +89,12 @@ static bool loadData = NO;
     if(loadData){
         Weather *hourlyWeather = self.location.dailyData[indexPath.row];
         [cell setCellUI:hourlyWeather];
-        cell = [[DailyTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cellID"];
-        cell = [[DailyTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cellID"];
     }
-    
     return cell;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.location.dailyData.count;
-}
-
--(void)reloadDataTableView{
-    loadData = YES;
-    [self.ourtableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning {
