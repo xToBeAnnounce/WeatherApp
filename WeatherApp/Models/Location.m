@@ -10,7 +10,7 @@
 #import "GeoAPIManager.h"
 
 @implementation Location 
-@dynamic lattitude, longitude, customName, startDate, endDate, backdropImage, placeName;
+@dynamic lattitude, longitude, customName, startDate, endDate, backdropImage, placeName, fullPlaceName;
 
 
 + (nonnull NSString *)parseClassName {
@@ -26,7 +26,6 @@
     if (dictionary) {
         [newLoc setValuesForKeysWithDictionary:dictionary];
     }
-    
     [newLoc updatePlaceNameWithBlock:^(NSDictionary *data, NSError *error) {
         if (data) {
             // If no custom name given, defaults to name of place
@@ -51,6 +50,11 @@
     newLoc.longitude = [searchDictionary[@"lng"] doubleValue];
     newLoc.lattitude = [searchDictionary[@"lat"] doubleValue];
     newLoc.placeName = searchDictionary[@"name"];
+    newLoc.fullPlaceName = [newLoc.placeName stringByAppendingString:@", "];
+    if ([searchDictionary[@"countryCode"] isEqualToString:@"US"]) {
+        newLoc.fullPlaceName = [newLoc.fullPlaceName stringByAppendingString:[NSString stringWithFormat:@"%@, ", searchDictionary[@"adminCodes1"][@"ISO3166_2"]]];
+    }
+    newLoc.fullPlaceName = [newLoc.fullPlaceName stringByAppendingString:searchDictionary[@"countryName"]];
     
     return newLoc;
 }
@@ -107,7 +111,11 @@
         if (data) {
             NSDictionary *address = data[@"address"];
             self.placeName = address[@"placename"];
-            if (!self.placeName) self.placeName = @"Current Location";
+            self.fullPlaceName = [self.placeName stringByAppendingString:[NSString stringWithFormat:@", %@, United States", address[@"adminCode1"]]];
+            if (!self.placeName) {
+                self.placeName = @"Unknown Location";
+                self.fullPlaceName = self.placeName;
+            }
             block (data, nil);
         }
         else {

@@ -14,6 +14,7 @@
 @property (nonatomic) double lattitude;
 @property (nonatomic) double longitude;
 @property (strong, nonatomic) NSString *placeName; // ex. San Francisco
+@property (strong, nonatomic) NSString *fullPlaceName; // ex. San Francisco, CA, USA or Shanghai, China
 @property (strong, nonatomic) NSString *customName;   //Home, work, travel
 @property (strong, nonatomic) NSDate *startDate;
 @property (strong, nonatomic) NSDate *endDate;

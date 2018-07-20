@@ -45,7 +45,7 @@
     self.navController.navigationBar.topItem.rightBarButtonItem = settingsButton;
     
     [self parseBackendSetup];
-    self.window.rootViewController = LocationPickerViewController.new;
+//    self.window.rootViewController = LocationPickerViewController.new;
     return YES;
 }
 

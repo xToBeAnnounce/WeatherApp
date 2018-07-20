@@ -57,15 +57,15 @@ static BOOL loadingData;
     if ([self.locationManager respondsToSelector:@selector(requestWhenInUseAuthorization)]) {
         [self.locationManager requestWhenInUseAuthorization];
     }
-    Location *currentLoc = Location.currentLocation;
-    [currentLoc updatePlaceNameWithBlock:^(NSDictionary *data, NSError *error) {
-        if (data) {
-            NSLog(@"%@", currentLoc.placeName);
-        }
-        else {
-            NSLog(@"Error");
-        }
-    }];
+//    Location *currentLoc = Location.currentLocation;
+//    [currentLoc updatePlaceNameWithBlock:^(NSDictionary *data, NSError *error) {
+//        if (data) {
+//            NSLog(@"%@", currentLoc.placeName);
+//        }
+//        else {
+//            NSLog(@"Error");
+//        }
+//    }];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -115,12 +115,15 @@ static BOOL loadingData;
         loadingData = YES;
         [[GeoAPIManager shared] searchForLocationByName:self.searchTextField.text withOffset:0 withCompletion:^(NSDictionary *data, NSError *error) {
             if (data) {
+                NSString *results = @"";
                 NSArray *geonamesArray = data[@"geonames"];
                 for (NSDictionary *geoname in geonamesArray) {
                     Location *loc = [Location initWithSearchDictionary:geoname];
-                    NSLog(@"%@", loc.placeName);
+                    results = [results stringByAppendingString:[NSString stringWithFormat:@"%@ with lat: %f lng: %f\n", loc.fullPlaceName, loc.lattitude, loc.longitude]];
                 }
                 NSLog(@"%@", data[@"totalResultsCount"]);
+                NSLog(@"%@", results);
+
                 loadingData = NO;
             }
             else {
