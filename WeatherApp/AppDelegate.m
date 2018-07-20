@@ -12,13 +12,14 @@
 #import "User.h"
 #import "DailyViewController.h"
 #import "SettingsViewController.h"
-#import "Location.h"
+#import "LocationPickerViewController.h"
 
 @interface AppDelegate ()
 @property UITabBarController *tabBarController;
 @property UINavigationController *navController;
 @property WeeklyViewController *weeklyVC;
 @property DailyViewController *dailyVC;
+
 @end
 
 @implementation AppDelegate
@@ -43,6 +44,7 @@
     
     UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc] initWithTitle:@"Setting" style:UIBarButtonItemStylePlain target:self action:@selector(segueToSettings)];
     self.navController.navigationBar.topItem.rightBarButtonItem = settingsButton;
+//    self.window.rootViewController = LocationPickerViewController.new;
     return YES;
 }
 
@@ -90,6 +92,5 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application {
 }
-
 
 @end
