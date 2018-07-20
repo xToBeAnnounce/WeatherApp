@@ -55,7 +55,7 @@ static bool loadData = NO;
     [super didReceiveMemoryWarning];
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return numDaysInWeek;
+    return self.location.weeklyData.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{

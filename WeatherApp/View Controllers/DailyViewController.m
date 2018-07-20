@@ -88,7 +88,7 @@ static bool loadData = NO;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return numHoursInDay;
+    return self.location.dailyData.count;
 }
 
 -(void)reloadDataTableView{
