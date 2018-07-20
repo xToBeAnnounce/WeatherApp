@@ -9,6 +9,9 @@
 #import "LoginViewController.h"
 #import <Parse/Parse.h>
 #import "User.h"
+#import "WeeklyViewController.h"
+#import "DailyViewController.h"
+#import "AppDelegate.h"
 
 @interface LoginViewController ()
 @property (strong,nonatomic) UITextField *usernameField;
@@ -17,6 +20,9 @@
 @property (strong,nonatomic) UIButton *signupButton;
 @property LoginViewController *loginVC;
 @property (strong,nonatomic) UILabel *titleLabel;
+@property UITabBarController *tabBarController;
+@property WeeklyViewController *weeklyVC;
+@property DailyViewController *dailyVC;
 
 @end
 
@@ -24,34 +30,35 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self tabBarSetup];
     [self setUI];
+    
+    AppDelegate *appD = [[AppDelegate alloc] init];
+    
+  
+    
     self.view.backgroundColor = UIColor.whiteColor;
 }
 
 -(void)setUI{
-    //setting username textfield
     self.usernameField = [[UITextField alloc] initWithFrame:CGRectMake(35, 258, 305, 45)];
     self.usernameField.placeholder = @"username";
     self.usernameField.borderStyle = UITextBorderStyleRoundedRect;
     
-    //setting password textfield
     self.passwordField = [[UITextField alloc] initWithFrame:CGRectMake(35, 325, 305, 45)];
     self.passwordField.placeholder = @"password";
     self.passwordField.borderStyle = UITextBorderStyleRoundedRect;
     
-    //setting login button
     self.loginButton = [[UIButton alloc] initWithFrame:CGRectMake(221, 380, 55, 30)];
     [self.loginButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
     [self.loginButton setTitle:@"LogIn" forState:UIControlStateNormal];
     [self.loginButton addTarget:self action:@selector(loginButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     
-    //setting signup button
     self.signupButton = [[UIButton alloc] initWithFrame:CGRectMake(109, 380, 60, 30)];
     [self.signupButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
     [self.signupButton setTitle:@"SignUp" forState:UIControlStateNormal];
     [self.signupButton addTarget:self action:@selector(signupButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     
-    //setting title label
     self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(80, 132, 152, 41)];
     self.titleLabel.text = @"WeatherAPP";
     self.titleLabel.font = [UIFont systemFontOfSize:40];
@@ -65,6 +72,7 @@
     [self.view addSubview:self.signupButton];
 }
 
+
 -(IBAction)loginButtonTapped:(id)sender{
     
     NSString *username = self.usernameField.text;
@@ -76,9 +84,9 @@
             [self AlertController:error.localizedDescription];
         } else {
             NSLog(@"User logged in successfully");
+                [self presentViewController:self.navController animated:YES completion:nil];
         }
     }];
-    
 }
 
 -(IBAction)signupButtonTapped:(id)sender{
@@ -94,6 +102,7 @@
             [self AlertController:error.localizedDescription];
         } else {
             NSLog(@"User registered successfully");
+            [self presentViewController:self.navController animated:YES completion:nil];
         }
     }];
 }
@@ -109,6 +118,17 @@
     [alert addAction:button];
     
     [self presentViewController:alert animated:YES completion:nil];
+}
+
+-(void)tabBarSetup{
+    self.tabBarController = [[UITabBarController alloc] init];
+    self.navController = [[UINavigationController alloc] initWithRootViewController:_tabBarController];
+    self.weeklyVC = [[WeeklyViewController alloc] init];
+    self.dailyVC = [[DailyViewController alloc] init];
+    NSArray *viewControllers = [NSArray arrayWithObjects:self.dailyVC, self.weeklyVC, nil];
+    self.tabBarController.viewControllers = viewControllers;
+    [[self.tabBarController.tabBar.items objectAtIndex:0] setTitle:@"Daily"];
+    [[self.tabBarController.tabBar.items objectAtIndex:1] setTitle:@"Weekly"];
 }
 
 /*

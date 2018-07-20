@@ -19,7 +19,7 @@
 @property UINavigationController *navController;
 @property WeeklyViewController *weeklyVC;
 @property DailyViewController *dailyVC;
-
+@property LoginViewController *LoginVC;
 @end
 
 @implementation AppDelegate
@@ -28,22 +28,26 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 
+
     self.tabBarController = [[UITabBarController alloc] init];
     self.navController = [[UINavigationController alloc] initWithRootViewController:_tabBarController];
     self.weeklyVC = [[WeeklyViewController alloc] init];
     self.dailyVC = [[DailyViewController alloc] init];
+    self.LoginVC = [[LoginViewController alloc] init];
     
     NSArray *viewControllers = [NSArray arrayWithObjects:self.dailyVC, self.weeklyVC, nil];
     self.tabBarController.viewControllers = viewControllers;
     
     [[self.tabBarController.tabBar.items objectAtIndex:0] setTitle:@"Daily"];
     [[self.tabBarController.tabBar.items objectAtIndex:1] setTitle:@"Weekly"];
-    self.window.rootViewController = self.navController;
-    
+    self.window.rootViewController = [self.navController;
+                                      
+    self.window.rootViewController = self.LoginVC;
+
     UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc] initWithTitle:@"Setting" style:UIBarButtonItemStylePlain target:self action:@selector(segueToSettings)];
     self.navController.navigationBar.topItem.rightBarButtonItem = settingsButton;
 
-//    self.window.rootViewController = LocationPickerViewController.new;
+//self.window.rootViewController = LocationPickerViewController.new;
 
     
     [self parseBackendSetup];
@@ -51,7 +55,7 @@
     
     
     if (PFUser.currentUser) {
-        self.window.rootViewController = self.navController;
+        self.window.rootViewController = self.LoginVC.navController;
     }
     
     
