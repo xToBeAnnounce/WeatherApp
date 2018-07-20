@@ -13,7 +13,7 @@
 #import "Location.h"
 #import "Weather.h"
 
-@interface WeeklyViewController () <UITableViewDelegate, UITableViewDataSource, LocationDelegate>
+@interface WeeklyViewController () <UITableViewDelegate, UITableViewDataSource>
 
 @property UITableView *tableView;
 @property NSMutableArray *weeklyWeather;
@@ -32,9 +32,15 @@ static bool loadData = NO;
     [super viewDidLoad];
     self.weeklyWeather = [[NSMutableArray alloc] init];
     
-    self.location = [[Location alloc] init]; //For testing purpose
-    self.location.delegate = self;
-    [self.location fetchWeeklyData];
+    self.location = [Location currentLocation]; //For testing purpose
+    [self.location fetchDataType:@"weekly" WithCompletion:^(NSDictionary * data, NSError * error) {
+        if(error == nil){
+            [self.location setWeeklyDataWithDictionary:data];
+            loadData = YES;
+            [self.tableView reloadData];
+        }
+        else NSLog(@"%@", error.localizedDescription);
+    }];
 
     self.tableView = [[UITableView alloc] initWithFrame: CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
     self.tableView.dataSource = self;
