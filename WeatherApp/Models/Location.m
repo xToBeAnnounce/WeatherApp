@@ -23,7 +23,7 @@ static float lat = 42.3601;
 static float lng = -71.0589;
 static int const numDaysInWeek = 7;
 static int const numHoursInDay = 24;
-@synthesize dailyData, weeklyData, delegate;
+@synthesize dailyData, weeklyData;
 
 /*-------------METHODS TO CREATE/SAVE NEW LOCATION-------------*/
 // save new location
@@ -144,19 +144,20 @@ static int const numHoursInDay = 24;
 }
 
 /*-------------FETCH WEATHER METHODS-------------*/
--(void)fetchWeeklyData{
+-(void)fetchWeeklyDataWithCompletion:(void(^)(NSDictionary *data, NSError *error))completion{
     self.weeklyData = [[NSMutableArray alloc] init];
-    [self getWeeklyWithLong:lng Lat:lat Array:self.weeklyData Count:0];
+//    [self getWeeklyWithLong:self.longitude lat:self.lattitude count:0 completion:completion];
+    [self getWeeklyWithLong:lng lat:lat count:0 completion:completion];
 }
 
--(void)fetchDailyData{
+-(void)fetchDailyDataWithCompletion:(void(^)(NSDictionary *data, NSError *error))completion{
     self.dailyData = [[NSMutableArray alloc] init];
-    [self getDailyWithLong:lng Lat:lat Array:self.dailyData];
+//    [self getDailyWithLong:self.longitude lat:self.lattitude completion:completion];
+    [self getDailyWithLong:lng lat:lat completion:completion];
 }
 
-- (void)getWeeklyWithLong:(int)lng Lat:(int)lat Array:(NSMutableArray*)weeklyData Count:(int)count{
+- (void)getWeeklyWithLong:(int)lng lat:(int)lat count:(int)count completion:(void(^)(NSDictionary *data, NSError *error))completion{
     if(count == numDaysInWeek){
-        [self.delegate reloadDataTableView];
         return;
     }
     else{
@@ -166,30 +167,34 @@ static int const numHoursInDay = 24;
         
         [apiManager setURLWithLatitude:lat Longitude:lng Time:nextDate Range:@"weekly"];
         [apiManager getDataWithCompletion:^(NSDictionary *data, NSError *error) {
-            if(error != nil) NSLog(@"%@", error.localizedDescription);
+            if(error != nil) {
+                 NSLog(@"%@", error.localizedDescription);
+                completion(nil, error);
+            }
             else{
                 NSArray *dayData = data[@"daily"][@"data"];
-                [weeklyData addObject:[[Weather alloc]initWithData:dayData[0]]];
-                [self getWeeklyWithLong:lng Lat:lat Array:weeklyData Count:(count+1)];
+                [self.weeklyData addObject:[[Weather alloc]initWithData:dayData[0]]];
+                completion(data, nil);
+                [self getWeeklyWithLong:lng lat:lat count:(count+1) completion:completion];
             }
         }];
     }
 }
 
-- (void)getDailyWithLong:(int)lng Lat:(int)lat Array:(NSMutableArray*)dailyData{
+- (void)getDailyWithLong:(int)lng lat:(int)lat completion:(void(^)(NSDictionary *data, NSError *error))completion{
     APIManager *apiManager = [APIManager shared];
     NSDate *currDate = [NSDate date];
     [apiManager setURLWithLatitude:lat Longitude:lng Time:currDate Range:@"daily"];
     [apiManager getDataWithCompletion:^(NSDictionary *data, NSError *error) {
-        
         if(error != nil){
             NSLog(@"%@", error.localizedDescription);
+            completion(nil, error);
         } else {
             NSArray *hourlyData = data[@"hourly"][@"data"];
             for(int i=0; i<numHoursInDay; i++){
-                [dailyData addObject:[[Weather alloc]initWithData:hourlyData[i]]];
+                [self.dailyData addObject:[[Weather alloc]initWithData:hourlyData[i]]];
             }
-            [self.delegate reloadDataTableView];
+            completion(data, nil);
         }
     }];
 }
@@ -210,4 +215,44 @@ static int const numHoursInDay = 24;
 - (void)locationManager:(CLLocationManager *)manager didFailWithError: (NSError *)error {
     NSLog(@"Getting location failed with error: %@", error);
 }
+
+/*---------------------PANTRY--------------------------*/
+//- (void)getWeeklyWithLong:(int)lng Lat:(int)lat Array:(NSMutableArray*)weeklyData Count:(int)count{
+//    if(count == numDaysInWeek){
+//        return;
+//    }
+//    else{
+//        APIManager *apiManager = [APIManager shared];
+//        NSDate *currDate = [NSDate date];
+//        NSDate *nextDate = [currDate dateByAddingTimeInterval:(60*60*24*count)];
+//
+//        [apiManager setURLWithLatitude:lat Longitude:lng Time:nextDate Range:@"weekly"];
+//        [apiManager getDataWithCompletion:^(NSDictionary *data, NSError *error) {
+//            if(error != nil) NSLog(@"%@", error.localizedDescription);
+//            else{
+//                NSArray *dayData = data[@"daily"][@"data"];
+//                [weeklyData addObject:[[Weather alloc]initWithData:dayData[0]]];
+//                [self getWeeklyWithLong:lng Lat:lat Array:weeklyData Count:(count+1)];
+//            }
+//        }];
+//    }
+//}
+
+//- (void)getDailyWithLong:(int)lng Lat:(int)lat Array:(NSMutableArray*)dailyData{
+//    APIManager *apiManager = [APIManager shared];
+//    NSDate *currDate = [NSDate date];
+//    [apiManager setURLWithLatitude:lat Longitude:lng Time:currDate Range:@"daily"];
+//    [apiManager getDataWithCompletion:^(NSDictionary *data, NSError *error) {
+//
+//        if(error != nil){
+//            NSLog(@"%@", error.localizedDescription);
+//        } else {
+//            NSArray *hourlyData = data[@"hourly"][@"data"];
+//            for(int i=0; i<numHoursInDay; i++){
+//                [dailyData addObject:[[Weather alloc]initWithData:hourlyData[i]]];
+//            }
+//        }
+//    }];
+//}
+
 @end
