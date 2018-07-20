@@ -29,26 +29,22 @@ static NSString * urlString;
     return self;
 }
 
--(void)setURLWithLatitude:(double)lat Longitude:(double)lng Time:(NSDate*)date Range:(NSString*)range{
+-(void)setURLWithLatitude:(double)lat Longitude:(double)lng Range:(NSString*)range{
     urlString = @"";
     urlString = [baseURLString stringByAppendingString:consumerSecret];
     NSString *coordinateStr = [NSString stringWithFormat:@"%f,%f", lat, lng];
     urlString = [urlString stringByAppendingString:coordinateStr];
     
-    if(date != nil){
-        NSTimeInterval timeDiff = [date timeIntervalSince1970];
+    if([range isEqualToString:@"daily"]){
+        NSDate *currentDate = [NSDate date];
+        NSTimeInterval timeDiff = [currentDate timeIntervalSince1970];
         NSInteger timeDiffInt = timeDiff;
         NSString *timeDiffStr = [NSString stringWithFormat:@",%ld", (long)timeDiffInt];
         urlString = [urlString stringByAppendingString:timeDiffStr];
+        urlString = [urlString stringByAppendingString:@"?exclude=currently,minutely,daily,alerts,flags"];
     }
-    if(range != nil){
-        if([range isEqualToString:@"daily"]){
-            //Excluded alerts for now, contains data for hourly per day and currently
-            urlString = [urlString stringByAppendingString:@"?exclude=currently,minutely,daily,alerts,flags"];
-        }
-        else if([range isEqualToString:@"weekly"]){
-            urlString = [urlString stringByAppendingString:@"?exclude=currently,minutely,hourly,alerts,flags"];
-        }
+    else if([range isEqualToString:@"weekly"]){
+        urlString = [urlString stringByAppendingString:@"?exclude=currently,minutely,hourly,alerts,flags"];
     }
 }
 

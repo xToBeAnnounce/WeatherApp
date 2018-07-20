@@ -36,6 +36,7 @@
 - (void) updatePlaceNameWithBlock:(void(^)(NSDictionary *data, NSError *error))block;
 
 // Fetch Weather Data
--(void)fetchWeeklyDataWithCompletion:(void(^)(NSDictionary *data, NSError *error))completion;
--(void)fetchDailyDataWithCompletion:(void(^)(NSDictionary *data, NSError *error))completion;
+-(void)fetchDataType:(NSString*)dataType WithCompletion:(void(^)(NSDictionary*, NSError*))completion;
+-(void)setDailyDataWithDictionary:(NSDictionary*)data;
+-(void)setWeeklyDataWithDictionary:(NSDictionary*)data;
 @end

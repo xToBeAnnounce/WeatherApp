@@ -11,7 +11,7 @@
 #import "DailyTableViewCell.h"
 #import "Weather.h"
 
-@interface DailyViewController () <UITableViewDelegate,UITableViewDataSource, LocationDelegate>
+@interface DailyViewController () <UITableViewDelegate,UITableViewDataSource>
 
 @property (strong,nonatomic) NSMutableArray *DailyArrary;
 @property (strong,nonatomic) UITableView *ourtableView;
@@ -32,9 +32,16 @@ static bool loadData = NO;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.location = [[Location alloc]init]; //For testing
-    [self.location fetchDailyData];
-    self.location.delegate = self;
+    self.location = [Location currentLocation]; //For testing
+    [self.location fetchDataType:@"daily" WithCompletion:^(NSDictionary * data, NSError * error) {
+        if(error == nil){
+            [self.location setDailyDataWithDictionary:data];
+            [self setUI];
+            loadData = YES;
+            [self.ourtableView reloadData];
+        }
+        else NSLog(@"%@", error.localizedDescription);
+    }];
     
 
     [self getDailyData];
@@ -95,7 +102,7 @@ static bool loadData = NO;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return numHoursInDay;
+    return self.location.dailyData.count;
 }
 
 -(void)reloadDataTableView{
