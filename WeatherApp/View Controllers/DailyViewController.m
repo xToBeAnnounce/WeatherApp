@@ -32,6 +32,7 @@ static bool loadData = NO;
     [self.location fetchDataType:@"daily" WithCompletion:^(NSDictionary * data, NSError * error) {
         if(error == nil){
             [self.location setDailyDataWithDictionary:data];
+            [self setUI];
             loadData = YES;
             [self.ourtableView reloadData];
         }
