@@ -7,12 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Weather.h"
 
 @interface DailyTableViewCell : UITableViewCell
 
 @property (strong,nonatomic) UILabel *temperateLabel;
 @property (strong,nonatomic) UILabel *timeLabel;
 @property (strong,nonatomic) UIImageView *iconImageView;
--(void)setCellUI:(NSArray*)dailyArrary;
 
+-(void)setCellUI:(Weather*)dailyArrary;
 @end

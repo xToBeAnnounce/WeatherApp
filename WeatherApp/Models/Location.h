@@ -9,8 +9,12 @@
 #import <Parse/Parse.h>
 #import <CoreLocation/CoreLocation.h>
 
-@interface Location : PFObject <PFSubclassing, CLLocationManagerDelegate>
+@protocol LocationDelegate
+-(void)reloadDataTableView;
+@end
 
+@interface Location : PFObject <PFSubclassing>
+// Parse properties
 @property (nonatomic) double lattitude;
 @property (nonatomic) double longitude;
 @property (strong, nonatomic) NSString *placeName; // ex. San Francisco
@@ -19,6 +23,11 @@
 @property (strong, nonatomic) NSDate *startDate;
 @property (strong, nonatomic) NSDate *endDate;
 @property (strong, nonatomic) PFFile *backdropImage;
+
+//Weather properties
+@property (strong, nonatomic) NSMutableArray *weeklyData;
+@property (strong, nonatomic) NSMutableArray *dailyData;
+@property (strong, nonatomic) id<LocationDelegate> delegate;
 
 // Save new location
 + (void) saveLocationWithLongitude:(double)longitude lattitude:(double)lattitude attributes:(NSDictionary *)dictionary withBlock:(void(^)(Location *, NSError *))block;
@@ -30,4 +39,8 @@
 - (void) addBackdropImage:(UIImage *)image withCompletion:(PFBooleanResultBlock)completion;
 - (void) updateTimeFrame:(NSDate *)startDate withEndDate:(NSDate *)endDate withCompletion:(PFBooleanResultBlock)completion;
 - (void) updatePlaceNameWithBlock:(void(^)(NSDictionary *data, NSError *error))block;
+
+// Fetch Weather Data
+-(void)fetchWeeklyData;
+-(void)fetchDailyData;
 @end
