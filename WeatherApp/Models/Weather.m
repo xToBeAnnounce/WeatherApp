@@ -33,7 +33,7 @@
     NSCalendar *calendar = [NSCalendar currentCalendar];
     NSDateComponents *components = [calendar components:NSCalendarUnitHour fromDate:date];
     int hour = (int)[components hour];
-    if(hour < 12){
+    if(hour <= 12){
         return [NSString stringWithFormat:@"%d am", hour];
     }
     else return [NSString stringWithFormat:@"%d pm", (hour - 12)];

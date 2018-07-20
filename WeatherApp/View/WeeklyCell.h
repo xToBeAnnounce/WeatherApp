@@ -7,7 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Weather.h"
 
 @interface WeeklyCell : UITableViewCell
--(void)setWeeklyCell:(NSDictionary*)data;
+@property UILabel *lowTempLabel;
+@property UILabel *highTempLabel;
+@property UILabel *dateLabel;
+
+-(void)setWeeklyCell:(Weather*)data;
 @end

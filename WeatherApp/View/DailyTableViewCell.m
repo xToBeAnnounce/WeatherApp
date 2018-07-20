@@ -13,7 +13,6 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    // Initialization code
 }
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
@@ -25,11 +24,6 @@
 }
 
 -(void)setCellUI:(Weather*)dailyWeather{
-    //NSDictionary *newDict = dailyArrary[0];
-    
-    //setting temperatureLabel
-    //NSString *temp = newDict[@"currently"][@"temperature"];
-    //self.temperateLabel.text = [NSString stringWithFormat:@"%.0ld", (long)temp.integerValue];
     self.temperateLabel.text = [dailyWeather getTempInString:dailyWeather.temperature];
     self.temperateLabel.textColor = [UIColor blackColor];
     self.temperateLabel.font = [UIFont systemFontOfSize:20];
@@ -44,15 +38,12 @@
     [self.contentView addSubview:self.timeLabel];
     
     //setting icons image view
-    //NSString *iconName = newDict[@"currently"][@"icon"];
     self.iconImageView.image = [UIImage imageNamed:dailyWeather.icon];
     [self.contentView addSubview:self.iconImageView];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
 }
 
 @end

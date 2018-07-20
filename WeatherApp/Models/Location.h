@@ -22,6 +22,7 @@
 @property (strong, nonatomic) NSDate *endDate;
 @property (strong, nonatomic) PFFile *backdropImage;
 
+//For weather Data
 @property (strong, nonatomic) NSMutableArray *weeklyData;
 @property (strong, nonatomic) NSMutableArray *dailyData;
 @property (strong, nonatomic) id<LocationDelegate> delegate;

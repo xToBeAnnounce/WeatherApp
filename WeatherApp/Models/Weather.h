@@ -18,9 +18,11 @@
 @property int temperatureLow;
 @property NSString *icon;
 
+//Formatting functions for display in string
 - (NSString*)getHourInDayWithTime:(NSDate*)date;
 - (NSString*)getDayOfWeekWithTime:(NSDate*)date;
 - (NSString*)getDateInString:(NSDate*)date;
 - (NSString*)getTempInString:(int)temp;
+
 - (instancetype)initWithData:(NSDictionary*)data;
 @end

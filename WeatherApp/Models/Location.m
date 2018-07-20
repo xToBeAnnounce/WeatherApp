@@ -97,6 +97,11 @@ static int const numHoursInDay = 24;
     [self getWeeklyWithLong:lng Lat:lat Array:self.weeklyData Count:0];
 }
 
+-(void)fetchDailyData{
+    self.dailyData = [[NSMutableArray alloc] init];
+    [self getDailyWithLong:lng Lat:lat Array:self.dailyData];
+}
+
 - (void)getWeeklyWithLong:(int)lng Lat:(int)lat Array:(NSMutableArray*)weeklyData Count:(int)count{
     if(count == numDaysInWeek){
         [self.delegate reloadDataTableView];
@@ -117,11 +122,6 @@ static int const numHoursInDay = 24;
             }
         }];
     }
-}
-
--(void)fetchDailyData{
-    self.dailyData = [[NSMutableArray alloc] init];
-    [self getDailyWithLong:lng Lat:lat Array:self.dailyData];
 }
 
 - (void)getDailyWithLong:(int)lng Lat:(int)lat Array:(NSMutableArray*)dailyData{

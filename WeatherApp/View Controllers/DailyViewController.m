@@ -11,7 +11,8 @@
 #import "DailyTableViewCell.h"
 #import "Weather.h"
 
-@interface DailyViewController ()<UITableViewDelegate,UITableViewDataSource, LocationDelegate>
+@interface DailyViewController () <UITableViewDelegate,UITableViewDataSource, LocationDelegate>
+
 @property (strong,nonatomic) NSMutableArray *DailyArrary;
 @property (strong,nonatomic) NSMutableArray *hourlyArrary;
 @property (strong,nonatomic) UIImageView *IconImageView;
@@ -46,6 +47,7 @@ static bool loadData = NO;
 
 -(void)setUI{
     Weather *currentWeather = self.location.dailyData[0];
+    
     //setting up icon image view
     NSString *iconName = currentWeather.icon;
     self.IconImageView = [[UIImageView alloc]initWithFrame:CGRectMake(105, 90, 166, 166)];
@@ -63,14 +65,13 @@ static bool loadData = NO;
     //setting up locationLabel
     self.locationLabel = [[UILabel alloc]initWithFrame:CGRectMake(60, 50, 10, 10)];
     self.locationLabel.font = [UIFont systemFontOfSize:35];
-    //self.locationLabel.text = newDict[@"timezone"];
+    //WAITING FOR LOCATION TEXT
     [self.locationLabel sizeToFit];
     [self.view addSubview:self.locationLabel];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
