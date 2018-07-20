@@ -10,17 +10,20 @@
 #import "WeeklyViewController.h"
 #import "WeeklyCell.h"
 #import "APIManager.h"
+#import "Location.h"
+#import "Weather.h"
 
-@interface WeeklyViewController () <UITableViewDelegate, UITableViewDataSource>
+@interface WeeklyViewController () <UITableViewDelegate, UITableViewDataSource, LocationDelegate>
+
 @property UITableView *tableView;
 @property NSMutableArray *weeklyWeather;
+@property Location *location;
+
 @end
 
 static int const numDaysInWeek = 7;
 static NSString *cellIdentifier = @"WeeklyCell";
 
-static float lat = 42.3601;
-static float lng = -71.0589;
 static bool loadData = NO;
 
 @implementation WeeklyViewController
@@ -28,11 +31,15 @@ static bool loadData = NO;
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.weeklyWeather = [[NSMutableArray alloc] init];
-    [self fetchWeeklyData:0];
- 
+    
+    self.location = [[Location alloc] init]; //For testing purpose
+    self.location.delegate = self;
+    [self.location fetchWeeklyData];
+
     self.tableView = [[UITableView alloc] initWithFrame: CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
+    
     [self.view addSubview:self.tableView];
     [self.tableView registerClass: WeeklyCell.class forCellReuseIdentifier:cellIdentifier];
     self.tableView.rowHeight = UITableViewAutomaticDimension;
@@ -41,31 +48,6 @@ static bool loadData = NO;
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
-
--(void)fetchWeeklyData:(int)count{
-    if(count == 7){
-        loadData = YES;
-        [self.tableView reloadData];
-        return;
-    }
-    APIManager *apiManager = [APIManager shared];
-
-    NSDate *currDate = [NSDate date];
-    NSDate *nextDate = [currDate dateByAddingTimeInterval:(60*60*24*count)];
-
-    [apiManager setURLWithLatitude:lat Longitude:lng Time:nextDate Range:@"weekly"];
-    [apiManager getDataWithCompletion:^(NSDictionary *data, NSError *error) {
-        if(error != nil){
-            NSLog(@"%@", error.localizedDescription);
-        }
-        else{
-            [self.weeklyWeather addObject:[[NSDictionary alloc]initWithDictionary:data]];
-            [self fetchWeeklyData:count+1];
-        }
-    }];
-}
-
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return numDaysInWeek;
 }
@@ -75,12 +57,17 @@ static bool loadData = NO;
     if(cell == nil){
         cell = [[WeeklyCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
+    
     if(loadData){
-        NSDictionary *dailyDictionary = self.weeklyWeather[indexPath.row];
-        NSArray *dailyData = dailyDictionary[@"daily"][@"data"];
-        [cell setWeeklyCell:dailyData[0]];
+        Weather *dailyWeather = self.location.weeklyData[indexPath.row];
+        [cell setWeeklyCell:dailyWeather];
     }
     return cell;
+}
+
+- (void)reloadDataTableView{
+    loadData = YES;
+    [self.tableView reloadData];
 }
 
 /*

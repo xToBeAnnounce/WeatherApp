@@ -14,7 +14,7 @@ static NSString * urlString;
 
 @implementation APIManager
 
-+ (instancetype)shared {
++ (instancetype)shared{
     static APIManager *sharedManager = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -44,13 +44,12 @@ static NSString * urlString;
     if(range != nil){
         if([range isEqualToString:@"daily"]){
             //Excluded alerts for now, contains data for hourly per day and currently
-            urlString = [urlString stringByAppendingString:@"?exclude=minutely,daily,alerts,flags"];
+            urlString = [urlString stringByAppendingString:@"?exclude=currently,minutely,daily,alerts,flags"];
         }
         else if([range isEqualToString:@"weekly"]){
-            urlString = [urlString stringByAppendingString:@"?exclude=minutely,hourly,alerts,flags"];
+            urlString = [urlString stringByAppendingString:@"?exclude=currently,minutely,hourly,alerts,flags"];
         }
     }
-    NSLog(@"%@", urlString);
 }
 
 - (void)getDataWithCompletion:(void(^)(NSDictionary *data, NSError *error))completion{

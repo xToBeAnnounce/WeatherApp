@@ -9,12 +9,10 @@
 #import "DailyViewController.h"
 #import "APIManager.h"
 #import "DailyTableViewCell.h"
+#import "Weather.h"
 
+@interface DailyViewController () <UITableViewDelegate,UITableViewDataSource, LocationDelegate>
 
-@interface DailyViewController ()<UITableViewDelegate,UITableViewDataSource>
-@property (strong,nonatomic) NSMutableArray *DailyArrary;
-@property (strong,nonatomic) NSMutableArray *hourlyArrary;
-@property (strong,nonatomic) UITableView *ourtableView;
 @property (strong,nonatomic) UIImageView *IconImageView;
 @property (strong,nonatomic) UILabel *temperatureLabel;
 @property (strong,nonatomic) UILabel *locationLabel;
@@ -22,20 +20,18 @@
 
 @end
 
-
+static int numHoursInDay = 24;
+static bool loadData = NO;
 
 @implementation DailyViewController
-static float lat = 42.3601;
-static float lng = -71.0589;
-static bool loadedData = NO;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self getDailyData];
-    //[self setUI];
-    self.testArrary = @[@"10am",@"11am",@"12am",@"1pm",@"2pm",@"3pm",];
-    self.DailyArrary = [[NSMutableArray alloc] init];
-    self.hourlyArrary = [[NSMutableArray alloc] init];
+    
+    self.location = [[Location alloc]init]; //For testing
+    [self.location fetchDailyData];
+    self.location.delegate = self;
+    
     [self.view setBackgroundColor:[UIColor whiteColor]];
     
     //sets table view
@@ -47,36 +43,18 @@ static bool loadedData = NO;
     [self.ourtableView registerClass:DailyTableViewCell.class forCellReuseIdentifier:@"cellID"];
     [self.view addSubview:self.ourtableView];
 }
-    
--(void)getDailyData{
-    APIManager *apiManager = [APIManager shared];
-    NSDate *currDate = [NSDate date];
-    [apiManager setURLWithLatitude:lat Longitude:lng Time:currDate Range:@"daily"];
-    [apiManager getDataWithCompletion:^(NSDictionary *data, NSError *error) {
-       
-        if(error != nil){
-            NSLog(@"%@", error.localizedDescription);
-        } else {
-            [self.DailyArrary addObject:[[NSDictionary alloc]initWithDictionary:data]];
-            loadedData = YES;
-            NSLog(@"%@", data);
-            [self.ourtableView reloadData];
-            [self setUI];
-        }
-    }];
-}
 
 -(void)setUI{
-    NSDictionary *newDict = self.DailyArrary[0];
+    Weather *currentWeather = self.location.dailyData[0];
     
     //setting up icon image view
-    NSString *iconName = newDict[@"currently"][@"icon"];
+    NSString *iconName = currentWeather.icon;
     self.IconImageView = [[UIImageView alloc]initWithFrame:CGRectMake(105, 90, 166, 166)];
     self.IconImageView.image = [UIImage imageNamed:iconName];
     [self.view addSubview:self.IconImageView];
     
     //setting up temperatureLabel
-    NSString *temp = newDict[@"currently"][@"temperature"];
+    NSString *temp = [currentWeather getTempInString:currentWeather.temperature];
     self.temperatureLabel = [[UILabel alloc]initWithFrame:CGRectMake(155, 250, 0, 0)];
     self.temperatureLabel.font = [UIFont systemFontOfSize:60];
     self.temperatureLabel.text = [NSString stringWithFormat:@"%.0ld", (long)temp.integerValue ];
@@ -86,32 +64,34 @@ static bool loadedData = NO;
     //setting up locationLabel
     self.locationLabel = [[UILabel alloc]initWithFrame:CGRectMake(60, 50, 10, 10)];
     self.locationLabel.font = [UIFont systemFontOfSize:35];
-    self.locationLabel.text = newDict[@"timezone"];
+    //WAITING FOR LOCATION TEXT
     [self.locationLabel sizeToFit];
     [self.view addSubview:self.locationLabel];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     DailyTableViewCell *cell = [self.ourtableView dequeueReusableCellWithIdentifier:@"cellID"];
     if(cell == nil){
-        cell = [[DailyTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cellID"];
+        cell = [[DailyTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cellID"];
     }
-    if(loadedData){
-    NSDictionary *dailyDictionary = self.DailyArrary[0];
-    NSArray *dailyData = dailyDictionary[@"hourly"][@"data"];
-    [cell setCellUI:dailyData[indexPath.row]];
+    if(loadData){
+        Weather *hourlyWeather = self.location.dailyData[indexPath.row];
+        [cell setCellUI:hourlyWeather];
     }
     return cell;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 5;
+    return numHoursInDay;
+}
+
+-(void)reloadDataTableView{
+    loadData = YES;
+    [self.ourtableView reloadData];
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
 }
 
 /*

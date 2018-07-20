@@ -12,14 +12,13 @@
 #import "User.h"
 #import "DailyViewController.h"
 #import "SettingsViewController.h"
-#import "LoginViewController.h"
+#import "Location.h"
 
 @interface AppDelegate ()
 @property UITabBarController *tabBarController;
 @property UINavigationController *navController;
 @property WeeklyViewController *weeklyVC;
 @property DailyViewController *dailyVC;
-@property LoginViewController *LoginVC;
 @end
 
 @implementation AppDelegate
@@ -27,27 +26,22 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    
+    [self.window makeKeyAndVisible];
+    [self parseBackendSetup];
 
     self.tabBarController = [[UITabBarController alloc] init];
     self.navController = [[UINavigationController alloc] initWithRootViewController:_tabBarController];
     self.weeklyVC = [[WeeklyViewController alloc] init];
     self.dailyVC = [[DailyViewController alloc] init];
-    self.LoginVC = [[LoginViewController alloc] init];
     
     NSArray *viewControllers = [NSArray arrayWithObjects:self.dailyVC, self.weeklyVC, nil];
     self.tabBarController.viewControllers = viewControllers;
     
     [[self.tabBarController.tabBar.items objectAtIndex:0] setTitle:@"Daily"];
     [[self.tabBarController.tabBar.items objectAtIndex:1] setTitle:@"Weekly"];
-    self.window.rootViewController = self.LoginVC;
     
     UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc] initWithTitle:@"Setting" style:UIBarButtonItemStylePlain target:self action:@selector(segueToSettings)];
     self.navController.navigationBar.topItem.rightBarButtonItem = settingsButton;
-    
-    [self parseBackendSetup];
-    [self.window makeKeyAndVisible];
-    
     return YES;
 }
 
@@ -79,29 +73,21 @@
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
-    // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-    // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
 }
 
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
 }
 
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
-    // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
 }
 
-
 - (void)applicationDidBecomeActive:(UIApplication *)application {
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
 }
 
 
 - (void)applicationWillTerminate:(UIApplication *)application {
-    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
 

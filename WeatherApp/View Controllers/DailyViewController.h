@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Location.h"
 
 @interface DailyViewController : UIViewController
-
+@property (strong, nonatomic) Location *location;
+@property (strong,nonatomic) UITableView *ourtableView;
+-(void)setUI;
 @end
