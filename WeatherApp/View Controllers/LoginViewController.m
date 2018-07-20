@@ -24,39 +24,45 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self setUI];
+    self.view.backgroundColor = UIColor.whiteColor;
+}
+
+-(void)setUI{
+    //setting username textfield
     self.usernameField = [[UITextField alloc] initWithFrame:CGRectMake(35, 258, 305, 45)];
     self.usernameField.placeholder = @"username";
     self.usernameField.borderStyle = UITextBorderStyleRoundedRect;
     
+    //setting password textfield
     self.passwordField = [[UITextField alloc] initWithFrame:CGRectMake(35, 325, 305, 45)];
     self.passwordField.placeholder = @"password";
     self.passwordField.borderStyle = UITextBorderStyleRoundedRect;
     
+    //setting login button
     self.loginButton = [[UIButton alloc] initWithFrame:CGRectMake(221, 380, 55, 30)];
     [self.loginButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
     [self.loginButton setTitle:@"LogIn" forState:UIControlStateNormal];
     [self.loginButton addTarget:self action:@selector(loginButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     
+    //setting signup button
     self.signupButton = [[UIButton alloc] initWithFrame:CGRectMake(109, 380, 60, 30)];
     [self.signupButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
     [self.signupButton setTitle:@"SignUp" forState:UIControlStateNormal];
     [self.signupButton addTarget:self action:@selector(signupButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     
+    //setting title label
     self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(80, 132, 152, 41)];
     self.titleLabel.text = @"WeatherAPP";
     self.titleLabel.font = [UIFont systemFontOfSize:40];
     [self.titleLabel sizeToFit];
-
-
+    
+    
     [self.view addSubview:self.titleLabel];
     [self.view addSubview:self.usernameField];
     [self.view addSubview:self.passwordField];
     [self.view addSubview:self.loginButton];
     [self.view addSubview:self.signupButton];
-    
-    self.view.backgroundColor = UIColor.whiteColor;
-    
-    
 }
 
 -(IBAction)loginButtonTapped:(id)sender{

@@ -13,10 +13,13 @@
 
 @interface DailyViewController () <UITableViewDelegate,UITableViewDataSource, LocationDelegate>
 
+@property (strong,nonatomic) NSMutableArray *DailyArrary;
+@property (strong,nonatomic) UITableView *ourtableView;
 @property (strong,nonatomic) UIImageView *IconImageView;
 @property (strong,nonatomic) UILabel *temperatureLabel;
 @property (strong,nonatomic) UILabel *locationLabel;
-@property (strong,nonatomic) NSArray *testArrary;
+@property (strong,nonatomic) UIImageView *backgroundImageView;
+
 
 @end
 
@@ -32,6 +35,10 @@ static bool loadData = NO;
     [self.location fetchDailyData];
     self.location.delegate = self;
     
+
+    [self getDailyData];
+    //[self setUI];
+    self.DailyArrary = [[NSMutableArray alloc] init];
     [self.view setBackgroundColor:[UIColor whiteColor]];
     
     //sets table view
@@ -69,15 +76,22 @@ static bool loadData = NO;
     [self.view addSubview:self.locationLabel];
 }
 
+
+
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     DailyTableViewCell *cell = [self.ourtableView dequeueReusableCellWithIdentifier:@"cellID"];
+    
     if(cell == nil){
         cell = [[DailyTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cellID"];
     }
     if(loadData){
         Weather *hourlyWeather = self.location.dailyData[indexPath.row];
         [cell setCellUI:hourlyWeather];
+        cell = [[DailyTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cellID"];
     }
+    
+
     return cell;
 }
 

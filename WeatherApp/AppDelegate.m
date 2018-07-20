@@ -27,8 +27,6 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    [self.window makeKeyAndVisible];
-    [self parseBackendSetup];
 
     self.tabBarController = [[UITabBarController alloc] init];
     self.navController = [[UINavigationController alloc] initWithRootViewController:_tabBarController];
@@ -44,7 +42,20 @@
     
     UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc] initWithTitle:@"Setting" style:UIBarButtonItemStylePlain target:self action:@selector(segueToSettings)];
     self.navController.navigationBar.topItem.rightBarButtonItem = settingsButton;
+
 //    self.window.rootViewController = LocationPickerViewController.new;
+
+    
+    [self parseBackendSetup];
+    [self.window makeKeyAndVisible];
+    
+    
+    if (PFUser.currentUser) {
+        self.window.rootViewController = self.navController;
+    }
+    
+    
+
     return YES;
 }
 

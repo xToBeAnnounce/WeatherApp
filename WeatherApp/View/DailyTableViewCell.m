@@ -31,20 +31,24 @@
 }
 
 -(void)setCellUI:(Weather*)dailyWeather{
+    
+    //setting temperatureLabel
     self.temperateLabel.text = [dailyWeather getTempInString:dailyWeather.temperature];
     [self.temperateLabel sizeToFit];
     [self.contentView addSubview:self.temperateLabel];
     
     //setting timeLabel
     self.timeLabel.text = [dailyWeather getHourInDayWithTime:dailyWeather.time];
-    [self.timeLabel sizeToFit];
+    [self.timeLabel sizeToFit]
     [self.contentView addSubview:self.timeLabel];
     
     //setting icons image view
     self.iconImageView.image = [UIImage imageNamed:dailyWeather.icon];
     self.iconImageView.clipsToBounds = YES;
     [self.contentView addSubview:self.iconImageView];
+
 }
+
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
