@@ -36,6 +36,7 @@
     //setting temperatureLabel
     self.temperateLabel.text = [dailyWeather getTempInString:dailyWeather.temperature];
     [self.temperateLabel sizeToFit];
+    [self.contentView addSubview:self.temperateLabel];
     
     //setting timeLabel
     self.timeLabel.text = [dailyWeather getHourInDayWithTime:dailyWeather.time];

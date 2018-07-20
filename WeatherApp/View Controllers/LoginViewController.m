@@ -12,6 +12,7 @@
 #import "WeeklyViewController.h"
 #import "DailyViewController.h"
 #import "AppDelegate.h"
+#import "SettingsViewController.h"
 
 @interface LoginViewController ()
 @property (strong,nonatomic) UITextField *usernameField;
@@ -19,6 +20,7 @@
 @property (strong,nonatomic) UIButton *loginButton;
 @property (strong,nonatomic) UIButton *signupButton;
 @property (strong,nonatomic) UILabel *titleLabel;
+@property (strong, nonatomic) UIBarButtonItem *settingsButton;
 @property UITabBarController *tabBarController;
 @property WeeklyViewController *weeklyVC;
 @property DailyViewController *dailyVC;
@@ -137,6 +139,16 @@
     self.tabBarController.viewControllers = viewControllers;
     [[self.tabBarController.tabBar.items objectAtIndex:0] setTitle:@"Daily"];
     [[self.tabBarController.tabBar.items objectAtIndex:1] setTitle:@"Weekly"];
+    
+    self.settingsButton = [[UIBarButtonItem alloc] initWithTitle:@"Setting" style:UIBarButtonItemStylePlain target:self action:@selector(segueToSettings)];
+    self.navController.navigationBar.topItem.rightBarButtonItem = self.settingsButton;
+}
+
+-(void)segueToSettings{
+    self.navController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+    self.navController.modalPresentationStyle = UIModalPresentationFullScreen;
+    UINavigationController *settingsNavigationController = [[UINavigationController alloc] initWithRootViewController:SettingsViewController.new];
+    [self.navController presentViewController:settingsNavigationController animated:YES completion:nil];
 }
 
 /*
