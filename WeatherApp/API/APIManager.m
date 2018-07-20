@@ -50,7 +50,6 @@ static NSString * urlString;
             urlString = [urlString stringByAppendingString:@"?exclude=currently,minutely,hourly,alerts,flags"];
         }
     }
-    NSLog(@"%@", urlString);
 }
 
 - (void)getDataWithCompletion:(void(^)(NSDictionary *data, NSError *error))completion{

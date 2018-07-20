@@ -14,8 +14,14 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     self.dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 0, 0)];
+    self.dateLabel.textColor = [UIColor blackColor];
+
     self.highTempLabel = [[UILabel alloc] initWithFrame:CGRectMake(100, 10, 0, 0)];
+    self.highTempLabel.textColor = [UIColor redColor];
+
     self.lowTempLabel = [[UILabel alloc] initWithFrame:CGRectMake(150, 10, 0, 0)];
+    self.lowTempLabel.textColor = [UIColor blueColor];
+    
     return self;
 }
 
@@ -31,19 +37,16 @@
     
     //Day of Week Label
     self.dateLabel.text = [dailyWeather getDayOfWeekWithTime:dailyWeather.time];
-    self.dateLabel.textColor = [UIColor blackColor];
     [self.dateLabel sizeToFit];
     [self.contentView addSubview:self.dateLabel];
     
     //High temp label
     self.highTempLabel.text = [dailyWeather getTempInString:dailyWeather.temperatureHigh];
-    self.highTempLabel.textColor = [UIColor redColor];
     [self.highTempLabel sizeToFit];
     [self.contentView addSubview:self.highTempLabel];
     
     //Low temp label
     self.lowTempLabel.text = [dailyWeather getTempInString:dailyWeather.temperatureLow];
-    self.lowTempLabel.textColor = [UIColor blueColor];
     [self.lowTempLabel sizeToFit];
     [self.contentView addSubview:self.lowTempLabel];
     

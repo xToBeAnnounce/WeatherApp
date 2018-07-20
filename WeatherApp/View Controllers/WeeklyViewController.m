@@ -24,8 +24,6 @@
 static int const numDaysInWeek = 7;
 static NSString *cellIdentifier = @"WeeklyCell";
 
-static float lat = 42.3601;
-static float lng = -71.0589;
 static bool loadData = NO;
 
 @implementation WeeklyViewController
