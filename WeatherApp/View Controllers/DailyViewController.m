@@ -57,6 +57,12 @@ static bool loadData = NO;
 -(void)setUI{
     Weather *currentWeather = self.location.dailyData[0];
     
+    //setting up background images
+    self.backgroundImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 375, 320)];
+    self.backgroundImageView.image = [UIImage imageNamed:@"sunnybackground"];
+    [self.view addSubview:self.backgroundImageView];
+    
+    
     //setting up icon image view
     NSString *iconName = currentWeather.icon;
     self.IconImageView = [[UIImageView alloc]initWithFrame:CGRectMake(105, 90, 166, 166)];

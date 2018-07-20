@@ -30,22 +30,13 @@
     self.LoginVC = [[LoginViewController alloc] init];
     self.window.rootViewController = self.LoginVC;
     
-
-    UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc] initWithTitle:@"Setting" style:UIBarButtonItemStylePlain target:self action:@selector(segueToSettings)];
-    self.navController.navigationBar.topItem.rightBarButtonItem = settingsButton;
-
 //self.window.rootViewController = LocationPickerViewController.new;
-
-    
     [self parseBackendSetup];
     [self.window makeKeyAndVisible];
     
     if (PFUser.currentUser) {
         self.window.rootViewController = self.LoginVC.navController;
     }
-    
-    
-
     return YES;
 }
 
@@ -67,13 +58,6 @@
 //    [self.window makeKeyAndVisible];
 //    self.window.rootViewController = SettingsViewController.new;
 //    [self.window makeKeyAndVisible];
-}
-
--(void)segueToSettings{
-    self.navController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-    self.navController.modalPresentationStyle = UIModalPresentationFullScreen;
-    UINavigationController *settingsNavigationController = [[UINavigationController alloc] initWithRootViewController:SettingsViewController.new];
-    [self.navController presentViewController:settingsNavigationController animated:YES completion:nil];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
