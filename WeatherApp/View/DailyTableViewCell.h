@@ -16,5 +16,4 @@
 @property (strong,nonatomic) UIImageView *iconImageView;
 
 -(void)setCellUI:(Weather*)dailyArrary;
-
 @end

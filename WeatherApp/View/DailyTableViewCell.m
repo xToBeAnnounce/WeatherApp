@@ -17,6 +17,7 @@
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+  
     self.temperateLabel = [[UILabel alloc] initWithFrame:CGRectMake(325,10 , 10, 10)];
     self.temperateLabel.textColor = [UIColor blackColor];
     self.temperateLabel.font = [UIFont systemFontOfSize:20];

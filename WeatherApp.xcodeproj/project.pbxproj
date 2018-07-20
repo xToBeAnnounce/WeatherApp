@@ -140,6 +140,8 @@
 				9203E63520FD546900F8C858 /* WeeklyViewController.m */,
 				3330AE1720FE739700B37975 /* SettingsViewController.h */,
 				3330AE1820FE739700B37975 /* SettingsViewController.m */,
+				CCA2D09120FE6E920095D4E7 /* DailyViewController.h */,
+				CCA2D09220FE6E920095D4E7 /* DailyViewController.m */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";

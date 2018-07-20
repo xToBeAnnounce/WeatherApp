@@ -39,11 +39,9 @@
     
     [[self.tabBarController.tabBar.items objectAtIndex:0] setTitle:@"Daily"];
     [[self.tabBarController.tabBar.items objectAtIndex:1] setTitle:@"Weekly"];
-    self.window.rootViewController = self.navController;
     
     UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc] initWithTitle:@"Setting" style:UIBarButtonItemStylePlain target:self action:@selector(segueToSettings)];
     self.navController.navigationBar.topItem.rightBarButtonItem = settingsButton;
-        
     return YES;
 }
 
