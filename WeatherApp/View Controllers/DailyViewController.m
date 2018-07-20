@@ -13,8 +13,6 @@
 
 @interface DailyViewController () <UITableViewDelegate,UITableViewDataSource, LocationDelegate>
 
-@property (strong,nonatomic) NSMutableArray *DailyArrary;
-@property (strong,nonatomic) NSMutableArray *hourlyArrary;
 @property (strong,nonatomic) UIImageView *IconImageView;
 @property (strong,nonatomic) UILabel *temperatureLabel;
 @property (strong,nonatomic) UILabel *locationLabel;
@@ -29,6 +27,7 @@ static bool loadData = NO;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     self.location = [[Location alloc]init]; //For testing
     [self.location fetchDailyData];
     self.location.delegate = self;
@@ -70,10 +69,6 @@ static bool loadData = NO;
     [self.view addSubview:self.locationLabel];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-}
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     DailyTableViewCell *cell = [self.ourtableView dequeueReusableCellWithIdentifier:@"cellID"];
     if(cell == nil){
@@ -93,6 +88,10 @@ static bool loadData = NO;
 -(void)reloadDataTableView{
     loadData = YES;
     [self.ourtableView reloadData];
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
 }
 
 /*
