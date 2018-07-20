@@ -9,10 +9,6 @@
 #import <Parse/Parse.h>
 #import <CoreLocation/CoreLocation.h>
 
-@protocol LocationDelegate
--(void)reloadDataTableView;
-@end
-
 @interface Location : PFObject <PFSubclassing>
 // Parse properties
 @property (nonatomic) double lattitude;
@@ -24,10 +20,9 @@
 @property (strong, nonatomic) NSDate *endDate;
 @property (strong, nonatomic) PFFile *backdropImage;
 
-//Weather properties
+// Weather properties
 @property (strong, nonatomic) NSMutableArray *weeklyData;
 @property (strong, nonatomic) NSMutableArray *dailyData;
-@property (strong, nonatomic) id<LocationDelegate> delegate;
 
 // Save new location
 + (void) saveLocationWithLongitude:(double)longitude lattitude:(double)lattitude attributes:(NSDictionary *)dictionary withBlock:(void(^)(Location *, NSError *))block;
@@ -41,6 +36,6 @@
 - (void) updatePlaceNameWithBlock:(void(^)(NSDictionary *data, NSError *error))block;
 
 // Fetch Weather Data
--(void)fetchWeeklyData;
--(void)fetchDailyData;
+-(void)fetchWeeklyDataWithCompletion:(void(^)(NSDictionary *data, NSError *error))completion;
+-(void)fetchDailyDataWithCompletion:(void(^)(NSDictionary *data, NSError *error))completion;
 @end
