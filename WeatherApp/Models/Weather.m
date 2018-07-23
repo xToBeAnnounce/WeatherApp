@@ -15,7 +15,7 @@
     NSTimeInterval timeInSeconds = [data[@"time"] longValue];
     self.time = [NSDate dateWithTimeIntervalSince1970:timeInSeconds];
     
-    if(data[@"temperatureHigh"] != nil){
+    if(data[@"temperatureHigh"]){
         self.temperatureHigh = (int)[data[@"temperatureHigh"] doubleValue];
         self.temperatureLow = (int)[data[@"temperatureLow"] doubleValue];
         self.temperature = -1;

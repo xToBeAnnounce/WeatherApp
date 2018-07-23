@@ -42,6 +42,10 @@ static bool loadData = NO;
     
 }
 
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+}
+
 -(void)setUI{
     [self.view setBackgroundColor:[UIColor whiteColor]];
     
@@ -128,6 +132,7 @@ static bool loadData = NO;
     [self.iconImageView.widthAnchor constraintEqualToAnchor:self.iconImageView.heightAnchor multiplier:1.0/1.0].active = YES;
 }
 
+/*-----------------TABLE VIEW DELEGATE METHODS-----------------*/
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     DailyTableViewCell *cell = [self.ourtableView dequeueReusableCellWithIdentifier:@"DailyTableViewCell"];
     
@@ -143,10 +148,6 @@ static bool loadData = NO;
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.location.dailyData.count;
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
 }
 
 /*

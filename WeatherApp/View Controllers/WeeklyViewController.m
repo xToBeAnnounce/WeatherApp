@@ -55,14 +55,14 @@ static bool loadData = NO;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    WeeklyCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"WeeklyCell"];
+    WeeklyCell *cell = [self.tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     if(cell == nil){
         cell = [[WeeklyCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
     
     if(loadData){
-        Weather *dailyWeather = self.location.weeklyData[indexPath.row];
-        [cell setWeeklyCell:dailyWeather];
+        Weather *dayWeather = self.location.weeklyData[indexPath.row];
+        cell.dayWeather = dayWeather;
     }
     return cell;
 }

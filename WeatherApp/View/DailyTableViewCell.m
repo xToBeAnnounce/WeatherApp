@@ -46,6 +46,8 @@
 }
 
 - (void)setHourWeather:(Weather *)hourWeather {
+    _hourWeather = hourWeather;
+    
     //setting timeLabel
     self.timeLabel.text = [hourWeather getHourInDayWithTime:hourWeather.time];
     [self.timeLabel sizeToFit];

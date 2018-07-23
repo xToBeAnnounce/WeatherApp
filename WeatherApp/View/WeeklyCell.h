@@ -10,9 +10,12 @@
 #import "Weather.h"
 
 @interface WeeklyCell : UITableViewCell
-@property UILabel *lowTempLabel;
-@property UILabel *highTempLabel;
-@property UILabel *dateLabel;
 
--(void)setWeeklyCell:(Weather*)data;
+@property (strong, nonatomic) UILabel *dateLabel;
+@property (strong, nonatomic) UIImageView *iconImageView;
+@property (strong, nonatomic) UILabel *lowTempLabel;
+@property (strong, nonatomic) UILabel *highTempLabel;
+@property (strong, nonatomic) UIStackView *tempStackView;
+
+@property (strong, nonatomic) Weather *dayWeather;
 @end
