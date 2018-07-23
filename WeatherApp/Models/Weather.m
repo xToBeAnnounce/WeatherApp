@@ -14,7 +14,6 @@
 - (instancetype)initWithData:(NSDictionary*)data{
     NSTimeInterval timeInSeconds = [data[@"time"] longValue];
     self.time = [NSDate dateWithTimeIntervalSince1970:timeInSeconds];
-    
     if(data[@"temperatureHigh"] != nil){
         self.temperatureHigh = (int)[data[@"temperatureHigh"] doubleValue];
         self.temperatureLow = (int)[data[@"temperatureLow"] doubleValue];
@@ -33,7 +32,10 @@
     NSCalendar *calendar = [NSCalendar currentCalendar];
     NSDateComponents *components = [calendar components:NSCalendarUnitHour fromDate:date];
     int hour = (int)[components hour];
-    if(hour <= 12){
+    if(hour == 0){
+        return [NSString stringWithFormat:@"12 am"];
+    }
+    else if(hour <= 12){
         return [NSString stringWithFormat:@"%d am", hour];
     }
     else return [NSString stringWithFormat:@"%d pm", (hour - 12)];
