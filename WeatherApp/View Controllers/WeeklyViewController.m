@@ -29,7 +29,6 @@ static bool loadData = NO;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     self.location = [Location currentLocation]; //For testing purpose
     [self.location fetchDataType:@"weekly" WithCompletion:^(NSDictionary * data, NSError * error) {
         if(error == nil){

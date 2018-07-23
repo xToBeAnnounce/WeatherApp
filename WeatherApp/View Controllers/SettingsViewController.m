@@ -8,13 +8,15 @@
 
 #import "SettingsViewController.h"
 #import "User.h"
+#import "PreferenceTableViewCell.h"
 
 // TODO: Put HUD on the screen while preferences are loading
 
-@interface SettingsViewController ()
+@interface SettingsViewController () <UITableViewDelegate, UITableViewDataSource>
 
 @property (strong, nonatomic) User *user;
 @property (strong, nonatomic) NSMutableDictionary *updatePrefDict;
+
 @property (strong, nonatomic) UITextField *tooHotTextField;
 @property (strong, nonatomic) UITextField *tooColdTextField;
 @property (strong, nonatomic) UISegmentedControl *tempTypeSegementedControl;
@@ -22,18 +24,47 @@
 @property (strong, nonatomic) UISwitch *notificationsOnSwitch;
 @property (strong, nonatomic) UIButton *resetButton;
 
+@property (strong, nonatomic) UITableView *tableView;
+
 @end
 
 @implementation SettingsViewController
 
+static NSArray *sectionsArray;
+static NSMutableDictionary *sectionsDict;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Intialize properties
     self.user = User.currentUser;
-    
+    [self initalizeInteractiveProperties];
     [self loadPreferences];
     [self setUI];
+    
+    sectionsArray = @[@"Preferences", @"Locations"];
+    sectionsDict = [NSMutableDictionary dictionaryWithDictionary:
+  @{
+    @"Preferences":@[
+            @[@"Hot Temperature", self.tooHotTextField],
+            @[@"Cold Temperature", self.tooColdTextField],
+            @[@"Temperature Type", self.tempTypeSegementedControl],
+            @[@"Current Location", self.locationOnSwitch],
+            @[@"Notifications", self.notificationsOnSwitch],
+            @[@"", self.resetButton]
+    ],
+        @"Locations":@[]
+    }];
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        // No explicit autorelease pool needed here.
+        // The code runs in background, not strangling
+        // the main run loop.
+        [sectionsDict setValue:[self.user getLocationsArray] forKey:@"Locations"];
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            NSLog(@"Updated sectionsDict");
+            [self.tableView reloadData];
+        });
+    });
 }
 
 - (void)didReceiveMemoryWarning {
@@ -61,35 +92,39 @@
 
 - (void) initalizeInteractiveProperties {
     // Too Hot Temperature Text Field
-    self.tooHotTextField = [[UITextField alloc] initWithFrame:CGRectMake(100, 100, 10, 31)];
+    self.tooHotTextField = [[UITextField alloc] init];
     self.tooHotTextField.keyboardType = UIKeyboardTypeNumberPad;
     self.tooHotTextField.borderStyle = UITextBorderStyleRoundedRect;
-    [self.tooHotTextField.widthAnchor constraintEqualToConstant:self.view.frame.size.width/4].active = YES;
+    [self.tooHotTextField.widthAnchor constraintEqualToConstant:self.view.frame.size.width/5].active = YES;
+    self.tooHotTextField.translatesAutoresizingMaskIntoConstraints = NO;
     [self.tooHotTextField addTarget: self action: @selector(onEditedHot:) forControlEvents: UIControlEventEditingChanged];
     
     // Too Cold Temperature Text Field
-    self.tooColdTextField = [[UITextField alloc] initWithFrame:CGRectMake(100, 100, 10, 31)];
+    self.tooColdTextField = [[UITextField alloc] init];
     self.tooColdTextField.keyboardType = UIKeyboardTypeNumberPad;
     self.tooColdTextField.borderStyle = UITextBorderStyleRoundedRect;
-    [self.tooColdTextField.widthAnchor constraintEqualToConstant:self.view.frame.size.width/4].active = YES;
+    [self.tooColdTextField.widthAnchor constraintEqualToConstant:self.view.frame.size.width/5].active = YES;
+    self.tooColdTextField.translatesAutoresizingMaskIntoConstraints = NO;
     [self.tooColdTextField addTarget: self action: @selector(onEditedCold:) forControlEvents: UIControlEventEditingChanged];
     
     // Temperature Type Control
     self.tempTypeSegementedControl = [[UISegmentedControl alloc] initWithItems:@[@"C", @"F"]];
+    self.tempTypeSegementedControl.translatesAutoresizingMaskIntoConstraints = NO;
     [self.tempTypeSegementedControl addTarget: self action: @selector(onSetTempType:) forControlEvents: UIControlEventValueChanged];
     
     // Location on switch
-    self.locationOnSwitch = [[UISwitch alloc] initWithFrame:CGRectMake(10, 10, 51, 31)];
+    self.locationOnSwitch = [[UISwitch alloc] init];
     [self.locationOnSwitch addTarget: self action: @selector(onToggleLocation:) forControlEvents: UIControlEventValueChanged];
     
     // Notifications on switch
-    self.notificationsOnSwitch = [[UISwitch alloc] initWithFrame:CGRectMake(10, 10, 51, 31)];
+    self.notificationsOnSwitch = [[UISwitch alloc] init];
     [self.notificationsOnSwitch addTarget: self action: @selector(onToggleNotifications:) forControlEvents: UIControlEventValueChanged];
     
     // Reset to Default Button
     self.resetButton = [[UIButton alloc] init];
     [self.resetButton setTitle:@"Reset to Default Preferences" forState:UIControlStateNormal];
     [self.resetButton setTitleColor:[UIColor colorWithRed:0.0 green:122.0/255.0 blue:1.0 alpha:1.0] forState:UIControlStateNormal];
+    self.resetButton.translatesAutoresizingMaskIntoConstraints = NO;
     [self.resetButton addTarget:self action:@selector(onTapReset:) forControlEvents:UIControlEventTouchUpInside];
 }
 
@@ -121,9 +156,19 @@
     self.navigationController.navigationBar.topItem.leftBarButtonItem = cancelBtn;
     self.navigationController.navigationBar.topItem.rightBarButtonItem = doneBtn;
     
-    [self initalizeInteractiveProperties];
+    // Sets up table view
+    self.tableView = [[UITableView alloc] initWithFrame: CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+    self.tableView.dataSource = self;
+    self.tableView.delegate = self;
+    [self.tableView registerClass:PreferenceTableViewCell.class forCellReuseIdentifier:@"PreferenceTableViewCell"];
     
-    // Creating and Filling main stack view
+    self.tableView.backgroundColor = [UIColor blueColor];
+    self.tableView.rowHeight = UITableViewAutomaticDimension;
+    [self.view addSubview:self.tableView];
+}
+
+// Creating and Filling main stack view
+- (void) buildSettingsStackView {
     UIStackView *settingsStackView = [[UIStackView alloc] init];
     
     settingsStackView.axis = UILayoutConstraintAxisVertical;
@@ -140,10 +185,13 @@
     [settingsStackView addArrangedSubview:self.resetButton];
     
     settingsStackView.translatesAutoresizingMaskIntoConstraints = NO;
-    [self.view addSubview:settingsStackView];
-    
+    [settingsStackView.topAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.topAnchor constant:8].active = YES;
+    [settingsStackView.leadingAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.leadingAnchor constant:8].active = YES;
+    [settingsStackView.trailingAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.trailingAnchor constant:8].active = YES;
     [settingsStackView.centerXAnchor constraintEqualToAnchor:self.view.centerXAnchor].active = YES;
     [settingsStackView.centerYAnchor constraintEqualToAnchor:self.view.centerYAnchor].active = YES;
+    
+    [self.view addSubview:settingsStackView];
 }
 
 - (UIStackView *) makeHStackViewFor:(id)labeledTool withLabel:(NSString *)labelText{
@@ -246,6 +294,37 @@
     }];
 }
 
+- (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
+    if (indexPath.section == 0) {
+        // preferences cell
+        PreferenceTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"PreferenceTableViewCell" forIndexPath:indexPath];
+        cell = [[PreferenceTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"PreferenceTableViewCell"];
+        NSArray *prefs = sectionsDict[sectionsArray[indexPath.section]];
+        cell.preferenceArray = prefs[indexPath.row];
+        return cell;
+    }
+    else if (indexPath.section == 1){
+        PreferenceTableViewCell *cell = [[PreferenceTableViewCell alloc] init];
+        NSString *name = [NSString stringWithFormat:@"Location %ld", indexPath.row+1];
+        [cell.textLabel setText:name];
+        return cell;
+    }
+    return [[UITableViewCell alloc] init];
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 2;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    return sectionsArray[section];
+}
+
+- (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    NSArray *sectionContent = sectionsDict[sectionsArray[section]];
+    return sectionContent.count;
+}
+
 /*
 #pragma mark - Navigation
 
@@ -255,5 +334,8 @@
     // Pass the selected object to the new view controller.
 }
 */
+
+/*-----------------------PANTRY-----------------------*/
+
 
 @end
