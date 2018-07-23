@@ -11,7 +11,7 @@
 #import "DailyTableViewCell.h"
 #import "Weather.h"
 
-@interface DailyViewController () <UITableViewDelegate,UITableViewDataSource, LocationDelegate>
+@interface DailyViewController () <UITableViewDelegate,UITableViewDataSource>
 
 @property (strong,nonatomic) UIImageView *IconImageView;
 @property (strong,nonatomic) UILabel *temperatureLabel;
@@ -29,8 +29,14 @@ static bool loadData = NO;
     [super viewDidLoad];
     
     self.location = [[Location alloc]init]; //For testing
-    [self.location fetchDailyData];
-    self.location.delegate = self;
+//    [self.location fetchDailyData];
+//    self.location.delegate = self;
+    [self.location fetchDailyDataWithCompletion:^(NSDictionary *data, NSError *error) {
+        if (data) {
+            loadData = YES;
+            [self.ourtableView reloadData];
+        }
+    }];
     
     [self.view setBackgroundColor:[UIColor whiteColor]];
     

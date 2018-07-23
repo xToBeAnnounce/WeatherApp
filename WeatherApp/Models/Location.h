@@ -9,7 +9,7 @@
 #import <Parse/Parse.h>
 #import <CoreLocation/CoreLocation.h>
 
-@interface Location : PFObject <PFSubclassing>
+@interface Location : PFObject <PFSubclassing, CLLocationManagerDelegate>
 // Parse properties
 @property (nonatomic) double lattitude;
 @property (nonatomic) double longitude;
@@ -19,6 +19,8 @@
 @property (strong, nonatomic) NSDate *startDate;
 @property (strong, nonatomic) NSDate *endDate;
 @property (strong, nonatomic) PFFile *backdropImage;
+
+@property (strong, nonatomic) CLLocationManager *locationManager;
 
 // Weather properties
 @property (strong, nonatomic) NSMutableArray *weeklyData;
