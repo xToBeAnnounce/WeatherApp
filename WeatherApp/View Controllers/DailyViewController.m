@@ -23,7 +23,6 @@
 
 @end
 
-static int numHoursInDay = 24;
 static bool loadData = NO;
 
 @implementation DailyViewController
@@ -34,7 +33,6 @@ static bool loadData = NO;
     self.location = [Location currentLocation]; //For testing
     [self.location fetchDataType:@"daily" WithCompletion:^(NSDictionary * data, NSError * error) {
         if(error == nil){
-            [self.location setDailyDataWithDictionary:data];
             [self setUI];
             loadData = YES;
             [self.ourtableView reloadData];

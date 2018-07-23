@@ -147,12 +147,28 @@ static int const numHoursInDay = 24;
 -(void)fetchDataType:(NSString*)dataType WithCompletion:(void(^)(NSDictionary*, NSError*))completion{
     if([dataType isEqualToString:@"daily"]){
         self.dailyData = [[NSMutableArray alloc] init];
-        [self getDataWithLong:self.longitude Lat:self.lattitude Type:dataType Completion:completion];
+        [self getDataWithLong:self.longitude Lat:self.lattitude Type:dataType Completion:^(NSDictionary *data, NSError *error) {
+            if (data) {
+                [self setDailyDataWithDictionary:data];
+                completion(data, nil);
+            }
+            else {
+                completion(nil, error);
+            }
+        }];
 //        [self getDataWithLong:(int)lng Lat:(int)lat Type:dataType Completion:completion];
     }
     else if([dataType isEqualToString:@"weekly"]){
         self.weeklyData = [[NSMutableArray alloc] init];
-        [self getDataWithLong:(int)lng Lat:(int)lat Type:dataType Completion:completion];
+        [self getDataWithLong:(int)lng Lat:(int)lat Type:dataType Completion:^(NSDictionary *data, NSError *error) {
+            if (data) {
+                [self setWeeklyDataWithDictionary:data];
+                completion(data, nil);
+            }
+            else {
+                completion(nil, error);
+            }
+        }];
     }
 }
 

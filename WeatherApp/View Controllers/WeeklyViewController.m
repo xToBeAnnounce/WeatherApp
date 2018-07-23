@@ -33,7 +33,6 @@ static bool loadData = NO;
     self.location = [Location currentLocation]; //For testing purpose
     [self.location fetchDataType:@"weekly" WithCompletion:^(NSDictionary * data, NSError * error) {
         if(error == nil){
-            [self.location setWeeklyDataWithDictionary:data];
             loadData = YES;
             [self.tableView reloadData];
         }
