@@ -22,6 +22,7 @@
 @property (strong,nonatomic) UILabel *titleLabel;
 @property (strong, nonatomic) UIBarButtonItem *settingsButton;
 @property UITabBarController *tabBarController;
+@property UIPageViewController *pageController;
 @property WeeklyViewController *weeklyVC;
 @property DailyViewController *dailyVC;
 
@@ -131,8 +132,9 @@
 }
 
 -(void)tabBarSetup{
+    
     self.tabBarController = [[UITabBarController alloc] init];
-    self.navController = [[UINavigationController alloc] initWithRootViewController:_tabBarController];
+    self.navController = [[UINavigationController alloc] initWithRootViewController:self.tabBarController];
     self.weeklyVC = [[WeeklyViewController alloc] init];
     self.dailyVC = [[DailyViewController alloc] init];
     NSArray *viewControllers = [NSArray arrayWithObjects:self.dailyVC, self.weeklyVC, nil];
