@@ -13,7 +13,13 @@
 
 - (instancetype)initWithData:(NSDictionary*)data{
     NSTimeInterval timeInSeconds = [data[@"time"] longValue];
-    self.time = [NSDate dateWithTimeIntervalSince1970:timeInSeconds];
+    //Increment by one day so it starts at current day
+    NSDateComponents *components = [[NSDateComponents alloc]init];
+    components.day = 1;
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSDate *time = [NSDate dateWithTimeIntervalSince1970:timeInSeconds];
+    self.time = [calendar dateByAddingComponents:components toDate:time options:0];
+    
     if(data[@"temperatureHigh"] != nil){
         self.temperatureHigh = (int)[data[@"temperatureHigh"] doubleValue];
         self.temperatureLow = (int)[data[@"temperatureLow"] doubleValue];
@@ -42,6 +48,7 @@
 }
 
 - (NSString*)getDayOfWeekWithTime:(NSDate*)date{
+    NSLog(@"%@", date);
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     formatter.dateStyle = NSDateFormatterMediumStyle;
     formatter.timeStyle = NSDateFormatterNoStyle;
