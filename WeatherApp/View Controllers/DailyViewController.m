@@ -13,10 +13,13 @@
 
 @interface DailyViewController () <UITableViewDelegate,UITableViewDataSource>
 
+@property (strong,nonatomic) NSMutableArray *DailyArrary;
 @property (strong,nonatomic) UIImageView *IconImageView;
 @property (strong,nonatomic) UILabel *temperatureLabel;
 @property (strong,nonatomic) UILabel *locationLabel;
-@property (strong,nonatomic) NSArray *testArrary;
+@property (strong,nonatomic) UIImageView *backgroundImageView;
+
+
 
 @end
 
@@ -28,14 +31,15 @@ static bool loadData = NO;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.location = [[Location alloc]init]; //For testing
-//    [self.location fetchDailyData];
-//    self.location.delegate = self;
-    [self.location fetchDailyDataWithCompletion:^(NSDictionary *data, NSError *error) {
-        if (data) {
+    self.location = [Location currentLocation]; //For testing
+    [self.location fetchDataType:@"daily" WithCompletion:^(NSDictionary * data, NSError * error) {
+        if(error == nil){
+            [self.location setDailyDataWithDictionary:data];
+            [self setUI];
             loadData = YES;
             [self.ourtableView reloadData];
         }
+        else NSLog(@"%@", error.localizedDescription);
     }];
     
     [self.view setBackgroundColor:[UIColor whiteColor]];
@@ -52,6 +56,12 @@ static bool loadData = NO;
 
 -(void)setUI{
     Weather *currentWeather = self.location.dailyData[0];
+    
+    //setting up background images
+    self.backgroundImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 375, 320)];
+    self.backgroundImageView.image = [UIImage imageNamed:@"sunnybackground"];
+    [self.view addSubview:self.backgroundImageView];
+    
     
     //setting up icon image view
     NSString *iconName = currentWeather.icon;
@@ -75,8 +85,10 @@ static bool loadData = NO;
     [self.view addSubview:self.locationLabel];
 }
 
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     DailyTableViewCell *cell = [self.ourtableView dequeueReusableCellWithIdentifier:@"cellID"];
+    
     if(cell == nil){
         cell = [[DailyTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cellID"];
     }
@@ -88,12 +100,7 @@ static bool loadData = NO;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return numHoursInDay;
-}
-
--(void)reloadDataTableView{
-    loadData = YES;
-    [self.ourtableView reloadData];
+    return self.location.dailyData.count;
 }
 
 - (void)didReceiveMemoryWarning {
