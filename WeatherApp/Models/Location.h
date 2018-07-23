@@ -39,6 +39,4 @@
 
 // Fetch Weather Data
 -(void)fetchDataType:(NSString*)dataType WithCompletion:(void(^)(NSDictionary*, NSError*))completion;
--(void)setDailyDataWithDictionary:(NSDictionary*)data;
--(void)setWeeklyDataWithDictionary:(NSDictionary*)data;
 @end
