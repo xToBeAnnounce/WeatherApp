@@ -213,7 +213,7 @@ static int const numHoursInDay = 24;
 
 /*-------------CLLOCATION MANAGER DELEGATE METHODS-------------*/
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations {
-    NSLog(@"Updated loction");
+    NSLog(@"Updated loction to %f, %f", locations[0].coordinate.latitude, locations[0].coordinate.longitude);
 }
 - (void)locationManager:(CLLocationManager *)manager didFailWithError: (NSError *)error {
     NSLog(@"Getting location failed with error: %@", error);

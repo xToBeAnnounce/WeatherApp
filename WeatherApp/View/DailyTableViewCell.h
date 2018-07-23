@@ -14,5 +14,6 @@
 @property (strong,nonatomic) UILabel *temperateLabel;
 @property (strong,nonatomic) UILabel *timeLabel;
 @property (strong,nonatomic) UIImageView *iconImageView;
--(void)setCellUI:(Weather*)dailyArrary;
+
+@property (strong, nonatomic) Weather *hourWeather;
 @end
