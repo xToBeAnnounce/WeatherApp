@@ -48,7 +48,6 @@
 }
 
 - (NSString*)getDayOfWeekWithTime:(NSDate*)date{
-    NSLog(@"%@", date);
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     formatter.dateStyle = NSDateFormatterMediumStyle;
     formatter.timeStyle = NSDateFormatterNoStyle;
