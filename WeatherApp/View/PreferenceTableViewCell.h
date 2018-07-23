@@ -11,6 +11,7 @@
 @interface PreferenceTableViewCell : UITableViewCell
 
 @property (strong, nonatomic) NSArray *preferenceArray;
-@property (strong, nonatomic) UIStackView *prefStackView;
+@property (strong, nonatomic) UILabel *preferenceLabel;
+@property (strong, nonatomic) UIControl *preferenceControl;
 
 @end

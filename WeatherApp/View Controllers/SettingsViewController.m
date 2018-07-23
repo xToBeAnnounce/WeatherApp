@@ -61,7 +61,6 @@ static NSMutableDictionary *sectionsDict;
         // the main run loop.
         [sectionsDict setValue:[self.user getLocationsArray] forKey:@"Locations"];
         dispatch_sync(dispatch_get_main_queue(), ^{
-            NSLog(@"Updated sectionsDict");
             [self.tableView reloadData];
         });
     });
@@ -162,7 +161,7 @@ static NSMutableDictionary *sectionsDict;
     self.tableView.delegate = self;
     [self.tableView registerClass:PreferenceTableViewCell.class forCellReuseIdentifier:@"PreferenceTableViewCell"];
     
-    self.tableView.backgroundColor = [UIColor blueColor];
+    self.tableView.estimatedRowHeight = 44.0;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
     [self.view addSubview:self.tableView];
 }
@@ -295,18 +294,23 @@ static NSMutableDictionary *sectionsDict;
 }
 
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
+    NSArray *items = sectionsDict[sectionsArray[indexPath.section]];
     if (indexPath.section == 0) {
         // preferences cell
         PreferenceTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"PreferenceTableViewCell" forIndexPath:indexPath];
-        cell = [[PreferenceTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"PreferenceTableViewCell"];
-        NSArray *prefs = sectionsDict[sectionsArray[indexPath.section]];
-        cell.preferenceArray = prefs[indexPath.row];
+        if (!cell) {
+            cell = [[PreferenceTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"PreferenceTableViewCell"];
+        }
+        cell.preferenceArray = items[indexPath.row];
         return cell;
     }
     else if (indexPath.section == 1){
-        PreferenceTableViewCell *cell = [[PreferenceTableViewCell alloc] init];
-        NSString *name = [NSString stringWithFormat:@"Location %ld", indexPath.row+1];
-        [cell.textLabel setText:name];
+        UITableViewCell *cell = [[UITableViewCell alloc] init];
+        Location *loc = items[indexPath.row];
+        [cell.textLabel setText:loc.fullPlaceName];
+        cell.textLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        [cell.textLabel.leadingAnchor constraintEqualToAnchor:cell.contentView.leadingAnchor constant:8].active = YES;
+        [cell.textLabel.centerYAnchor constraintEqualToAnchor:cell.contentView.centerYAnchor].active = YES;
         return cell;
     }
     return [[UITableViewCell alloc] init];

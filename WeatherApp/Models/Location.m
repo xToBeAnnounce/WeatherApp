@@ -80,7 +80,7 @@ static int const numHoursInDay = 24;
     newLoc.locationManager.delegate = newLoc;
     newLoc.locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
     newLoc.locationManager.distanceFilter = kCLDistanceFilterNone;
-    
+
     if ([newLoc.locationManager respondsToSelector:@selector(requestWhenInUseAuthorization)]) {
         [newLoc.locationManager requestWhenInUseAuthorization];
     }
