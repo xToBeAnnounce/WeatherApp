@@ -46,7 +46,7 @@ static bool loadData = NO;
     
     //sets table view
     CGFloat yorigin = self.view.frame.origin.y + self.view.frame.size.height/2;
-    CGRect boundsD = CGRectMake(self.view.frame.origin.x, yorigin, self.view.frame.size.width, self.view.frame.size.height/2);
+    CGRect boundsD = CGRectMake(self.view.frame.origin.x, yorigin, self.view.frame.size.width, self.view.frame.size.height/2 - 50);
     self.ourtableView = [[UITableView alloc]initWithFrame:boundsD style:UITableViewStylePlain];
     self.ourtableView.delegate = self;
     self.ourtableView.dataSource = self;

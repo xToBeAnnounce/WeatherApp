@@ -13,18 +13,17 @@
 #import "DailyViewController.h"
 #import "AppDelegate.h"
 #import "SettingsViewController.h"
+#import "PageViewController.h"
 
 @interface LoginViewController ()
 @property (strong,nonatomic) UITextField *usernameField;
 @property (strong,nonatomic) UITextField *passwordField;
+@property UINavigationController *navController;
 @property (strong,nonatomic) UIButton *loginButton;
 @property (strong,nonatomic) UIButton *signupButton;
 @property (strong,nonatomic) UILabel *titleLabel;
 @property (strong, nonatomic) UIBarButtonItem *settingsButton;
-@property UITabBarController *tabBarController;
-@property UIPageViewController *pageController;
-@property WeeklyViewController *weeklyVC;
-@property DailyViewController *dailyVC;
+@property (strong, nonatomic) PageViewController *pageVC;
 
 @end
 
@@ -32,19 +31,19 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self tabBarSetup];
     [self setUI];
-    
-    
-
     self.view.backgroundColor = UIColor.whiteColor;
+    self.settingsButton = [[UIBarButtonItem alloc] initWithTitle:@"Setting" style:UIBarButtonItemStylePlain target:self action:@selector(segueToSettings)];
+    self.navController.navigationBar.topItem.rightBarButtonItem = self.settingsButton;
+    
+    
+    self.pageVC = [[PageViewController alloc]init];
 }
 
 -(void)setUI{
     self.usernameField = [[UITextField alloc] initWithFrame:CGRectMake(35, 258, 305, 45)];
     self.usernameField.placeholder = @"username";
     self.usernameField.borderStyle = UITextBorderStyleRoundedRect;
-    
 
     //setting password textfield
     self.passwordField = [[UITextField alloc] initWithFrame:CGRectMake(35, 325, 305, 45)];
@@ -56,23 +55,17 @@
     [self.loginButton setTitle:@"LogIn" forState:UIControlStateNormal];
     [self.loginButton addTarget:self action:@selector(loginButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     
-
-
     //setting signup button
     self.signupButton = [[UIButton alloc] initWithFrame:CGRectMake(109, 380, 60, 30)];
     [self.signupButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
     [self.signupButton setTitle:@"SignUp" forState:UIControlStateNormal];
     [self.signupButton addTarget:self action:@selector(signupButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     
-
-
     //setting title label
-
     self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(80, 132, 152, 41)];
     self.titleLabel.text = @"WeatherAPP";
     self.titleLabel.font = [UIFont systemFontOfSize:40];
     [self.titleLabel sizeToFit];
-    
     
     [self.view addSubview:self.titleLabel];
     [self.view addSubview:self.usernameField];
@@ -83,17 +76,15 @@
 
 
 -(IBAction)loginButtonTapped:(id)sender{
-    
     NSString *username = self.usernameField.text;
     NSString *password = self.passwordField.text;
-    
     [PFUser logInWithUsernameInBackground:username password:password block:^(PFUser * user, NSError *  error) {
         if (error != nil) {
             NSLog(@"User log in failed: %@", error.localizedDescription);
             [self AlertController:error.localizedDescription];
         } else {
             NSLog(@"User logged in successfully");
-                [self presentViewController:self.navController animated:YES completion:nil];
+                [self presentViewController:self.pageVC.navController animated:YES completion:nil];
         }
     }];
 }
@@ -101,19 +92,16 @@
 
 
 -(IBAction)signupButtonTapped:(id)sender{
-
     User *newUser = User.new;
-    
     newUser.username = self.usernameField.text;
     newUser.password = self.passwordField.text;
-    
     [newUser signUpInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
         if (error != nil) {
             NSLog(@"Error: %@", error.localizedDescription);
             [self AlertController:error.localizedDescription];
         } else {
             NSLog(@"User registered successfully");
-            [self presentViewController:self.navController animated:YES completion:nil];
+            [self presentViewController:self.pageVC.navController animated:YES completion:nil];
         }
     }];
 }
@@ -123,27 +111,10 @@
     NSString *title = @"Error!";
     NSString *message = Message;
     NSString *text = @"OK";
-    
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *button = [UIAlertAction actionWithTitle:text style:UIAlertActionStyleCancel handler:nil];
     [alert addAction:button];
-    
     [self presentViewController:alert animated:YES completion:nil];
-}
-
--(void)tabBarSetup{
-    
-    self.tabBarController = [[UITabBarController alloc] init];
-    self.navController = [[UINavigationController alloc] initWithRootViewController:self.tabBarController];
-    self.weeklyVC = [[WeeklyViewController alloc] init];
-    self.dailyVC = [[DailyViewController alloc] init];
-    NSArray *viewControllers = [NSArray arrayWithObjects:self.dailyVC, self.weeklyVC, nil];
-    self.tabBarController.viewControllers = viewControllers;
-    [[self.tabBarController.tabBar.items objectAtIndex:0] setTitle:@"Daily"];
-    [[self.tabBarController.tabBar.items objectAtIndex:1] setTitle:@"Weekly"];
-    
-    self.settingsButton = [[UIBarButtonItem alloc] initWithTitle:@"Setting" style:UIBarButtonItemStylePlain target:self action:@selector(segueToSettings)];
-    self.navController.navigationBar.topItem.rightBarButtonItem = self.settingsButton;
 }
 
 -(void)segueToSettings{

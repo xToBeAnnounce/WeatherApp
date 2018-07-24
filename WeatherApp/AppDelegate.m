@@ -14,10 +14,10 @@
 #import "SettingsViewController.h"
 #import "LocationPickerViewController.h"
 #import "LoginViewController.h"
+#import "PageViewController.h"
 
 @interface AppDelegate ()
-@property UITabBarController *tabBarController;
-@property UINavigationController *navController;
+@property PageViewController *PageVC;
 @property LoginViewController *LoginVC;
 @end
 
@@ -25,17 +25,21 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-
     self.LoginVC = [[LoginViewController alloc] init];
     self.window.rootViewController = self.LoginVC;
     
-//self.window.rootViewController = LocationPickerViewController.new;
+    //self.window.rootViewController = LocationPickerViewController.new;
     [self parseBackendSetup];
     [self.window makeKeyAndVisible];
     
+    self.PageVC = [[PageViewController alloc]initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:nil];
+    
+    self.PageVC.navController = [[UINavigationController alloc] initWithRootViewController:self.PageVC];
+    
     if (PFUser.currentUser) {
-        self.window.rootViewController = self.LoginVC.navController;
+        self.window.rootViewController = self.PageVC;
     }
     return YES;
 }
