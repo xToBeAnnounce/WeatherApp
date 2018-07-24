@@ -21,8 +21,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.dataSource = self;
-    self.navController = [[UINavigationController alloc]initWithRootViewController:self];
-    self.view.backgroundColor = UIColor.blueColor;
+    self.view.backgroundColor = UIColor.lightGrayColor;
     
     DailyViewController *dailyVC = [[DailyViewController alloc]init];
     WeeklyViewController *weeklyVC = [[WeeklyViewController alloc]init];
@@ -30,7 +29,6 @@
     self.viewControllerArrary = @[dailyVC, weeklyVC];
     [self setViewControllers:@[dailyVC] direction:UIPageViewControllerNavigationDirectionReverse animated:NO completion:nil];
 }
-
 
 - (void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray<UIViewController *> *)previousViewControllers transitionCompleted:(BOOL)completed {
     
