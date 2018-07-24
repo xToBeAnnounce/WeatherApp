@@ -7,14 +7,18 @@
 //
 
 #import "LocationPickerViewController.h"
-#import <CoreLocation/CoreLocation.h>
+#import "LocationDetailsViewController.h"
 #import "Location.h"
 #import "GeoAPIManager.h"
 
-@interface LocationPickerViewController () <CLLocationManagerDelegate>
+@interface LocationPickerViewController () <UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource>
 
 @property (strong, nonatomic) CLLocationManager *locationManager;
 @property (strong, nonatomic) UITextField *searchTextField;
+@property (strong, nonatomic) NSMutableArray *searchLocationArray;
+@property (strong, nonatomic) UISearchBar *searchBar;
+@property (strong, nonatomic) UITableView *tableView;
+@property (strong, nonatomic) UILabel *locationCellLabel;
 
 @end
 
@@ -24,107 +28,40 @@ static BOOL loadingData;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self.view setBackgroundColor:[UIColor greenColor]];
     loadingData = NO;
+    self.searchLocationArray = [[NSMutableArray alloc] init];
     
-    UIButton *getLocationButton = [[UIButton alloc] initWithFrame:CGRectMake(100, 100, 150, 50)];
-    [getLocationButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-    [getLocationButton setTitle:@"GET LOCATION" forState:UIControlStateNormal];
-    [getLocationButton addTarget:self action:@selector(getLocation) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:getLocationButton];
+    self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, self.navigationController.navigationBar.bounds.size.height + 20, self.view.bounds.size.width, 50)];
+    self.searchBar.delegate = self;
+    self.searchBar.showsCancelButton = YES;
+    [self.view addSubview:self.searchBar];
     
-    UIButton *searchButton = [[UIButton alloc] initWithFrame:CGRectMake(100, 175, 150, 50)];
-    [searchButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-    [searchButton setTitle:@"Search!" forState:UIControlStateNormal];
-    [searchButton addTarget:self action:@selector(onTapSearch) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:searchButton];
-    
-    self.searchTextField = [[UITextField alloc] initWithFrame:CGRectMake(100, 300, 250, 40)];
-    self.searchTextField.backgroundColor = [UIColor whiteColor];
-    self.searchTextField.borderStyle = UITextBorderStyleRoundedRect;
-    [self.searchTextField addTarget:self action:@selector(onTapSearch) forControlEvents:UIControlEventEditingChanged];
-    [self.view addSubview:self.searchTextField];
-    
-    self.locationManager = [[CLLocationManager alloc] init];
-    self.locationManager.delegate = self;
-    self.locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
-    self.locationManager.distanceFilter = kCLDistanceFilterNone;
-    
-//    [self.locationManager startMonitoringSignificantLocationChanges];
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, self.navigationController.navigationBar.bounds.size.height + 20 + 50, self.view.bounds.size.width, self.view.bounds.size.height - 70)];
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    [self.view addSubview:self.tableView];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-    if ([self.locationManager respondsToSelector:@selector(requestWhenInUseAuthorization)]) {
-        [self.locationManager requestWhenInUseAuthorization];
-    }
-//    Location *currentLoc = Location.currentLocation;
-//    [currentLoc updatePlaceNameWithBlock:^(NSDictionary *data, NSError *error) {
-//        if (data) {
-//            NSLog(@"%@", currentLoc.placeName);
-//        }
-//        else {
-//            NSLog(@"Error");
-//        }
-//    }];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-
-
--(CLLocationCoordinate2D) getLocation{
-    CLLocation *location = [self.locationManager location];
-    CLLocationCoordinate2D coordinate = [location coordinate];
-    NSLog(@"Here's the coordinate: %f %f", coordinate.longitude, coordinate.latitude);
-//    [Location saveLocationWithLongitude:coordinate.longitude lattitude:coordinate.latitude attributes:@{@"customName":@"Building 29"} withBlock:^(Location *loc, NSError *error) {
-//        if (loc) NSLog(@"You're in %@", loc.placeName);
-//        else NSLog(@"Error: %@", error.localizedDescription);
-//    }];
-    return coordinate;
-}
-
-- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations {
-    NSLog(@"Updated lol");
-}
-
-- (void)locationManager:(CLLocationManager *)manager didFailWithError: (NSError *)error {
-    NSLog(@"didFailWithError: %@", error);
-    UIAlertController *errorAlert = [UIAlertController alertControllerWithTitle:@"Error" message:@"Failed to get location" preferredStyle:UIAlertControllerStyleAlert];
-    
-    UIAlertAction *retryAction = [UIAlertAction actionWithTitle:@"Retry" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [self getLocation];
-    }];
-    [errorAlert addAction:retryAction];
-    [self presentViewController:errorAlert animated:YES completion:nil];
-}
-
-- (void) onTapSearch {
-    if (!loadingData) {
+- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar{
+    if([self.searchBar.text isEqual: @""]) [self.searchLocationArray removeAllObjects];
+    else if(!loadingData){
         loadingData = YES;
-        [[GeoAPIManager shared] searchForLocationByName:self.searchTextField.text withOffset:0 withCompletion:^(NSDictionary *data, NSError *error) {
+        [[GeoAPIManager shared] searchForLocationByName:self.searchBar.text withOffset:0 withCompletion:^(NSDictionary *data, NSError *error) {
             if (data) {
-                NSString *results = @"";
                 NSArray *geonamesArray = data[@"geonames"];
                 for (NSDictionary *geoname in geonamesArray) {
                     Location *loc = [Location initWithSearchDictionary:geoname];
-                    results = [results stringByAppendingString:[NSString stringWithFormat:@"%@ with lat: %f lng: %f\n", loc.fullPlaceName, loc.lattitude, loc.longitude]];
+                    [self.searchLocationArray addObject:loc];
                 }
-                NSLog(@"%@", data[@"totalResultsCount"]);
-                NSLog(@"%@", results);
-
                 loadingData = NO;
+                [self.tableView reloadData];
             }
             else {
                 NSLog(@"%@", error.localizedDescription);
@@ -132,5 +69,52 @@ static BOOL loadingData;
         }];
     }
 }
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar{
+    [self.searchLocationArray removeAllObjects];
+    [self.searchBar resignFirstResponder];
+    [self.tableView reloadData];
+}
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
+    [self.searchLocationArray removeAllObjects];
+    [self.searchBar resignFirstResponder];
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"SearchResultCell"];
+    if(cell == nil) cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"SearchResultCell"];
+    Location *location = self.searchLocationArray[indexPath.row];
+    [self setSearchCell:cell withLocation:location];
+    return cell;
+}
+
+-(void)setSearchCell:(UITableViewCell*)cell withLocation:(Location*)location{
+    [cell.textLabel setFrame:CGRectMake(50, 0, cell.frame.size.width, cell.frame.size.height)];
+    cell.textLabel.text = location.fullPlaceName;
+    [cell.textLabel sizeToFit];
+    //[cell.contentView addSubview:self.locationCellLabel];
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return self.searchLocationArray.count;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    LocationDetailsViewController *locDetailVC = [[LocationDetailsViewController alloc] init];
+    locDetailVC.location = self.searchLocationArray[indexPath.row];
+    UINavigationController *locationDetailNVC = [[UINavigationController alloc] initWithRootViewController:locDetailVC];
+    [self.navigationController presentViewController:locationDetailNVC animated:YES completion:nil];
+}
+
+/*
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

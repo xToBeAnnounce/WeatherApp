@@ -29,6 +29,7 @@
 // Location methods
 - (void) addLocationWithLongitude:(double)longitude lattitude:(double)lattitude attributes:(NSDictionary *)attributes completion:(PFBooleanResultBlock)completion;
 - (void) deleteLocationWithID:(NSString *)locID withCompletion:(PFBooleanResultBlock)completion;
+- (void) addLocation:(Location *)location completion:(PFBooleanResultBlock)completion;
 - (NSMutableArray *) getLocationsArray;
 - (void) getLocationsArrayInBackgroundWithBlock:(void(^)(NSMutableArray *locations, NSError *error))completion;
 @end

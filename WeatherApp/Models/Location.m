@@ -97,7 +97,7 @@ static int const numHoursInDay = 24;
 
 
 /*-----------------METHODS TO UPDATE PROPERTIES OF A LOCATION-----------------*/
-// Update/Set placeName and fullPlaceName (doesn't save)
+// Update/Set placeName and fullPlaceName (doesn't save), mainly for current location
 - (void) updatePlaceNameWithBlock:(void(^)(NSDictionary *data, NSError *error))block{
     GeoAPIManager *geoAPIManager = [GeoAPIManager shared];
     [geoAPIManager getNearestAddressOfLattitude:self.lattitude longitude:self.longitude completion:^(NSDictionary *data, NSError *error) {
