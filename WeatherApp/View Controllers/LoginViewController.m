@@ -100,7 +100,7 @@
             [self AlertController:error.localizedDescription];
         } else {
             NSLog(@"User logged in successfully");
-                [self presentViewController:self.pageVC animated:YES completion:nil];
+                [self.mainNavController presentViewController:self.pageVC.navController animated:YES completion:nil];
         }
     }];
 }
@@ -117,7 +117,7 @@
             [self AlertController:error.localizedDescription];
         } else {
             NSLog(@"User registered successfully");
-            [self presentViewController:self.pageVC animated:YES completion:nil];
+            [self.mainNavController presentViewController:self.pageVC.navController animated:YES completion:nil];
         }
     }];
 }
@@ -135,12 +135,12 @@
 
 
 -(void)segueToAddLocation{
-    [self.navController pushViewController:LocationPickerViewController.new animated:YES];
+    [self.pageVC.navController pushViewController:LocationPickerViewController.new animated:YES];
 }
 
 -(void)segueToSettings{
     UINavigationController *settingsNavigationController = [[UINavigationController alloc] initWithRootViewController:SettingsViewController.new];
-    [self.navController presentViewController:settingsNavigationController animated:YES completion:nil];
+    [self.pageVC.navController presentViewController:settingsNavigationController animated:YES completion:nil];
 }
 
 /*
