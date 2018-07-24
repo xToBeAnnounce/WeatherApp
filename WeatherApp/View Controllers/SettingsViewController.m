@@ -287,6 +287,8 @@ static NSMutableDictionary *sectionsDict;
     return [[UITableViewCell alloc] init];
 }
 
+/*-----------------C TO F AND VICE VERSA-----------------*/
+// update number displayed in text fields
 - (void) updateFieldsToTempType:(NSString *)type{
     if ([self.tooHotTextField.text isEqualToString:@""]) {
         int hotValue = [self.tooHotTextField.placeholder intValue];
@@ -307,6 +309,7 @@ static NSMutableDictionary *sectionsDict;
     }
 }
 
+// convert temp to given temperature type (if not given C or F returns infinity)
 - (double) convertTemp:(int)temp toType:(NSString *)type {
     if ([type isEqualToString:@"C"]) {
         return ((temp-32)*5.0/9.0);

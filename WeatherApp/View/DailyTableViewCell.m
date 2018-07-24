@@ -27,7 +27,7 @@
 
     // initalizing icon view
     self.iconImageView = [[UIImageView alloc]init];
-    self.iconImageView.contentMode = UIViewContentModeScaleAspectFill;
+    self.iconImageView.contentMode = UIViewContentModeScaleAspectFit;
     self.iconImageView.clipsToBounds = YES;
     self.iconImageView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.contentView addSubview:self.iconImageView];

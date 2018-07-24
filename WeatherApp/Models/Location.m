@@ -92,6 +92,7 @@ static int const numHoursInDay = 24;
     
     newLoc.lattitude = coordinate.latitude;
     newLoc.longitude = coordinate.longitude;
+    newLoc.customName = @"Current Location";
     return newLoc;
 }
 
@@ -106,7 +107,7 @@ static int const numHoursInDay = 24;
             self.placeName = address[@"placename"];
             self.fullPlaceName = [self.placeName stringByAppendingString:[NSString stringWithFormat:@", %@, United States", address[@"adminCode1"]]];
             if (!self.placeName) {
-                self.placeName = @"Unknown Location";
+                self.placeName = @"Unknown";
                 self.fullPlaceName = self.placeName;
             }
             block (data, nil);
