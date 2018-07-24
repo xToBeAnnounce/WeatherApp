@@ -66,7 +66,7 @@ static bool loadData = NO;
     
     //sets table view
     CGFloat yorigin = self.view.frame.origin.y + self.view.frame.size.height/2;
-    CGRect boundsD = CGRectMake(self.view.frame.origin.x, yorigin, self.view.frame.size.width, self.view.frame.size.height/2);
+    CGRect boundsD = CGRectMake(self.view.frame.origin.x, yorigin, self.view.frame.size.width, self.view.frame.size.height/2 - 50);
     self.ourtableView = [[UITableView alloc]initWithFrame:boundsD style:UITableViewStylePlain];
     self.ourtableView.delegate = self;
     self.ourtableView.dataSource = self;
@@ -79,10 +79,12 @@ static bool loadData = NO;
     self.currentWeatherView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height/2)];
     [self.view addSubview:self.currentWeatherView];
     
-    //setting up background images
+
+
     self.backgroundImageView = [[UIImageView alloc]initWithFrame:self.currentWeatherView.frame];
     self.backgroundImageView.contentMode = UIViewContentModeScaleAspectFill;
     self.backgroundImageView.clipsToBounds = YES;
+
     self.backgroundImageView.image = [UIImage imageNamed:@"sunnybackground"];
     self.backgroundImageView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.currentWeatherView addSubview:self.backgroundImageView];

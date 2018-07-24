@@ -29,6 +29,8 @@ xcuserdata/
 *.dSYM.zip
 *.dSYM
 .DS_Store
+WeatherApp.xcodeproj/xcuserdata/trust4eva.xcuserdatad/xcschemes/xcschememanagement.plist
+
 
 ## Playgrounds
 timeline.xctimeline
@@ -54,8 +56,6 @@ playground.xcworkspace
 # *.xcworkspace
 
 WeatherApp.xcworkspace/xcuserdata/jamietan.xcuserdatad/UserInterfaceState.xcuserstate
-WeatherApp.xcodeproj/xcuserdata/trust4eva.xcuserdatad/xcschemes/xcschememanagement.plist
-
 # Carthage
 #
 # Add this line if you want to avoid checking in source code from Carthage dependencies.
