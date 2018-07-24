@@ -19,6 +19,7 @@
 @property (strong,nonatomic) UIImageView *iconImageView;
 @property (strong,nonatomic) UILabel *temperatureLabel;
 @property (strong,nonatomic) UILabel *locationLabel;
+@property (strong,nonatomic) UILabel *customNameLabel;
 @property (strong,nonatomic) UIImageView *backgroundImageView;
 
 @property (strong, nonatomic) NSString *tempType;
@@ -31,9 +32,9 @@ static bool loadData = NO;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.location = [Location currentLocation];
     [self setUI];
     
-    self.location = [Location currentLocation];
     [self.location fetchDataType:@"daily" WithCompletion:^(NSDictionary * data, NSError * error) {
         if(error == nil){
             loadData = YES;
@@ -89,14 +90,25 @@ static bool loadData = NO;
     self.backgroundImageView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.currentWeatherView addSubview:self.backgroundImageView];
     
+    //setting up customNameLabel
+    self.customNameLabel = [[UILabel alloc]init];
+    self.customNameLabel.font = [UIFont systemFontOfSize:35];
+    self.customNameLabel.text = self.location.customName;
+    
     //setting up locationLabel
     self.locationLabel = [[UILabel alloc]init];
-    self.locationLabel.font = [UIFont systemFontOfSize:35];
-    self.locationLabel.text = @"--";
+    self.locationLabel.font = [UIFont systemFontOfSize:17];
+//    self.locationLabel.textColor = [UIColor whiteColor];
+//    self.locationLabel.layer.shadowColor = [UIColor blackColor].CGColor;
+//    self.locationLabel.layer.shadowOffset = CGSizeMake(0.0, 0.0);
+//    self.locationLabel.layer.shadowOpacity = 0.6;
+//    self.locationLabel.layer.shadowRadius = 2.0;
+//    self.locationLabel.layer.masksToBounds = NO;
+    self.locationLabel.text = @"---";
     
     //setting up icon image view
     self.iconImageView = [[UIImageView alloc]init];
-    self.iconImageView.contentMode = UIViewContentModeScaleAspectFill;
+    self.iconImageView.contentMode = UIViewContentModeScaleAspectFit;
     self.iconImageView.clipsToBounds = YES;
     self.iconImageView.translatesAutoresizingMaskIntoConstraints = NO;
     
@@ -105,7 +117,7 @@ static bool loadData = NO;
     self.temperatureLabel.font = [UIFont systemFontOfSize:60 weight:UIFontWeightThin];
     self.temperatureLabel.text = @"--°";
     
-    NSArray *weatherDisplayArray = @[self.locationLabel, self.iconImageView, self.temperatureLabel];
+    NSArray *weatherDisplayArray = @[self.customNameLabel,self.locationLabel, self.iconImageView, self.temperatureLabel];
     self.weatherDisplayStackView = [[UIStackView alloc] initWithArrangedSubviews:weatherDisplayArray];
     self.weatherDisplayStackView.axis = UILayoutConstraintAxisVertical;
     self.weatherDisplayStackView.distribution = UIStackViewDistributionEqualSpacing;
@@ -125,12 +137,22 @@ static bool loadData = NO;
     self.temperatureLabel.text = [currentWeather getTempInString:currentWeather.temperature withType:self.tempType];
     [self.temperatureLabel sizeToFit];
     
-    [self.location updatePlaceNameWithBlock:^(NSDictionary *data, NSError *error) {
-        if (data) {
-            self.locationLabel.text = self.location.placeName;
-            [self.locationLabel sizeToFit];
-        }
-    }];
+    if ([self.location.customName isEqualToString:@"Current Location"]) {
+        [self.location updatePlaceNameWithBlock:^(NSDictionary *data, NSError *error) {
+            if (data) {
+                self.locationLabel.text = self.location.placeName;
+                [self.locationLabel sizeToFit];
+            }
+        }];
+    }
+    else if ([self.location.placeName isEqualToString:self.location.customName]) {
+        self.customNameLabel.font = [UIFont systemFontOfSize:45];
+        [self.locationLabel removeFromSuperview];
+    }
+    else {
+        self.locationLabel.text = self.location.placeName;
+        [self.locationLabel sizeToFit];
+    }
 }
 
 - (void) setConstraints {
@@ -144,9 +166,9 @@ static bool loadData = NO;
     [self.weatherDisplayStackView.centerXAnchor constraintEqualToAnchor:self.currentWeatherView.centerXAnchor].active = YES;
     [self.weatherDisplayStackView.topAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.topAnchor].active = YES;
     [self.weatherDisplayStackView.bottomAnchor constraintEqualToAnchor:self.currentWeatherView.bottomAnchor constant:-8].active = YES;
-//
-//    // icon contstraints
-    [self.iconImageView.heightAnchor constraintEqualToConstant:self.currentWeatherView.frame.size.height/2].active = YES;
+
+    // icon contstraints
+    [self.iconImageView.heightAnchor constraintEqualToAnchor:self.currentWeatherView.heightAnchor multiplier:3.0/7.0].active = YES;
     [self.iconImageView.widthAnchor constraintEqualToAnchor:self.iconImageView.heightAnchor multiplier:1.0/1.0].active = YES;
 }
 
@@ -168,17 +190,5 @@ static bool loadData = NO;
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.location.dailyData.count;
 }
-
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
-
-
 
 @end
