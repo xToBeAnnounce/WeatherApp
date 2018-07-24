@@ -25,26 +25,37 @@
 @property (strong, nonatomic) UIBarButtonItem *settingsButton;
 @property (strong, nonatomic) PageViewController *pageVC;
 @property (strong, nonatomic) UIBarButtonItem *addLocationButton;
-
-
 @end
 
 @implementation LoginViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self setUI];
+    [self initViewController];
+    [self setPageNavigation];
     self.view.backgroundColor = UIColor.whiteColor;
-    self.settingsButton = [[UIBarButtonItem alloc] initWithTitle:@"Setting" style:UIBarButtonItemStylePlain target:self action:@selector(segueToSettings)];
-    self.navController.navigationBar.topItem.rightBarButtonItem = self.settingsButton;
-     self.addLocationButton = [[UIBarButtonItem alloc] initWithTitle:@"Add" style:UIBarButtonItemStylePlain target:self action:@selector(segueToAddLocation)];
-    self.navController.navigationBar.topItem.rightBarButtonItem = self.addLocationButton;
-    
-    
-    self.pageVC = [[PageViewController alloc]initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:nil];
 }
 
--(void)setUI{
+-(void)initViewController{
+    self.pageVC = [[PageViewController alloc]initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:nil];
+    self.pageVC.navController = [[UINavigationController alloc] initWithRootViewController:self.pageVC];
+    
+    self.settingsButton = [[UIBarButtonItem alloc] initWithTitle:@"Setting" style:UIBarButtonItemStylePlain target:self action:@selector(segueToSettings)];
+    self.pageVC.navController.navigationBar.topItem.leftBarButtonItem = self.settingsButton;
+    self.addLocationButton = [[UIBarButtonItem alloc] initWithTitle:@"Add" style:UIBarButtonItemStylePlain target:self action:@selector(segueToAddLocation)];
+    self.pageVC.navController.navigationBar.topItem.rightBarButtonItem = self.addLocationButton;
+}
+
+-(void)setPageNavigation{
+    if(PFUser.currentUser){
+        [self.mainNavController presentViewController:self.pageVC.navController animated:YES completion:nil];
+    }
+    else{
+        [self setLoginUI];
+    }
+}
+
+-(void)setLoginUI{
     self.usernameField = [[UITextField alloc] initWithFrame:CGRectMake(35, 258, 305, 45)];
     self.usernameField.placeholder = @"username";
     self.usernameField.borderStyle = UITextBorderStyleRoundedRect;
@@ -110,7 +121,6 @@
         }
     }];
 }
-
 
 -(void)AlertController:(NSString *)Message{
     NSString *title = @"Error!";

@@ -17,30 +17,23 @@
 #import "PageViewController.h"
 
 @interface AppDelegate ()
-@property PageViewController *PageVC;
-@property LoginViewController *LoginVC;
+@property PageViewController *pageVC;
+@property LoginViewController *loginVC;
+@property UINavigationController *mainNavController;
 @end
 
 @implementation AppDelegate
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    self.LoginVC = [[LoginViewController alloc] init];
-    self.window.rootViewController = self.LoginVC;
+    self.loginVC = [[LoginViewController alloc] init];
+    self.mainNavController = [[UINavigationController alloc] initWithRootViewController:self.loginVC];
+    self.loginVC.mainNavController = self.mainNavController;
+    self.window.rootViewController = self.mainNavController;
     
-
     [self parseBackendSetup];
     [self.window makeKeyAndVisible];
-    
-    self.PageVC = [[PageViewController alloc]initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:nil];
-    
-    self.PageVC.navController = [[UINavigationController alloc] initWithRootViewController:self.PageVC];
-    
-    if (PFUser.currentUser) {
-        self.window.rootViewController = self.PageVC;
-    }
     return YES;
 }
 

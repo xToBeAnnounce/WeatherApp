@@ -21,8 +21,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.dataSource = self;
-    self.navController = [[UINavigationController alloc]initWithRootViewController:self];
-    self.view.backgroundColor = UIColor.blueColor;
+    self.view.backgroundColor = UIColor.lightGrayColor;
     
     DailyViewController *dailyVC = [[DailyViewController alloc]init];
     WeeklyViewController *weeklyVC = [[WeeklyViewController alloc]init];

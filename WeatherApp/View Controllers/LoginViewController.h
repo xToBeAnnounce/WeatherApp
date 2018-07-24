@@ -9,6 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface LoginViewController : UIViewController
-
-
+@property (strong, nonatomic) UINavigationController *mainNavController;
 @end
