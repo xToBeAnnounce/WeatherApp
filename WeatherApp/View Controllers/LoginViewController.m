@@ -13,6 +13,7 @@
 #import "DailyViewController.h"
 #import "AppDelegate.h"
 #import "SettingsViewController.h"
+#import "LocationPickerViewController.h"
 
 @interface LoginViewController ()
 @property (strong,nonatomic) UITextField *usernameField;
@@ -21,6 +22,7 @@
 @property (strong,nonatomic) UIButton *signupButton;
 @property (strong,nonatomic) UILabel *titleLabel;
 @property (strong, nonatomic) UIBarButtonItem *settingsButton;
+@property (strong, nonatomic) UIBarButtonItem *addLocationButton;
 @property UITabBarController *tabBarController;
 @property WeeklyViewController *weeklyVC;
 @property DailyViewController *dailyVC;
@@ -133,6 +135,9 @@
 -(void)tabBarSetup{
     self.tabBarController = [[UITabBarController alloc] init];
     self.navController = [[UINavigationController alloc] initWithRootViewController:_tabBarController];
+    self.navController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+    self.navController.modalPresentationStyle = UIModalPresentationFullScreen;
+
     self.weeklyVC = [[WeeklyViewController alloc] init];
     self.dailyVC = [[DailyViewController alloc] init];
     NSArray *viewControllers = [NSArray arrayWithObjects:self.dailyVC, self.weeklyVC, nil];
@@ -141,12 +146,16 @@
     [[self.tabBarController.tabBar.items objectAtIndex:1] setTitle:@"Weekly"];
     
     self.settingsButton = [[UIBarButtonItem alloc] initWithTitle:@"Setting" style:UIBarButtonItemStylePlain target:self action:@selector(segueToSettings)];
-    self.navController.navigationBar.topItem.rightBarButtonItem = self.settingsButton;
+    self.addLocationButton = [[UIBarButtonItem alloc] initWithTitle:@"Add" style:UIBarButtonItemStylePlain target:self action:@selector(segueToAddLocation)];
+    self.navController.navigationBar.topItem.leftBarButtonItem = self.settingsButton;
+    self.navController.navigationBar.topItem.rightBarButtonItem = self.addLocationButton;
+}
+
+-(void)segueToAddLocation{
+    [self.navController pushViewController:LocationPickerViewController.new animated:YES];
 }
 
 -(void)segueToSettings{
-    self.navController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-    self.navController.modalPresentationStyle = UIModalPresentationFullScreen;
     UINavigationController *settingsNavigationController = [[UINavigationController alloc] initWithRootViewController:SettingsViewController.new];
     [self.navController presentViewController:settingsNavigationController animated:YES completion:nil];
 }

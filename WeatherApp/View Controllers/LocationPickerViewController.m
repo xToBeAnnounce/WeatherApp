@@ -18,7 +18,6 @@
 @property (strong, nonatomic) NSMutableArray *searchLocationArray;
 @property (strong, nonatomic) UISearchBar *searchBar;
 @property (strong, nonatomic) UITableView *tableView;
-
 @property (strong, nonatomic) UILabel *locationCellLabel;
 
 @end
@@ -29,16 +28,15 @@ static BOOL loadingData;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self.view setBackgroundColor:[UIColor greenColor]];
     loadingData = NO;
     self.searchLocationArray = [[NSMutableArray alloc] init];
     
-    self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 70, self.view.bounds.size.width, 50)];
+    self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, self.navigationController.navigationBar.bounds.size.height + 20, self.view.bounds.size.width, 50)];
     self.searchBar.delegate = self;
     self.searchBar.showsCancelButton = YES;
     [self.view addSubview:self.searchBar];
     
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 120, self.view.bounds.size.width, self.view.bounds.size.height - 70)];
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, self.navigationController.navigationBar.bounds.size.height + 20 + 50, self.view.bounds.size.width, self.view.bounds.size.height - 70)];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     [self.view addSubview:self.tableView];
@@ -105,7 +103,8 @@ static BOOL loadingData;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     LocationDetailsViewController *locDetailVC = [[LocationDetailsViewController alloc] init];
     locDetailVC.location = self.searchLocationArray[indexPath.row];
-    [self.navigationController pushViewController:locDetailVC animated:YES];
+    UINavigationController *locationDetailNVC = [[UINavigationController alloc] initWithRootViewController:locDetailVC];
+    [self.navigationController presentViewController:locationDetailNVC animated:YES completion:nil];
 }
 
 /*

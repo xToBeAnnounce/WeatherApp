@@ -26,17 +26,16 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    self.navController = [[UINavigationController alloc] initWithRootViewController:LocationPickerViewController.new];
-    //self.LoginVC = [[LoginViewController alloc] init];
-    //self.window.rootViewController = self.LoginVC;
+//    self.navController = [[UINavigationController alloc] initWithRootViewController:LocationPickerViewController.new];
+    self.LoginVC = [[LoginViewController alloc] init];
+    self.window.rootViewController = self.LoginVC;
     
-    self.window.rootViewController = self.navController;
     [self parseBackendSetup];
     [self.window makeKeyAndVisible];
     
-//    if (PFUser.currentUser) {
-//        self.window.rootViewController = self.LoginVC.navController;
-//    }
+    if (PFUser.currentUser) {
+        self.window.rootViewController = self.LoginVC.navController;
+    }
     return YES;
 }
 
