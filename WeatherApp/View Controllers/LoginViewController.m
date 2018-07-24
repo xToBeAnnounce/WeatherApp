@@ -37,11 +37,11 @@
     self.view.backgroundColor = UIColor.whiteColor;
     self.settingsButton = [[UIBarButtonItem alloc] initWithTitle:@"Setting" style:UIBarButtonItemStylePlain target:self action:@selector(segueToSettings)];
     self.navController.navigationBar.topItem.rightBarButtonItem = self.settingsButton;
-     elf.addLocationButton = [[UIBarButtonItem alloc] initWithTitle:@"Add" style:UIBarButtonItemStylePlain target:self action:@selector(segueToAddLocation)];
+     self.addLocationButton = [[UIBarButtonItem alloc] initWithTitle:@"Add" style:UIBarButtonItemStylePlain target:self action:@selector(segueToAddLocation)];
     self.navController.navigationBar.topItem.rightBarButtonItem = self.addLocationButton;
     
     
-    self.pageVC = [[PageViewController alloc]init];
+    self.pageVC = [[PageViewController alloc]initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:nil];
 }
 
 -(void)setUI{
@@ -53,6 +53,7 @@
     self.passwordField = [[UITextField alloc] initWithFrame:CGRectMake(35, 325, 305, 45)];
     self.passwordField.placeholder = @"password";
     self.passwordField.borderStyle = UITextBorderStyleRoundedRect;
+    self.passwordField.secureTextEntry = YES;
     
     self.loginButton = [[UIButton alloc] initWithFrame:CGRectMake(221, 380, 55, 30)];
     [self.loginButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
@@ -88,7 +89,7 @@
             [self AlertController:error.localizedDescription];
         } else {
             NSLog(@"User logged in successfully");
-                [self presentViewController:self.pageVC.navController animated:YES completion:nil];
+                [self presentViewController:self.pageVC animated:YES completion:nil];
         }
     }];
 }
@@ -105,7 +106,7 @@
             [self AlertController:error.localizedDescription];
         } else {
             NSLog(@"User registered successfully");
-            [self presentViewController:self.pageVC.navController animated:YES completion:nil];
+            [self presentViewController:self.pageVC animated:YES completion:nil];
         }
     }];
 }

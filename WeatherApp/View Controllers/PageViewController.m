@@ -22,29 +22,20 @@
     [super viewDidLoad];
     self.dataSource = self;
     self.navController = [[UINavigationController alloc]initWithRootViewController:self];
+    self.view.backgroundColor = UIColor.blueColor;
     
     DailyViewController *dailyVC = [[DailyViewController alloc]init];
     WeeklyViewController *weeklyVC = [[WeeklyViewController alloc]init];
     
     self.viewControllerArrary = @[dailyVC, weeklyVC];
     [self setViewControllers:@[dailyVC] direction:UIPageViewControllerNavigationDirectionReverse animated:NO completion:nil];
-    [self configurePageControl];
 }
 
--(void)configurePageControl{
-    self.pageControl = [[UIPageControl alloc]initWithFrame:CGRectMake(0, 630 , UIScreen.mainScreen.bounds.size.width, 50)];
-    self.pageControl.numberOfPages = self.viewControllerArrary.count;
-    self.pageControl.currentPage = 0;
-    self.pageControl.tintColor = UIColor.blackColor;
-    self.pageControl.backgroundColor = UIColor.blueColor;
-    self.pageControl.pageIndicatorTintColor = UIColor.blackColor;
-    self.pageControl.currentPageIndicatorTintColor = UIColor.whiteColor;
-    [self.view addSubview:self.pageControl];
-}
 
 - (void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray<UIViewController *> *)previousViewControllers transitionCompleted:(BOOL)completed {
     
     UIPageViewController *pagecontentVC = pageViewController.viewControllers[0];
+    
     self.pageControl.currentPage = [self.viewControllerArrary indexOfObject:pagecontentVC];
 }
 
@@ -70,5 +61,15 @@
     }
     return nil;
 }
+
+- (NSInteger)presentationCountForPageViewController:(UIPageViewController *)pageViewController{
+    return self.viewControllerArrary.count;
+}
+
+- (NSInteger)presentationIndexForPageViewController:(UIPageViewController *)pageViewController {
+    return 0;
+}
+
+
 
 @end
