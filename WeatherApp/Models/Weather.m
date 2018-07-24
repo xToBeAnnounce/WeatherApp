@@ -20,7 +20,7 @@
     NSDate *time = [NSDate dateWithTimeIntervalSince1970:timeInSeconds];
     self.time = [calendar dateByAddingComponents:components toDate:time options:0];
     
-    if(data[@"temperatureHigh"] != nil){
+    if(data[@"temperatureHigh"]){
         self.temperatureHigh = (int)[data[@"temperatureHigh"] doubleValue];
         self.temperatureLow = (int)[data[@"temperatureLow"] doubleValue];
         self.temperature = -1;
@@ -66,7 +66,13 @@
 }
 
 - (NSString*)getTempInString:(int)temp{
-    return [NSString stringWithFormat:@"%d", temp];
+    return [NSString stringWithFormat:@"%d°", temp];
+}
+- (NSString*)getTempInString:(int)temp withType:(NSString *)type{
+    if ([type isEqualToString:@"C"]) {
+        temp = (int)((temp-32) *5.0/9.0);
+    }
+    return [NSString stringWithFormat:@"%d°", temp];
 }
 
 @end

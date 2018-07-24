@@ -7,8 +7,8 @@
 //
 
 #import "SettingsViewController.h"
-#import "User.h"
 #import "PreferenceTableViewCell.h"
+#import "User.h"
 
 // TODO: Put HUD on the screen while preferences are loading
 
@@ -37,7 +37,7 @@ static NSMutableDictionary *sectionsDict;
     [super viewDidLoad];
     // Intialize properties
     self.user = User.currentUser;
-    [self initalizeInteractiveProperties];
+    [self initalizePreferenceControls];
     [self loadPreferences];
     [self setUI];
     
@@ -55,34 +55,10 @@ static NSMutableDictionary *sectionsDict;
         @"Locations":@[]
     }];
     
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        // No explicit autorelease pool needed here.
-        // The code runs in background, not strangling
-        // the main run loop.
-        [sectionsDict setValue:[self.user getLocationsArray] forKey:@"Locations"];
-        dispatch_sync(dispatch_get_main_queue(), ^{
-            NSLog(@"Updated sectionsDict");
+    [self.user getLocationsArrayInBackgroundWithBlock:^(NSMutableArray *locations, NSError *error) {
+        if (locations) {
+            [sectionsDict setValue:locations forKey:@"Locations"];
             [self.tableView reloadData];
-        });
-    });
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-- (void) loadPreferences{
-    self.updatePrefDict = [[NSMutableDictionary alloc] init];
-    self.tooHotTextField.text = @"";
-    self.tooColdTextField.text = @"";
-    [self.user getUserPreferencesWithBlock:^(Preferences *pref, NSError *error) {
-        if (pref) {
-            self.tooHotTextField.placeholder = [NSString stringWithFormat:@"%@", pref.tooHotTemp];
-            self.tooColdTextField.placeholder = [NSString stringWithFormat:@"%@", pref.tooColdTemp];
-            self.tempTypeSegementedControl.selectedSegmentIndex = [pref.tempTypeString isEqualToString:@"F"];
-            self.locationOnSwitch.on = pref.locationOn;
-            self.notificationsOnSwitch.on = pref.notificationsOn;
         }
         else {
             NSLog(@"Error: %@", error.localizedDescription);
@@ -90,7 +66,14 @@ static NSMutableDictionary *sectionsDict;
     }];
 }
 
-- (void) initalizeInteractiveProperties {
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+/*--------------------CONFIGURING UI METHODS--------------------*/
+
+- (void) initalizePreferenceControls {
     // Too Hot Temperature Text Field
     self.tooHotTextField = [[UITextField alloc] init];
     self.tooHotTextField.keyboardType = UIKeyboardTypeNumberPad;
@@ -128,20 +111,28 @@ static NSMutableDictionary *sectionsDict;
     [self.resetButton addTarget:self action:@selector(onTapReset:) forControlEvents:UIControlEventTouchUpInside];
 }
 
-- (UIStackView *) makeHStackViewLabeled:(NSString *)text withSwitch:(UISwitch *)labeledSwitch {
-    UIStackView *stackView = [[UIStackView alloc] init];
-    stackView.axis = UILayoutConstraintAxisHorizontal;
-    stackView.distribution = UIStackViewDistributionFill;
-    stackView.alignment = UIStackViewAlignmentCenter;
-    stackView.spacing = 8;
-    
-    
-    UILabel *label = [[UILabel alloc] init];
-    label.text = text;
-    [stackView addArrangedSubview:label];
-    [stackView addArrangedSubview:labeledSwitch];
-    
-    return stackView;
+- (void) loadPreferences{
+    self.updatePrefDict = [[NSMutableDictionary alloc] init];
+    self.tooHotTextField.text = @"";
+    self.tooColdTextField.text = @"";
+    [self.user getUserPreferencesWithBlock:^(Preferences *pref, NSError *error) {
+        if (pref) {
+            double tooHotTemp = [pref.tooHotTemp doubleValue];
+            double tooColdTemp = [pref.tooColdTemp doubleValue];
+            if ([pref.tempTypeString isEqualToString:@"C"]) {
+                tooHotTemp = [self convertTemp:tooHotTemp toType:@"C"];
+                tooColdTemp = [self convertTemp:tooColdTemp toType:@"C"];
+            }
+            self.tooHotTextField.placeholder = [NSString stringWithFormat:@"%0.f", tooHotTemp];
+            self.tooColdTextField.placeholder = [NSString stringWithFormat:@"%0.f", tooColdTemp];
+            self.tempTypeSegementedControl.selectedSegmentIndex = [pref.tempTypeString isEqualToString:@"F"];
+            self.locationOnSwitch.on = pref.locationOn;
+            self.notificationsOnSwitch.on = pref.notificationsOn;
+        }
+        else {
+            NSLog(@"Error: %@", error.localizedDescription);
+        }
+    }];
 }
 
 - (void) setUI {
@@ -152,9 +143,9 @@ static NSMutableDictionary *sectionsDict;
     // Sets navigation bar titlte and buttons
     self.navigationController.navigationBar.topItem.title = @"Settings";
     UIBarButtonItem* cancelBtn = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(onTapCancel:)];
-    UIBarButtonItem* doneBtn = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(onTapDone:)];
+    UIBarButtonItem* saveBtn = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(onTapSave:)];
     self.navigationController.navigationBar.topItem.leftBarButtonItem = cancelBtn;
-    self.navigationController.navigationBar.topItem.rightBarButtonItem = doneBtn;
+    self.navigationController.navigationBar.topItem.rightBarButtonItem = saveBtn;
     
     // Sets up table view
     self.tableView = [[UITableView alloc] initWithFrame: CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
@@ -162,59 +153,17 @@ static NSMutableDictionary *sectionsDict;
     self.tableView.delegate = self;
     [self.tableView registerClass:PreferenceTableViewCell.class forCellReuseIdentifier:@"PreferenceTableViewCell"];
     
-    self.tableView.backgroundColor = [UIColor blueColor];
+    self.tableView.estimatedRowHeight = 44.0;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
     [self.view addSubview:self.tableView];
 }
 
-// Creating and Filling main stack view
-- (void) buildSettingsStackView {
-    UIStackView *settingsStackView = [[UIStackView alloc] init];
-    
-    settingsStackView.axis = UILayoutConstraintAxisVertical;
-    settingsStackView.distribution = UIStackViewDistributionFill;
-    settingsStackView.alignment = UIStackViewAlignmentCenter;
-    settingsStackView.spacing = 8;
-    
-    
-    [settingsStackView addArrangedSubview:[self makeHStackViewFor:self.tooHotTextField withLabel:@"Hot Temperature"]];
-    [settingsStackView addArrangedSubview:[self makeHStackViewFor:self.tooColdTextField withLabel:@"Cold Temperature"]];
-    [settingsStackView addArrangedSubview:[self makeHStackViewFor:self.tempTypeSegementedControl withLabel:@"Temperature Type"]];
-    [settingsStackView addArrangedSubview:[self makeHStackViewFor:self.locationOnSwitch withLabel:@"Location"]];
-    [settingsStackView addArrangedSubview:[self makeHStackViewFor:self.notificationsOnSwitch withLabel:@"Notifications"]];
-    [settingsStackView addArrangedSubview:self.resetButton];
-    
-    settingsStackView.translatesAutoresizingMaskIntoConstraints = NO;
-    [settingsStackView.topAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.topAnchor constant:8].active = YES;
-    [settingsStackView.leadingAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.leadingAnchor constant:8].active = YES;
-    [settingsStackView.trailingAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.trailingAnchor constant:8].active = YES;
-    [settingsStackView.centerXAnchor constraintEqualToAnchor:self.view.centerXAnchor].active = YES;
-    [settingsStackView.centerYAnchor constraintEqualToAnchor:self.view.centerYAnchor].active = YES;
-    
-    [self.view addSubview:settingsStackView];
-}
-
-- (UIStackView *) makeHStackViewFor:(id)labeledTool withLabel:(NSString *)labelText{
-    UIStackView *stackView = [[UIStackView alloc] init];
-    stackView.axis = UILayoutConstraintAxisHorizontal;
-    stackView.distribution = UIStackViewDistributionFill;
-    stackView.alignment = UIStackViewAlignmentCenter;
-    stackView.spacing = 8;
-    
-    
-    UILabel *label = [[UILabel alloc] init];
-    label.text = labelText;
-    [stackView addArrangedSubview:label];
-    [stackView addArrangedSubview:labeledTool];
-    
-    return stackView;
-}
-
+/*--------------------ACTION METHODS--------------------*/
 - (IBAction)onTap:(id)sender{
     [self.view endEditing:YES];
 }
 
-- (IBAction)onTapDone:(id)sender {
+- (IBAction)onTapSave:(id)sender {
     [self.user updatePreferencesWithDictionary:[NSDictionary dictionaryWithDictionary:self.updatePrefDict] withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
         if (succeeded) {
             NSLog(@"Saved preferences!");
@@ -230,8 +179,39 @@ static NSMutableDictionary *sectionsDict;
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+- (IBAction)onEditedHot:(id)sender {
+    if (![self.tooHotTextField.text isEqualToString:@""]) {
+        NSString *tempType = [self.tempTypeSegementedControl titleForSegmentAtIndex:self.tempTypeSegementedControl.selectedSegmentIndex];
+        
+        int temp = [self.tooHotTextField.text intValue];
+        if ([tempType isEqualToString:@"C"]) temp = [self convertTemp:temp toType:@"F"];
+        
+        [self.updatePrefDict setObject:[NSNumber numberWithInt:temp] forKey:@"tooHotTemp"];
+        NSLog(@"Too Hot Temperature: %@", self.tooHotTextField.text);
+    }
+    else {
+        [self.updatePrefDict removeObjectForKey:@"tooHotTemp"];
+    }
+}
+
+- (IBAction)onEditedCold:(id)sender {
+    if (![self.tooColdTextField.text isEqualToString:@""]) {
+        NSString *tempType = [self.tempTypeSegementedControl titleForSegmentAtIndex:self.tempTypeSegementedControl.selectedSegmentIndex];
+        
+        int temp = [self.tooColdTextField.text intValue];
+        if ([tempType isEqualToString:@"C"]) temp = [self convertTemp:temp toType:@"F"];
+        [self.updatePrefDict setObject:[NSNumber numberWithInt:temp] forKey:@"tooColdTemp"];
+        
+        NSLog(@"Too Cold Temperature: %@", self.tooColdTextField.text);
+    }
+    else {
+        [self.updatePrefDict removeObjectForKey:@"tooColdTemp"];
+    }
+}
+
 - (IBAction)onSetTempType:(id)sender {
     NSString *tempType = [self.tempTypeSegementedControl titleForSegmentAtIndex:self.tempTypeSegementedControl.selectedSegmentIndex];
+    [self updateFieldsToTempType:tempType];
     [self.updatePrefDict setObject:tempType forKey:@"tempTypeString"];
 //    NSLog(@"Prefered Temp Type: %@", tempType);
 }
@@ -244,30 +224,6 @@ static NSMutableDictionary *sectionsDict;
 - (IBAction)onToggleNotifications:(id)sender {
     [self.updatePrefDict setObject:[NSNumber numberWithBool:[self.notificationsOnSwitch isOn]] forKey:@"notificationsOn"];
 //    NSLog(@"Notifications on: %d", self.user.preferences.notificationsOn);
-}
-
-- (IBAction)onEditedHot:(id)sender {
-    if (![self.tooHotTextField.text isEqualToString:@""]) {
-        NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
-        formatter.numberStyle = NSNumberFormatterDecimalStyle;
-        [self.updatePrefDict setObject:[formatter numberFromString:self.tooHotTextField.text] forKey:@"tooHotTemp"];
-        NSLog(@"Too Hot Temperature: %@", self.tooHotTextField.text);
-    }
-    else {
-        [self.updatePrefDict removeObjectForKey:@"tooHotTemp"];
-    }
-}
-
-- (IBAction)onEditedCold:(id)sender {
-    if (![self.tooColdTextField.text isEqualToString:@""]) {
-        NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
-        formatter.numberStyle = NSNumberFormatterDecimalStyle;
-        [self.updatePrefDict setObject:[formatter numberFromString:self.tooColdTextField.text] forKey:@"tooColdTemp"];
-        NSLog(@"Too Cold Temperature: %@", self.tooColdTextField.text);
-    }
-    else {
-        [self.updatePrefDict removeObjectForKey:@"tooColdTemp"];
-    }
 }
 
 - (IBAction)onTapReset:(id)sender {
@@ -294,24 +250,7 @@ static NSMutableDictionary *sectionsDict;
     }];
 }
 
-- (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
-    if (indexPath.section == 0) {
-        // preferences cell
-        PreferenceTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"PreferenceTableViewCell" forIndexPath:indexPath];
-        cell = [[PreferenceTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"PreferenceTableViewCell"];
-        NSArray *prefs = sectionsDict[sectionsArray[indexPath.section]];
-        cell.preferenceArray = prefs[indexPath.row];
-        return cell;
-    }
-    else if (indexPath.section == 1){
-        PreferenceTableViewCell *cell = [[PreferenceTableViewCell alloc] init];
-        NSString *name = [NSString stringWithFormat:@"Location %ld", indexPath.row+1];
-        [cell.textLabel setText:name];
-        return cell;
-    }
-    return [[UITableViewCell alloc] init];
-}
-
+/*-----------------TABLE VIEW DELEGATE METHODS-----------------*/
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 2;
 }
@@ -325,17 +264,101 @@ static NSMutableDictionary *sectionsDict;
     return sectionContent.count;
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
+    NSArray *items = sectionsDict[sectionsArray[indexPath.section]];
+    if (indexPath.section == 0) {
+        // preferences cell
+        PreferenceTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"PreferenceTableViewCell" forIndexPath:indexPath];
+        if (!cell) {
+            cell = [[PreferenceTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"PreferenceTableViewCell"];
+        }
+        cell.preferenceArray = items[indexPath.row];
+        return cell;
+    }
+    else if (indexPath.section == 1){
+        UITableViewCell *cell = [[UITableViewCell alloc] init];
+        Location *loc = items[indexPath.row];
+        [cell.textLabel setText:loc.fullPlaceName];
+        cell.textLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        [cell.textLabel.leadingAnchor constraintEqualToAnchor:cell.contentView.leadingAnchor constant:8].active = YES;
+        [cell.textLabel.centerYAnchor constraintEqualToAnchor:cell.contentView.centerYAnchor].active = YES;
+        return cell;
+    }
+    return [[UITableViewCell alloc] init];
 }
-*/
+
+- (void) updateFieldsToTempType:(NSString *)type{
+    if ([self.tooHotTextField.text isEqualToString:@""]) {
+        int hotValue = [self.tooHotTextField.placeholder intValue];
+        self.tooHotTextField.placeholder = [NSString stringWithFormat:@"%0.f", [self convertTemp:hotValue toType:type]];
+    }
+    else {
+        int hotValue = [self.tooHotTextField.text intValue];
+        self.tooHotTextField.text = [NSString stringWithFormat:@"%0.f", [self convertTemp:hotValue toType:type]];
+    }
+    
+    if ([self.tooColdTextField.text isEqualToString:@""]) {
+        int coldValue = [self.tooColdTextField.placeholder intValue];
+        self.tooColdTextField.placeholder = [NSString stringWithFormat:@"%0.f", [self convertTemp:coldValue toType:type]];
+    }
+    else {
+        int coldValue = [self.tooColdTextField.text intValue];
+        self.tooColdTextField.text = [NSString stringWithFormat:@"%0.f", [self convertTemp:coldValue toType:type]];
+    }
+}
+
+- (double) convertTemp:(int)temp toType:(NSString *)type {
+    if ([type isEqualToString:@"C"]) {
+        return ((temp-32)*5.0/9.0);
+    }
+    else if ([type isEqualToString:@"F"]) {
+        return ((temp*9.0/5.0)+32);
+    }
+    return INFINITY;
+}
 
 /*-----------------------PANTRY-----------------------*/
-
+//// Creating and Filling main stack view
+//- (void) buildSettingsStackView {
+//    UIStackView *settingsStackView = [[UIStackView alloc] init];
+//
+//    settingsStackView.axis = UILayoutConstraintAxisVertical;
+//    settingsStackView.distribution = UIStackViewDistributionFill;
+//    settingsStackView.alignment = UIStackViewAlignmentCenter;
+//    settingsStackView.spacing = 8;
+//
+//
+//    [settingsStackView addArrangedSubview:[self makeHStackViewFor:self.tooHotTextField withLabel:@"Hot Temperature"]];
+//    [settingsStackView addArrangedSubview:[self makeHStackViewFor:self.tooColdTextField withLabel:@"Cold Temperature"]];
+//    [settingsStackView addArrangedSubview:[self makeHStackViewFor:self.tempTypeSegementedControl withLabel:@"Temperature Type"]];
+//    [settingsStackView addArrangedSubview:[self makeHStackViewFor:self.locationOnSwitch withLabel:@"Location"]];
+//    [settingsStackView addArrangedSubview:[self makeHStackViewFor:self.notificationsOnSwitch withLabel:@"Notifications"]];
+//    [settingsStackView addArrangedSubview:self.resetButton];
+//
+//    settingsStackView.translatesAutoresizingMaskIntoConstraints = NO;
+//    [settingsStackView.topAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.topAnchor constant:8].active = YES;
+//    [settingsStackView.leadingAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.leadingAnchor constant:8].active = YES;
+//    [settingsStackView.trailingAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.trailingAnchor constant:8].active = YES;
+//    [settingsStackView.centerXAnchor constraintEqualToAnchor:self.view.centerXAnchor].active = YES;
+//    [settingsStackView.centerYAnchor constraintEqualToAnchor:self.view.centerYAnchor].active = YES;
+//
+//    [self.view addSubview:settingsStackView];
+//}
+//
+//- (UIStackView *) makeHStackViewFor:(id)labeledTool withLabel:(NSString *)labelText{
+//    UIStackView *stackView = [[UIStackView alloc] init];
+//    stackView.axis = UILayoutConstraintAxisHorizontal;
+//    stackView.distribution = UIStackViewDistributionFill;
+//    stackView.alignment = UIStackViewAlignmentCenter;
+//    stackView.spacing = 8;
+//
+//
+//    UILabel *label = [[UILabel alloc] init];
+//    label.text = labelText;
+//    [stackView addArrangedSubview:label];
+//    [stackView addArrangedSubview:labeledTool];
+//
+//    return stackView;
+//}
 
 @end

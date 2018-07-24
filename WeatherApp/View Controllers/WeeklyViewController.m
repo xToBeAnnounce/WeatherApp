@@ -12,23 +12,30 @@
 #import "APIManager.h"
 #import "Location.h"
 #import "Weather.h"
+#import "User.h"
 
 @interface WeeklyViewController () <UITableViewDelegate, UITableViewDataSource>
 
-@property UITableView *tableView;
-@property NSMutableArray *weeklyWeather;
-@property Location *location;
+@property (strong, nonatomic) UITableView *tableView;
+@property (strong, nonatomic) Location *location;
+@property (strong, nonatomic) NSString *tempType;
 
 @end
 
 static NSString *cellIdentifier = @"WeeklyCell";
-
 static bool loadData = NO;
 
 @implementation WeeklyViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+    self.tableView = [[UITableView alloc] initWithFrame: CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+    self.tableView.dataSource = self;
+    self.tableView.delegate = self;
+    self.tableView.estimatedRowHeight = 50;
+    self.tableView.rowHeight = UITableViewAutomaticDimension;
+    
     self.location = [Location currentLocation]; //For testing purpose
     [self.location fetchDataType:@"weekly" WithCompletion:^(NSDictionary * data, NSError * error) {
         if(error == nil){
@@ -37,14 +44,21 @@ static bool loadData = NO;
         }
         else NSLog(@"%@", error.localizedDescription);
     }];
-
-    self.tableView = [[UITableView alloc] initWithFrame: CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
-    self.tableView.dataSource = self;
-    self.tableView.delegate = self;
     
     [self.view addSubview:self.tableView];
     [self.tableView registerClass: WeeklyCell.class forCellReuseIdentifier:cellIdentifier];
-    self.tableView.rowHeight = UITableViewAutomaticDimension;
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [User.currentUser getUserPreferencesWithBlock:^(Preferences *pref, NSError *error) {
+        if (pref) {
+            self.tempType = pref.tempTypeString;
+            [self.tableView reloadData];
+        }
+        else {
+            NSLog(@"%@", error.localizedDescription);
+        }
+    }];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -55,14 +69,15 @@ static bool loadData = NO;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    WeeklyCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"WeeklyCell"];
+    WeeklyCell *cell = [self.tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     if(cell == nil){
         cell = [[WeeklyCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
     
     if(loadData){
-        Weather *dailyWeather = self.location.weeklyData[indexPath.row];
-        [cell setWeeklyCell:dailyWeather];
+        cell.tempType = self.tempType;
+        Weather *dayWeather = self.location.weeklyData[indexPath.row];
+        cell.dayWeather = dayWeather;
     }
     return cell;
 }

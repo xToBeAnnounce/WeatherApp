@@ -17,37 +17,60 @@
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-  
-    self.temperateLabel = [[UILabel alloc] initWithFrame:CGRectMake(325,10 , 10, 10)];
-    self.temperateLabel.textColor = [UIColor blackColor];
-    self.temperateLabel.font = [UIFont systemFontOfSize:20];
-
-    self.timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(10,10 , 10, 10)];
+    
+    // initalizing time label
+    self.timeLabel = [[UILabel alloc] init];
     self.timeLabel.textColor = [UIColor blackColor];
     self.timeLabel.font = [UIFont systemFontOfSize:20];
+    self.timeLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.contentView addSubview:self.timeLabel];
 
-    self.iconImageView = [[UIImageView alloc]initWithFrame:CGRectMake(155, 10, 35, 35)];
+    // initalizing icon view
+    self.iconImageView = [[UIImageView alloc]init];
+    self.iconImageView.contentMode = UIViewContentModeScaleAspectFill;
+    self.iconImageView.clipsToBounds = YES;
+    self.iconImageView.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.contentView addSubview:self.iconImageView];
+    
+    // initalizing temperature label
+    self.temperateLabel = [[UILabel alloc] init];
+    self.temperateLabel.textColor = [UIColor blackColor];
+    self.temperateLabel.font = [UIFont systemFontOfSize:20];
+    self.temperateLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.contentView addSubview:self.temperateLabel];
+    
+    [self setConstraints];
+    
     return self;
 }
 
--(void)setCellUI:(Weather*)dailyWeather{
-    
-    //setting temperatureLabel
-    self.temperateLabel.text = [dailyWeather getTempInString:dailyWeather.temperature];
-    [self.temperateLabel sizeToFit];
-    [self.contentView addSubview:self.temperateLabel];
+- (void)setHourWeather:(Weather *)hourWeather {
+    _hourWeather = hourWeather;
     
     //setting timeLabel
-    self.timeLabel.text = [dailyWeather getHourInDayWithTime:dailyWeather.time];
+    self.timeLabel.text = [hourWeather getHourInDayWithTime:hourWeather.time];
     [self.timeLabel sizeToFit];
-    [self.contentView addSubview:self.timeLabel];
     
     //setting icons image view
-    self.iconImageView.image = [UIImage imageNamed:dailyWeather.icon];
-    self.iconImageView.clipsToBounds = YES;
-    [self.contentView addSubview:self.iconImageView];
+    self.iconImageView.image = [UIImage imageNamed:hourWeather.icon];
+    
+    //setting temperatureLabel
+    self.temperateLabel.text = [hourWeather getTempInString:hourWeather.temperature withType:self.tempType];
+    [self.temperateLabel sizeToFit];
 }
 
+- (void) setConstraints {
+    [self.timeLabel.centerYAnchor constraintEqualToAnchor:self.contentView.centerYAnchor].active = YES;
+    [self.timeLabel.leadingAnchor constraintEqualToAnchor:self.contentView.leadingAnchor constant:8].active = YES;
+    
+    [self.iconImageView.heightAnchor constraintEqualToConstant:35].active = YES;
+    [self.iconImageView.widthAnchor constraintEqualToAnchor:self.iconImageView.heightAnchor multiplier:1.0/1.0].active = YES;
+    [self.iconImageView.centerYAnchor constraintEqualToAnchor:self.contentView.centerYAnchor].active = YES;
+    [self.iconImageView.centerXAnchor constraintEqualToAnchor:self.contentView.centerXAnchor].active = YES;
+    
+    [self.temperateLabel.centerYAnchor constraintEqualToAnchor:self.contentView.centerYAnchor].active = YES;
+    [self.temperateLabel.trailingAnchor constraintEqualToAnchor:self.contentView.trailingAnchor constant:-8].active = YES;
+}
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];

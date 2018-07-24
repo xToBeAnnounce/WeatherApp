@@ -113,4 +113,17 @@
     return locationsArray;
 }
 
+- (void) getLocationsArrayInBackgroundWithBlock:(void(^)(NSMutableArray *locations, NSError *error))completion{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        // No explicit autorelease pool needed here.
+        // The code runs in background, not strangling
+        // the main run loop.
+        NSMutableArray *locations = [self getLocationsArray];
+        NSError *error;
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            completion(locations, error);
+        });
+    });
+}
+
 @end
