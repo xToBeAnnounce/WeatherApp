@@ -35,6 +35,9 @@ static bool loadData = NO;
     self.tableView.delegate = self;
     self.tableView.estimatedRowHeight = 50;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
+    self.tableView.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.view addSubview:self.tableView];
+    [self.tableView registerClass: WeeklyCell.class forCellReuseIdentifier:cellIdentifier];
     
     self.location = [Location currentLocation]; //For testing purpose
     [self.location fetchDataType:@"weekly" WithCompletion:^(NSDictionary * data, NSError * error) {
@@ -45,8 +48,7 @@ static bool loadData = NO;
         else NSLog(@"%@", error.localizedDescription);
     }];
     
-    [self.view addSubview:self.tableView];
-    [self.tableView registerClass: WeeklyCell.class forCellReuseIdentifier:cellIdentifier];
+    [self setConstraints];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -90,6 +92,13 @@ static bool loadData = NO;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+- (void) setConstraints {
+    [self.tableView.topAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.topAnchor].active = YES;
+    [self.tableView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor].active = YES;
+    [self.tableView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor].active = YES;
+    [self.tableView.bottomAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.bottomAnchor].active = YES;
 }
 
 @end

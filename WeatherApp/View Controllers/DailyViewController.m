@@ -75,13 +75,12 @@ static bool loadData = NO;
     
     self.ourtableView.estimatedRowHeight = 44.0;
     self.ourtableView.rowHeight = UITableViewAutomaticDimension;
+    self.ourtableView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.view addSubview:self.ourtableView];
     
     self.currentWeatherView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height/2)];
     [self.view addSubview:self.currentWeatherView];
     
-
-
     self.backgroundImageView = [[UIImageView alloc]initWithFrame:self.currentWeatherView.frame];
     self.backgroundImageView.contentMode = UIViewContentModeScaleAspectFill;
     self.backgroundImageView.clipsToBounds = YES;
@@ -170,6 +169,14 @@ static bool loadData = NO;
     // icon contstraints
     [self.iconImageView.heightAnchor constraintEqualToAnchor:self.currentWeatherView.heightAnchor multiplier:3.0/7.0].active = YES;
     [self.iconImageView.widthAnchor constraintEqualToAnchor:self.iconImageView.heightAnchor multiplier:1.0/1.0].active = YES;
+    
+    // constraint between tableview and current weather view
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[weatherView]-0-[tableView]" options:NSLayoutFormatAlignAllCenterX metrics:nil views:@{@"weatherView":self.currentWeatherView, @"tableView":self.ourtableView}]];
+    
+    // table view constraints
+    [self.ourtableView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor].active = YES;
+    [self.ourtableView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor].active = YES;
+    [self.ourtableView.bottomAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.bottomAnchor].active = YES;
 }
 
 /*-----------------TABLE VIEW DELEGATE METHODS-----------------*/
