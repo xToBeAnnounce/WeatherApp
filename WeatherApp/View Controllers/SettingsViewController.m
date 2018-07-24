@@ -293,6 +293,10 @@ static NSString *locationCellID = @"LocationTableViewCell";
     return [[UITableViewCell alloc] init];
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
 /*-----------------C TO F AND VICE VERSA-----------------*/
 // update number displayed in text fields
 - (void) updateFieldsToTempType:(NSString *)type{
