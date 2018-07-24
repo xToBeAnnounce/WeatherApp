@@ -8,6 +8,7 @@
 
 #import "SettingsViewController.h"
 #import "PreferenceTableViewCell.h"
+#import "LocationTableViewCell.h"
 #import "User.h"
 
 // TODO: Put HUD on the screen while preferences are loading
@@ -32,6 +33,9 @@
 
 static NSArray *sectionsArray;
 static NSMutableDictionary *sectionsDict;
+static NSString *preferenceCellID = @"PreferenceTableViewCell";
+static NSString *locationCellID = @"LocationTableViewCell";
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -151,7 +155,8 @@ static NSMutableDictionary *sectionsDict;
     self.tableView = [[UITableView alloc] initWithFrame: CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
-    [self.tableView registerClass:PreferenceTableViewCell.class forCellReuseIdentifier:@"PreferenceTableViewCell"];
+    [self.tableView registerClass:PreferenceTableViewCell.class forCellReuseIdentifier:preferenceCellID];
+    [self.tableView registerClass:LocationTableViewCell.class forCellReuseIdentifier:locationCellID];
     
     self.tableView.estimatedRowHeight = 44.0;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
@@ -268,20 +273,21 @@ static NSMutableDictionary *sectionsDict;
     NSArray *items = sectionsDict[sectionsArray[indexPath.section]];
     if (indexPath.section == 0) {
         // preferences cell
-        PreferenceTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"PreferenceTableViewCell" forIndexPath:indexPath];
+        PreferenceTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:preferenceCellID forIndexPath:indexPath];
         if (!cell) {
-            cell = [[PreferenceTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"PreferenceTableViewCell"];
+            cell = [[PreferenceTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:preferenceCellID];
         }
         cell.preferenceArray = items[indexPath.row];
         return cell;
     }
     else if (indexPath.section == 1){
-        UITableViewCell *cell = [[UITableViewCell alloc] init];
-        Location *loc = items[indexPath.row];
-        [cell.textLabel setText:loc.fullPlaceName];
-        cell.textLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        [cell.textLabel.leadingAnchor constraintEqualToAnchor:cell.contentView.leadingAnchor constant:8].active = YES;
-        [cell.textLabel.centerYAnchor constraintEqualToAnchor:cell.contentView.centerYAnchor].active = YES;
+        LocationTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:locationCellID forIndexPath:indexPath];
+        
+        if (!cell) {
+            cell = [[LocationTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:locationCellID];
+        }
+        
+        cell.location = items[indexPath.row];
         return cell;
     }
     return [[UITableViewCell alloc] init];
