@@ -56,7 +56,7 @@
     self.iconImageView.image = [UIImage imageNamed:hourWeather.icon];
     
     //setting temperatureLabel
-    self.temperateLabel.text = [hourWeather getTempInString:hourWeather.temperature];
+    self.temperateLabel.text = [hourWeather getTempInString:hourWeather.temperature withType:self.tempType];
     [self.temperateLabel sizeToFit];
 }
 

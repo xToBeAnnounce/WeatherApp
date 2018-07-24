@@ -10,6 +10,7 @@
 #import "APIManager.h"
 #import "DailyTableViewCell.h"
 #import "Weather.h"
+#import "User.h"
 
 @interface DailyViewController () <UITableViewDelegate,UITableViewDataSource>
 
@@ -19,6 +20,8 @@
 @property (strong,nonatomic) UILabel *temperatureLabel;
 @property (strong,nonatomic) UILabel *locationLabel;
 @property (strong,nonatomic) UIImageView *backgroundImageView;
+
+@property (strong, nonatomic) NSString *tempType;
 
 @end
 
@@ -39,7 +42,19 @@ static bool loadData = NO;
         }
         else NSLog(@"%@", error.localizedDescription);
     }];
-    
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [User.currentUser getUserPreferencesWithBlock:^(Preferences *pref, NSError *error) {
+        if (pref) {
+            self.tempType = pref.tempTypeString;
+            [self displayCurrentWeather];
+            [self.ourtableView reloadData];
+        }
+        else {
+            NSLog(@"%@", error.localizedDescription);
+        }
+    }];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -73,19 +88,20 @@ static bool loadData = NO;
     [self.currentWeatherView addSubview:self.backgroundImageView];
     
     //setting up locationLabel
-    self.locationLabel = [[UILabel alloc]initWithFrame:CGRectMake(60, 50, 10, 10)];
+    self.locationLabel = [[UILabel alloc]init];
     self.locationLabel.font = [UIFont systemFontOfSize:35];
     self.locationLabel.text = @"--";
     
     //setting up icon image view
-    self.iconImageView = [[UIImageView alloc]initWithFrame:CGRectMake(105, 90, 166, 166)];
+    self.iconImageView = [[UIImageView alloc]init];
     self.iconImageView.contentMode = UIViewContentModeScaleAspectFill;
     self.iconImageView.clipsToBounds = YES;
     self.iconImageView.translatesAutoresizingMaskIntoConstraints = NO;
     
     //setting up temperatureLabel
-    self.temperatureLabel = [[UILabel alloc]initWithFrame:CGRectMake(155, 250, 0, 0)];
+    self.temperatureLabel = [[UILabel alloc]init];
     self.temperatureLabel.font = [UIFont systemFontOfSize:60 weight:UIFontWeightThin];
+    self.temperatureLabel.text = @"--°";
     
     NSArray *weatherDisplayArray = @[self.locationLabel, self.iconImageView, self.temperatureLabel];
     self.weatherDisplayStackView = [[UIStackView alloc] initWithArrangedSubviews:weatherDisplayArray];
@@ -99,12 +115,12 @@ static bool loadData = NO;
 }
 
 - (void) displayCurrentWeather {
-    Weather *currentWeather = self.location.dailyData[0];
+    Weather *currentWeather;
+    if (self.location.dailyData.count) currentWeather = self.location.dailyData[0];
     
     self.iconImageView.image = [UIImage imageNamed:currentWeather.icon];
     
-    NSString *temp = [currentWeather getTempInString:currentWeather.temperature];
-    self.temperatureLabel.text = [NSString stringWithFormat:@"%.0f", temp.floatValue];
+    self.temperatureLabel.text = [currentWeather getTempInString:currentWeather.temperature withType:self.tempType];
     [self.temperatureLabel sizeToFit];
     
     [self.location updatePlaceNameWithBlock:^(NSDictionary *data, NSError *error) {
@@ -140,6 +156,7 @@ static bool loadData = NO;
         cell = [[DailyTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"DailyTableViewCell"];
     }
     if(loadData){
+        cell.tempType = self.tempType;
         Weather *hourlyWeather = self.location.dailyData[indexPath.row];
         cell.hourWeather = hourlyWeather;
     }

@@ -18,4 +18,5 @@
 @property (strong, nonatomic) UIStackView *tempStackView;
 
 @property (strong, nonatomic) Weather *dayWeather;
+@property (strong, nonatomic) NSString *tempType;
 @end

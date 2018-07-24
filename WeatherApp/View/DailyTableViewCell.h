@@ -16,4 +16,5 @@
 @property (strong,nonatomic) UIImageView *iconImageView;
 
 @property (strong, nonatomic) Weather *hourWeather;
+@property (strong, nonatomic) NSString *tempType;
 @end

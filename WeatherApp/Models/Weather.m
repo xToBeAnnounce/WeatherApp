@@ -58,7 +58,13 @@
 }
 
 - (NSString*)getTempInString:(int)temp{
-    return [NSString stringWithFormat:@"%d", temp];
+    return [NSString stringWithFormat:@"%d°", temp];
+}
+- (NSString*)getTempInString:(int)temp withType:(NSString *)type{
+    if ([type isEqualToString:@"C"]) {
+        temp = (int)((temp-32) *5.0/9.0);
+    }
+    return [NSString stringWithFormat:@"%d°", temp];
 }
 
 @end

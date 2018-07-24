@@ -21,8 +21,11 @@
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-    self.dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 0, 0)];
+//    self.contentView.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    self.dateLabel = [[UILabel alloc] init];
     self.dateLabel.textColor = [UIColor blackColor];
+    self.dateLabel.font = [UIFont systemFontOfSize:20];
     self.dateLabel.translatesAutoresizingMaskIntoConstraints = NO;
     [self.contentView addSubview:self.dateLabel];
     
@@ -32,11 +35,13 @@
     self.iconImageView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.contentView addSubview:self.iconImageView];
 
-    self.highTempLabel = [[UILabel alloc] initWithFrame:CGRectMake(100, 10, 0, 0)];
+    self.highTempLabel = [[UILabel alloc] init];
     self.highTempLabel.textColor = [UIColor redColor];
+    self.highTempLabel.font = [UIFont systemFontOfSize:20];
 
-    self.lowTempLabel = [[UILabel alloc] initWithFrame:CGRectMake(150, 10, 0, 0)];
+    self.lowTempLabel = [[UILabel alloc] init];
     self.lowTempLabel.textColor = [UIColor blueColor];
+    self.lowTempLabel.font = [UIFont systemFontOfSize:20];
     
     NSArray *tempArray = @[self.highTempLabel, self.lowTempLabel];
     self.tempStackView = [[UIStackView alloc] initWithArrangedSubviews:tempArray];
@@ -62,11 +67,11 @@
     self.iconImageView.image = [UIImage imageNamed:dayWeather.icon];
     
     // High temp label
-    self.highTempLabel.text = [dayWeather getTempInString:dayWeather.temperatureHigh];
+    self.highTempLabel.text = [dayWeather getTempInString:dayWeather.temperatureHigh withType:self.tempType];
     [self.highTempLabel sizeToFit];
     
     // Low temp label
-    self.lowTempLabel.text = [dayWeather getTempInString:dayWeather.temperatureLow];
+    self.lowTempLabel.text = [dayWeather getTempInString:dayWeather.temperatureLow withType:self.tempType];
     [self.lowTempLabel sizeToFit];
 }
 

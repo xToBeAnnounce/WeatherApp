@@ -117,8 +117,14 @@ static NSMutableDictionary *sectionsDict;
     self.tooColdTextField.text = @"";
     [self.user getUserPreferencesWithBlock:^(Preferences *pref, NSError *error) {
         if (pref) {
-            self.tooHotTextField.placeholder = [NSString stringWithFormat:@"%@", pref.tooHotTemp];
-            self.tooColdTextField.placeholder = [NSString stringWithFormat:@"%@", pref.tooColdTemp];
+            double tooHotTemp = [pref.tooHotTemp doubleValue];
+            double tooColdTemp = [pref.tooColdTemp doubleValue];
+            if ([pref.tempTypeString isEqualToString:@"C"]) {
+                tooHotTemp = [self convertTemp:tooHotTemp toType:@"C"];
+                tooColdTemp = [self convertTemp:tooColdTemp toType:@"C"];
+            }
+            self.tooHotTextField.placeholder = [NSString stringWithFormat:@"%0.f", tooHotTemp];
+            self.tooColdTextField.placeholder = [NSString stringWithFormat:@"%0.f", tooColdTemp];
             self.tempTypeSegementedControl.selectedSegmentIndex = [pref.tempTypeString isEqualToString:@"F"];
             self.locationOnSwitch.on = pref.locationOn;
             self.notificationsOnSwitch.on = pref.notificationsOn;
@@ -175,9 +181,12 @@ static NSMutableDictionary *sectionsDict;
 
 - (IBAction)onEditedHot:(id)sender {
     if (![self.tooHotTextField.text isEqualToString:@""]) {
-        NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
-        formatter.numberStyle = NSNumberFormatterDecimalStyle;
-        [self.updatePrefDict setObject:[formatter numberFromString:self.tooHotTextField.text] forKey:@"tooHotTemp"];
+        NSString *tempType = [self.tempTypeSegementedControl titleForSegmentAtIndex:self.tempTypeSegementedControl.selectedSegmentIndex];
+        
+        int temp = [self.tooHotTextField.text intValue];
+        if ([tempType isEqualToString:@"C"]) temp = [self convertTemp:temp toType:@"F"];
+        
+        [self.updatePrefDict setObject:[NSNumber numberWithInt:temp] forKey:@"tooHotTemp"];
         NSLog(@"Too Hot Temperature: %@", self.tooHotTextField.text);
     }
     else {
@@ -187,9 +196,12 @@ static NSMutableDictionary *sectionsDict;
 
 - (IBAction)onEditedCold:(id)sender {
     if (![self.tooColdTextField.text isEqualToString:@""]) {
-        NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
-        formatter.numberStyle = NSNumberFormatterDecimalStyle;
-        [self.updatePrefDict setObject:[formatter numberFromString:self.tooColdTextField.text] forKey:@"tooColdTemp"];
+        NSString *tempType = [self.tempTypeSegementedControl titleForSegmentAtIndex:self.tempTypeSegementedControl.selectedSegmentIndex];
+        
+        int temp = [self.tooColdTextField.text intValue];
+        if ([tempType isEqualToString:@"C"]) temp = [self convertTemp:temp toType:@"F"];
+        [self.updatePrefDict setObject:[NSNumber numberWithInt:temp] forKey:@"tooColdTemp"];
+        
         NSLog(@"Too Cold Temperature: %@", self.tooColdTextField.text);
     }
     else {
@@ -199,6 +211,7 @@ static NSMutableDictionary *sectionsDict;
 
 - (IBAction)onSetTempType:(id)sender {
     NSString *tempType = [self.tempTypeSegementedControl titleForSegmentAtIndex:self.tempTypeSegementedControl.selectedSegmentIndex];
+    [self updateFieldsToTempType:tempType];
     [self.updatePrefDict setObject:tempType forKey:@"tempTypeString"];
 //    NSLog(@"Prefered Temp Type: %@", tempType);
 }
@@ -272,6 +285,36 @@ static NSMutableDictionary *sectionsDict;
         return cell;
     }
     return [[UITableViewCell alloc] init];
+}
+
+- (void) updateFieldsToTempType:(NSString *)type{
+    if ([self.tooHotTextField.text isEqualToString:@""]) {
+        int hotValue = [self.tooHotTextField.placeholder intValue];
+        self.tooHotTextField.placeholder = [NSString stringWithFormat:@"%0.f", [self convertTemp:hotValue toType:type]];
+    }
+    else {
+        int hotValue = [self.tooHotTextField.text intValue];
+        self.tooHotTextField.text = [NSString stringWithFormat:@"%0.f", [self convertTemp:hotValue toType:type]];
+    }
+    
+    if ([self.tooColdTextField.text isEqualToString:@""]) {
+        int coldValue = [self.tooColdTextField.placeholder intValue];
+        self.tooColdTextField.placeholder = [NSString stringWithFormat:@"%0.f", [self convertTemp:coldValue toType:type]];
+    }
+    else {
+        int coldValue = [self.tooColdTextField.text intValue];
+        self.tooColdTextField.text = [NSString stringWithFormat:@"%0.f", [self convertTemp:coldValue toType:type]];
+    }
+}
+
+- (double) convertTemp:(int)temp toType:(NSString *)type {
+    if ([type isEqualToString:@"C"]) {
+        return ((temp-32)*5.0/9.0);
+    }
+    else if ([type isEqualToString:@"F"]) {
+        return ((temp*9.0/5.0)+32);
+    }
+    return INFINITY;
 }
 
 /*-----------------------PANTRY-----------------------*/
