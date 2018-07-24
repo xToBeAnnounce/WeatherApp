@@ -30,7 +30,7 @@
     self.LoginVC = [[LoginViewController alloc] init];
     self.window.rootViewController = self.LoginVC;
     
-    //self.window.rootViewController = LocationPickerViewController.new;
+
     [self parseBackendSetup];
     [self.window makeKeyAndVisible];
     
@@ -53,15 +53,6 @@
         configuration.localDatastoreEnabled = YES;
     }];
     [Parse initializeWithConfiguration:config];
-    
-//    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-
-//    SettingsViewController *settingsVC = SettingsViewController.new;
-//    UINavigationController *navigationController= [[UINavigationController alloc] initWithRootViewController:settingsVC];
-//    self.window.rootViewController = navigationController;
-//    [self.window makeKeyAndVisible];
-//    self.window.rootViewController = SettingsViewController.new;
-//    [self.window makeKeyAndVisible];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

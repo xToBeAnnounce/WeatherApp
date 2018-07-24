@@ -13,9 +13,14 @@
 
 - (instancetype)initWithData:(NSDictionary*)data{
     NSTimeInterval timeInSeconds = [data[@"time"] longValue];
-    self.time = [NSDate dateWithTimeIntervalSince1970:timeInSeconds];
+    //Increment by one day so it starts at current day
+    NSDateComponents *components = [[NSDateComponents alloc]init];
+    components.day = 1;
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSDate *time = [NSDate dateWithTimeIntervalSince1970:timeInSeconds];
+    self.time = [calendar dateByAddingComponents:components toDate:time options:0];
     
-    if(data[@"temperatureHigh"] != nil){
+    if(data[@"temperatureHigh"]){
         self.temperatureHigh = (int)[data[@"temperatureHigh"] doubleValue];
         self.temperatureLow = (int)[data[@"temperatureLow"] doubleValue];
         self.temperature = -1;
@@ -33,7 +38,10 @@
     NSCalendar *calendar = [NSCalendar currentCalendar];
     NSDateComponents *components = [calendar components:NSCalendarUnitHour fromDate:date];
     int hour = (int)[components hour];
-    if(hour <= 12){
+    if(hour == 0){
+        return [NSString stringWithFormat:@"12 am"];
+    }
+    else if(hour <= 12){
         return [NSString stringWithFormat:@"%d am", hour];
     }
     else return [NSString stringWithFormat:@"%d pm", (hour - 12)];
@@ -58,7 +66,13 @@
 }
 
 - (NSString*)getTempInString:(int)temp{
-    return [NSString stringWithFormat:@"%d", temp];
+    return [NSString stringWithFormat:@"%d°", temp];
+}
+- (NSString*)getTempInString:(int)temp withType:(NSString *)type{
+    if ([type isEqualToString:@"C"]) {
+        temp = (int)((temp-32) *5.0/9.0);
+    }
+    return [NSString stringWithFormat:@"%d°", temp];
 }
 
 @end

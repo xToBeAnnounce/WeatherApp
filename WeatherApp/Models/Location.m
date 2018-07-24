@@ -18,6 +18,8 @@
     return @"Location";
 }
 
+@synthesize locationManager;
+
 /*-----------------------WEATHER-----------------------*/
 static float lat = 42.3601;
 static float lng = -71.0589;
@@ -74,18 +76,18 @@ static int const numHoursInDay = 24;
 // returns new location object with current longitude/lattitude (if loc services disallowed, (0,0)) (doesn't save)
 + (instancetype) currentLocation{
     Location *newLoc = [[Location alloc] init];
-    CLLocationManager *locationManager = [[CLLocationManager alloc] init];
-    locationManager.delegate = newLoc;
-    locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
-    locationManager.distanceFilter = kCLDistanceFilterNone;
-    
-    if ([locationManager respondsToSelector:@selector(requestWhenInUseAuthorization)]) {
-        [locationManager requestWhenInUseAuthorization];
+    newLoc.locationManager = [[CLLocationManager alloc] init];
+    newLoc.locationManager.delegate = newLoc;
+    newLoc.locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
+    newLoc.locationManager.distanceFilter = kCLDistanceFilterNone;
+
+    if ([newLoc.locationManager respondsToSelector:@selector(requestWhenInUseAuthorization)]) {
+        [newLoc.locationManager requestWhenInUseAuthorization];
     }
     
-    [locationManager requestLocation];
+    [newLoc.locationManager requestLocation];
     
-    CLLocation *location = [locationManager location];
+    CLLocation *location = [newLoc.locationManager location];
     CLLocationCoordinate2D coordinate = [location coordinate];
     
     newLoc.lattitude = coordinate.latitude;
@@ -95,7 +97,7 @@ static int const numHoursInDay = 24;
 
 
 /*-----------------METHODS TO UPDATE PROPERTIES OF A LOCATION-----------------*/
-// Update/Set placeName and fullPlaceName (doesn't save)
+// Update/Set placeName and fullPlaceName (doesn't save), mainly for current location
 - (void) updatePlaceNameWithBlock:(void(^)(NSDictionary *data, NSError *error))block{
     GeoAPIManager *geoAPIManager = [GeoAPIManager shared];
     [geoAPIManager getNearestAddressOfLattitude:self.lattitude longitude:self.longitude completion:^(NSDictionary *data, NSError *error) {
@@ -147,12 +149,28 @@ static int const numHoursInDay = 24;
 -(void)fetchDataType:(NSString*)dataType WithCompletion:(void(^)(NSDictionary*, NSError*))completion{
     if([dataType isEqualToString:@"daily"]){
         self.dailyData = [[NSMutableArray alloc] init];
-        [self getDataWithLong:self.longitude Lat:self.lattitude Type:dataType Completion:completion];
+        [self getDataWithLong:self.longitude Lat:self.lattitude Type:dataType Completion:^(NSDictionary *data, NSError *error) {
+            if (data) {
+                [self setDailyDataWithDictionary:data];
+                completion(data, nil);
+            }
+            else {
+                completion(nil, error);
+            }
+        }];
 //        [self getDataWithLong:(int)lng Lat:(int)lat Type:dataType Completion:completion];
     }
     else if([dataType isEqualToString:@"weekly"]){
         self.weeklyData = [[NSMutableArray alloc] init];
-        [self getDataWithLong:(int)lng Lat:(int)lat Type:dataType Completion:completion];
+        [self getDataWithLong:(int)lng Lat:(int)lat Type:dataType Completion:^(NSDictionary *data, NSError *error) {
+            if (data) {
+                [self setWeeklyDataWithDictionary:data];
+                completion(data, nil);
+            }
+            else {
+                completion(nil, error);
+            }
+        }];
     }
 }
 
@@ -195,7 +213,7 @@ static int const numHoursInDay = 24;
 
 /*-------------CLLOCATION MANAGER DELEGATE METHODS-------------*/
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations {
-    NSLog(@"Updated loction");
+    NSLog(@"Updated loction to %f, %f", locations[0].coordinate.latitude, locations[0].coordinate.longitude);
 }
 - (void)locationManager:(CLLocationManager *)manager didFailWithError: (NSError *)error {
     NSLog(@"Getting location failed with error: %@", error);

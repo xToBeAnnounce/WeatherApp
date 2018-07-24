@@ -36,11 +36,6 @@ static NSString * urlString;
     urlString = [urlString stringByAppendingString:coordinateStr];
     
     if([range isEqualToString:@"daily"]){
-        NSDate *currentDate = [NSDate date];
-        NSTimeInterval timeDiff = [currentDate timeIntervalSince1970];
-        NSInteger timeDiffInt = timeDiff;
-        NSString *timeDiffStr = [NSString stringWithFormat:@",%ld", (long)timeDiffInt];
-        urlString = [urlString stringByAppendingString:timeDiffStr];
         urlString = [urlString stringByAppendingString:@"?exclude=currently,minutely,daily,alerts,flags"];
     }
     else if([range isEqualToString:@"weekly"]){

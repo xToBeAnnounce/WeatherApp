@@ -9,11 +9,11 @@
 #import "LoginViewController.h"
 #import <Parse/Parse.h>
 #import "User.h"
-#import "WeeklyViewController.h"
-#import "DailyViewController.h"
 #import "AppDelegate.h"
 #import "SettingsViewController.h"
 #import "PageViewController.h"
+#import "LocationPickerViewController.h"
+
 
 @interface LoginViewController ()
 @property (strong,nonatomic) UITextField *usernameField;
@@ -24,6 +24,8 @@
 @property (strong,nonatomic) UILabel *titleLabel;
 @property (strong, nonatomic) UIBarButtonItem *settingsButton;
 @property (strong, nonatomic) PageViewController *pageVC;
+@property (strong, nonatomic) UIBarButtonItem *addLocationButton;
+
 
 @end
 
@@ -35,6 +37,8 @@
     self.view.backgroundColor = UIColor.whiteColor;
     self.settingsButton = [[UIBarButtonItem alloc] initWithTitle:@"Setting" style:UIBarButtonItemStylePlain target:self action:@selector(segueToSettings)];
     self.navController.navigationBar.topItem.rightBarButtonItem = self.settingsButton;
+     elf.addLocationButton = [[UIBarButtonItem alloc] initWithTitle:@"Add" style:UIBarButtonItemStylePlain target:self action:@selector(segueToAddLocation)];
+    self.navController.navigationBar.topItem.rightBarButtonItem = self.addLocationButton;
     
     
     self.pageVC = [[PageViewController alloc]init];
@@ -117,9 +121,13 @@
     [self presentViewController:alert animated:YES completion:nil];
 }
 
+
+
+-(void)segueToAddLocation{
+    [self.navController pushViewController:LocationPickerViewController.new animated:YES];
+}
+
 -(void)segueToSettings{
-    self.navController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-    self.navController.modalPresentationStyle = UIModalPresentationFullScreen;
     UINavigationController *settingsNavigationController = [[UINavigationController alloc] initWithRootViewController:SettingsViewController.new];
     [self.navController presentViewController:settingsNavigationController animated:YES completion:nil];
 }
