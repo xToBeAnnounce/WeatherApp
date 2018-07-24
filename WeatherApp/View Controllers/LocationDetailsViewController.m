@@ -106,7 +106,7 @@
         else    self.startDatePicker.hidden = YES;
     }
     else if ([sender isEqual:self.endSwitch]){
-        if (self.endSwitch.isOn) self.startDatePicker.hidden = NO;
+        if (self.endSwitch.isOn) self.endDatePicker.hidden = NO;
         else    self.endDatePicker.hidden = YES;
     }
 }
