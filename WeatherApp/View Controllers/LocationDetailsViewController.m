@@ -200,7 +200,12 @@ NSMutableDictionary *locationAttributeDict;
 
 //Press Return to save
 - (void)textFieldDidEndEditing:(UITextField *)textField{
-    [locationAttributeDict setObject:self.customNameTextField.text forKey:@"customName"];
+    if ([self.customNameTextField.text isEqualToString:@""]) {
+        [locationAttributeDict removeObjectForKey:@"customName"];
+    }
+    else {
+        [locationAttributeDict setObject:self.customNameTextField.text forKey:@"customName"];
+    }
     NSLog(@"%@", [locationAttributeDict objectForKey:@"customName"]);
 }
 
