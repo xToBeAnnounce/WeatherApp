@@ -15,7 +15,6 @@
 
 @property (strong, nonatomic) User *user;
 @property (strong, nonatomic) NSMutableDictionary *updatePrefDict;
-
 @property (strong, nonatomic) UITextField *tooHotTextField;
 @property (strong, nonatomic) UITextField *tooColdTextField;
 @property (strong, nonatomic) UISegmentedControl *tempTypeSegementedControl;

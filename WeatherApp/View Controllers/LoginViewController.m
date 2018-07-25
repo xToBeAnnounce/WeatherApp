@@ -24,6 +24,7 @@
 @property (strong, nonatomic) UIBarButtonItem *settingsButton;
 @property (strong, nonatomic) PageViewController *pageVC;
 @property (strong, nonatomic) UIBarButtonItem *addLocationButton;
+@property (strong,nonatomic) UISegmentedControl *DailyWeeklySegmentedC;
 @end
 
 @implementation LoginViewController
@@ -33,16 +34,29 @@
     [self initViewController];
     [self setPageNavigation];
     self.view.backgroundColor = UIColor.whiteColor;
+    
 }
 
 -(void)initViewController{
     self.pageVC = [[PageViewController alloc]initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:nil];
     self.pageVC.navController = [[UINavigationController alloc] initWithRootViewController:self.pageVC];
     
-    self.settingsButton = [[UIBarButtonItem alloc] initWithTitle:@"Settings" style:UIBarButtonItemStylePlain target:self action:@selector(segueToSettings)];
+
+    self.settingsButton = [[UIBarButtonItem alloc] initWithTitle:@"Setting" style:UIBarButtonItemStylePlain target:self action:@selector(segueToSettings)];
+    self.settingsButton.image = [UIImage imageNamed:@"hamburger"];
+    self.settingsButton.tintColor = UIColor.whiteColor;
     self.pageVC.navController.navigationBar.topItem.leftBarButtonItem = self.settingsButton;
-    self.addLocationButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(segueToAddLocation)];
+    self.addLocationButton = [[UIBarButtonItem alloc] initWithTitle:@"Add" style:UIBarButtonItemStylePlain target:self action:@selector(segueToAddLocation)];
+    self.addLocationButton.image = [UIImage imageNamed:@"plus-1"];
+    self.addLocationButton.tintColor = UIColor.whiteColor;
+
     self.pageVC.navController.navigationBar.topItem.rightBarButtonItem = self.addLocationButton;
+    
+    self.DailyWeeklySegmentedC = [[UISegmentedControl alloc]initWithItems:@[@"Daily",@"Weekly"]];
+    self.pageVC.navigationController.navigationBar.topItem.titleView = self.DailyWeeklySegmentedC;
+    self.DailyWeeklySegmentedC.selectedSegmentIndex = 0;
+    self.DailyWeeklySegmentedC.tintColor = UIColor.blackColor;
+    
 }
 
 -(void)setPageNavigation{
@@ -136,6 +150,8 @@
     UINavigationController *settingsNavigationController = [[UINavigationController alloc] initWithRootViewController:SettingsViewController.new];
     [self.pageVC.navController presentViewController:settingsNavigationController animated:YES completion:nil];
 }
+
+
 
 /*
 #pragma mark - Navigation

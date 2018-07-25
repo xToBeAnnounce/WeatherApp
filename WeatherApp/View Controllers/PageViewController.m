@@ -13,10 +13,13 @@
 #import "User.h"
 
 @interface PageViewController ()<UIPageViewControllerDataSource,UIPageViewControllerDelegate>
-@property (strong, nonatomic) UIPageControl *pageControl;
+
+@property (strong,nonatomic) NSArray *viewControllerArrary;
+@property (strong,nonatomic) UIPageControl *pageControl;
 @property (strong, nonatomic) NSMutableArray *locViewArrary;
 @property (strong, nonatomic) UIViewController *placeholderScreen;
 @property (strong, nonatomic) UILabel *placeholderLabel;
+
 @end
 
 @implementation PageViewController
@@ -28,7 +31,7 @@ BOOL currentLocation;
     self.locViewArrary = [[NSMutableArray alloc] init];
     
     self.dataSource = self;
-    self.view.backgroundColor = UIColor.lightGrayColor;
+    self.view.backgroundColor = [[UIColor alloc]initWithPatternImage:[UIImage imageNamed:@"grad"]];
     
     // creating placeholder view controller
     self.placeholderScreen = [[UIViewController alloc] init];
@@ -69,6 +72,7 @@ BOOL currentLocation;
         }
     }];
     
+
     [User.currentUser getLocationsArrayInBackgroundWithBlock:^(NSMutableArray *locations, NSError *error) {
         if (locations) {
             // If current location on, removes every screen after first, else removes all screeens
@@ -88,13 +92,14 @@ BOOL currentLocation;
             NSLog(@"Error: %@", error.localizedDescription);
         }
     }];
+
 }
 
 - (void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray<UIViewController *> *)previousViewControllers transitionCompleted:(BOOL)completed {
     
-    UIPageViewController *pagecontentVC = pageViewController.viewControllers[0];
-    
+    UIPageViewController *pagecontentVC = pageViewController.viewControllers[0]; 
     self.pageControl.currentPage = [self.locViewArrary indexOfObject:pagecontentVC];
+
 }
 
 -(UIViewController *)viewControllerAtIndex:(NSUInteger)index {

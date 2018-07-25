@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PageViewController.h"
+
 
 @interface LoginViewController : UIViewController
 @property (strong, nonatomic) UINavigationController *mainNavController;
+
 @end
