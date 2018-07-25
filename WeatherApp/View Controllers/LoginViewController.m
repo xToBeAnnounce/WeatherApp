@@ -9,10 +9,6 @@
 #import "LoginViewController.h"
 #import <Parse/Parse.h>
 #import "User.h"
-#import "SettingsViewController.h"
-#import "PageViewController.h"
-#import "LocationPickerViewController.h"
-
 
 @interface LoginViewController ()
 @property (strong,nonatomic) UITextField *usernameField;
@@ -22,7 +18,6 @@
 @property (strong,nonatomic) UIButton *signupButton;
 @property (strong,nonatomic) UILabel *titleLabel;
 @property (strong, nonatomic) UIBarButtonItem *settingsButton;
-@property (strong, nonatomic) PageViewController *pageVC;
 @property (strong, nonatomic) UIBarButtonItem *addLocationButton;
 @end
 
@@ -30,28 +25,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self initViewController];
-    [self setPageNavigation];
+    [self setLoginUI];
     self.view.backgroundColor = UIColor.whiteColor;
-}
-
--(void)initViewController{
-    self.pageVC = [[PageViewController alloc]initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:nil];
-    self.pageVC.navController = [[UINavigationController alloc] initWithRootViewController:self.pageVC];
-    
-    self.settingsButton = [[UIBarButtonItem alloc] initWithTitle:@"Settings" style:UIBarButtonItemStylePlain target:self action:@selector(segueToSettings)];
-    self.pageVC.navController.navigationBar.topItem.leftBarButtonItem = self.settingsButton;
-    self.addLocationButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(segueToAddLocation)];
-    self.pageVC.navController.navigationBar.topItem.rightBarButtonItem = self.addLocationButton;
-}
-
--(void)setPageNavigation{
-    if(PFUser.currentUser){
-        [self.mainNavController presentViewController:self.pageVC.navController animated:YES completion:nil];
-    }
-    else{
-        [self setLoginUI];
-    }
 }
 
 -(void)setLoginUI{
@@ -98,7 +73,7 @@
             [self AlertController:error.localizedDescription];
         } else {
             NSLog(@"User logged in successfully");
-                [self.mainNavController presentViewController:self.pageVC.navController animated:YES completion:nil];
+            [self.navDelegate presentViewController:self.pageVC Name:@"pageVC"];
         }
     }];
 }
@@ -113,7 +88,7 @@
             [self AlertController:error.localizedDescription];
         } else {
             NSLog(@"User registered successfully");
-            [self.mainNavController presentViewController:self.pageVC.navController animated:YES completion:nil];
+            [self.navDelegate presentViewController:self.pageVC Name:@"pageVC"];
         }
     }];
 }
@@ -126,15 +101,6 @@
     UIAlertAction *button = [UIAlertAction actionWithTitle:text style:UIAlertActionStyleCancel handler:nil];
     [alert addAction:button];
     [self presentViewController:alert animated:YES completion:nil];
-}
-
--(void)segueToAddLocation{
-    [self.pageVC.navController pushViewController:LocationPickerViewController.new animated:YES];
-}
-
--(void)segueToSettings{
-    UINavigationController *settingsNavigationController = [[UINavigationController alloc] initWithRootViewController:SettingsViewController.new];
-    [self.pageVC.navController presentViewController:settingsNavigationController animated:YES completion:nil];
 }
 
 /*

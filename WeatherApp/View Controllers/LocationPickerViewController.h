@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AppDelegate.h"
 
 @interface LocationPickerViewController : UIViewController
+@property (strong, nonatomic) id<NavigationDelegate>delegate;
 @end
