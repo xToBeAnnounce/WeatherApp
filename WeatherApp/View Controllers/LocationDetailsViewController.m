@@ -48,7 +48,7 @@
     //Displays name of location (missing center anchor)
     self.placeNameLabel = [[UILabel alloc]initWithFrame:CGRectMake(self.view.bounds.size.width/2, 100, 0, 0)];
     self.placeNameLabel.textColor = UIColor.blackColor;
-    self.placeNameLabel.text = self.location.placeName;
+    self.placeNameLabel.text = self.location.fullPlaceName;
     [self.placeNameLabel sizeToFit];
     [self.view addSubview:self.placeNameLabel];
     
@@ -63,7 +63,7 @@
     self.customNameTextField = [[UITextField alloc]initWithFrame:CGRectMake(200, 160, 0, 0)];
     self.customNameTextField.delegate = self;
     self.customNameTextField.textColor = UIColor.blackColor;
-    self.customNameTextField.placeholder = @"custom name";
+    self.customNameTextField.placeholder = self.location.placeName;
     if(![self.location.customName isEqualToString:@""]) self.customNameTextField.text = self.location.customName;
     [self.customNameTextField sizeToFit];
     [self.view addSubview:self.customNameTextField];

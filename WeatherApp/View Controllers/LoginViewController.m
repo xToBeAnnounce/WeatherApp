@@ -40,9 +40,9 @@
     self.pageVC = [[PageViewController alloc]initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:nil];
     self.pageVC.navController = [[UINavigationController alloc] initWithRootViewController:self.pageVC];
     
-    self.settingsButton = [[UIBarButtonItem alloc] initWithTitle:@"Setting" style:UIBarButtonItemStylePlain target:self action:@selector(segueToSettings)];
+    self.settingsButton = [[UIBarButtonItem alloc] initWithTitle:@"Settings" style:UIBarButtonItemStylePlain target:self action:@selector(segueToSettings)];
     self.pageVC.navController.navigationBar.topItem.leftBarButtonItem = self.settingsButton;
-    self.addLocationButton = [[UIBarButtonItem alloc] initWithTitle:@"Add" style:UIBarButtonItemStylePlain target:self action:@selector(segueToAddLocation)];
+    self.addLocationButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(segueToAddLocation)];
     self.pageVC.navController.navigationBar.topItem.rightBarButtonItem = self.addLocationButton;
 }
 
