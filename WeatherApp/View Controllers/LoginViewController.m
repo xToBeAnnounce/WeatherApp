@@ -9,7 +9,6 @@
 #import "LoginViewController.h"
 #import <Parse/Parse.h>
 #import "User.h"
-#import "AppDelegate.h"
 #import "SettingsViewController.h"
 #import "PageViewController.h"
 #import "LocationPickerViewController.h"
@@ -90,7 +89,6 @@
     [self.view addSubview:self.signupButton];
 }
 
-
 -(IBAction)loginButtonTapped:(id)sender{
     NSString *username = self.usernameField.text;
     NSString *password = self.passwordField.text;
@@ -104,8 +102,6 @@
         }
     }];
 }
-
-
 
 -(IBAction)signupButtonTapped:(id)sender{
     User *newUser = User.new;
@@ -131,8 +127,6 @@
     [alert addAction:button];
     [self presentViewController:alert animated:YES completion:nil];
 }
-
-
 
 -(void)segueToAddLocation{
     [self.pageVC.navController pushViewController:LocationPickerViewController.new animated:YES];

@@ -11,8 +11,6 @@
 #import "LocationTableViewCell.h"
 #import "User.h"
 
-// TODO: Put HUD on the screen while preferences are loading
-
 @interface SettingsViewController () <UITableViewDelegate, UITableViewDataSource>
 
 @property (strong, nonatomic) User *user;
@@ -72,7 +70,6 @@ static NSString *locationCellID = @"LocationTableViewCell";
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 /*--------------------CONFIGURING UI METHODS--------------------*/

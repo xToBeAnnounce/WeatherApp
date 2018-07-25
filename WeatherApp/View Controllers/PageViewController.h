@@ -10,6 +10,4 @@
 
 @interface PageViewController : UIPageViewController
 @property (strong,nonatomic) UINavigationController *navController;
-
-
 @end
