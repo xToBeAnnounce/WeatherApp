@@ -21,24 +21,27 @@
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-//    self.contentView.translatesAutoresizingMaskIntoConstraints = NO;
     
+    //Date Label at left (Monday, Tuesday...)
     self.dateLabel = [[UILabel alloc] init];
     self.dateLabel.textColor = [UIColor blackColor];
     self.dateLabel.font = [UIFont systemFontOfSize:20];
     self.dateLabel.translatesAutoresizingMaskIntoConstraints = NO;
     [self.contentView addSubview:self.dateLabel];
     
+    //Weather icon image at center
     self.iconImageView = [[UIImageView alloc] init];
     self.iconImageView.contentMode = UIViewContentModeScaleAspectFit;
     self.iconImageView.clipsToBounds = YES;
     self.iconImageView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.contentView addSubview:self.iconImageView];
 
+    //High temperature display at right
     self.highTempLabel = [[UILabel alloc] init];
     self.highTempLabel.textColor = [UIColor redColor];
     self.highTempLabel.font = [UIFont systemFontOfSize:20];
 
+    //Low temperature display at right
     self.lowTempLabel = [[UILabel alloc] init];
     self.lowTempLabel.textColor = [UIColor blueColor];
     self.lowTempLabel.font = [UIFont systemFontOfSize:20];
@@ -59,6 +62,7 @@
 
 - (void)setDayWeather:(Weather *)dayWeather {
     _dayWeather = dayWeather;
+    
     // Day of Week Label
     self.dateLabel.text = [dayWeather getDayOfWeekWithTime:dayWeather.time];
     [self.dateLabel sizeToFit];
@@ -87,7 +91,7 @@
     [self.iconImageView.bottomAnchor constraintEqualToAnchor:self.contentView.bottomAnchor constant:-4].active = YES;
     
     [self.tempStackView.centerYAnchor constraintEqualToAnchor:self.contentView.centerYAnchor].active = YES;
-    [self.tempStackView.trailingAnchor constraintEqualToAnchor:self.contentView.trailingAnchor constant:-8].active = YES;
+    [self.tempStackView.trailingAnchor constraintLessThanOrEqualToAnchor:self.contentView.trailingAnchor constant:-8].active = YES;
 }
 
 @end

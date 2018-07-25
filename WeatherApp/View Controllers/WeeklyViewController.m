@@ -9,21 +9,18 @@
 #import <UIKit/UIKit.h>
 #import "WeeklyViewController.h"
 #import "WeeklyCell.h"
-#import "APIManager.h"
 #import "Location.h"
 #import "Weather.h"
 #import "User.h"
 
 @interface WeeklyViewController () <UITableViewDelegate, UITableViewDataSource>
-
 @property (strong, nonatomic) UITableView *tableView;
 @property (strong, nonatomic) Location *location;
 @property (strong, nonatomic) NSString *tempType;
-
 @end
 
 static NSString *cellIdentifier = @"WeeklyCell";
-static bool loadData = NO;
+static bool loadData = NO; //Loads data once the network fetch is done
 
 @implementation WeeklyViewController
 
@@ -33,7 +30,6 @@ static bool loadData = NO;
     self.tableView = [[UITableView alloc] initWithFrame: CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
-    self.tableView.estimatedRowHeight = 50;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
     self.tableView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.view addSubview:self.tableView];
@@ -83,11 +79,6 @@ static bool loadData = NO;
         cell.dayWeather = dayWeather;
     }
     return cell;
-}
-
-- (void)reloadDataTableView{
-    loadData = YES;
-    [self.tableView reloadData];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

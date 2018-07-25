@@ -13,7 +13,6 @@
 @interface PageViewController ()<UIPageViewControllerDataSource,UIPageViewControllerDelegate>
 @property (strong,nonatomic) NSArray *viewControllerArrary;
 @property (strong,nonatomic) UIPageControl *pageControl;
-
 @end
 
 @implementation PageViewController

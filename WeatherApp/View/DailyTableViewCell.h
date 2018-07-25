@@ -11,10 +11,12 @@
 
 @interface DailyTableViewCell : UITableViewCell
 
+/* User Interface Labels */
 @property (strong,nonatomic) UILabel *temperateLabel;
 @property (strong,nonatomic) UILabel *timeLabel;
 @property (strong,nonatomic) UIImageView *iconImageView;
 
+/* Weather Data */
 @property (strong, nonatomic) Weather *hourWeather;
 @property (strong, nonatomic) NSString *tempType;
 @end
