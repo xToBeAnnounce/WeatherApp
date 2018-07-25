@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface PageViewController : UIPageViewController
-@property (strong,nonatomic) UINavigationController *navController;
-
+  
+@property (strong, nonatomic) UINavigationController *navController;
 
 @end

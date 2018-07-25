@@ -73,8 +73,4 @@
     [self.temperateLabel.trailingAnchor constraintEqualToAnchor:self.contentView.trailingAnchor constant:-8].active = YES;
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-//    [super setSelected:selected animated:animated];
-}
-
 @end

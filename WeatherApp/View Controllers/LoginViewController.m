@@ -9,7 +9,6 @@
 #import "LoginViewController.h"
 #import <Parse/Parse.h>
 #import "User.h"
-#import "AppDelegate.h"
 #import "SettingsViewController.h"
 #import "PageViewController.h"
 #import "LocationPickerViewController.h"
@@ -42,6 +41,7 @@
     self.pageVC = [[PageViewController alloc]initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:nil];
     self.pageVC.navController = [[UINavigationController alloc] initWithRootViewController:self.pageVC];
     
+
     self.settingsButton = [[UIBarButtonItem alloc] initWithTitle:@"Setting" style:UIBarButtonItemStylePlain target:self action:@selector(segueToSettings)];
     self.settingsButton.image = [UIImage imageNamed:@"hamburger"];
     self.settingsButton.tintColor = UIColor.whiteColor;
@@ -49,6 +49,7 @@
     self.addLocationButton = [[UIBarButtonItem alloc] initWithTitle:@"Add" style:UIBarButtonItemStylePlain target:self action:@selector(segueToAddLocation)];
     self.addLocationButton.image = [UIImage imageNamed:@"plus-1"];
     self.addLocationButton.tintColor = UIColor.whiteColor;
+
     self.pageVC.navController.navigationBar.topItem.rightBarButtonItem = self.addLocationButton;
     
     self.DailyWeeklySegmentedC = [[UISegmentedControl alloc]initWithItems:@[@"Daily",@"Weekly"]];
@@ -102,7 +103,6 @@
     [self.view addSubview:self.signupButton];
 }
 
-
 -(IBAction)loginButtonTapped:(id)sender{
     NSString *username = self.usernameField.text;
     NSString *password = self.passwordField.text;
@@ -116,8 +116,6 @@
         }
     }];
 }
-
-
 
 -(IBAction)signupButtonTapped:(id)sender{
     User *newUser = User.new;
@@ -143,7 +141,6 @@
     [alert addAction:button];
     [self presentViewController:alert animated:YES completion:nil];
 }
-
 
 -(void)segueToAddLocation{
     [self.pageVC.navController pushViewController:LocationPickerViewController.new animated:YES];

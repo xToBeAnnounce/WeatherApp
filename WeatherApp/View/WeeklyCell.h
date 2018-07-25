@@ -11,12 +11,14 @@
 
 @interface WeeklyCell : UITableViewCell
 
+/* User Interface Labels */
 @property (strong, nonatomic) UILabel *dateLabel;
 @property (strong, nonatomic) UIImageView *iconImageView;
 @property (strong, nonatomic) UILabel *lowTempLabel;
 @property (strong, nonatomic) UILabel *highTempLabel;
 @property (strong, nonatomic) UIStackView *tempStackView;
 
+/* Weather Information */
 @property (strong, nonatomic) Weather *dayWeather;
-@property (strong, nonatomic) NSString *tempType;
+@property (strong, nonatomic) NSString *tempType; //C or F
 @end

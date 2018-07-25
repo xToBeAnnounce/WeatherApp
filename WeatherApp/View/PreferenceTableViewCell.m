@@ -12,7 +12,6 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    // Initialization code
 }
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
@@ -20,6 +19,7 @@
     
     self.preferenceLabel = [[UILabel alloc] init];
     self.preferenceLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    
     [self.contentView addSubview:self.preferenceLabel];
     [self.preferenceLabel.leadingAnchor constraintEqualToAnchor:self.contentView.leadingAnchor constant:8].active = YES;
     [self.preferenceLabel.centerYAnchor constraintEqualToAnchor:self.contentView.centerYAnchor].active = YES;
@@ -27,20 +27,20 @@
     return self;
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-//    [super setSelected:selected animated:animated];
-}
-
 - (void)setPreferenceArray:(NSArray *)preferenceArray {
     _preferenceArray = preferenceArray;
+    //[Name_of_control, control], i.e. ["Notification", notificationSwitch]
     self.preferenceLabel.text = preferenceArray[0];
     [self.preferenceLabel sizeToFit];
     
-    if ([self.preferenceLabel.text isEqualToString:@""]) {
+    /* Sets preferences without title in the center */
+    if ([preferenceArray[0] isEqualToString:@""]) {
         UIControl *loneControl = preferenceArray[1];
         [self.contentView addSubview:loneControl];
         [loneControl.centerXAnchor constraintEqualToAnchor:self.contentView.centerXAnchor].active = YES;
         [loneControl.centerYAnchor constraintEqualToAnchor:self.contentView.centerYAnchor].active = YES;
+        [loneControl.topAnchor constraintEqualToAnchor:self.contentView.topAnchor constant:-4];
+        [loneControl.bottomAnchor constraintEqualToAnchor:self.contentView.bottomAnchor constant:-4];
     }
     else {
         self.preferenceControl = preferenceArray[1];
@@ -49,6 +49,7 @@
         
         [self.preferenceControl.trailingAnchor constraintEqualToAnchor:self.contentView.trailingAnchor constant:-8].active = YES;
         [self.preferenceControl.centerYAnchor constraintEqualToAnchor:self.contentView.centerYAnchor].active = YES;
+        [self.preferenceControl.bottomAnchor constraintEqualToAnchor:self.contentView.bottomAnchor constant:-4];
     }
 }
 
