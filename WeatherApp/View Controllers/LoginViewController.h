@@ -10,4 +10,5 @@
 
 @interface LoginViewController : UIViewController
 @property (strong, nonatomic) UINavigationController *mainNavController;
+@property (strong,nonatomic) UISegmentedControl *DailyWeeklySegmentedC;
 @end

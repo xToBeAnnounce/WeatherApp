@@ -34,16 +34,29 @@
     [self initViewController];
     [self setPageNavigation];
     self.view.backgroundColor = UIColor.whiteColor;
+    
 }
 
 -(void)initViewController{
     self.pageVC = [[PageViewController alloc]initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:nil];
     self.pageVC.navController = [[UINavigationController alloc] initWithRootViewController:self.pageVC];
+    [self.pageVC.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+    [self.pageVC.navigationController.navigationBar setShadowImage:[UIImage new]];
+    [self.pageVC.navigationController.navigationBar setTranslucent:YES];
     
     self.settingsButton = [[UIBarButtonItem alloc] initWithTitle:@"Setting" style:UIBarButtonItemStylePlain target:self action:@selector(segueToSettings)];
+    self.settingsButton.image = [UIImage imageNamed:@"hamburger"];
+    self.settingsButton.tintColor = UIColor.whiteColor;
     self.pageVC.navController.navigationBar.topItem.leftBarButtonItem = self.settingsButton;
     self.addLocationButton = [[UIBarButtonItem alloc] initWithTitle:@"Add" style:UIBarButtonItemStylePlain target:self action:@selector(segueToAddLocation)];
+    self.addLocationButton.image = [UIImage imageNamed:@"plus-1"];
+    self.addLocationButton.tintColor = UIColor.whiteColor;
     self.pageVC.navController.navigationBar.topItem.rightBarButtonItem = self.addLocationButton;
+    
+    self.DailyWeeklySegmentedC = [[UISegmentedControl alloc]initWithItems:@[@"Daily",@"Weekly"]];
+    self.pageVC.navigationController.navigationBar.topItem.titleView = self.DailyWeeklySegmentedC;
+    self.DailyWeeklySegmentedC.tintColor = UIColor.blackColor;
+   
 }
 
 -(void)setPageNavigation{

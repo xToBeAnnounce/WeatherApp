@@ -15,6 +15,7 @@
 @interface DailyViewController () <UITableViewDelegate,UITableViewDataSource>
 
 @property (strong, nonatomic) UIView *currentWeatherView;
+@property (strong,nonatomic) UITableView *DailytableView;
 @property (strong, nonatomic) UIStackView *weatherDisplayStackView;
 @property (strong,nonatomic) UIImageView *iconImageView;
 @property (strong,nonatomic) UILabel *temperatureLabel;
@@ -39,7 +40,7 @@ static bool loadData = NO;
         if(error == nil){
             loadData = YES;
             [self displayCurrentWeather];
-            [self.ourtableView reloadData];
+            [self.DailytableView reloadData];
         }
         else NSLog(@"%@", error.localizedDescription);
     }];
@@ -50,7 +51,7 @@ static bool loadData = NO;
         if (pref) {
             self.tempType = pref.tempTypeString;
             [self displayCurrentWeather];
-            [self.ourtableView reloadData];
+            [self.DailytableView reloadData];
         }
         else {
             NSLog(@"%@", error.localizedDescription);
@@ -61,22 +62,22 @@ static bool loadData = NO;
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
-
+/*--------------------SETS DAILY UI--------------------*/
 -(void)setUI{
     [self.view setBackgroundColor:[UIColor whiteColor]];
     
     //sets table view
     CGFloat yorigin = self.view.frame.origin.y + self.view.frame.size.height/2;
     CGRect boundsD = CGRectMake(self.view.frame.origin.x, yorigin, self.view.frame.size.width, self.view.frame.size.height/2 - 50);
-    self.ourtableView = [[UITableView alloc]initWithFrame:boundsD style:UITableViewStylePlain];
-    self.ourtableView.delegate = self;
-    self.ourtableView.dataSource = self;
-    [self.ourtableView registerClass:DailyTableViewCell.class forCellReuseIdentifier:@"DailyTableViewCell"];
+    self.DailytableView = [[UITableView alloc]initWithFrame:boundsD style:UITableViewStylePlain];
+    self.DailytableView.delegate = self;
+    self.DailytableView.dataSource = self;
+    [self.DailytableView registerClass:DailyTableViewCell.class forCellReuseIdentifier:@"DailyTableViewCell"];
     
-    self.ourtableView.estimatedRowHeight = 44.0;
-    self.ourtableView.rowHeight = UITableViewAutomaticDimension;
-    self.ourtableView.translatesAutoresizingMaskIntoConstraints = NO;
-    [self.view addSubview:self.ourtableView];
+    self.DailytableView.estimatedRowHeight = 44.0;
+    self.DailytableView.rowHeight = UITableViewAutomaticDimension;
+    self.DailytableView.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.view addSubview:self.DailytableView];
     
     self.currentWeatherView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height/2)];
     [self.view addSubview:self.currentWeatherView];
@@ -124,7 +125,17 @@ static bool loadData = NO;
     self.weatherDisplayStackView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.currentWeatherView addSubview:self.weatherDisplayStackView];
     
+    
+    
+    
+    
+    
     [self setConstraints];
+}
+
+/*--------------------SETS WEEKLY UI--------------------*/
+-(void)setWeeklyUI{
+    
 }
 
 - (void) displayCurrentWeather {
@@ -171,17 +182,17 @@ static bool loadData = NO;
     [self.iconImageView.widthAnchor constraintEqualToAnchor:self.iconImageView.heightAnchor multiplier:1.0/1.0].active = YES;
     
     // constraint between tableview and current weather view
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[weatherView]-0-[tableView]" options:NSLayoutFormatAlignAllCenterX metrics:nil views:@{@"weatherView":self.currentWeatherView, @"tableView":self.ourtableView}]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[weatherView]-0-[tableView]" options:NSLayoutFormatAlignAllCenterX metrics:nil views:@{@"weatherView":self.currentWeatherView, @"tableView":self.DailytableView}]];
     
     // table view constraints
-    [self.ourtableView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor].active = YES;
-    [self.ourtableView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor].active = YES;
-    [self.ourtableView.bottomAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.bottomAnchor].active = YES;
+    [self.DailytableView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor].active = YES;
+    [self.DailytableView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor].active = YES;
+    [self.DailytableView.bottomAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.bottomAnchor].active = YES;
 }
 
 /*-----------------TABLE VIEW DELEGATE METHODS-----------------*/
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    DailyTableViewCell *cell = [self.ourtableView dequeueReusableCellWithIdentifier:@"DailyTableViewCell"];
+    DailyTableViewCell *cell = [self.DailytableView dequeueReusableCellWithIdentifier:@"DailyTableViewCell"];
     
     if(cell == nil){
         cell = [[DailyTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"DailyTableViewCell"];
@@ -190,6 +201,8 @@ static bool loadData = NO;
         cell.tempType = self.tempType;
         Weather *hourlyWeather = self.location.dailyData[indexPath.row];
         cell.hourWeather = hourlyWeather;
+        
+
     }
     return cell;
 }

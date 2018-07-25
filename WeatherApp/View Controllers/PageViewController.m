@@ -14,6 +14,7 @@
 @property (strong,nonatomic) NSArray *viewControllerArrary;
 @property (strong,nonatomic) UIPageControl *pageControl;
 
+
 @end
 
 @implementation PageViewController
@@ -21,7 +22,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.dataSource = self;
-    self.view.backgroundColor = UIColor.lightGrayColor;
+    self.view.backgroundColor = [[UIColor alloc]initWithPatternImage:[UIImage imageNamed:@"grad"]];
     
     DailyViewController *dailyVC = [[DailyViewController alloc]init];
     WeeklyViewController *weeklyVC = [[WeeklyViewController alloc]init];
@@ -33,8 +34,8 @@
 - (void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray<UIViewController *> *)previousViewControllers transitionCompleted:(BOOL)completed {
     
     UIPageViewController *pagecontentVC = pageViewController.viewControllers[0];
-    
     self.pageControl.currentPage = [self.viewControllerArrary indexOfObject:pagecontentVC];
+    
 }
 
 -(UIViewController *)viewControllerAtIndex:(NSUInteger)index {

@@ -39,6 +39,7 @@
     self.temperateLabel.translatesAutoresizingMaskIntoConstraints = NO;
     [self.contentView addSubview:self.temperateLabel];
     
+    
     [self setConstraints];
     
     return self;
