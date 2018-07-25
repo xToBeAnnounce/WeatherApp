@@ -52,21 +52,19 @@ BOOL currentLocation;
 }
 
 - (void) viewDidAppear:(BOOL)animated {
-//    int curIndex = (int)[self.locViewArrary indexOfObject:self.viewControllers[0]];
-//    NSLog(@"Current Index: %d", curIndex);
     
     [User.currentUser getUserPreferencesWithBlock:^(Preferences *pref, NSError *error) {
         if (pref) {
             currentLocation = pref.locationOn;
             if (pref.locationOn) {
                 LocationWeatherViewController *currentLocVC = [[LocationWeatherViewController alloc] initWithLocation:Location.currentLocation];
-                [self.locViewArrary removeObject:self.placeholderScreen];
                 [self.locViewArrary insertObject:currentLocVC atIndex:0];
+                [self.locViewArrary removeObject:self.placeholderScreen];
             }
             else {
                 [self removeCurrentLocationScreen];
-                [self refreshPageViewWithStartIndex:0];
             }
+            [self refreshPageViewWithStartIndex:0];
         }
         else {
         }
@@ -78,7 +76,6 @@ BOOL currentLocation;
             // If current location on, removes every screen after first, else removes all screeens
             NSRange locRange = (currentLocation) ?NSMakeRange(1, self.locViewArrary.count-1) : NSMakeRange(0, self.locViewArrary.count);
             [self.locViewArrary removeObjectsInRange:locRange];
-            
             for (Location *loc in locations) {
                 LocationWeatherViewController *newLocVC = [[LocationWeatherViewController alloc] initWithLocation:loc];
                 [self.locViewArrary addObject:newLocVC];
@@ -86,6 +83,7 @@ BOOL currentLocation;
             
             NSLog(@"Finished loading view controllers");
             [self.locViewArrary removeObject:self.placeholderScreen];
+            [self addPlaceholderIfNeeded];
             [self refreshPageViewWithStartIndex:0];
         }
         else {
@@ -139,13 +137,16 @@ BOOL currentLocation;
         LocationWeatherViewController *locVC = (LocationWeatherViewController *)startingVC;
         if ([locVC.location.customName isEqualToString:@"Current Location"]) {
             [self.locViewArrary removeObject:locVC];
-            
-            if (self.locViewArrary.count == 0) {
-                self.placeholderLabel.text = @"Add some locations!";
-                [self.placeholderLabel sizeToFit];
-                [self.locViewArrary addObject:self.placeholderScreen];
-            }
+            [self addPlaceholderIfNeeded];
         }
+    }
+}
+
+- (void) addPlaceholderIfNeeded {
+    if (self.locViewArrary.count == 0) {
+        self.placeholderLabel.text = @"Add some locations!";
+        [self.placeholderLabel sizeToFit];
+        [self.locViewArrary addObject:self.placeholderScreen];
     }
 }
 
