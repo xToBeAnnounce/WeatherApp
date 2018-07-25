@@ -129,7 +129,8 @@
 }
 
 -(void)segueToAddLocation{
-    [self.pageVC.navController pushViewController:LocationPickerViewController.new animated:YES];
+    UINavigationController *locPickerNVC = [[UINavigationController alloc] initWithRootViewController:LocationPickerViewController.new];
+    [self.pageVC.navController presentViewController:locPickerNVC animated:YES completion:nil];
 }
 
 -(void)segueToSettings{

@@ -32,6 +32,8 @@ static BOOL loadingData;
     [super viewDidLoad];
     loadingData = NO;
     self.searchLocationArray = [[NSMutableArray alloc] init];
+    UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(didTapCancel)];
+    self.navigationController.navigationBar.topItem.leftBarButtonItem = cancelButton;
     
     self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, self.navigationController.navigationBar.bounds.size.height + 20, self.view.bounds.size.width, 50)];
     self.searchBar.delegate = self;
@@ -104,9 +106,17 @@ static BOOL loadingData;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     LocationDetailsViewController *locDetailVC = [[LocationDetailsViewController alloc] init];
     locDetailVC.location = self.searchLocationArray[indexPath.row];
-    UINavigationController *locationDetailNVC = [[UINavigationController alloc] initWithRootViewController:locDetailVC];
-    [self.navigationController presentViewController:locationDetailNVC animated:YES completion:nil];
+    locDetailVC.saveNewLocation = YES;
+//    UINavigationController *locationDetailNVC = [[UINavigationController alloc] initWithRootViewController:locDetailVC];
+    [self.navigationController pushViewController:locDetailVC animated:YES];
+//    [self.navigationController presentViewController:locationDetailNVC animated:YES completion:nil];
 }
+
+
+- (void) didTapCancel {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 
 /*
  #pragma mark - Navigation

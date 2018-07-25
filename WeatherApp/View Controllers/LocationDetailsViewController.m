@@ -45,8 +45,14 @@ NSMutableDictionary *locationAttributeDict;
     //Setting up navigation buttons
     UIBarButtonItem *saveButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(saveLocationDetail)];
     UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelSelectedLocation)];
-    self.navigationController.navigationBar.topItem.rightBarButtonItem = saveButton;
-    self.navigationController.navigationBar.topItem.leftBarButtonItem = cancelButton;
+    self.navigationItem.rightBarButtonItem = saveButton;
+//    if (self.saveNewLocation) {
+//        self.navigationController.navigationBar.topItem.rightBarButtonItem = saveButton;
+//        self.navigationController.navigationBar.topItem.leftBarButtonItem = cancelButton;
+//    }
+//    else {
+//        self.navigationItem.rightBarButtonItem = saveButton;
+//    }
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -226,12 +232,23 @@ NSMutableDictionary *locationAttributeDict;
     //Does not save is endDate > startDate
     if ((startDate == nil || endDate == nil) || [[startDate earlierDate:endDate] isEqualToDate:startDate]) {
         [self.location setValuesForKeysWithDictionary:locationAttributeDict];
-        [User.currentUser addLocation:self.location completion:^(BOOL succeeded, NSError * _Nullable error) {
-            if(succeeded){
-                [self dismissViewControllerAnimated:YES completion:nil];
-            }
-            else NSLog(@"%@", error.localizedDescription);
-        }];
+        if (self.saveNewLocation) {
+            // Add location to user
+            [User.currentUser addLocation:self.location completion:^(BOOL succeeded, NSError * _Nullable error) {
+                if(succeeded){
+                    [self dismissViewControllerAnimated:YES completion:nil];
+                }
+                else NSLog(@"%@", error.localizedDescription);
+            }];
+        }
+        else {
+            // Save changes to existing Location
+            [self.location saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+                if (succeeded) {
+                    [self.navigationController popViewControllerAnimated:YES];
+                }
+            }];
+        }
     }
     else {
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Invalid Dates" message:@"Start date cannot be later than end date." preferredStyle:(UIAlertControllerStyleAlert)];
