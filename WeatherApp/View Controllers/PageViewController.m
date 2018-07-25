@@ -17,7 +17,6 @@
 @property (strong, nonatomic) NSMutableArray *locViewArrary;
 @property (strong, nonatomic) UIViewController *placeholderScreen;
 @property (strong, nonatomic) UILabel *placeholderLabel;
-
 @end
 
 @implementation PageViewController

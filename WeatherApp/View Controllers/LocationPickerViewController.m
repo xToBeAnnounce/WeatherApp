@@ -18,6 +18,8 @@
 @property (strong, nonatomic) NSMutableArray *searchLocationArray;
 @property (strong, nonatomic) UISearchBar *searchBar;
 @property (strong, nonatomic) UITableView *tableView;
+
+/* Location Cell Property (didn't use custom cell) */
 @property (strong, nonatomic) UILabel *locationCellLabel;
 
 @end
@@ -36,7 +38,7 @@ static BOOL loadingData;
     self.searchBar.showsCancelButton = YES;
     [self.view addSubview:self.searchBar];
     
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, self.navigationController.navigationBar.bounds.size.height + 20 + 50, self.view.bounds.size.width, self.view.bounds.size.height - 70)];
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, self.navigationController.navigationBar.bounds.size.height + 20 + 50, self.view.bounds.size.width, self.view.bounds.size.height - 70)]; //Hard-Coded the coordinates for labels and table-view
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     [self.view addSubview:self.tableView];
@@ -93,7 +95,6 @@ static BOOL loadingData;
     [cell.textLabel setFrame:CGRectMake(50, 0, cell.frame.size.width, cell.frame.size.height)];
     cell.textLabel.text = location.fullPlaceName;
     [cell.textLabel sizeToFit];
-    //[cell.contentView addSubview:self.locationCellLabel];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
