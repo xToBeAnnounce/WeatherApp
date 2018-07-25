@@ -13,6 +13,7 @@
 		3330AE212101363B00B37975 /* GeoAPIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3330AE202101363B00B37975 /* GeoAPIManager.m */; };
 		3330AE252102842700B37975 /* PreferenceTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3330AE242102842700B37975 /* PreferenceTableViewCell.m */; };
 		3330AE282107A16700B37975 /* LocationTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3330AE272107A16700B37975 /* LocationTableViewCell.m */; };
+		3330AE2B2107EE2B00B37975 /* LocationWeatherViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3330AE2A2107EE2B00B37975 /* LocationWeatherViewController.m */; };
 		33F00C0C20FD116C008F56CE /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 33F00C0B20FD116C008F56CE /* User.m */; };
 		33F00C0F20FD1215008F56CE /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = 33F00C0E20FD1215008F56CE /* Location.m */; };
 		33F00C1220FD1244008F56CE /* Preferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 33F00C1120FD1244008F56CE /* Preferences.m */; };
@@ -67,6 +68,8 @@
 		3330AE242102842700B37975 /* PreferenceTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PreferenceTableViewCell.m; sourceTree = "<group>"; };
 		3330AE262107A16700B37975 /* LocationTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LocationTableViewCell.h; sourceTree = "<group>"; };
 		3330AE272107A16700B37975 /* LocationTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LocationTableViewCell.m; sourceTree = "<group>"; };
+		3330AE292107EE2B00B37975 /* LocationWeatherViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LocationWeatherViewController.h; sourceTree = "<group>"; };
+		3330AE2A2107EE2B00B37975 /* LocationWeatherViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LocationWeatherViewController.m; sourceTree = "<group>"; };
 		33F00C0A20FD116C008F56CE /* User.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
 		33F00C0B20FD116C008F56CE /* User.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		33F00C0D20FD1215008F56CE /* Location.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Location.h; sourceTree = "<group>"; };
@@ -172,6 +175,8 @@
 				CC7A6A0C2102B10F00028419 /* PageViewController.m */,
 				9262591421067E7500BEF660 /* LocationDetailsViewController.h */,
 				9262591521067E7500BEF660 /* LocationDetailsViewController.m */,
+				3330AE292107EE2B00B37975 /* LocationWeatherViewController.h */,
+				3330AE2A2107EE2B00B37975 /* LocationWeatherViewController.m */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -499,6 +504,7 @@
 				9203E63220FD47DD00F8C858 /* APIManager.m in Sources */,
 				33F00C0C20FD116C008F56CE /* User.m in Sources */,
 				9262591621067E7500BEF660 /* LocationDetailsViewController.m in Sources */,
+				3330AE2B2107EE2B00B37975 /* LocationWeatherViewController.m in Sources */,
 				3330AE1C2101112000B37975 /* LocationPickerViewController.m in Sources */,
 				33F00C0F20FD1215008F56CE /* Location.m in Sources */,
 				3330AE252102842700B37975 /* PreferenceTableViewCell.m in Sources */,
