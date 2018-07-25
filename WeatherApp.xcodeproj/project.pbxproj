@@ -23,10 +23,6 @@
 		9203E63A20FD73C600F8C858 /* WeeklyCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9203E63920FD73C600F8C858 /* WeeklyCell.m */; };
 		9262591621067E7500BEF660 /* LocationDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9262591521067E7500BEF660 /* LocationDetailsViewController.m */; };
 		927E18A2210106B700CA03F6 /* Weather.m in Sources */ = {isa = PBXBuildFile; fileRef = 927E18A1210106B700CA03F6 /* Weather.m */; };
-		CC74E4F521084D1300082593 /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC74E4F421084D1300082593 /* NotificationCenter.framework */; };
-		CC74E4F921084D1300082593 /* TodayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC74E4F821084D1300082593 /* TodayViewController.m */; };
-		CC74E4FC21084D1300082593 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CC74E4FA21084D1300082593 /* MainInterface.storyboard */; };
-		CC74E50021084D1300082593 /* Widget.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = CC74E4F321084D1300082593 /* Widget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		CC7A6A0A210115D600028419 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC7A6A09210115D600028419 /* LoginViewController.m */; };
 		CC7A6A0D2102B10F00028419 /* PageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC7A6A0C2102B10F00028419 /* PageViewController.m */; };
 		CC7D391D20FD053A00913023 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CC7D391C20FD053A00913023 /* AppDelegate.m */; };
@@ -41,13 +37,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		CC74E4FE21084D1300082593 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = CC7D391020FD053A00913023 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = CC74E4F221084D1300082593;
-			remoteInfo = Widget;
-		};
 		CC7D393120FD053D00913023 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = CC7D391020FD053A00913023 /* Project object */;
@@ -71,7 +60,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				CC74E50021084D1300082593 /* Widget.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -114,12 +102,7 @@
 		ABCEC71E4DF87C4C79A8B9BF /* libPods-WeatherAppTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WeatherAppTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6F87DD29FB6698DF722B3DF /* Pods-WeatherAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeatherAppTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WeatherAppTests/Pods-WeatherAppTests.debug.xcconfig"; sourceTree = "<group>"; };
 		C8F1DA2B1A28A8278AEEF034 /* Pods-WeatherApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeatherApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WeatherApp/Pods-WeatherApp.debug.xcconfig"; sourceTree = "<group>"; };
-		CC74E4F321084D1300082593 /* Widget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = Widget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		CC74E4F421084D1300082593 /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
-		CC74E4F721084D1300082593 /* TodayViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TodayViewController.h; sourceTree = "<group>"; };
-		CC74E4F821084D1300082593 /* TodayViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TodayViewController.m; sourceTree = "<group>"; };
-		CC74E4FB21084D1300082593 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
-		CC74E4FD21084D1300082593 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CC7A6A08210115D600028419 /* LoginViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		CC7A6A09210115D600028419 /* LoginViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		CC7A6A0B2102B10F00028419 /* PageViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PageViewController.h; sourceTree = "<group>"; };
@@ -145,14 +128,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		CC74E4F021084D1300082593 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				CC74E4F521084D1300082593 /* NotificationCenter.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		CC7D391520FD053A00913023 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -268,24 +243,12 @@
 			path = View;
 			sourceTree = "<group>";
 		};
-		CC74E4F621084D1300082593 /* Widget */ = {
-			isa = PBXGroup;
-			children = (
-				CC74E4F721084D1300082593 /* TodayViewController.h */,
-				CC74E4F821084D1300082593 /* TodayViewController.m */,
-				CC74E4FA21084D1300082593 /* MainInterface.storyboard */,
-				CC74E4FD21084D1300082593 /* Info.plist */,
-			);
-			path = Widget;
-			sourceTree = "<group>";
-		};
 		CC7D390F20FD053A00913023 = {
 			isa = PBXGroup;
 			children = (
 				CC7D391A20FD053A00913023 /* WeatherApp */,
 				CC7D393320FD053D00913023 /* WeatherAppTests */,
 				CC7D393E20FD053D00913023 /* WeatherAppUITests */,
-				CC74E4F621084D1300082593 /* Widget */,
 				CC7D391920FD053A00913023 /* Products */,
 				02CCCCF35700C271A7FF0751 /* Pods */,
 				85F548516BD29901A61DB33D /* Frameworks */,
@@ -298,7 +261,6 @@
 				CC7D391820FD053A00913023 /* WeatherApp.app */,
 				CC7D393020FD053D00913023 /* WeatherAppTests.xctest */,
 				CC7D393B20FD053D00913023 /* WeatherAppUITests.xctest */,
-				CC74E4F321084D1300082593 /* Widget.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -341,23 +303,6 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		CC74E4F221084D1300082593 /* Widget */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = CC74E50321084D1300082593 /* Build configuration list for PBXNativeTarget "Widget" */;
-			buildPhases = (
-				CC74E4EF21084D1300082593 /* Sources */,
-				CC74E4F021084D1300082593 /* Frameworks */,
-				CC74E4F121084D1300082593 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = Widget;
-			productName = Widget;
-			productReference = CC74E4F321084D1300082593 /* Widget.appex */;
-			productType = "com.apple.product-type.app-extension";
-		};
 		CC7D391720FD053A00913023 /* WeatherApp */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = CC7D394420FD053D00913023 /* Build configuration list for PBXNativeTarget "WeatherApp" */;
@@ -372,7 +317,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				CC74E4FF21084D1300082593 /* PBXTargetDependency */,
 			);
 			name = WeatherApp;
 			productName = WeatherApp;
@@ -426,9 +370,6 @@
 				LastUpgradeCheck = 0940;
 				ORGANIZATIONNAME = xToBeAnnounce;
 				TargetAttributes = {
-					CC74E4F221084D1300082593 = {
-						CreatedOnToolsVersion = 9.4.1;
-					};
 					CC7D391720FD053A00913023 = {
 						CreatedOnToolsVersion = 9.4.1;
 					};
@@ -458,20 +399,11 @@
 				CC7D391720FD053A00913023 /* WeatherApp */,
 				CC7D392F20FD053D00913023 /* WeatherAppTests */,
 				CC7D393A20FD053D00913023 /* WeatherAppUITests */,
-				CC74E4F221084D1300082593 /* Widget */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		CC74E4F121084D1300082593 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				CC74E4FC21084D1300082593 /* MainInterface.storyboard in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		CC7D391620FD053A00913023 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -573,14 +505,6 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		CC74E4EF21084D1300082593 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				CC74E4F921084D1300082593 /* TodayViewController.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		CC7D391420FD053A00913023 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -626,11 +550,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		CC74E4FF21084D1300082593 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = CC74E4F221084D1300082593 /* Widget */;
-			targetProxy = CC74E4FE21084D1300082593 /* PBXContainerItemProxy */;
-		};
 		CC7D393220FD053D00913023 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = CC7D391720FD053A00913023 /* WeatherApp */;
@@ -644,14 +563,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		CC74E4FA21084D1300082593 /* MainInterface.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				CC74E4FB21084D1300082593 /* Base */,
-			);
-			name = MainInterface.storyboard;
-			sourceTree = "<group>";
-		};
 		CC7D392620FD053D00913023 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -663,42 +574,6 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		CC74E50121084D1300082593 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = LS88PBY5M5;
-				INFOPLIST_FILE = Widget/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = xToBeAnnounce.WeatherApp.Widget;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		CC74E50221084D1300082593 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = LS88PBY5M5;
-				INFOPLIST_FILE = Widget/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = xToBeAnnounce.WeatherApp.Widget;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
 		CC7D394220FD053D00913023 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -926,15 +801,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		CC74E50321084D1300082593 /* Build configuration list for PBXNativeTarget "Widget" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				CC74E50121084D1300082593 /* Debug */,
-				CC74E50221084D1300082593 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		CC7D391320FD053A00913023 /* Build configuration list for PBXProject "WeatherApp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

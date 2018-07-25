@@ -25,6 +25,7 @@
 @property (strong, nonatomic) UIBarButtonItem *settingsButton;
 @property (strong, nonatomic) PageViewController *pageVC;
 @property (strong, nonatomic) UIBarButtonItem *addLocationButton;
+@property (strong,nonatomic) UISegmentedControl *DailyWeeklySegmentedC;
 @end
 
 @implementation LoginViewController
@@ -40,9 +41,6 @@
 -(void)initViewController{
     self.pageVC = [[PageViewController alloc]initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:nil];
     self.pageVC.navController = [[UINavigationController alloc] initWithRootViewController:self.pageVC];
-    [self.pageVC.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
-    [self.pageVC.navigationController.navigationBar setShadowImage:[UIImage new]];
-    [self.pageVC.navigationController.navigationBar setTranslucent:YES];
     
     self.settingsButton = [[UIBarButtonItem alloc] initWithTitle:@"Setting" style:UIBarButtonItemStylePlain target:self action:@selector(segueToSettings)];
     self.settingsButton.image = [UIImage imageNamed:@"hamburger"];
@@ -55,8 +53,9 @@
     
     self.DailyWeeklySegmentedC = [[UISegmentedControl alloc]initWithItems:@[@"Daily",@"Weekly"]];
     self.pageVC.navigationController.navigationBar.topItem.titleView = self.DailyWeeklySegmentedC;
+    self.DailyWeeklySegmentedC.selectedSegmentIndex = 0;
     self.DailyWeeklySegmentedC.tintColor = UIColor.blackColor;
-   
+    
 }
 
 -(void)setPageNavigation{
@@ -146,7 +145,6 @@
 }
 
 
-
 -(void)segueToAddLocation{
     [self.pageVC.navController pushViewController:LocationPickerViewController.new animated:YES];
 }
@@ -155,6 +153,8 @@
     UINavigationController *settingsNavigationController = [[UINavigationController alloc] initWithRootViewController:SettingsViewController.new];
     [self.pageVC.navController presentViewController:settingsNavigationController animated:YES completion:nil];
 }
+
+
 
 /*
 #pragma mark - Navigation

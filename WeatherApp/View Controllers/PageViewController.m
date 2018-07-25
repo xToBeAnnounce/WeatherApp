@@ -29,6 +29,8 @@
     
     self.viewControllerArrary = @[dailyVC, weeklyVC];
     [self setViewControllers:@[dailyVC] direction:UIPageViewControllerNavigationDirectionReverse animated:NO completion:nil];
+    
+    
 }
 
 - (void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray<UIViewController *> *)previousViewControllers transitionCompleted:(BOOL)completed {
