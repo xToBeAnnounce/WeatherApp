@@ -36,7 +36,7 @@ static NSString *DailycellIdentifier = @"WeeklyCell";
 - (instancetype) initWithLocation:(Location *)location {
     self.location = location;
     [self.dailyView setDailyUI:self.location];
-    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"grad"]];
+    self.view.backgroundColor = UIColor.whiteColor;
     
     
     return self;
@@ -56,6 +56,9 @@ static NSString *DailycellIdentifier = @"WeeklyCell";
     
     self.DailyWeeklySC = (UISegmentedControl *)self.navigationController.navigationBar.topItem.titleView;
     [self.DailyWeeklySC addTarget:self action:@selector(selectedIndex) forControlEvents:UIControlEventValueChanged];
+    
+    self.dailyView.backgroundColor = UIColor.orangeColor;
+    [self.view addSubview:self.dailyView]; 
     
 }
 

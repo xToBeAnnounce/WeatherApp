@@ -86,6 +86,7 @@ BOOL currentLocation;
             
             NSLog(@"Finished loading view controllers");
             [self.locViewArrary removeObject:self.placeholderScreen];
+            [self addPlaceholderIfNeeded];
             [self refreshPageViewWithStartIndex:0];
         }
         else {
@@ -146,6 +147,14 @@ BOOL currentLocation;
                 [self.locViewArrary addObject:self.placeholderScreen];
             }
         }
+    }
+}
+
+- (void)addPlaceholderIfNeeded {
+    if (self.locViewArrary.count == 0) {
+        self.placeholderLabel.text = @"Add some locations!";
+        [self.placeholderLabel sizeToFit];
+        [self.locViewArrary addObject:self.placeholderScreen];
     }
 }
 
