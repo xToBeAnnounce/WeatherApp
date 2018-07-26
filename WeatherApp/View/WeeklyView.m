@@ -27,11 +27,8 @@ static NSString *WeeklycellIdentifier = @"WeeklyCell";
         else NSLog(@"%@", error.localizedDescription);
     }];
     
-    
     self.WeeklytableView.delegate = self;
     self.WeeklytableView.dataSource = self;
-
-    
 }
 
 /*-----------------------------SETS WEEKLY UI-----------------------------------------*/
@@ -73,8 +70,11 @@ static NSString *WeeklycellIdentifier = @"WeeklyCell";
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [self.WeeklytableView deselectRowAtIndexPath:indexPath animated:YES];
-
+    //[self.WeeklytableView deselectRowAtIndexPath:indexPath animated:YES];
+    [self.delegate displayPopoverData];
+    // Create an activity for the location here
+    // Initalize the popover view
+    // Display the activity data in the popover view
 }
 
 

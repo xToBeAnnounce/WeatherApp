@@ -7,18 +7,13 @@
 //
 
 #import "LocationWeatherViewController.h"
-#import "DailyViewController.h"
 #import "APIManager.h"
-#import "DailyTableViewCell.h"
-#import "Weather.h"
-#import "User.h"
-#import "LoginViewController.h"
-#import "WeeklyCell.h"
 #import "DailyView.h"
 #import "WeeklyView.h"
 #import "NavigationController.h"
+#import "Activity.h"
 
-@interface LocationWeatherViewController ()
+@interface LocationWeatherViewController () <ActivityDelegate>
 @property (strong,nonatomic) UISegmentedControl *DailyWeeklySC;
 @property (strong,nonatomic) DailyView *dailyView;
 @property (strong,nonatomic) WeeklyView *weeklyView;
@@ -59,6 +54,7 @@
     
     self.dailyView = [[DailyView alloc]initWithFrame:UIScreen.mainScreen.bounds];
     self.weeklyView = [[WeeklyView alloc]initWithFrame:UIScreen.mainScreen.bounds];
+    self.weeklyView.delegate = self;
     self.weeklyView.location = self.location;
     self.dailyView.location = self.location;
     
@@ -68,6 +64,10 @@
     self.view.backgroundColor = [[UIColor alloc]initWithPatternImage:[UIImage imageNamed:@"grad"]];
 
    [self selectedIndex];
+}
+
+- (void)displayPopoverData{
+    
 }
 
 -(void)selectedIndex{

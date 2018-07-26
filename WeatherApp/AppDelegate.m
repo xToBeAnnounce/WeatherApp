@@ -12,6 +12,7 @@
 #import "LoginViewController.h"
 #import "PageViewController.h"
 #import "NavigationController.h"
+#import "ActivityAPIManager.h"
 
 @interface AppDelegate ()
 @property PageViewController *pageVC;
@@ -25,6 +26,14 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [self parseBackendSetup];
     
+    ActivityAPIManager *activityAPI = [ActivityAPIManager shared];
+    [activityAPI getActivityDataWithLocation:@[@42.3601, @-71.0589] Type:@"cafe" Keyword:@"cafe" WithCompletion:^(NSDictionary *data, NSError *error) {
+        if(error == nil){
+            NSLog(@"%@", data);
+        }
+        else NSLog(@"%@", error.localizedDescription);
+    }];
+
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.loginVC = [[LoginViewController alloc] init];
     self.pageVC = [[PageViewController alloc]initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:nil];
