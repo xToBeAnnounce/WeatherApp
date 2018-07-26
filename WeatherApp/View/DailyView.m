@@ -18,12 +18,30 @@
 
 
 @implementation DailyView
+static bool loadDailyData = NO;
+static NSString *DailycellIdentifier = @"DailyTableViewCell";
 
 
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
 - (void)drawRect:(CGRect)rect {
     
+    [self setDailyUI:self.location];
+    [self displayCurrentWeather:self.location];
+    
+    [self.location fetchDataType:@"daily" WithCompletion:^(NSDictionary * data, NSError * error) {
+        if(error == nil){
+            loadDailyData = YES;
+            [self displayCurrentWeather:self.location];
+            [self.DailytableView reloadData];
+        }
+        else NSLog(@"%@", error.localizedDescription);
+    }];
+    
+    self.DailytableView.dataSource = self;
+    self.DailytableView.delegate = self;
+    
+   
 }
 
 -(void)setDailyUI:(Location *)location{
@@ -133,32 +151,31 @@
     }
 }
 
--(void)ShowDailyData{
-    self.temperatureLabel.hidden = NO;
-    self.backgroundImageView.hidden = NO;
-    self.customNameLabel.hidden = NO;
-    self.locationLabel.hidden = NO;
-    self.iconImageView.hidden = NO;
-    self.currentWeatherView.hidden = NO;
-    self.DailytableView.hidden = NO;
-    self.weatherDisplayStackView.hidden = NO;
-    [self.DailytableView reloadData];
-}
-
--(void)HideDailyData{
-    self.temperatureLabel.hidden = YES;
-    self.backgroundImageView.hidden = YES;
-    self.customNameLabel.hidden = YES;
-    self.locationLabel.hidden = YES;
-    self.iconImageView.hidden = YES;
-    self.currentWeatherView.hidden = YES;
-    self.DailytableView.hidden = YES;
-    self.weatherDisplayStackView.hidden = YES;
-    [self.DailytableView reloadData];
+- (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
+    DailyTableViewCell *cell = [self.DailytableView dequeueReusableCellWithIdentifier:DailycellIdentifier];
+    if(cell == nil){
+        cell = [[DailyTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:DailycellIdentifier];
+    }
+    if(loadDailyData){
+        cell.tempType = self.tempType;
+        Weather *hourlyWeather = self.location.dailyData[indexPath.row];
+        cell.hourWeather = hourlyWeather;
+    }
+    return cell;
 }
 
 
+- (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return self.location.dailyData.count;
+}
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [self.DailytableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+- (void)setLocation:(Location *)location{
+    _location = location;
+}
 
 
 @end

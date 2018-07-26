@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Location.h"
 
-@interface WeeklyView : UIView
+@interface WeeklyView : UIView <UITableViewDelegate, UITableViewDataSource>
 @property (strong, nonatomic) UITableView *WeeklytableView;
--(void)ShowWeeklyData;
--(void)HideWeeklyData;
+@property (strong,nonatomic) Location *location;
+@property (strong, nonatomic) NSString *tempType;
 
 @end

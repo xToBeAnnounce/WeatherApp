@@ -8,15 +8,30 @@
 
 #import "WeeklyView.h"
 #import "WeeklyCell.h"
-
+#import "Location.h"
 @implementation WeeklyView
+static bool loadWeeklyData = NO;
+static NSString *WeeklycellIdentifier = @"WeeklyCell";
 
 
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
 - (void)drawRect:(CGRect)rect {
-    // Drawing code
     [self setWeeklyUI];
+    
+    [self.location fetchDataType:@"weekly" WithCompletion:^(NSDictionary * data, NSError * error) {
+        if(error == nil){
+            loadWeeklyData = YES;
+            [self.WeeklytableView reloadData];
+        }
+        else NSLog(@"%@", error.localizedDescription);
+    }];
+    
+    
+    self.WeeklytableView.delegate = self;
+    self.WeeklytableView.dataSource = self;
+
+    
 }
 
 /*-----------------------------SETS WEEKLY UI-----------------------------------------*/
@@ -27,6 +42,7 @@
     self.WeeklytableView.translatesAutoresizingMaskIntoConstraints = NO;
     [self addSubview:self.WeeklytableView];
     [self.WeeklytableView registerClass: WeeklyCell.class forCellReuseIdentifier:@"WeeklyCell"];
+    [self setWeeklyConstraints];
 }
 
 - (void) setWeeklyConstraints {
@@ -36,14 +52,30 @@
     [self.WeeklytableView.bottomAnchor constraintEqualToAnchor:self.safeAreaLayoutGuide.bottomAnchor].active = YES;
 }
 
--(void)HideWeeklyData{
-    self.WeeklytableView.hidden = YES;
-    [self.WeeklytableView reloadData];
+
+
+- (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
+    
+    WeeklyCell *weeklycell = [self.WeeklytableView dequeueReusableCellWithIdentifier:WeeklycellIdentifier];
+    if(weeklycell == nil){
+        weeklycell = [[WeeklyCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:WeeklycellIdentifier];
+    }
+    if(loadWeeklyData){
+        weeklycell.tempType = self.tempType;
+        Weather *dayWeather = self.location.weeklyData[indexPath.row];
+        weeklycell.dayWeather = dayWeather;
+    }
+    return weeklycell;
 }
 
--(void)ShowWeeklyData{
-    self.WeeklytableView.hidden = NO;
-    [self.WeeklytableView reloadData];
+- (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section { 
+    return self.location.weeklyData.count;
 }
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [self.WeeklytableView deselectRowAtIndexPath:indexPath animated:YES];
+
+}
+
 
 @end
