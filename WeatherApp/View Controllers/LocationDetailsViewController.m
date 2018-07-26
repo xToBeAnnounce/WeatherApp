@@ -84,21 +84,23 @@ BOOL saving = NO;
     
     // Date Switches
     self.startSwitch = [[UISwitch alloc] init];
+    self.startSwitch.on = (BOOL)self.location.startDate;
     [self.startSwitch addTarget:self action:@selector(onToggleDate:) forControlEvents:UIControlEventValueChanged];
     
     self.endSwitch = [[UISwitch alloc] init];
+    self.endSwitch.on = (BOOL)self.location.endDate;
     [self.endSwitch addTarget:self action:@selector(onToggleDate:) forControlEvents:UIControlEventValueChanged];
     
     //Start and End date pickers (Next step: try to make them hidden when unsed)
     self.startDatePicker = [[UIDatePicker alloc] init];
     self.startDatePicker.datePickerMode = UIDatePickerModeDate;
     if (self.location.startDate) [self.startDatePicker setDate:self.location.startDate];
-    self.startDatePicker.hidden = YES;
+    self.startDatePicker.hidden = !self.location.startDate;
     
     self.endDatePicker = [[UIDatePicker alloc]init];
     self.endDatePicker.datePickerMode = UIDatePickerModeDate;
     if (self.location.endDate) [self.endDatePicker setDate:self.location.endDate];
-    self.endDatePicker.hidden = YES;
+    self.endDatePicker.hidden = !self.location.endDate;
     
     // Delete location button
     self.deleteLocationButton = [[UIButton alloc] init];
@@ -238,7 +240,7 @@ BOOL saving = NO;
     [locationAttributeDict setObject:self.startDatePicker.date forKey:@"startDate"];
     [locationAttributeDict setObject:self.endDatePicker.date forKey:@"endDate"];
     
-    if(!self.startSwitch.isOn) [locationAttributeDict setObject:[NSDate date] forKey:@"startDate"];
+    if(!self.startSwitch.isOn) [locationAttributeDict removeObjectForKey:@"startDate"];
     if(!self.endSwitch.isOn) [locationAttributeDict removeObjectForKey:@"endDate"];
     
     NSDate *startDate = [locationAttributeDict objectForKey:@"startDate"];
