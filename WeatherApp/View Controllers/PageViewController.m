@@ -55,7 +55,8 @@ BOOL currentLocation;
     [self refreshPageViewWithStartIndex:0];
 }
 
-- (void) viewDidAppear:(BOOL)animated {
+- (void) viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     
     [User.currentUser getUserPreferencesWithBlock:^(Preferences *pref, NSError *error) {
         if (pref) {
@@ -88,7 +89,6 @@ BOOL currentLocation;
                 [self.locViewArrary addObject:newLocVC];
             }
             
-            NSLog(@"Finished loading view controllers");
             [self.locViewArrary removeObject:self.placeholderScreen];
             [self addPlaceholderIfNeeded];
             [self refreshPageViewWithStartIndex:0];

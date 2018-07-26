@@ -9,6 +9,8 @@
 #import "LocationDetailsViewController.h"
 #import "User.h"
 
+// TODO: ADD HUD WHEN CURRENTLY SAVING
+
 @interface LocationDetailsViewController () <UITextFieldDelegate>
 /* Name Labels */
 @property (strong, nonatomic) UILabel *placeNameLabel;
@@ -23,6 +25,9 @@
 @property (strong, nonatomic) UIDatePicker *startDatePicker;
 @property (strong, nonatomic) UIDatePicker *endDatePicker;
 
+/* Delete Location Button */
+@property (strong, nonatomic) UIButton *deleteLocationButton;
+
 /* View properties */
 @property (strong, nonatomic) UIScrollView *scrollView;
 @property (strong, nonatomic) UIView *placeNameView;
@@ -32,6 +37,8 @@
 @implementation LocationDetailsViewController
 
 NSMutableDictionary *locationAttributeDict;
+
+BOOL saving = NO;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -44,15 +51,7 @@ NSMutableDictionary *locationAttributeDict;
     [super viewWillAppear:animated];
     //Setting up navigation buttons
     UIBarButtonItem *saveButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(saveLocationDetail)];
-    UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelSelectedLocation)];
     self.navigationItem.rightBarButtonItem = saveButton;
-//    if (self.saveNewLocation) {
-//        self.navigationController.navigationBar.topItem.rightBarButtonItem = saveButton;
-//        self.navigationController.navigationBar.topItem.leftBarButtonItem = cancelButton;
-//    }
-//    else {
-//        self.navigationItem.rightBarButtonItem = saveButton;
-//    }
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -60,45 +59,30 @@ NSMutableDictionary *locationAttributeDict;
     
 }
 
-- (void) setUI {
-    [self.view setBackgroundColor:[UIColor whiteColor]];
-    UITapGestureRecognizer *screenTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onTap:)];
-    [self.view addGestureRecognizer:screenTapGesture];
-    
-    self.scrollView = [[UIScrollView alloc] initWithFrame:self.view.frame];
-    self.scrollView.alwaysBounceVertical = YES;
-    self.scrollView.translatesAutoresizingMaskIntoConstraints = NO;
-    [self.view addSubview:self.scrollView];
-    
-    self.placeNameView = [[UIView alloc] init];
-    self.placeNameView.backgroundColor = [UIColor lightGrayColor];
-    self.placeNameView.translatesAutoresizingMaskIntoConstraints = NO;
-    
-    //Displays name of location (missing center anchor)
+- (void) initalizeControlProperties {
+    //Displays name of location
     self.placeNameLabel = [[UILabel alloc]init];
     self.placeNameLabel.font = [UIFont systemFontOfSize:25 weight:UIFontWeightThin];
     self.placeNameLabel.textColor = UIColor.blackColor;
     self.placeNameLabel.text = self.location.fullPlaceName;
+    self.placeNameLabel.numberOfLines = 0;
+    self.placeNameLabel.textAlignment = NSTextAlignmentCenter;
     [self.placeNameLabel sizeToFit];
     self.placeNameLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    
-    [self.placeNameView addSubview:self.placeNameLabel];
     
     //Custom Name input
     self.customNameTextField = [[UITextField alloc]initWithFrame:CGRectMake(200, 160, 0, 0)];
     self.customNameTextField.delegate = self;
     self.customNameTextField.textColor = UIColor.blackColor;
     self.customNameTextField.borderStyle = UITextBorderStyleRoundedRect;
-    if(self.location.customName && ![self.location.customName isEqualToString:@""]) {
-        self.customNameTextField.text = self.location.customName;
-        self.customNameTextField.placeholder = self.location.customName;
-    }
-    else {
-        self.customNameTextField.placeholder = self.location.placeName;
+    if (!self.location.customName || [self.location.customName isEqualToString:@""]) {
         self.location.customName = self.location.placeName;
     }
-    [self.customNameTextField sizeToFit];
+    self.customNameTextField.placeholder = self.location.customName;
+    //    [self.customNameTextField sizeToFit];
+    [self.customNameTextField addTarget:self action:@selector(onEditedCustomName) forControlEvents:UIControlEventEditingChanged];
     
+    // Date Switches
     self.startSwitch = [[UISwitch alloc] init];
     [self.startSwitch addTarget:self action:@selector(onToggleDate:) forControlEvents:UIControlEventValueChanged];
     
@@ -116,12 +100,38 @@ NSMutableDictionary *locationAttributeDict;
     if (self.location.endDate) [self.endDatePicker setDate:self.location.endDate];
     self.endDatePicker.hidden = YES;
     
+    // Delete location button
+    self.deleteLocationButton = [[UIButton alloc] init];
+    [self.deleteLocationButton setTitle:@"Delete Location" forState:UIControlStateNormal];
+    [self.deleteLocationButton setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+    self.deleteLocationButton.hidden = self.saveNewLocation;
+    [self.deleteLocationButton addTarget:self action:@selector(onTapDelete:) forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void) setUI {
+    [self initalizeControlProperties];
+    
+    [self.view setBackgroundColor:[UIColor whiteColor]];
+    UITapGestureRecognizer *screenTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onTap:)];
+    [self.view addGestureRecognizer:screenTapGesture];
+    
+    self.scrollView = [[UIScrollView alloc] initWithFrame:self.view.frame];
+    self.scrollView.alwaysBounceVertical = YES;
+    self.scrollView.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.view addSubview:self.scrollView];
+    
+    self.placeNameView = [[UIView alloc] init];
+    self.placeNameView.backgroundColor = [UIColor lightGrayColor];
+    self.placeNameView.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.placeNameView addSubview:self.placeNameLabel];
+    
     NSArray *stackSubViews = @[self.placeNameView,
                                [self makeHStackViewFor:self.customNameTextField withLabel:@"Custom Name"],
                                [self makeHStackViewFor:self.startSwitch withLabel:@"Start Date"],
                                self.startDatePicker,
                                [self makeHStackViewFor:self.endSwitch withLabel:@"End Date"],
-                               self.endDatePicker
+                               self.endDatePicker,
+                               self.deleteLocationButton
                                ];
     
     self.mainStackView = [[UIStackView alloc] initWithArrangedSubviews:stackSubViews];
@@ -168,6 +178,8 @@ NSMutableDictionary *locationAttributeDict;
     
     [self.placeNameLabel.centerYAnchor constraintEqualToAnchor:self.placeNameView.centerYAnchor].active = YES;
     [self.placeNameLabel.centerXAnchor constraintEqualToAnchor:self.placeNameView.centerXAnchor].active = YES;
+    [self.placeNameLabel.leadingAnchor constraintGreaterThanOrEqualToAnchor:self.placeNameView.leadingAnchor constant:8].active = YES;
+    [self.placeNameLabel.trailingAnchor constraintGreaterThanOrEqualToAnchor:self.placeNameView.trailingAnchor constant:8].active = YES;
     
     [self.mainStackView.topAnchor constraintEqualToAnchor:self.scrollView.topAnchor].active = YES;
     [self.mainStackView.bottomAnchor constraintEqualToAnchor:self.scrollView.bottomAnchor constant:-8].active = YES;
@@ -204,8 +216,7 @@ NSMutableDictionary *locationAttributeDict;
     return YES;
 }
 
-//Press Return to save
-- (void)textFieldDidEndEditing:(UITextField *)textField{
+- (void) onEditedCustomName {
     if ([self.customNameTextField.text isEqualToString:@""]) {
         [locationAttributeDict removeObjectForKey:@"customName"];
     }
@@ -220,6 +231,10 @@ NSMutableDictionary *locationAttributeDict;
 }
 
 -(void)saveLocationDetail{
+    [self.customNameTextField resignFirstResponder];
+    if (saving) return;
+    
+    saving = YES;
     [locationAttributeDict setObject:self.startDatePicker.date forKey:@"startDate"];
     [locationAttributeDict setObject:self.endDatePicker.date forKey:@"endDate"];
     
@@ -236,6 +251,7 @@ NSMutableDictionary *locationAttributeDict;
             // Add location to user
             [User.currentUser addLocation:self.location completion:^(BOOL succeeded, NSError * _Nullable error) {
                 if(succeeded){
+                    saving = NO;
                     [self dismissViewControllerAnimated:YES completion:nil];
                 }
                 else NSLog(@"%@", error.localizedDescription);
@@ -245,6 +261,7 @@ NSMutableDictionary *locationAttributeDict;
             // Save changes to existing Location
             [self.location saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
                 if (succeeded) {
+                    saving = NO;
                     [self.navigationController popViewControllerAnimated:YES];
                 }
             }];
@@ -267,13 +284,26 @@ NSMutableDictionary *locationAttributeDict;
     [self.view endEditing:YES];
 }
 
-- (IBAction)dateDidChange:(id)sender {
-    if ([sender isEqual:self.startDatePicker]) {
-        [locationAttributeDict setObject:self.startDatePicker.date forKey:@"startDate"];
-    }
-    else if ([sender isEqual:self.endDatePicker]){
-        [locationAttributeDict setObject:self.endDatePicker.date forKey:@"endDate"];
-    }
+- (IBAction)onTapDelete:(id)sender {
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Warning" message:@"Are you sure you want to delete this location?" preferredStyle:(UIAlertControllerStyleAlert)];
+    
+    // create a cancel action
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {}];
+    [alert addAction:cancelAction];
+
+    UIAlertAction *yesAction = [UIAlertAction actionWithTitle:@"Yes" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [User.currentUser deleteLocationWithID:self.location.objectId withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
+            if (succeeded) {
+                [self.navigationController popViewControllerAnimated:YES];
+            }
+            else {
+                NSLog(@"Error occured: %@", error.localizedDescription);
+            }
+        }];
+    }];
+    [alert addAction:yesAction];
+    
+    [self presentViewController:alert animated:YES completion:^{}];
 }
 
 - (void)didReceiveMemoryWarning {

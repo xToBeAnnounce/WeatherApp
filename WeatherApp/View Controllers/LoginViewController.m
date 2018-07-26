@@ -13,7 +13,6 @@
 @interface LoginViewController ()
 @property (strong,nonatomic) UITextField *usernameField;
 @property (strong,nonatomic) UITextField *passwordField;
-@property UINavigationController *navController;
 @property (strong,nonatomic) UIButton *loginButton;
 @property (strong,nonatomic) UIButton *signupButton;
 @property (strong,nonatomic) UILabel *titleLabel;
@@ -70,7 +69,7 @@
     NSString *username = self.usernameField.text;
     NSString *password = self.passwordField.text;
     [PFUser logInWithUsernameInBackground:username password:password block:^(PFUser * user, NSError *  error) {
-        if (error != nil) {
+        if (error) {
             NSLog(@"User log in failed: %@", error.localizedDescription);
             [self AlertController:error.localizedDescription];
         } else {
