@@ -13,6 +13,7 @@
 @interface NavigationController()
 @property (strong, nonatomic) UIBarButtonItem *settingsButton;
 @property (strong, nonatomic) UIBarButtonItem *addLocationButton;
+@property (strong,nonatomic) UISegmentedControl *DailyWeeklySegmentedControl;
 @end
 
 @implementation NavigationController
@@ -45,9 +46,19 @@
 
 -(void)setPageVCNavigationBar:(UINavigationController*)pageNavController{
     self.settingsButton = [[UIBarButtonItem alloc] initWithTitle:@"Settings" style:UIBarButtonItemStylePlain target:self action:@selector(segueToSettings)];
+    self.settingsButton.image = [UIImage imageNamed:@"hamburger"];
+    self.settingsButton.tintColor = UIColor.whiteColor;
     pageNavController.navigationBar.topItem.leftBarButtonItem = self.settingsButton;
     self.addLocationButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(segueToAddLocation)];
+    self.addLocationButton.image = [UIImage imageNamed:@"plus-1"];
+    self.addLocationButton.tintColor = UIColor.whiteColor;
     pageNavController.navigationBar.topItem.rightBarButtonItem = self.addLocationButton;
+    
+    self.DailyWeeklySegmentedControl = [[UISegmentedControl alloc]initWithItems:@[@"Daily",@"Weekly"]];
+    self.DailyWeeklySegmentedControl.selectedSegmentIndex = 0;
+    self.DailyWeeklySegmentedControl.tintColor = UIColor.blackColor;
+    pageNavController.navigationBar.topItem.titleView = self.DailyWeeklySegmentedControl;
+    
 }
 
 -(void)segueToSettings{
@@ -63,6 +74,7 @@
     UINavigationController *locationNavVC = [[UINavigationController alloc] initWithRootViewController:locationVC];
     [self presentViewController:locationNavVC Name:@"location"];
 }
+
 
 @end
 
