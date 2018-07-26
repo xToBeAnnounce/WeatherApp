@@ -7,52 +7,73 @@
 //
 
 #import "LocationWeatherViewController.h"
+#import "DailyViewController.h"
+#import "APIManager.h"
+#import "DailyTableViewCell.h"
+#import "Weather.h"
+#import "User.h"
+#import "LoginViewController.h"
+#import "WeeklyCell.h"
+#import "DailyView.h"
+#import "WeeklyView.h"
 
 @interface LocationWeatherViewController ()
+@property (strong,nonatomic) UISegmentedControl *DailyWeeklySC;
+@property (strong,nonatomic) DailyView *dailyView;
+@property (strong,nonatomic) WeeklyView *weeklyView;
+
 
 @end
 
 @implementation LocationWeatherViewController
 
 
-- (instancetype) initWithLocation:(Location *)location {
+- (instancetype) initWithLocation:(Location *)location segmentedControl:(UISegmentedControl *)DailyWeeklySC {
     self.location = location;
-    self.view.backgroundColor = [UIColor redColor];
+    self.view.backgroundColor = UIColor.whiteColor;
     
-    self.locLabel = [[UILabel alloc] initWithFrame:CGRectMake(100, 100, 200, 50)];
-    [self.view addSubview:self.locLabel];
+    self.DailyWeeklySC = DailyWeeklySC;
+    [self.DailyWeeklySC addTarget:self action:@selector(selectedIndex) forControlEvents:UIControlEventValueChanged];
     
     [self setUI];
+    
     return self;
 }
 
-
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    self.view.backgroundColor = [[UIColor alloc]initWithPatternImage:[UIImage imageNamed:@"grad"]];
 }
 
 - (void) viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-}
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (void) setUI {
-    self.locLabel.text = self.location.customName;
-    [self.locLabel sizeToFit];
+    
+    self.dailyView = [[DailyView alloc]initWithFrame:UIScreen.mainScreen.bounds];
+    self.weeklyView = [[WeeklyView alloc]initWithFrame:UIScreen.mainScreen.bounds];
+    self.weeklyView.location = self.location;
+    self.dailyView.location = self.location;
+    
+    [self.view addSubview:self.dailyView];
+    [self.view addSubview:self.weeklyView];
+    
+    self.view.backgroundColor = [[UIColor alloc]initWithPatternImage:[UIImage imageNamed:@"grad"]];
+    
+    [self selectedIndex];
 }
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+-(void)selectedIndex{
+    if(self.DailyWeeklySC.selectedSegmentIndex == 0 ){
+        NSLog(@"Daily");
+        self.weeklyView.hidden = YES;
+        self.dailyView.hidden = NO;
+    } else {
+        NSLog(@"Weekly");
+        self.weeklyView.hidden = NO;
+        self.dailyView.hidden = YES;
+    }
 }
-*/
-
 @end

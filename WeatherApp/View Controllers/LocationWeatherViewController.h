@@ -14,5 +14,5 @@
 @property (strong, nonatomic) UILabel *locLabel;
 @property (strong, nonatomic) Location *location;
 
-- (instancetype) initWithLocation:(Location *)location;
+- (instancetype) initWithLocation:(Location *)location segmentedControl:(UISegmentedControl *)DailyWeeklySC;
 @end

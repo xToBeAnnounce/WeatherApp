@@ -19,6 +19,7 @@
 @property (strong, nonatomic) NSMutableArray *locViewArrary;
 @property (strong, nonatomic) UIViewController *placeholderScreen;
 @property (strong, nonatomic) UILabel *placeholderLabel;
+@property (strong,nonatomic) UISegmentedControl *DailyWeeklySC ;
 
 @end
 
@@ -29,6 +30,9 @@ BOOL currentLocation;
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.locViewArrary = [[NSMutableArray alloc] init];
+    
+    
+    self.DailyWeeklySC = (UISegmentedControl *)self.navigationController.navigationBar.topItem.titleView;
     
     self.dataSource = self;
     self.view.backgroundColor = [[UIColor alloc]initWithPatternImage:[UIImage imageNamed:@"grad"]];
@@ -57,7 +61,10 @@ BOOL currentLocation;
         if (pref) {
             currentLocation = pref.locationOn;
             if (pref.locationOn) {
-                LocationWeatherViewController *currentLocVC = [[LocationWeatherViewController alloc] initWithLocation:Location.currentLocation];
+              
+                LocationWeatherViewController *currentLocVC = [[LocationWeatherViewController alloc] initWithLocation:Location.currentLocation segmentedControl:self.DailyWeeklySC];
+
+
                 [self.locViewArrary insertObject:currentLocVC atIndex:0];
                 [self.locViewArrary removeObject:self.placeholderScreen];
             }
@@ -70,14 +77,14 @@ BOOL currentLocation;
         }
     }];
     
-
+    
     [User.currentUser getLocationsArrayInBackgroundWithBlock:^(NSMutableArray *locations, NSError *error) {
         if (locations) {
             // If current location on, removes every screen after first, else removes all screeens
             NSRange locRange = (currentLocation) ?NSMakeRange(1, self.locViewArrary.count-1) : NSMakeRange(0, self.locViewArrary.count);
             [self.locViewArrary removeObjectsInRange:locRange];
             for (Location *loc in locations) {
-                LocationWeatherViewController *newLocVC = [[LocationWeatherViewController alloc] initWithLocation:loc];
+                LocationWeatherViewController *newLocVC = [[LocationWeatherViewController alloc] initWithLocation:loc segmentedControl:self.DailyWeeklySC];
                 [self.locViewArrary addObject:newLocVC];
             }
             
@@ -90,14 +97,14 @@ BOOL currentLocation;
             NSLog(@"Error: %@", error.localizedDescription);
         }
     }];
-
+    
 }
 
 - (void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray<UIViewController *> *)previousViewControllers transitionCompleted:(BOOL)completed {
     
-    UIPageViewController *pagecontentVC = pageViewController.viewControllers[0]; 
+    UIPageViewController *pagecontentVC = pageViewController.viewControllers[0];
     self.pageControl.currentPage = [self.locViewArrary indexOfObject:pagecontentVC];
-
+    
 }
 
 -(UIViewController *)viewControllerAtIndex:(NSUInteger)index {
@@ -155,3 +162,4 @@ BOOL currentLocation;
 }
 
 @end
+
