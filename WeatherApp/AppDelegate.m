@@ -7,12 +7,8 @@
 //
 
 #import "AppDelegate.h"
-#import "WeeklyViewController.h"
 #import <Parse/Parse.h>
 #import "User.h"
-#import "DailyViewController.h"
-#import "SettingsViewController.h"
-#import "LocationPickerViewController.h"
 #import "LoginViewController.h"
 #import "PageViewController.h"
 #import "NavigationController.h"
@@ -27,11 +23,13 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    [self parseBackendSetup];
+    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.loginVC = [[LoginViewController alloc] init];
     self.pageVC = [[PageViewController alloc]initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:nil];
     
-    if(PFUser.currentUser){
+    if(User.currentUser){
         self.mainNavController = [[NavigationController alloc] initWithViewController:self.pageVC];
     }
     else{
@@ -42,8 +40,6 @@
     self.pageVC.navDelegate = self.mainNavController;
     self.loginVC.pageVC = self.pageVC;
     self.window.rootViewController = self.mainNavController.navStack;
-    
-    [self parseBackendSetup];
     [self.window makeKeyAndVisible];
     return YES;
 }

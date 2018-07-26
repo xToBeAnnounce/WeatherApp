@@ -12,7 +12,7 @@
 #import "LocationDetailsViewController.h"
 #import "User.h"
 
-@interface SettingsViewController () <UITableViewDelegate, UITableViewDataSource>
+@interface SettingsViewController () <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate>
 
 @property (strong, nonatomic) User *user;
 @property (strong, nonatomic) NSMutableDictionary *updatePrefDict;
@@ -22,6 +22,7 @@
 @property (strong, nonatomic) UISwitch *locationOnSwitch;
 @property (strong, nonatomic) UISwitch *notificationsOnSwitch;
 @property (strong, nonatomic) UIButton *resetButton;
+@property (strong, nonatomic) UITapGestureRecognizer *screenTap;
 
 @property (strong, nonatomic) UITableView *tableView;
 
@@ -78,16 +79,24 @@ static NSString *locationCellID = @"LocationTableViewCell";
 /*--------------------CONFIGURING UI METHODS--------------------*/
 
 - (void) initalizePreferenceControls {
+    // Tap Gesture
+    self.screenTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onTap:)];
+    self.screenTap.enabled = NO;
+    self.screenTap.cancelsTouchesInView = NO;
+    
     // Too Hot Temperature Text Field
     self.tooHotTextField = [[UITextField alloc] init];
+    self.tooHotTextField.delegate = self;
     self.tooHotTextField.keyboardType = UIKeyboardTypeNumberPad;
     self.tooHotTextField.borderStyle = UITextBorderStyleRoundedRect;
     [self.tooHotTextField.widthAnchor constraintEqualToConstant:self.view.frame.size.width/5].active = YES;
     self.tooHotTextField.translatesAutoresizingMaskIntoConstraints = NO;
     [self.tooHotTextField addTarget: self action: @selector(onEditedHot:) forControlEvents: UIControlEventEditingChanged];
+
     
     // Too Cold Temperature Text Field
     self.tooColdTextField = [[UITextField alloc] init];
+    self.tooColdTextField.delegate = self;
     self.tooColdTextField.keyboardType = UIKeyboardTypeNumberPad;
     self.tooColdTextField.borderStyle = UITextBorderStyleRoundedRect;
     [self.tooColdTextField.widthAnchor constraintEqualToConstant:self.view.frame.size.width/5].active = YES;
@@ -141,21 +150,19 @@ static NSString *locationCellID = @"LocationTableViewCell";
 
 - (void) setUI {
     self.view.backgroundColor = [UIColor whiteColor];
-    UITapGestureRecognizer *screenTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onTap:)];
-    screenTap.cancelsTouchesInView = NO;
-    [self.view addGestureRecognizer:screenTap];
     
     // Sets navigation bar titlte and buttons
     self.navigationController.navigationBar.topItem.title = @"Settings";
-    UIBarButtonItem* cancelBtn = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(onTapCancel:)];
+    UIBarButtonItem* closeBtn = [[UIBarButtonItem alloc] initWithTitle:@"Close" style:UIBarButtonItemStylePlain target:self action:@selector(onTapClose:)];
     UIBarButtonItem* saveBtn = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(onTapSave:)];
-    self.navigationController.navigationBar.topItem.leftBarButtonItem = cancelBtn;
+    self.navigationController.navigationBar.topItem.leftBarButtonItem = closeBtn;
     self.navigationController.navigationBar.topItem.rightBarButtonItem = saveBtn;
     
     // Sets up table view
     self.tableView = [[UITableView alloc] initWithFrame: CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
+    [self.tableView addGestureRecognizer:self.screenTap];
     [self.tableView registerClass:PreferenceTableViewCell.class forCellReuseIdentifier:preferenceCellID];
     [self.tableView registerClass:LocationTableViewCell.class forCellReuseIdentifier:locationCellID];
     
@@ -170,6 +177,9 @@ static NSString *locationCellID = @"LocationTableViewCell";
 }
 
 - (IBAction)onTapSave:(id)sender {
+    [self.tooHotTextField resignFirstResponder];
+    [self.tooColdTextField resignFirstResponder];
+    
     [self.user updatePreferencesWithDictionary:[NSDictionary dictionaryWithDictionary:self.updatePrefDict] withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
         if (succeeded) {
             NSLog(@"Saved preferences!");
@@ -181,7 +191,10 @@ static NSString *locationCellID = @"LocationTableViewCell";
     }];
 }
 
-- (IBAction)onTapCancel:(id)sender {
+- (IBAction)onTapClose:(id)sender {
+    [self.tooHotTextField resignFirstResponder];
+    [self.tooColdTextField resignFirstResponder];
+    
     [self.delegate dismissViewController];
 }
 
@@ -256,6 +269,19 @@ static NSString *locationCellID = @"LocationTableViewCell";
     }];
 }
 
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    if ([textField canResignFirstResponder]) [textField resignFirstResponder];
+    return YES;
+}
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
+    self.screenTap.enabled = YES;
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+    self.screenTap.enabled = NO;
+}
+
 /*-----------------TABLE VIEW DELEGATE METHODS-----------------*/
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 2;
@@ -300,9 +326,9 @@ static NSString *locationCellID = @"LocationTableViewCell";
         NSArray *locations = sectionsDict[sectionsArray[indexPath.section]];
         locationDetailVC.location = locations[indexPath.row];
         locationDetailVC.saveNewLocation = NO;
-        [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
         [self.navigationController pushViewController:locationDetailVC animated:YES];
     }
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 /*-----------------C TO F AND VICE VERSA-----------------*/

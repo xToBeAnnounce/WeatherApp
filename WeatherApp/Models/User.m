@@ -87,18 +87,45 @@
     return location;
 }
 
+// get location with given ID in background
+- (void)getLocationWithIDInBackground:(NSString *)locID completion:(void(^)(Location *location, NSError *error))completion{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        // No explicit autorelease pool needed here.
+        // The code runs in background, not strangling
+        // the main run loop.
+        Location *location = [self getLocationWithID:locID];
+        NSError *error;
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            completion(location, error);
+        });
+    });
+//    PFQuery *query = [PFQuery queryWithClassName:@"Location"];
+//    [query getObjectInBackgroundWithId:locID block:^(PFObject * _Nullable object, NSError * _Nullable error) {
+//        if (object) {
+//            Location *location = (Location *)object;
+//            completion(location, nil);
+//        }
+//        else {
+//            completion(nil, error);
+//        }
+//    }];
+}
+
 // delete location with given id
 - (void) deleteLocationWithID:(NSString *)locID withCompletion:(PFBooleanResultBlock)completion {
-    Location *location = [self getLocationWithID:locID];
-    [location deleteInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-        if (succeeded) {
+    [self getLocationWithIDInBackground:locID completion:^(Location *location, NSError *error) {
+        if (location) {
             [self.locationsIDArray removeObject:locID];
             self.locationsIDArray = [self.locationsIDArray copy];
-            [self saveInBackgroundWithBlock:completion];
+            [self saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+                if (succeeded) {
+                    [location deleteInBackgroundWithBlock:completion];
+                }
+                else {
+                    completion(NO, error);
+                }
+            }];
             self.locationsIDArray = [NSMutableArray arrayWithArray:self.locationsIDArray];
-        }
-        else {
-            NSLog(@"Error: %@", error.localizedDescription);
         }
     }];
 }

@@ -19,6 +19,9 @@
 
 -(instancetype)initWithViewController:(UIViewController*)viewController{
     self.navStack = [[UINavigationController alloc] initWithRootViewController:viewController];
+    if ([viewController.class isEqual:PageViewController.class]) {
+        [self setPageVCNavigationBar:viewController.navigationController];
+    }
     return self;
 }
 
