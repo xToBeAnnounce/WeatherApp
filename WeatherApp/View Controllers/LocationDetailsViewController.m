@@ -52,11 +52,15 @@ BOOL saving = NO;
     //Setting up navigation buttons
     UIBarButtonItem *saveButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(saveLocationDetail)];
     self.navigationItem.rightBarButtonItem = saveButton;
+    
+    if (self.navigationController.viewControllers.count <= 1) {
+        UIBarButtonItem *closeButton = [[UIBarButtonItem alloc] initWithTitle:@"Close" style:UIBarButtonItemStylePlain target:self action:@selector(didTapClose:)];
+        self.navigationItem.leftBarButtonItem = closeButton;
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    
 }
 
 - (void) initalizeControlProperties {
@@ -84,23 +88,23 @@ BOOL saving = NO;
     
     // Date Switches
     self.startSwitch = [[UISwitch alloc] init];
-    self.startSwitch.on = (BOOL)self.location.startDate;
+//    self.startSwitch.on = (BOOL)self.location.startDate;
     [self.startSwitch addTarget:self action:@selector(onToggleDate:) forControlEvents:UIControlEventValueChanged];
     
     self.endSwitch = [[UISwitch alloc] init];
-    self.endSwitch.on = (BOOL)self.location.endDate;
+//    self.endSwitch.on = (BOOL)self.location.endDate;
     [self.endSwitch addTarget:self action:@selector(onToggleDate:) forControlEvents:UIControlEventValueChanged];
     
     //Start and End date pickers (Next step: try to make them hidden when unsed)
     self.startDatePicker = [[UIDatePicker alloc] init];
     self.startDatePicker.datePickerMode = UIDatePickerModeDate;
     if (self.location.startDate) [self.startDatePicker setDate:self.location.startDate];
-    self.startDatePicker.hidden = !self.location.startDate;
+    self.startDatePicker.hidden = YES;
     
     self.endDatePicker = [[UIDatePicker alloc]init];
     self.endDatePicker.datePickerMode = UIDatePickerModeDate;
     if (self.location.endDate) [self.endDatePicker setDate:self.location.endDate];
-    self.endDatePicker.hidden = !self.location.endDate;
+    self.endDatePicker.hidden = YES;
     
     // Delete location button
     self.deleteLocationButton = [[UIButton alloc] init];
@@ -264,7 +268,7 @@ BOOL saving = NO;
             [self.location saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
                 if (succeeded) {
                     saving = NO;
-                    [self.navigationController popViewControllerAnimated:YES];
+                    [self navigateBackAppropriatelyAnimated:YES completion:nil];
                 }
             }];
         }
@@ -296,7 +300,7 @@ BOOL saving = NO;
     UIAlertAction *yesAction = [UIAlertAction actionWithTitle:@"Yes" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         [User.currentUser deleteLocationWithID:self.location.objectId withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
             if (succeeded) {
-                [self.navigationController popViewControllerAnimated:YES];
+                [self navigateBackAppropriatelyAnimated:YES completion:nil];
             }
             else {
                 NSLog(@"Error occured: %@", error.localizedDescription);
@@ -306,6 +310,20 @@ BOOL saving = NO;
     [alert addAction:yesAction];
     
     [self presentViewController:alert animated:YES completion:^{}];
+}
+
+- (IBAction)didTapClose:(id)sender {
+    [self navigateBackAppropriatelyAnimated:YES completion:nil];
+}
+
+- (void) navigateBackAppropriatelyAnimated:(BOOL)flag completion:(void (^)(void))completion {
+    // If was presented modally
+    if (self.navigationController.viewControllers.count <= 1) {
+        [self dismissViewControllerAnimated:flag completion:completion];
+    }
+    else {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 
 - (void)didReceiveMemoryWarning {

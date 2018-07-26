@@ -10,6 +10,7 @@
 #import "PreferenceTableViewCell.h"
 #import "LocationTableViewCell.h"
 #import "LocationDetailsViewController.h"
+#import "LocationPickerViewController.h"
 #import "User.h"
 
 @interface SettingsViewController () <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate>
@@ -44,7 +45,7 @@ static NSString *locationCellID = @"LocationTableViewCell";
     [self loadPreferences];
     [self setUI];
     
-    sectionsArray = @[@"Preferences", @"Locations"];
+    sectionsArray = @[@"Preferences", @"Locations", @"AddLocation"];
     sectionsDict = [NSMutableDictionary dictionaryWithDictionary:
   @{
     @"Preferences":@[
@@ -55,7 +56,8 @@ static NSString *locationCellID = @"LocationTableViewCell";
             @[@"Notifications", self.notificationsOnSwitch],
             @[@"", self.resetButton]
     ],
-        @"Locations":@[]
+        @"Locations":@[],
+        @"AddLocation": @[Location.new]
     }];
 }
 
@@ -63,6 +65,7 @@ static NSString *locationCellID = @"LocationTableViewCell";
     [super viewWillAppear:animated];
     [self.user getLocationsArrayInBackgroundWithBlock:^(NSMutableArray *locations, NSError *error) {
         if (locations) {
+            
             [sectionsDict setValue:locations forKey:@"Locations"];
             [self.tableView reloadData];
         }
@@ -284,10 +287,11 @@ static NSString *locationCellID = @"LocationTableViewCell";
 
 /*-----------------TABLE VIEW DELEGATE METHODS-----------------*/
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 2;
+    return sectionsArray.count;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    if (section == 2) return @"";
     return sectionsArray[section];
 }
 
@@ -317,6 +321,7 @@ static NSString *locationCellID = @"LocationTableViewCell";
         cell.location = items[indexPath.row];
         return cell;
     }
+    else if (indexPath.section == 2) return [self makeTextCellWithMessage:@"Add more locations..."];
     return [[UITableViewCell alloc] init];
 }
 
@@ -328,7 +333,29 @@ static NSString *locationCellID = @"LocationTableViewCell";
         locationDetailVC.saveNewLocation = NO;
         [self.navigationController pushViewController:locationDetailVC animated:YES];
     }
+    else if (indexPath.section == 2) {
+        LocationPickerViewController *locationPickerVC = [[LocationPickerViewController alloc] init];
+        [self presentViewController:[[UINavigationController alloc] initWithRootViewController:locationPickerVC] animated:YES completion:nil];
+    }
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+
+- (UITableViewCell *) makeTextCellWithMessage:(NSString *)message {
+    UITableViewCell *cell = [[UITableViewCell alloc] init];
+    
+    UILabel *messageLabel = [[UILabel alloc] init];
+    messageLabel.text = message;
+    messageLabel.font = [UIFont systemFontOfSize:22];
+    [messageLabel sizeToFit];
+    messageLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    [cell.contentView addSubview:messageLabel];
+    
+    [messageLabel.centerXAnchor constraintEqualToAnchor:cell.contentView.centerXAnchor].active = YES;
+    [messageLabel.centerYAnchor constraintEqualToAnchor:cell.contentView.centerYAnchor].active = YES;
+    
+    return cell;
 }
 
 /*-----------------C TO F AND VICE VERSA-----------------*/
