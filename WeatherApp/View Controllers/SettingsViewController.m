@@ -181,8 +181,8 @@ static NSString *locationCellID = @"LocationTableViewCell";
     }];
 }
 
-- (IBAction)onTapCancel:(id)sender{
-    [self dismissViewControllerAnimated:YES completion:nil];
+- (IBAction)onTapCancel:(id)sender {
+    [self.delegate dismissViewController];
 }
 
 - (IBAction)onEditedHot:(id)sender {

@@ -9,10 +9,6 @@
 #import "LoginViewController.h"
 #import <Parse/Parse.h>
 #import "User.h"
-#import "SettingsViewController.h"
-#import "PageViewController.h"
-#import "LocationPickerViewController.h"
-
 
 @interface LoginViewController ()
 @property (strong,nonatomic) UITextField *usernameField;
@@ -22,7 +18,6 @@
 @property (strong,nonatomic) UIButton *signupButton;
 @property (strong,nonatomic) UILabel *titleLabel;
 @property (strong, nonatomic) UIBarButtonItem *settingsButton;
-@property (strong, nonatomic) PageViewController *pageVC;
 @property (strong, nonatomic) UIBarButtonItem *addLocationButton;
 @property (strong,nonatomic) UISegmentedControl *DailyWeeklySegmentedC;
 @end
@@ -31,41 +26,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self initViewController];
-    [self setPageNavigation];
+    [self setLoginUI];
     self.view.backgroundColor = UIColor.whiteColor;
     
-}
-
--(void)initViewController{
-    self.pageVC = [[PageViewController alloc]initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:nil];
-    self.pageVC.navController = [[UINavigationController alloc] initWithRootViewController:self.pageVC];
-    
-
-    self.settingsButton = [[UIBarButtonItem alloc] initWithTitle:@"Setting" style:UIBarButtonItemStylePlain target:self action:@selector(segueToSettings)];
-    self.settingsButton.image = [UIImage imageNamed:@"hamburger"];
-    self.settingsButton.tintColor = UIColor.whiteColor;
-    self.pageVC.navController.navigationBar.topItem.leftBarButtonItem = self.settingsButton;
-    self.addLocationButton = [[UIBarButtonItem alloc] initWithTitle:@"Add" style:UIBarButtonItemStylePlain target:self action:@selector(segueToAddLocation)];
-    self.addLocationButton.image = [UIImage imageNamed:@"plus-1"];
-    self.addLocationButton.tintColor = UIColor.whiteColor;
-
-    self.pageVC.navController.navigationBar.topItem.rightBarButtonItem = self.addLocationButton;
-    
-    self.DailyWeeklySegmentedC = [[UISegmentedControl alloc]initWithItems:@[@"Daily",@"Weekly"]];
-    self.pageVC.navigationController.navigationBar.topItem.titleView = self.DailyWeeklySegmentedC;
-    self.DailyWeeklySegmentedC.selectedSegmentIndex = 0;
-    self.DailyWeeklySegmentedC.tintColor = UIColor.blackColor;
-    
-}
-
--(void)setPageNavigation{
-    if(PFUser.currentUser){
-        [self.mainNavController presentViewController:self.pageVC.navController animated:YES completion:nil];
-    }
-    else{
-        [self setLoginUI];
-    }
 }
 
 -(void)setLoginUI{
@@ -112,7 +75,7 @@
             [self AlertController:error.localizedDescription];
         } else {
             NSLog(@"User logged in successfully");
-                [self.mainNavController presentViewController:self.pageVC.navController animated:YES completion:nil];
+            [self.navDelegate presentViewController:self.pageVC Name:@"pageVC"];
         }
     }];
 }
@@ -127,7 +90,7 @@
             [self AlertController:error.localizedDescription];
         } else {
             NSLog(@"User registered successfully");
-            [self.mainNavController presentViewController:self.pageVC.navController animated:YES completion:nil];
+            [self.navDelegate presentViewController:self.pageVC Name:@"pageVC"];
         }
     }];
 }
@@ -141,18 +104,6 @@
     [alert addAction:button];
     [self presentViewController:alert animated:YES completion:nil];
 }
-
--(void)segueToAddLocation{
-    UINavigationController *locPickerNVC = [[UINavigationController alloc] initWithRootViewController:LocationPickerViewController.new];
-    [self.pageVC.navController presentViewController:locPickerNVC animated:YES completion:nil];
-}
-
--(void)segueToSettings{
-    UINavigationController *settingsNavigationController = [[UINavigationController alloc] initWithRootViewController:SettingsViewController.new];
-    [self.pageVC.navController presentViewController:settingsNavigationController animated:YES completion:nil];
-}
-
-
 
 /*
 #pragma mark - Navigation

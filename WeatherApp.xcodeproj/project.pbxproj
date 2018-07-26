@@ -24,6 +24,7 @@
 		9203E63A20FD73C600F8C858 /* WeeklyCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9203E63920FD73C600F8C858 /* WeeklyCell.m */; };
 		9262591621067E7500BEF660 /* LocationDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9262591521067E7500BEF660 /* LocationDetailsViewController.m */; };
 		927E18A2210106B700CA03F6 /* Weather.m in Sources */ = {isa = PBXBuildFile; fileRef = 927E18A1210106B700CA03F6 /* Weather.m */; };
+		9283A3F121091BF500F4858F /* NavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9283A3F021091BF500F4858F /* NavigationController.m */; };
 		CC7A6A0A210115D600028419 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC7A6A09210115D600028419 /* LoginViewController.m */; };
 		CC7A6A0D2102B10F00028419 /* PageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC7A6A0C2102B10F00028419 /* PageViewController.m */; };
 		CC7D391D20FD053A00913023 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CC7D391C20FD053A00913023 /* AppDelegate.m */; };
@@ -102,6 +103,8 @@
 		9262591521067E7500BEF660 /* LocationDetailsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LocationDetailsViewController.m; sourceTree = "<group>"; };
 		927E18A0210106B700CA03F6 /* Weather.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Weather.h; sourceTree = "<group>"; };
 		927E18A1210106B700CA03F6 /* Weather.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Weather.m; sourceTree = "<group>"; };
+		9283A3EF21091BF500F4858F /* NavigationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NavigationController.h; sourceTree = "<group>"; };
+		9283A3F021091BF500F4858F /* NavigationController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NavigationController.m; sourceTree = "<group>"; };
 		ABCEC71E4DF87C4C79A8B9BF /* libPods-WeatherAppTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WeatherAppTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6F87DD29FB6698DF722B3DF /* Pods-WeatherAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeatherAppTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WeatherAppTests/Pods-WeatherAppTests.debug.xcconfig"; sourceTree = "<group>"; };
 		C8F1DA2B1A28A8278AEEF034 /* Pods-WeatherApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeatherApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WeatherApp/Pods-WeatherApp.debug.xcconfig"; sourceTree = "<group>"; };
@@ -175,6 +178,8 @@
 		3330AE1620FE736900B37975 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				9283A3EF21091BF500F4858F /* NavigationController.h */,
+				9283A3F021091BF500F4858F /* NavigationController.m */,
 				9203E63420FD546900F8C858 /* WeeklyViewController.h */,
 				9203E63520FD546900F8C858 /* WeeklyViewController.m */,
 				3330AE1720FE739700B37975 /* SettingsViewController.h */,
@@ -520,6 +525,7 @@
 				9203E63220FD47DD00F8C858 /* APIManager.m in Sources */,
 				33F00C0C20FD116C008F56CE /* User.m in Sources */,
 				9262591621067E7500BEF660 /* LocationDetailsViewController.m in Sources */,
+				9283A3F121091BF500F4858F /* NavigationController.m in Sources */,
 				3330AE2B2107EE2B00B37975 /* LocationWeatherViewController.m in Sources */,
 				3330AE1C2101112000B37975 /* LocationPickerViewController.m in Sources */,
 				33F00C0F20FD1215008F56CE /* Location.m in Sources */,

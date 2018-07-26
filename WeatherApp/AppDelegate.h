@@ -8,9 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol NavigationDelegate
+-(void)presentViewController:(UIViewController*)viewController Name:(NSString*)name;
+-(void)pushViewController:(UIViewController*)viewController;
+-(void)dismissViewController;
+@end
+
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
-
 @property (strong, nonatomic) UIWindow *window;
-
 @end
 
