@@ -14,4 +14,4 @@
 @property (strong, nonatomic) UINavigationController *mainNavController;
 @property (strong, nonatomic) id<NavigationDelegate> navDelegate;
 @property (strong, nonatomic) PageViewController *pageVC;
-
+@end
