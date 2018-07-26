@@ -61,7 +61,10 @@ BOOL currentLocation;
         if (pref) {
             currentLocation = pref.locationOn;
             if (pref.locationOn) {
+              
                 LocationWeatherViewController *currentLocVC = [[LocationWeatherViewController alloc] initWithLocation:Location.currentLocation segmentedControl:self.DailyWeeklySC];
+
+
                 [self.locViewArrary insertObject:currentLocVC atIndex:0];
                 [self.locViewArrary removeObject:self.placeholderScreen];
             }

@@ -7,6 +7,7 @@
 //
 
 #import "LocationTableViewCell.h"
+#import "LocationDetailsViewController.h"
 
 @implementation LocationTableViewCell
 
@@ -14,8 +15,14 @@
     [super awakeFromNib];
 }
 
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+    [super setSelected:selected animated:animated];
+}
+
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    UITapGestureRecognizer *cellTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onTapCell)];
+    [self.contentView addGestureRecognizer:cellTapGesture];
     
     self.customNameLabel = [[UILabel alloc] init];
     self.customNameLabel.font = [UIFont systemFontOfSize:25];
@@ -66,4 +73,10 @@
     [self.labelsStackView.bottomAnchor constraintEqualToAnchor:self.contentView.bottomAnchor constant:-8].active = YES;
 }
 
+- (void) onTapCell {
+    LocationDetailsViewController *locationDetailVC = [[LocationDetailsViewController alloc] init];
+    locationDetailVC.location = self.location;
+    locationDetailVC.saveNewLocation = NO;
+//    [self.inputViewController.navigationController pushViewController:locationDetailVC animated:YES];
+}
 @end

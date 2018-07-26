@@ -11,4 +11,5 @@
 
 @interface LocationDetailsViewController : UIViewController
 @property (strong, nonatomic) Location *location;
+@property (nonatomic) BOOL saveNewLocation;
 @end

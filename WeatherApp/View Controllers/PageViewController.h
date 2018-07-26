@@ -7,9 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AppDelegate.h"
 
 @interface PageViewController : UIPageViewController
-  
-@property (strong, nonatomic) UINavigationController *navController;
-
+@property (strong, nonatomic) id<NavigationDelegate>navDelegate;
 @end

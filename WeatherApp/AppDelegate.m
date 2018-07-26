@@ -15,11 +15,12 @@
 #import "LocationPickerViewController.h"
 #import "LoginViewController.h"
 #import "PageViewController.h"
+#import "NavigationController.h"
 
 @interface AppDelegate ()
 @property PageViewController *pageVC;
 @property LoginViewController *loginVC;
-@property UINavigationController *mainNavController;
+@property NavigationController *mainNavController;
 @end
 
 @implementation AppDelegate
@@ -28,9 +29,19 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.loginVC = [[LoginViewController alloc] init];
-    self.mainNavController = [[UINavigationController alloc] initWithRootViewController:self.loginVC];
-    self.loginVC.mainNavController = self.mainNavController;
-    self.window.rootViewController = self.mainNavController;
+    self.pageVC = [[PageViewController alloc]initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:nil];
+    
+    if(PFUser.currentUser){
+        self.mainNavController = [[NavigationController alloc] initWithViewController:self.pageVC];
+    }
+    else{
+        self.mainNavController = [[NavigationController alloc] initWithViewController:self.loginVC];
+    }
+    
+    self.loginVC.navDelegate = self.mainNavController;
+    self.pageVC.navDelegate = self.mainNavController;
+    self.loginVC.pageVC = self.pageVC;
+    self.window.rootViewController = self.mainNavController.navStack;
     
     [self parseBackendSetup];
     [self.window makeKeyAndVisible];
