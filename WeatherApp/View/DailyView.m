@@ -7,7 +7,6 @@
 //
 
 #import "DailyView.h"
-#import "DailyViewController.h"
 #import "APIManager.h"
 #import "DailyTableViewCell.h"
 #import "Weather.h"

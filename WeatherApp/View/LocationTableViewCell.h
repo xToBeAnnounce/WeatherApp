@@ -16,6 +16,8 @@
 @property (strong, nonatomic) UIStackView *labelsStackView;
 @property (strong, nonatomic) UIImageView *rightArrowImageView;
 
+@property (strong, nonatomic) NSLayoutConstraint *rightArrowHConstraint;
+
 @property (strong, nonatomic) Location *location;
 
 @end

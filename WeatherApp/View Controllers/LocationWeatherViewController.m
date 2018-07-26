@@ -50,20 +50,34 @@
     self.navController = [[NavigationController alloc]init];
 }
 
-- (void) viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-
+- (void) viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [User.currentUser getUserPreferencesWithBlock:^(Preferences *pref, NSError *error) {
+        if (pref) {
+            self.dailyView.tempType = pref.tempTypeString;
+            [self.dailyView.DailytableView reloadData];
+            
+            self.weeklyView.tempType = pref.tempTypeString;
+            [self.weeklyView.WeeklytableView reloadData];
+        }
+        else {
+            NSLog(@"%@", error.localizedDescription);
+        }
+    }];
 }
 
 - (void) setUI {
-    
-    self.dailyView = [[DailyView alloc]initWithFrame:UIScreen.mainScreen.bounds];
-    self.weeklyView = [[WeeklyView alloc]initWithFrame:UIScreen.mainScreen.bounds];
-    self.weeklyView.location = self.location;
+    self.dailyView = [[DailyView alloc]initWithFrame:self.view.frame];
+    self.dailyView.translatesAutoresizingMaskIntoConstraints = NO;
     self.dailyView.location = self.location;
-    
     [self.view addSubview:self.dailyView];
+    [self setConstraintsForView:self.dailyView];
+    
+    self.weeklyView = [[WeeklyView alloc]initWithFrame:self.view.frame];
+    self.weeklyView.translatesAutoresizingMaskIntoConstraints = NO;
+    self.weeklyView.location = self.location;
     [self.view addSubview:self.weeklyView];
+    [self setConstraintsForView:self.weeklyView];
     
     self.view.backgroundColor = [[UIColor alloc]initWithPatternImage:[UIImage imageNamed:@"grad"]];
 
@@ -80,5 +94,12 @@
         self.weeklyView.hidden = NO;
         self.dailyView.hidden = YES;
     }
+}
+
+- (void) setConstraintsForView:(UIView *)view{
+    [view.topAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.topAnchor].active = YES;
+    [view.bottomAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.bottomAnchor].active = YES;
+    [view.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor].active = YES;
+    [view.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor].active = YES;
 }
 @end
