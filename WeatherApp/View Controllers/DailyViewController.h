@@ -11,7 +11,6 @@
 
 @interface DailyViewController : UIViewController
 @property (strong,nonatomic) Location *location;
-@property (strong,nonatomic) UITableView *ourtableView;
 -(void)setUI;
 
 @end

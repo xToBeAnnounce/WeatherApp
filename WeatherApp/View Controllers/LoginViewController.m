@@ -19,6 +19,7 @@
 @property (strong,nonatomic) UILabel *titleLabel;
 @property (strong, nonatomic) UIBarButtonItem *settingsButton;
 @property (strong, nonatomic) UIBarButtonItem *addLocationButton;
+@property (strong,nonatomic) UISegmentedControl *DailyWeeklySegmentedC;
 @end
 
 @implementation LoginViewController
@@ -27,6 +28,7 @@
     [super viewDidLoad];
     [self setLoginUI];
     self.view.backgroundColor = UIColor.whiteColor;
+    
 }
 
 -(void)setLoginUI{

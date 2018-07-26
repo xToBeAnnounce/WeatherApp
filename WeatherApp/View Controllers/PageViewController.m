@@ -13,10 +13,13 @@
 #import "User.h"
 
 @interface PageViewController ()<UIPageViewControllerDataSource,UIPageViewControllerDelegate>
-@property (strong, nonatomic) UIPageControl *pageControl;
+
+@property (strong,nonatomic) NSArray *viewControllerArrary;
+@property (strong,nonatomic) UIPageControl *pageControl;
 @property (strong, nonatomic) NSMutableArray *locViewArrary;
 @property (strong, nonatomic) UIViewController *placeholderScreen;
 @property (strong, nonatomic) UILabel *placeholderLabel;
+
 @end
 
 @implementation PageViewController
@@ -28,7 +31,7 @@ BOOL currentLocation;
     self.locViewArrary = [[NSMutableArray alloc] init];
     
     self.dataSource = self;
-    self.view.backgroundColor = UIColor.lightGrayColor;
+    self.view.backgroundColor = [[UIColor alloc]initWithPatternImage:[UIImage imageNamed:@"grad"]];
     
     // creating placeholder view controller
     self.placeholderScreen = [[UIViewController alloc] init];
@@ -49,32 +52,30 @@ BOOL currentLocation;
 }
 
 - (void) viewDidAppear:(BOOL)animated {
-//    int curIndex = (int)[self.locViewArrary indexOfObject:self.viewControllers[0]];
-//    NSLog(@"Current Index: %d", curIndex);
     
     [User.currentUser getUserPreferencesWithBlock:^(Preferences *pref, NSError *error) {
         if (pref) {
             currentLocation = pref.locationOn;
             if (pref.locationOn) {
                 LocationWeatherViewController *currentLocVC = [[LocationWeatherViewController alloc] initWithLocation:Location.currentLocation];
-                [self.locViewArrary removeObject:self.placeholderScreen];
                 [self.locViewArrary insertObject:currentLocVC atIndex:0];
+                [self.locViewArrary removeObject:self.placeholderScreen];
             }
             else {
                 [self removeCurrentLocationScreen];
-                [self refreshPageViewWithStartIndex:0];
             }
+            [self refreshPageViewWithStartIndex:0];
         }
         else {
         }
     }];
     
+
     [User.currentUser getLocationsArrayInBackgroundWithBlock:^(NSMutableArray *locations, NSError *error) {
         if (locations) {
             // If current location on, removes every screen after first, else removes all screeens
             NSRange locRange = (currentLocation) ?NSMakeRange(1, self.locViewArrary.count-1) : NSMakeRange(0, self.locViewArrary.count);
             [self.locViewArrary removeObjectsInRange:locRange];
-            
             for (Location *loc in locations) {
                 LocationWeatherViewController *newLocVC = [[LocationWeatherViewController alloc] initWithLocation:loc];
                 [self.locViewArrary addObject:newLocVC];
@@ -82,12 +83,14 @@ BOOL currentLocation;
             
             NSLog(@"Finished loading view controllers");
             [self.locViewArrary removeObject:self.placeholderScreen];
+            [self addPlaceholderIfNeeded];
             [self refreshPageViewWithStartIndex:0];
         }
         else {
             NSLog(@"Error: %@", error.localizedDescription);
         }
     }];
+
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -102,9 +105,9 @@ BOOL currentLocation;
 
 - (void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray<UIViewController *> *)previousViewControllers transitionCompleted:(BOOL)completed {
     
-    UIPageViewController *pagecontentVC = pageViewController.viewControllers[0];
-    
+    UIPageViewController *pagecontentVC = pageViewController.viewControllers[0]; 
     self.pageControl.currentPage = [self.locViewArrary indexOfObject:pagecontentVC];
+
 }
 
 -(UIViewController *)viewControllerAtIndex:(NSUInteger)index {
@@ -144,13 +147,16 @@ BOOL currentLocation;
         LocationWeatherViewController *locVC = (LocationWeatherViewController *)startingVC;
         if ([locVC.location.customName isEqualToString:@"Current Location"]) {
             [self.locViewArrary removeObject:locVC];
-            
-            if (self.locViewArrary.count == 0) {
-                self.placeholderLabel.text = @"Add some locations!";
-                [self.placeholderLabel sizeToFit];
-                [self.locViewArrary addObject:self.placeholderScreen];
-            }
+            [self addPlaceholderIfNeeded];
         }
+    }
+}
+
+- (void) addPlaceholderIfNeeded {
+    if (self.locViewArrary.count == 0) {
+        self.placeholderLabel.text = @"Add some locations!";
+        [self.placeholderLabel sizeToFit];
+        [self.locViewArrary addObject:self.placeholderScreen];
     }
 }
 

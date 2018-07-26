@@ -9,13 +9,13 @@
 #import "SettingsViewController.h"
 #import "PreferenceTableViewCell.h"
 #import "LocationTableViewCell.h"
+#import "LocationDetailsViewController.h"
 #import "User.h"
 
 @interface SettingsViewController () <UITableViewDelegate, UITableViewDataSource>
 
 @property (strong, nonatomic) User *user;
 @property (strong, nonatomic) NSMutableDictionary *updatePrefDict;
-
 @property (strong, nonatomic) UITextField *tooHotTextField;
 @property (strong, nonatomic) UITextField *tooColdTextField;
 @property (strong, nonatomic) UISegmentedControl *tempTypeSegementedControl;
@@ -56,7 +56,10 @@ static NSString *locationCellID = @"LocationTableViewCell";
     ],
         @"Locations":@[]
     }];
-    
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     [self.user getLocationsArrayInBackgroundWithBlock:^(NSMutableArray *locations, NSError *error) {
         if (locations) {
             [sectionsDict setValue:locations forKey:@"Locations"];
@@ -139,6 +142,7 @@ static NSString *locationCellID = @"LocationTableViewCell";
 - (void) setUI {
     self.view.backgroundColor = [UIColor whiteColor];
     UITapGestureRecognizer *screenTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onTap:)];
+    screenTap.cancelsTouchesInView = NO;
     [self.view addGestureRecognizer:screenTap];
     
     // Sets navigation bar titlte and buttons
@@ -291,7 +295,14 @@ static NSString *locationCellID = @"LocationTableViewCell";
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (indexPath.section == 1) {
+        LocationDetailsViewController *locationDetailVC = [[LocationDetailsViewController alloc] init];
+        NSArray *locations = sectionsDict[sectionsArray[indexPath.section]];
+        locationDetailVC.location = locations[indexPath.row];
+        locationDetailVC.saveNewLocation = NO;
+        [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+        [self.navigationController pushViewController:locationDetailVC animated:YES];
+    }
 }
 
 /*-----------------C TO F AND VICE VERSA-----------------*/
