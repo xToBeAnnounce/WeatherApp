@@ -45,6 +45,8 @@ BOOL currentLocation;
     [self.locationDetailsButton.heightAnchor constraintEqualToConstant:35].active = YES;
     [self.locationDetailsButton.widthAnchor constraintEqualToAnchor:self.locationDetailsButton.heightAnchor].active = YES;
     
+    self.DailyWeeklySC.selectedSegmentIndex = 0;
+  
     self.dataSource = self;
     self.view.backgroundColor = [[UIColor alloc]initWithPatternImage:[UIImage imageNamed:@"grad"]];
     
@@ -92,7 +94,6 @@ BOOL currentLocation;
         else {
         }
     }];
-    
     
     [User.currentUser getLocationsArrayInBackgroundWithBlock:^(NSMutableArray *locations, NSError *error) {
         if (locations) {

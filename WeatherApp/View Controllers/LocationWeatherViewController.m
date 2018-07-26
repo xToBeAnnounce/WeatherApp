@@ -16,11 +16,13 @@
 #import "WeeklyCell.h"
 #import "DailyView.h"
 #import "WeeklyView.h"
+#import "NavigationController.h"
 
 @interface LocationWeatherViewController ()
 @property (strong,nonatomic) UISegmentedControl *DailyWeeklySC;
 @property (strong,nonatomic) DailyView *dailyView;
 @property (strong,nonatomic) WeeklyView *weeklyView;
+@property (strong,nonatomic) NavigationController *navController;
 
 
 @end
@@ -33,6 +35,7 @@
     self.view.backgroundColor = UIColor.whiteColor;
     
     self.DailyWeeklySC = DailyWeeklySC;
+    self.DailyWeeklySC.selectedSegmentIndex = 0;
     [self.DailyWeeklySC addTarget:self action:@selector(selectedIndex) forControlEvents:UIControlEventValueChanged];
     
     [self setUI];
@@ -43,6 +46,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [[UIColor alloc]initWithPatternImage:[UIImage imageNamed:@"grad"]];
+    
+    self.navController = [[NavigationController alloc]init];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -75,8 +80,8 @@
     [self setConstraintsForView:self.weeklyView];
     
     self.view.backgroundColor = [[UIColor alloc]initWithPatternImage:[UIImage imageNamed:@"grad"]];
-    
-    [self selectedIndex];
+
+   [self selectedIndex];
 }
 
 -(void)selectedIndex{
