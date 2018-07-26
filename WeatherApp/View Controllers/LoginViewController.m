@@ -16,9 +16,6 @@
 @property (strong,nonatomic) UIButton *loginButton;
 @property (strong,nonatomic) UIButton *signupButton;
 @property (strong,nonatomic) UILabel *titleLabel;
-@property (strong, nonatomic) UIBarButtonItem *settingsButton;
-@property (strong, nonatomic) UIBarButtonItem *addLocationButton;
-@property (strong,nonatomic) UISegmentedControl *DailyWeeklySegmentedC;
 @end
 
 @implementation LoginViewController

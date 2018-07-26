@@ -31,9 +31,9 @@ BOOL currentLocation;
     [super viewDidLoad];
     self.locViewArrary = [[NSMutableArray alloc] init];
     
-    
     self.DailyWeeklySC = (UISegmentedControl *)self.navigationController.navigationBar.topItem.titleView;
-    
+    self.DailyWeeklySC.selectedSegmentIndex = 0;
+
     self.dataSource = self;
     self.view.backgroundColor = [[UIColor alloc]initWithPatternImage:[UIImage imageNamed:@"grad"]];
     
@@ -77,7 +77,6 @@ BOOL currentLocation;
         else {
         }
     }];
-    
     
     [User.currentUser getLocationsArrayInBackgroundWithBlock:^(NSMutableArray *locations, NSError *error) {
         if (locations) {
