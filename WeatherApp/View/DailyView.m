@@ -7,7 +7,6 @@
 //
 
 #import "DailyView.h"
-#import "DailyViewController.h"
 #import "APIManager.h"
 #import "DailyTableViewCell.h"
 #import "Weather.h"
@@ -25,14 +24,14 @@ static NSString *DailycellIdentifier = @"DailyTableViewCell";
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
 - (void)drawRect:(CGRect)rect {
-    
-    [self setDailyUI:self.location];
-    [self displayCurrentWeather:self.location];
+    [super drawRect:rect];
+    [self setDailyUI];
+    [self displayCurrentWeather];
     
     [self.location fetchDataType:@"daily" WithCompletion:^(NSDictionary * data, NSError * error) {
         if(error == nil){
             loadDailyData = YES;
-            [self displayCurrentWeather:self.location];
+            [self displayCurrentWeather];
             [self.DailytableView reloadData];
         }
         else NSLog(@"%@", error.localizedDescription);
@@ -42,16 +41,26 @@ static NSString *DailycellIdentifier = @"DailyTableViewCell";
     self.DailytableView.delegate = self;
 }
 
--(void)setDailyUI:(Location *)location{
-    //sets table view
-    CGFloat yorigin = self.frame.origin.y + self.frame.size.height/2;
-    CGRect boundsD = CGRectMake(self.frame.origin.x, yorigin, self.frame.size.width, self.frame.size.height/2 - 50);
-    self.DailytableView = [[UITableView alloc]initWithFrame:boundsD style:UITableViewStylePlain];
+- (void) setLocation:(Location *)location {
+    _location = location;
+    self.customNameLabel.text = self.location.customName;
+    [self refreshView];
+}
+
+- (void)setTempType:(NSString *)tempType {
+    _tempType = tempType;
+    [self refreshView];
+}
+
+- (void) setDailyUI {
+    self.DailytableView = [[UITableView alloc] init];
     [self.DailytableView registerClass:DailyTableViewCell.class forCellReuseIdentifier:@"DailyTableViewCell"];
-    
     self.DailytableView.estimatedRowHeight = 44.0;
     self.DailytableView.rowHeight = UITableViewAutomaticDimension;
     self.DailytableView.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    self.DailytableView.dataSource = self;
+    self.DailytableView.delegate = self;
     [self addSubview:self.DailytableView];
     
     self.currentWeatherView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height/2)];
@@ -68,7 +77,7 @@ static NSString *DailycellIdentifier = @"DailyTableViewCell";
     //setting up customNameLabel
     self.customNameLabel = [[UILabel alloc]init];
     self.customNameLabel.font = [UIFont systemFontOfSize:35];
-    self.customNameLabel.text = location.customName;
+    self.customNameLabel.text = self.location.customName;
     
     //setting up locationLabel
     self.locationLabel = [[UILabel alloc]init];
@@ -122,33 +131,39 @@ static NSString *DailycellIdentifier = @"DailyTableViewCell";
     [self.DailytableView.bottomAnchor constraintEqualToAnchor:self.safeAreaLayoutGuide.bottomAnchor].active = YES;
 }
 
--(void)displayCurrentWeather:(Location *)location{
+-(void)displayCurrentWeather{
     Weather *currentWeather;
-    if (location.dailyData.count) currentWeather = location.dailyData[0];
+    if (self.location.dailyData.count) currentWeather = self.location.dailyData[0];
     
     self.iconImageView.image = [UIImage imageNamed:currentWeather.icon];
     
     self.temperatureLabel.text = [currentWeather getTempInString:currentWeather.temperature withType:self.tempType];
     [self.temperatureLabel sizeToFit];
     
-    if ([location.customName isEqualToString:@"Current Location"]) {
-        [location updatePlaceNameWithBlock:^(NSDictionary *data, NSError *error) {
+    if ([self.location.customName isEqualToString:@"Current Location"]) {
+        [self.location updatePlaceNameWithBlock:^(NSDictionary *data, NSError *error) {
             if (data) {
-                self.locationLabel.text = location.placeName;
+                self.locationLabel.text = self.location.placeName;
                 [self.locationLabel sizeToFit];
             }
         }];
     }
-    else if ([location.placeName isEqualToString:location.customName]) {
+    else if ([self.location.placeName isEqualToString:self.location.customName]) {
         self.customNameLabel.font = [UIFont systemFontOfSize:45];
         [self.locationLabel removeFromSuperview];
     }
     else {
-        self.locationLabel.text = location.placeName;
+        self.locationLabel.text = self.location.placeName;
         [self.locationLabel sizeToFit];
     }
 }
 
+- (void) refreshView {
+    [self displayCurrentWeather];
+    [self.DailytableView reloadData];
+}
+
+/*--------TABLE VIEW DELEGATE METHODS----------*/
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
     DailyTableViewCell *cell = [self.DailytableView dequeueReusableCellWithIdentifier:DailycellIdentifier];
     if(cell == nil){
@@ -162,17 +177,12 @@ static NSString *DailycellIdentifier = @"DailyTableViewCell";
     return cell;
 }
 
-
 - (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.location.dailyData.count;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [self.DailytableView deselectRowAtIndexPath:indexPath animated:YES];
-}
-
-- (void)setLocation:(Location *)location{
-    _location = location;
 }
 
 
