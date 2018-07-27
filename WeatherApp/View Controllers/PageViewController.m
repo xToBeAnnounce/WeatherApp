@@ -58,25 +58,24 @@ BOOL currentLocation;
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    [User.currentUser getUserPreferencesWithBlock:^(Preferences *pref, NSError *error) {
-        if (pref) {
-            currentLocation = pref.locationOn;
-            if (pref.locationOn) {
-              
-                LocationWeatherViewController *currentLocVC = [[LocationWeatherViewController alloc] initWithLocation:Location.currentLocation segmentedControl:self.DailyWeeklySC];
-
-
-                [self.locViewArrary insertObject:currentLocVC atIndex:0];
-                [self.locViewArrary removeObject:self.placeholderScreen];
-            }
-            else {
-                [self removeCurrentLocationScreen];
-            }
-            [self refreshPageViewWithStartIndex:0];
-        }
-        else {
-        }
-    }];
+//    [User.currentUser getUserPreferencesWithBlock:^(Preferences *pref, NSError *error) {
+//        if (pref) {
+//            currentLocation = pref.locationOn;
+//            if (pref.locationOn) {
+//
+//                LocationWeatherViewController *currentLocVC = [[LocationWeatherViewController alloc] initWithLocation:Location.currentLocation segmentedControl:self.DailyWeeklySC];
+//
+//                [self.locViewArrary insertObject:currentLocVC atIndex:0];
+//                [self.locViewArrary removeObject:self.placeholderScreen];
+//            }
+//            else {
+//                [self removeCurrentLocationScreen];
+//            }
+//            [self refreshPageViewWithStartIndex:0];
+//        }
+//        else {
+//        }
+//    }];
     
     [User.currentUser getLocationsArrayInBackgroundWithBlock:^(NSMutableArray *locations, NSError *error) {
         if (locations) {
@@ -96,14 +95,12 @@ BOOL currentLocation;
             NSLog(@"Error: %@", error.localizedDescription);
         }
     }];
-    
 }
 
 - (void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray<UIViewController *> *)previousViewControllers transitionCompleted:(BOOL)completed {
     
     UIPageViewController *pagecontentVC = pageViewController.viewControllers[0];
     self.pageControl.currentPage = [self.locViewArrary indexOfObject:pagecontentVC];
-    
 }
 
 -(UIViewController *)viewControllerAtIndex:(NSUInteger)index {

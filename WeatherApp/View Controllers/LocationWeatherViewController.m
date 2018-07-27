@@ -12,14 +12,12 @@
 #import "WeeklyView.h"
 #import "NavigationController.h"
 #import "Activity.h"
+#import "ActivityViewController.h"
 
-@interface LocationWeatherViewController () <ActivityDelegate>
+@interface LocationWeatherViewController () <ActivityDelegate, UIPopoverPresentationControllerDelegate>
 @property (strong,nonatomic) UISegmentedControl *DailyWeeklySC;
 @property (strong,nonatomic) DailyView *dailyView;
 @property (strong,nonatomic) WeeklyView *weeklyView;
-@property (strong,nonatomic) NavigationController *navController;
-
-
 @end
 
 @implementation LocationWeatherViewController
@@ -41,13 +39,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [[UIColor alloc]initWithPatternImage:[UIImage imageNamed:@"grad"]];
-    
-    self.navController = [[NavigationController alloc]init];
 }
 
 - (void) viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-
 }
 
 - (void) setUI {
@@ -66,8 +61,23 @@
    [self selectedIndex];
 }
 
-- (void)displayPopoverData{
+-(void)displayPopoverDataRow:(int)rowNum Height:(int)height{
+    //UIViewController *popoverView = [[UIViewController alloc] init];
+    ActivityViewController *popoverView = [[ActivityViewController alloc] initWithLocation:@[@42.3601, @-71.0589] Type:@"cafe"];
+    popoverView.modalPresentationStyle = UIModalPresentationPopover;
     
+    UIPopoverPresentationController *popController = popoverView.popoverPresentationController;
+    popController.delegate = self;
+    popController.sourceView = (UIView*)self.weeklyView;
+    popController.sourceRect = CGRectMake(self.weeklyView.bounds.size.width/2, height*rowNum + rowNum/2, 1, 1);
+    popController.permittedArrowDirections = UIPopoverArrowDirectionUp;
+    popoverView.preferredContentSize = CGSizeMake(300, 300);
+    
+    [self presentViewController:popoverView animated:YES completion:nil];
+}
+
+- (UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:(UIPresentationController *)controller{
+    return UIModalPresentationNone;
 }
 
 -(void)selectedIndex{

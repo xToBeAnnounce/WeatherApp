@@ -11,7 +11,7 @@
 /*Sample API request: https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=LAT,LNG&radius=RADIUS_METERS&type=LOC_TYPE&keyword=KEYWORD&key=YOUR_API_KEY */
 static NSString const * baseURL = @"https://maps.googleapis.com/maps/api/place/nearbysearch/json?";
 static NSInteger const radius = 1500; //meters
-static NSString const * APIKey = @"AIzaSyB86_L5XQl5ot4iBMXeYBcnpTXdMTA_67o";
+static NSString const * APIKey = @"AIzaSyDgbVK8x7X-7tUEnIxOG44M42lXkHWlVCM";
 static NSString * urlString = @"";
 
 @implementation ActivityAPIManager
@@ -43,7 +43,7 @@ static NSString * urlString = @"";
             }
             else {
                 NSDictionary *dataDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-                completion(dataDictionary, nil);
+                completion(dataDictionary[@"results"], nil);
             }
         }];
         [task resume];

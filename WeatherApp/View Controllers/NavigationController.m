@@ -38,6 +38,10 @@
     }
 }
 
+-(UINavigationController*)getNavController{
+    return self.navStack;
+}
+
 - (void)pushViewController:(UIViewController *)viewController{
     [self.navStack pushViewController:viewController animated:YES];
 }
@@ -61,7 +65,6 @@
     self.DailyWeeklySegmentedControl.selectedSegmentIndex = 0;
     self.DailyWeeklySegmentedControl.tintColor = UIColor.blackColor;
     pageNavController.navigationBar.topItem.titleView = self.DailyWeeklySegmentedControl;
-    
 }
 
 -(void)segueToSettings{

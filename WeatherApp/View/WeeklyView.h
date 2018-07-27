@@ -10,7 +10,7 @@
 #import "Location.h"
 #import "Activity.h"
 
-@interface WeeklyView : UIView <UITableViewDelegate, UITableViewDataSource>
+@interface WeeklyView : UIView <UITableViewDelegate, UITableViewDataSource, UIPopoverControllerDelegate>
 @property (strong, nonatomic) UITableView *WeeklytableView;
 @property (strong,nonatomic) Location *location;
 @property (strong, nonatomic) NSString *tempType;

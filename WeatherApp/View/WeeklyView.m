@@ -13,7 +13,6 @@
 static bool loadWeeklyData = NO;
 static NSString *WeeklycellIdentifier = @"WeeklyCell";
 
-
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
 - (void)drawRect:(CGRect)rect {
@@ -49,8 +48,6 @@ static NSString *WeeklycellIdentifier = @"WeeklyCell";
     [self.WeeklytableView.bottomAnchor constraintEqualToAnchor:self.safeAreaLayoutGuide.bottomAnchor].active = YES;
 }
 
-
-
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
     
     WeeklyCell *weeklycell = [self.WeeklytableView dequeueReusableCellWithIdentifier:WeeklycellIdentifier];
@@ -70,8 +67,8 @@ static NSString *WeeklycellIdentifier = @"WeeklyCell";
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    //[self.WeeklytableView deselectRowAtIndexPath:indexPath animated:YES];
-    [self.delegate displayPopoverData];
+    [self.WeeklytableView deselectRowAtIndexPath:indexPath animated:YES];
+    [self.delegate displayPopoverDataRow:(int)indexPath.row Height: (int)self.WeeklytableView.estimatedRowHeight];
     // Create an activity for the location here
     // Initalize the popover view
     // Display the activity data in the popover view

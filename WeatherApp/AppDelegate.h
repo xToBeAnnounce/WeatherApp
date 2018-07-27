@@ -12,6 +12,7 @@
 -(void)presentViewController:(UIViewController*)viewController Name:(NSString*)name;
 -(void)pushViewController:(UIViewController*)viewController;
 -(void)dismissViewController;
+-(UINavigationController*)getNavController;
 @end
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
