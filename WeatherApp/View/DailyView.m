@@ -40,8 +40,6 @@ static NSString *DailycellIdentifier = @"DailyTableViewCell";
     
     self.DailytableView.dataSource = self;
     self.DailytableView.delegate = self;
-    
-   
 }
 
 -(void)setDailyUI:(Location *)location{

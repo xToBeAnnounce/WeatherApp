@@ -7,11 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SWRevealViewController.h"
 
 @protocol NavigationDelegate
 -(void)presentViewController:(UIViewController*)viewController Name:(NSString*)name;
 -(void)pushViewController:(UIViewController*)viewController;
 -(void)dismissViewController;
+-(void)setLeftBarItem:(UIBarButtonItem*)button;
+-(SWRevealViewController*)getRevealViewController;
+-(UISegmentedControl*)getDailyWeeklySegmentControl;
 @end
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>

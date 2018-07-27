@@ -53,6 +53,15 @@ BOOL currentLocation;
     currentLocation = NO;
     
     [self refreshPageViewWithStartIndex:0];
+    
+    SWRevealViewController *revealController = [self.navDelegate getRevealViewController];
+    
+    [revealController panGestureRecognizer];
+    [revealController tapGestureRecognizer];
+    
+    UIBarButtonItem *revealButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"hamburger"] style:UIBarButtonItemStylePlain target:revealController action:@selector(revealToggle:)];
+    
+    [self.navDelegate setLeftBarItem:revealButtonItem];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -63,7 +72,7 @@ BOOL currentLocation;
             currentLocation = pref.locationOn;
             if (pref.locationOn) {
               
-                LocationWeatherViewController *currentLocVC = [[LocationWeatherViewController alloc] initWithLocation:Location.currentLocation segmentedControl:self.DailyWeeklySC];
+                LocationWeatherViewController *currentLocVC = [[LocationWeatherViewController alloc] initWithLocation:Location.currentLocation segmentedControl:[self.navDelegate getDailyWeeklySegmentControl]];
 
 
                 [self.locViewArrary insertObject:currentLocVC atIndex:0];
