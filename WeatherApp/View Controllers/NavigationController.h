@@ -15,4 +15,5 @@
 @property (strong, nonatomic) UINavigationController *navStack;
 @property (strong, nonatomic) PageViewController *pageVC;
 -(instancetype)initWithViewController:(UIViewController*)viewController;
+@property (strong, nonatomic) SWRevealViewController *revealViewController;
 @end

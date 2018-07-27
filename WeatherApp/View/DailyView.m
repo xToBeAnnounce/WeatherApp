@@ -37,7 +37,8 @@ static NSString *DailycellIdentifier = @"DailyTableViewCell";
         else NSLog(@"%@", error.localizedDescription);
     }];
     
-   
+    self.DailytableView.dataSource = self;
+    self.DailytableView.delegate = self;
 }
 
 - (void) setLocation:(Location *)location {
