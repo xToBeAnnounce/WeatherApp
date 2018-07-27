@@ -48,13 +48,6 @@
         UINavigationController *pageNavController = [[UINavigationController alloc] initWithRootViewController:viewController];
         [self setPageVCNavigationBar:pageNavController];
         
-        //Declare new settings page
-        //Declare the sliding thingy and init it with pageNavController and new settings page
-        //Present the sliding thingy
-        
-        SettingsViewController *settingsVC = SettingsViewController.new;
-        settingsVC.delegate = self;
-        self.revealViewController = [[SWRevealViewController alloc]initWithRearViewController:settingsVC frontViewController:pageNavController];
         [self.navStack presentViewController:self.revealViewController animated:YES completion:nil];
 //        [self.navStack presentViewController:pageNavController animated:YES completion:nil];
 //        self.navStack = pageNavController;
