@@ -62,32 +62,16 @@ BOOL settingUpLocations;
     [self.placeholderScreen.view addSubview:self.placeholderLabel];
     
     [self.locViewArrary addObject:self.placeholderScreen];
-
-    currentLocation = NO;
-    
-    [self refreshPageViewWithStartIndex:0];
-    
-    SWRevealViewController *revealController = [self.navDelegate getRevealViewController];
-    
-    [revealController panGestureRecognizer];
-    [revealController tapGestureRecognizer];
-    
-    UIBarButtonItem *revealButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"hamburger"] style:UIBarButtonItemStylePlain target:revealController action:@selector(revealToggle:)];
-    
-    [self.navDelegate setLeftBarItem:revealButtonItem];
-
 }
 
 - (void) setConstraints {
     [self.placeholderLabel.centerXAnchor constraintEqualToAnchor:self.placeholderScreen.view.centerXAnchor].active = YES;
     [self.placeholderLabel.centerYAnchor constraintEqualToAnchor:self.placeholderScreen.view.centerYAnchor].active = YES;
-
     [self.locationDetailsButton.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor constant:-2].active = YES;
     [self.locationDetailsButton.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor constant:-2].active = YES;
     [self.locationDetailsButton.heightAnchor constraintEqualToConstant:35].active = YES;
     [self.locationDetailsButton.widthAnchor constraintEqualToAnchor:self.locationDetailsButton.heightAnchor].active = YES;
 }
-
 
 - (void) setUI {
     self.DailyWeeklySC = [self.navDelegate getDailyWeeklySegmentControl];
