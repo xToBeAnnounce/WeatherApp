@@ -163,7 +163,7 @@ static int const numHoursInDay = 24;
     }
     else if([dataType isEqualToString:@"weekly"]){
         self.weeklyData = [[NSMutableArray alloc] init];
-        [self getDataWithLong:(int)lng Lat:(int)lat Type:dataType Completion:^(NSDictionary *data, NSError *error) {
+        [self getDataWithLong:(int)self.longitude Lat:(int)self.lattitude Type:dataType Completion:^(NSDictionary *data, NSError *error) {
             if (data) {
                 [self setWeeklyDataWithDictionary:data];
                 completion(data, nil);

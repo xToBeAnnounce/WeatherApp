@@ -64,7 +64,15 @@
             NSLog(@"%@", error.localizedDescription);
         }
     }];
+    [self selectedIndex];
 }
+
+//- (void) viewDidAppear:(BOOL)animated {
+//    NSLog(@"\n\tDaily: %@\n\tWeekly: %@", self.dailyView.location.customName, self.weeklyView.location.customName);
+//    for (Weather *w in self.weeklyView.location.weeklyData) {
+//        
+//    }
+//}
 
 - (void) setUI {
     self.dailyView = [[DailyView alloc]initWithFrame:self.view.frame];
