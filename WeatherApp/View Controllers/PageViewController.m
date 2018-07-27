@@ -12,6 +12,7 @@
 #import "LocationWeatherViewController.h"
 #import "LocationDetailsViewController.h"
 #import "User.h"
+#import "NavigationController.h"
 
 @interface PageViewController ()<UIPageViewControllerDataSource,UIPageViewControllerDelegate>
 
@@ -66,7 +67,6 @@ BOOL settingUpLocations;
 - (void) setConstraints {
     [self.placeholderLabel.centerXAnchor constraintEqualToAnchor:self.placeholderScreen.view.centerXAnchor].active = YES;
     [self.placeholderLabel.centerYAnchor constraintEqualToAnchor:self.placeholderScreen.view.centerYAnchor].active = YES;
-    
     [self.locationDetailsButton.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor constant:-2].active = YES;
     [self.locationDetailsButton.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor constant:-2].active = YES;
     [self.locationDetailsButton.heightAnchor constraintEqualToConstant:35].active = YES;
@@ -74,7 +74,7 @@ BOOL settingUpLocations;
 }
 
 - (void) setUI {
-    self.DailyWeeklySC = (UISegmentedControl *)self.navigationController.navigationBar.topItem.titleView;
+    self.DailyWeeklySC = [self.navDelegate getDailyWeeklySegmentControl];
     self.DailyWeeklySC.selectedSegmentIndex = 0;
     
     self.locationDetailsButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
