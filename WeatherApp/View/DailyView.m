@@ -42,6 +42,7 @@ static NSString *DailycellIdentifier = @"DailyTableViewCell";
 
 - (void) setLocation:(Location *)location {
     _location = location;
+    self.customNameLabel.text = self.location.customName;
     [self refreshView];
 }
 
