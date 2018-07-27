@@ -17,6 +17,7 @@ static NSString *WeeklycellIdentifier = @"WeeklyCell";
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
 - (void)drawRect:(CGRect)rect {
+    [super drawRect:rect];
     [self setWeeklyUI];
     
     [self.location fetchDataType:@"weekly" WithCompletion:^(NSDictionary * data, NSError * error) {
@@ -26,12 +27,16 @@ static NSString *WeeklycellIdentifier = @"WeeklyCell";
         }
         else NSLog(@"%@", error.localizedDescription);
     }];
-    
-    
-    self.WeeklytableView.delegate = self;
-    self.WeeklytableView.dataSource = self;
+}
 
-    
+- (void) setLocation:(Location *)location {
+    _location = location;
+    [self refreshView];
+}
+
+- (void) setTempType:(NSString *)tempType {
+    _tempType = tempType;
+    [self.WeeklytableView reloadData];
 }
 
 /*-----------------------------SETS WEEKLY UI-----------------------------------------*/
@@ -43,6 +48,9 @@ static NSString *WeeklycellIdentifier = @"WeeklyCell";
     [self addSubview:self.WeeklytableView];
     [self.WeeklytableView registerClass: WeeklyCell.class forCellReuseIdentifier:@"WeeklyCell"];
     [self setWeeklyConstraints];
+    
+    self.WeeklytableView.delegate = self;
+    self.WeeklytableView.dataSource = self;
 }
 
 - (void) setWeeklyConstraints {
@@ -75,6 +83,10 @@ static NSString *WeeklycellIdentifier = @"WeeklyCell";
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [self.WeeklytableView deselectRowAtIndexPath:indexPath animated:YES];
 
+}
+
+- (void) refreshView {
+    // Put code in here if we decide to display location stuff on weekly view
 }
 
 

@@ -15,4 +15,5 @@
 @property (strong, nonatomic) Location *location;
 
 - (instancetype) initWithLocation:(Location *)location segmentedControl:(UISegmentedControl *)DailyWeeklySC;
+- (BOOL) locationMatches:(Location *)location;
 @end
