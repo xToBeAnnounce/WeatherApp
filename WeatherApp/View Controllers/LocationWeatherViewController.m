@@ -20,6 +20,7 @@
 
 @interface LocationWeatherViewController ()
 @property (strong,nonatomic) UISegmentedControl *DailyWeeklySC;
+@property (strong, nonatomic) UIButton *locationDetailsButton;
 @property (strong,nonatomic) DailyView *dailyView;
 @property (strong,nonatomic) WeeklyView *weeklyView;
 
@@ -29,7 +30,7 @@
 @implementation LocationWeatherViewController
 
 
-- (instancetype) initWithLocation:(Location *)location segmentedControl:(UISegmentedControl *)DailyWeeklySC {
+- (instancetype) initWithLocation:(Location *)location segmentedControl:(UISegmentedControl *)DailyWeeklySC locDetailsButton:(UIButton *)locationsDetailsButton{
     [self setUI];
     self.location = location;
     
@@ -38,6 +39,7 @@
     [self.DailyWeeklySC addTarget:self action:@selector(selectedIndex) forControlEvents:UIControlEventValueChanged];
     [self selectedIndex];
     
+    self.locationDetailsButton = locationsDetailsButton;
     return self;
 }
 
@@ -57,6 +59,11 @@
             NSLog(@"%@", error.localizedDescription);
         }
     }];
+}
+
+- (void) viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    self.locationDetailsButton.hidden = !self.location.objectId;
 }
 
 - (void) setUI {

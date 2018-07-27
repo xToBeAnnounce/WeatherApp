@@ -20,7 +20,7 @@
 @property (strong, nonatomic) NSMutableArray *locViewArrary;
 @property (strong, nonatomic) UIViewController *placeholderScreen;
 @property (strong, nonatomic) UILabel *placeholderLabel;
-@property (strong,nonatomic) UISegmentedControl *DailyWeeklySC ;
+@property (strong,nonatomic) UISegmentedControl *DailyWeeklySC;
 @property (strong, nonatomic) UIButton *locationDetailsButton;
 
 @end
@@ -36,42 +36,15 @@ BOOL settingUpLocations;
     self.delegate = self;
     
     self.locViewArrary = [[NSMutableArray alloc] init];
-    
     currentLocation = NO;
-    settingUpLocations = NO;
     
     [self setUI];
-//    [self updateLocations];
-    
-//    settingUpLocations = YES;
-//    // Get locations (for the first time)
-//    [User.currentUser getLocationsArrayInBackgroundWithBlock:^(NSMutableArray *locations, NSError *error) {
-//        if (locations) {
-//            // If current location on, removes every screen after first, else removes all screeens
-////            NSRange locRange = (currentLocation) ?NSMakeRange(1, self.locViewArrary.count-1) : NSMakeRange(0, self.locViewArrary.count);
-////            [self.locViewArrary removeObjectsInRange:locRange];
-//
-//            for (Location *loc in locations) {
-//                LocationWeatherViewController *newLocVC = [[LocationWeatherViewController alloc] initWithLocation:loc segmentedControl:self.DailyWeeklySC];
-//                [self.locViewArrary addObject:newLocVC];
-//            }
-//
-//            [self.locViewArrary removeObject:self.placeholderScreen];
-//            [self addPlaceholderIfNeeded];
-//
-//            [self refreshPageViewWithStartIndex:0];
-//            settingUpLocations = NO;
-//        }
-//        else {
-//            NSLog(@"Error: %@", error.localizedDescription);
-//        }
-//    }];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    if (!settingUpLocations) [self updateLocations];
+    [self updateLocations];
     [self updateUserPreferences];
 }
 
@@ -116,14 +89,6 @@ BOOL settingUpLocations;
     [self setConstraints];
     
     [self refreshPageViewWithStartIndex:0];
-}
-
-- (void) showButtonForScreen:(UIViewController *)pagecontentVC {
-    if ([pagecontentVC isKindOfClass:LocationWeatherViewController.class]) {
-        LocationWeatherViewController *locWVC = (LocationWeatherViewController *)pagecontentVC;
-        if (locWVC.location.objectId) self.locationDetailsButton.hidden = NO;
-    }
-    else self.locationDetailsButton.hidden = YES;
 }
 
 /*------------------PAGE VIEW CONTROLLER DELEGATE METHODS------------------*/
@@ -178,6 +143,8 @@ BOOL settingUpLocations;
 
 - (void) addPlaceholderIfNeeded {
     if (self.locViewArrary.count == 0) {
+        self.locationDetailsButton.hidden = YES;
+        
         self.placeholderLabel.text = @"Add some locations!";
         self.placeholderLabel.font = [UIFont systemFontOfSize:20 weight:UIFontWeightThin];
         [self.placeholderLabel sizeToFit];
@@ -261,7 +228,7 @@ BOOL settingUpLocations;
                 int viewIndex = i + currentLocation;
                 
                 if ([newLocationIds containsObject:loc.objectId]) {
-                    LocationWeatherViewController *newLocationWVC = [[LocationWeatherViewController alloc] initWithLocation:loc segmentedControl:self.DailyWeeklySC];
+                    LocationWeatherViewController *newLocationWVC = [[LocationWeatherViewController alloc] initWithLocation:loc segmentedControl:self.DailyWeeklySC locDetailsButton:self.locationDetailsButton];
                     [self.locViewArrary insertObject:newLocationWVC atIndex:viewIndex];
                 }
                 else {
@@ -288,7 +255,7 @@ BOOL settingUpLocations;
                 [self.locViewArrary removeObject:self.placeholderScreen];
                 
                 // Add new current location screen
-                LocationWeatherViewController *currentLocVC = [[LocationWeatherViewController alloc] initWithLocation:Location.currentLocation segmentedControl:self.DailyWeeklySC];
+                LocationWeatherViewController *currentLocVC = [[LocationWeatherViewController alloc] initWithLocation:Location.currentLocation segmentedControl:self.DailyWeeklySC  locDetailsButton:self.locationDetailsButton];
                 [self.locViewArrary insertObject:currentLocVC atIndex:0];
             }
             // current location switched from on to off
