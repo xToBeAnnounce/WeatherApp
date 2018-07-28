@@ -9,7 +9,6 @@
 #import "NavigationController.h"
 #import "SettingsViewController.h"
 #import "LocationPickerViewController.h"
-#import "SWRevealViewController.h"
 
 @interface NavigationController()
 @property (strong, nonatomic) UIBarButtonItem *settingsButton;
@@ -21,7 +20,7 @@
 @implementation NavigationController
 
 -(instancetype)initWithViewController:(UIViewController*)viewController{
-    //self.navStack = [[UINavigationController alloc] initWithRootViewController:viewController];
+    self.navStack = [[UINavigationController alloc] initWithRootViewController:viewController];
     if ([viewController.class isEqual:PageViewController.class]) {
         UINavigationController *pageNavController = [[UINavigationController alloc] initWithRootViewController:viewController];
         
@@ -47,10 +46,8 @@
     if([name isEqualToString:@"pageVC"]){
         UINavigationController *pageNavController = [[UINavigationController alloc] initWithRootViewController:viewController];
         [self setPageVCNavigationBar:pageNavController];
-        
-        [self.navStack presentViewController:self.revealViewController animated:YES completion:nil];
-//        [self.navStack presentViewController:pageNavController animated:YES completion:nil];
-//        self.navStack = pageNavController;
+        [self.navStack presentViewController:pageNavController animated:YES completion:nil];
+        self.navStack = pageNavController;
     }
     else{
         [self.navStack presentViewController:viewController animated:YES completion:nil];
