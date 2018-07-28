@@ -25,10 +25,11 @@
 @property (strong,nonatomic) WeeklyView *weeklyView;
 
 
+
 @end
 
 @implementation LocationWeatherViewController
-
+//DOESNOTHING
 
 - (instancetype) initWithLocation:(Location *)location segmentedControl:(UISegmentedControl *)DailyWeeklySC locDetailsButton:(UIButton *)locationsDetailsButton{
     [self setUI];
