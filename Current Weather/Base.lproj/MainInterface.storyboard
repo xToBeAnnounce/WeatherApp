@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="M4Y-Lb-cyx">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Today View Controller-->
+        <scene sceneID="cwh-vc-ff4">
+            <objects>
+                <viewController id="M4Y-Lb-cyx" customClass="TodayViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" simulatedAppContext="notificationCenter" id="S3S-Oj-5AN">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="132"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="KFB-CT-lKc">
+                                <rect key="frame" x="16" y="28.5" width="75" height="75"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="KFB-CT-lKc" secondAttribute="height" multiplier="1:1" id="Qza-iy-Fj9"/>
+                                    <constraint firstAttribute="height" constant="75" id="q37-8K-4la"/>
+                                </constraints>
+                            </imageView>
+                            <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="4Mw-nX-yI3">
+                                <rect key="frame" x="99" y="23" width="213" height="86.5"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Menlo Park, CA, United States" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IbV-U4-eEo">
+                                        <rect key="frame" x="0.0" y="7.5" width="102.5" height="72"/>
+                                        <fontDescription key="fontDescription" type="system" weight="thin" pointSize="20"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <stackView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="252" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Pwd-pe-ES1">
+                                        <rect key="frame" x="110.5" y="0.0" width="102.5" height="86.5"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="63" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="htG-HQ-F5J">
+                                                <rect key="frame" x="23.5" y="0.0" width="55.5" height="57.5"/>
+                                                <fontDescription key="fontDescription" type="system" weight="thin" pointSize="48"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="86 / 76" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OtU-QK-9BV">
+                                                <rect key="frame" x="15" y="57.5" width="73" height="29"/>
+                                                <fontDescription key="fontDescription" type="system" weight="thin" pointSize="24"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="KFB-CT-lKc" firstAttribute="leading" secondItem="ssy-KU-ocm" secondAttribute="leading" constant="16" id="6JP-Oj-vZq"/>
+                            <constraint firstItem="4Mw-nX-yI3" firstAttribute="leading" secondItem="KFB-CT-lKc" secondAttribute="trailing" constant="8" id="JT2-zx-pbH"/>
+                            <constraint firstItem="4Mw-nX-yI3" firstAttribute="centerY" secondItem="S3S-Oj-5AN" secondAttribute="centerY" id="OPo-mT-Dia"/>
+                            <constraint firstAttribute="trailing" secondItem="4Mw-nX-yI3" secondAttribute="trailing" constant="8" id="U3u-om-J71"/>
+                            <constraint firstItem="KFB-CT-lKc" firstAttribute="centerY" secondItem="S3S-Oj-5AN" secondAttribute="centerY" id="bwG-aC-tI5"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="ssy-KU-ocm"/>
+                    </view>
+                    <extendedEdge key="edgesForExtendedLayout"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="320" height="132"/>
+                    <connections>
+                        <outlet property="currentTempLabel" destination="htG-HQ-F5J" id="oYc-v2-cpV"/>
+                        <outlet property="highLowTempLabel" destination="OtU-QK-9BV" id="m9d-Ee-Dq7"/>
+                        <outlet property="iconImageView" destination="KFB-CT-lKc" id="Rhp-96-OGn"/>
+                        <outlet property="placeNameLabel" destination="IbV-U4-eEo" id="oYh-KX-dwQ"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vXp-U4-Rya" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="137.59999999999999" y="101.64917541229386"/>
+        </scene>
+    </scenes>
+</document>
