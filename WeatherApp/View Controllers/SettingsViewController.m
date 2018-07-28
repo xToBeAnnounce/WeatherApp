@@ -156,9 +156,7 @@ static NSString *locationCellID = @"LocationTableViewCell";
     
     // Sets navigation bar titlte and buttons
     self.navigationController.navigationBar.topItem.title = @"Settings";
-    UIBarButtonItem* closeBtn = [[UIBarButtonItem alloc] initWithTitle:@"Close" style:UIBarButtonItemStylePlain target:self action:@selector(onTapClose:)];
     UIBarButtonItem* saveBtn = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(onTapSave:)];
-    self.navigationController.navigationBar.topItem.leftBarButtonItem = closeBtn;
     self.navigationController.navigationBar.topItem.rightBarButtonItem = saveBtn;
     
     // Sets up table view

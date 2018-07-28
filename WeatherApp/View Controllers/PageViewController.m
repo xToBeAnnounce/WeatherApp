@@ -39,6 +39,15 @@ BOOL settingUpLocations;
     self.locViewArrary = [[NSMutableArray alloc] init];
     currentLocation = NO;
     
+    SWRevealViewController *revealController = [self.navDelegate getRevealViewController];
+    
+    [revealController panGestureRecognizer];
+    [revealController tapGestureRecognizer];
+    
+    UIBarButtonItem *revealButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"hamburger"] style:UIBarButtonItemStylePlain target:revealController action:@selector(revealToggle:)];
+    
+    [self.navDelegate setLeftBarItem:revealButtonItem];
+    
     [self setUI];
 }
 
@@ -66,16 +75,6 @@ BOOL settingUpLocations;
     currentLocation = NO;
     
     [self refreshPageViewWithStartIndex:0];
-    
-    SWRevealViewController *revealController = [self.navDelegate getRevealViewController];
-    
-    [revealController panGestureRecognizer];
-    [revealController tapGestureRecognizer];
-    
-    UIBarButtonItem *revealButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"hamburger"] style:UIBarButtonItemStylePlain target:revealController action:@selector(revealToggle:)];
-    
-    [self.navDelegate setLeftBarItem:revealButtonItem];
-
 }
 
 - (void) setConstraints {
@@ -98,7 +97,7 @@ BOOL settingUpLocations;
     self.locationDetailsButton.translatesAutoresizingMaskIntoConstraints = NO;
     self.locationDetailsButton.hidden = YES;
     [self.view addSubview:self.locationDetailsButton];
-
+    
     self.view.backgroundColor = [[UIColor alloc]initWithPatternImage:[UIImage imageNamed:@"grad"]];
     
     [self makePlaceHolderScreen];

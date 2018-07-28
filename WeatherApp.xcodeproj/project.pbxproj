@@ -25,6 +25,7 @@
 		9262591621067E7500BEF660 /* LocationDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9262591521067E7500BEF660 /* LocationDetailsViewController.m */; };
 		927E18A2210106B700CA03F6 /* Weather.m in Sources */ = {isa = PBXBuildFile; fileRef = 927E18A1210106B700CA03F6 /* Weather.m */; };
 		9283A3F121091BF500F4858F /* NavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9283A3F021091BF500F4858F /* NavigationController.m */; };
+		92EEBD01210BEEE100D6721F /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 92EEBD00210BEEE100D6721F /* SWRevealViewController.m */; };
 		CC7A6A0A210115D600028419 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC7A6A09210115D600028419 /* LoginViewController.m */; };
 		CC7A6A0D2102B10F00028419 /* PageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC7A6A0C2102B10F00028419 /* PageViewController.m */; };
 		CC7D391D20FD053A00913023 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CC7D391C20FD053A00913023 /* AppDelegate.m */; };
@@ -37,7 +38,6 @@
 		CCC8951920FFCCBA00DEF6AD /* DailyTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC8951820FFCCBA00DEF6AD /* DailyTableViewCell.m */; };
 		CCE8557421098B480035230F /* DailyView.m in Sources */ = {isa = PBXBuildFile; fileRef = CCE8557321098B480035230F /* DailyView.m */; };
 		CCE855B82109C3090035230F /* WeeklyView.m in Sources */ = {isa = PBXBuildFile; fileRef = CCE855B72109C3090035230F /* WeeklyView.m */; };
-		CCE85678210BA74B0035230F /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CCE85677210BA74B0035230F /* SWRevealViewController.m */; };
 		CE280C0B166C66C23D6B080B /* libPods-WeatherAppTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ABCEC71E4DF87C4C79A8B9BF /* libPods-WeatherAppTests.a */; };
 /* End PBXBuildFile section */
 
@@ -108,6 +108,8 @@
 		927E18A1210106B700CA03F6 /* Weather.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Weather.m; sourceTree = "<group>"; };
 		9283A3EF21091BF500F4858F /* NavigationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NavigationController.h; sourceTree = "<group>"; };
 		9283A3F021091BF500F4858F /* NavigationController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NavigationController.m; sourceTree = "<group>"; };
+		92EEBCFF210BEEE100D6721F /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRevealViewController.h; sourceTree = "<group>"; };
+		92EEBD00210BEEE100D6721F /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWRevealViewController.m; sourceTree = "<group>"; };
 		ABCEC71E4DF87C4C79A8B9BF /* libPods-WeatherAppTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WeatherAppTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6F87DD29FB6698DF722B3DF /* Pods-WeatherAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeatherAppTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WeatherAppTests/Pods-WeatherAppTests.debug.xcconfig"; sourceTree = "<group>"; };
 		C8F1DA2B1A28A8278AEEF034 /* Pods-WeatherApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeatherApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WeatherApp/Pods-WeatherApp.debug.xcconfig"; sourceTree = "<group>"; };
@@ -137,8 +139,6 @@
 		CCE8557321098B480035230F /* DailyView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DailyView.m; sourceTree = "<group>"; };
 		CCE855B62109C3090035230F /* WeeklyView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WeeklyView.h; sourceTree = "<group>"; };
 		CCE855B72109C3090035230F /* WeeklyView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WeeklyView.m; sourceTree = "<group>"; };
-		CCE85676210BA74B0035230F /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SWRevealViewController.h; path = "../../../SlideOutMenu-Beginning/SlideOutMenuFiles/SWRevealViewController.h"; sourceTree = "<group>"; };
-		CCE85677210BA74B0035230F /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SWRevealViewController.m; path = "../../../SlideOutMenu-Beginning/SlideOutMenuFiles/SWRevealViewController.m"; sourceTree = "<group>"; };
 		E045F920045B440297515456 /* Pods-WeatherApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeatherApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-WeatherApp/Pods-WeatherApp.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -266,6 +266,15 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		92EEBCFE210BEEE100D6721F /* SWRevealViewController */ = {
+			isa = PBXGroup;
+			children = (
+				92EEBCFF210BEEE100D6721F /* SWRevealViewController.h */,
+				92EEBD00210BEEE100D6721F /* SWRevealViewController.m */,
+			);
+			path = SWRevealViewController;
+			sourceTree = "<group>";
+		};
 		CC7D390F20FD053A00913023 = {
 			isa = PBXGroup;
 			children = (
@@ -291,7 +300,7 @@
 		CC7D391A20FD053A00913023 /* WeatherApp */ = {
 			isa = PBXGroup;
 			children = (
-				CCE855B9210A74770035230F /* 3rd Parties */,
+				92EEBCFE210BEEE100D6721F /* SWRevealViewController */,
 				9203E63720FD73B100F8C858 /* View */,
 				3330AE1620FE736900B37975 /* View Controllers */,
 				9203E62F20FD47C700F8C858 /* API */,
@@ -322,15 +331,6 @@
 				CC7D394120FD053D00913023 /* Info.plist */,
 			);
 			path = WeatherAppUITests;
-			sourceTree = "<group>";
-		};
-		CCE855B9210A74770035230F /* 3rd Parties */ = {
-			isa = PBXGroup;
-			children = (
-				CCE85676210BA74B0035230F /* SWRevealViewController.h */,
-				CCE85677210BA74B0035230F /* SWRevealViewController.m */,
-			);
-			path = "3rd Parties";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -553,7 +553,7 @@
 				3330AE1C2101112000B37975 /* LocationPickerViewController.m in Sources */,
 				CCE8557421098B480035230F /* DailyView.m in Sources */,
 				33F00C0F20FD1215008F56CE /* Location.m in Sources */,
-				CCE85678210BA74B0035230F /* SWRevealViewController.m in Sources */,
+				92EEBD01210BEEE100D6721F /* SWRevealViewController.m in Sources */,
 				3330AE252102842700B37975 /* PreferenceTableViewCell.m in Sources */,
 				33F00C1220FD1244008F56CE /* Preferences.m in Sources */,
 				CC7D392B20FD053D00913023 /* main.m in Sources */,
