@@ -10,12 +10,15 @@
 #import "WeeklyCell.h"
 #import "Location.h"
 @implementation WeeklyView
+
 static bool loadWeeklyData = NO;
 static NSString *WeeklycellIdentifier = @"WeeklyCell";
+static NSIndexPath *selectedCell;
 
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
 - (void)drawRect:(CGRect)rect {
+    selectedCell = nil;
     [self setWeeklyUI];
     
     [self.location fetchDataType:@"weekly" WithCompletion:^(NSDictionary * data, NSError * error) {
@@ -57,6 +60,10 @@ static NSString *WeeklycellIdentifier = @"WeeklyCell";
     if(loadWeeklyData){
         weeklycell.tempType = self.tempType;
         Weather *dayWeather = self.location.weeklyData[indexPath.row];
+        if(selectedCell == indexPath) weeklycell.displayActivity = YES;
+        else{
+            weeklycell.displayActivity = NO;
+        }
         weeklycell.dayWeather = dayWeather;
     }
     return weeklycell;
@@ -66,9 +73,14 @@ static NSString *WeeklycellIdentifier = @"WeeklyCell";
     return self.location.weeklyData.count;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [self.WeeklytableView deselectRowAtIndexPath:indexPath animated:YES];
-    [self.delegate displayPopoverDataRow:(int)indexPath.row Height: (int)self.WeeklytableView.estimatedRowHeight];
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
+    //[self.WeeklytableView deselectRowAtIndexPath:indexPath animated:YES];
+    //[self.delegate displayPopoverDataRow:(int)indexPath.row Height: (int)self.WeeklytableView.estimatedRowHeight];
+    if(selectedCell == nil){
+        selectedCell = indexPath;
+        [self.WeeklytableView reloadData];
+    }
+    else selectedCell = nil;
     // Create an activity for the location here
     // Initalize the popover view
     // Display the activity data in the popover view

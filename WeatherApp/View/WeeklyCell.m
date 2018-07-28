@@ -21,6 +21,7 @@
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    self.displayActivity = NO;
     
     //Date Label at left (Monday, Tuesday...)
     self.dateLabel = [[UILabel alloc] init];
@@ -55,6 +56,21 @@
     self.tempStackView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.contentView addSubview:self.tempStackView];
     
+    self.sunnyActivity = [[UIButton alloc] init];
+    //self.sunnyActivity.titleLabel.text = @"Sunny";
+    [self.sunnyActivity setTitle:@"Sunny" forState:UIControlStateNormal];
+    [self.sunnyActivity setTitleColor:UIColor.blackColor forState:UIControlStateNormal];
+    //self.sunnyActivity.titleLabel.textColor = UIColor.blackColor;
+    [self.sunnyActivity sizeToFit];
+    [self.contentView addSubview:self.sunnyActivity];
+    
+    self.rainyActivity = [[UIButton alloc] init];
+    [self.rainyActivity setTitle:@"Rainy" forState:UIControlStateNormal];
+    //self.rainyActivity.titleLabel.text = @"Rainy";
+    [self.rainyActivity setTitleColor:UIColor.blackColor forState:UIControlStateNormal];
+    [self.rainyActivity sizeToFit];
+    [self.contentView addSubview:self.rainyActivity];
+    
     [self setConstraints];
     
     return self;
@@ -77,6 +93,9 @@
     // Low temp label
     self.lowTempLabel.text = [dayWeather getTempInString:dayWeather.temperatureLow withType:self.tempType];
     [self.lowTempLabel sizeToFit];
+    
+    self.sunnyActivity.hidden = !self.displayActivity;
+    self.rainyActivity.hidden = !self.displayActivity;
 }
 
 - (void) setConstraints {
@@ -88,10 +107,18 @@
     [self.iconImageView.heightAnchor constraintEqualToConstant:40].active = YES;
     [self.iconImageView.widthAnchor constraintEqualToAnchor:self.iconImageView.heightAnchor multiplier:1.0/1.0].active = YES;
     [self.iconImageView.topAnchor constraintEqualToAnchor:self.contentView.topAnchor constant:4].active = YES;
-    [self.iconImageView.bottomAnchor constraintEqualToAnchor:self.contentView.bottomAnchor constant:-4].active = YES;
+    //[self.iconImageView.bottomAnchor constraintEqualToAnchor:self.contentView.bottomAnchor constant:-4].active = YES;
     
     [self.tempStackView.centerYAnchor constraintEqualToAnchor:self.contentView.centerYAnchor].active = YES;
     [self.tempStackView.trailingAnchor constraintLessThanOrEqualToAnchor:self.contentView.trailingAnchor constant:-8].active = YES;
+    
+    [self.sunnyActivity.leadingAnchor constraintEqualToAnchor:self.contentView.leadingAnchor constant:8].active = YES;
+    [self.sunnyActivity.topAnchor constraintEqualToAnchor:self.dateLabel.bottomAnchor constant:8].active = YES;
+    [self.sunnyActivity.bottomAnchor constraintEqualToAnchor:self.contentView.bottomAnchor constant:-8].active = YES;
+    
+    [self.rainyActivity.leadingAnchor constraintEqualToAnchor:self.sunnyActivity.trailingAnchor constant:8].active = YES;
+    [self.rainyActivity.topAnchor constraintEqualToAnchor:self.dateLabel.bottomAnchor constant:8].active = YES;
+    [self.rainyActivity.bottomAnchor constraintEqualToAnchor:self.contentView.bottomAnchor constant:-8].active = YES;
 }
 
 @end

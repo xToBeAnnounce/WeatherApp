@@ -17,8 +17,13 @@
 @property (strong, nonatomic) UILabel *lowTempLabel;
 @property (strong, nonatomic) UILabel *highTempLabel;
 @property (strong, nonatomic) UIStackView *tempStackView;
+@property (strong, nonatomic) UIButton *sunnyActivity;
+@property (strong, nonatomic) UIButton *rainyActivity;
 
 /* Weather Information */
 @property (strong, nonatomic) Weather *dayWeather;
 @property (strong, nonatomic) NSString *tempType; //C or F
+
+/* Activity Information */
+@property bool displayActivity;
 @end
