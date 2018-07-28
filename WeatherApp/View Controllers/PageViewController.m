@@ -13,6 +13,7 @@
 #import "LocationDetailsViewController.h"
 #import "User.h"
 #import "NavigationController.h"
+#import "SWRevealViewController.h"
 
 @interface PageViewController ()<UIPageViewControllerDataSource,UIPageViewControllerDelegate>
 

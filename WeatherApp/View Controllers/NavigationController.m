@@ -9,12 +9,14 @@
 #import "NavigationController.h"
 #import "SettingsViewController.h"
 #import "LocationPickerViewController.h"
+#import "SWRevealViewController.h"
 
 @interface NavigationController()
 @property (strong, nonatomic) UIBarButtonItem *settingsButton;
 @property (strong, nonatomic) UIBarButtonItem *addLocationButton;
 @property (strong, nonatomic) UISegmentedControl *DailyWeeklySegmentedControl;
 @property (strong, nonatomic) UINavigationController *settingsNVC;
+@property (strong, nonatomic) SWRevealViewController *revealViewController;
 @end
 
 @implementation NavigationController
@@ -88,7 +90,6 @@
 
 -(void)setLeftBarItem:(UIBarButtonItem *)button{
     self.navStack.navigationBar.topItem.leftBarButtonItem = button;
-    self.settingsNVC.navigationController.navigationBar.topItem.leftBarButtonItem = button;
 }
 
 -(SWRevealViewController*)getRevealViewController{
