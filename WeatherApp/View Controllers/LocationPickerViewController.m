@@ -35,14 +35,14 @@ static BOOL loadingData;
     UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(didTapCancel)];
     self.navigationController.navigationBar.topItem.leftBarButtonItem = cancelButton;
     
-    self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, self.navigationController.navigationBar.bounds.size.height + 20, self.view.bounds.size.width, 50)];
+    self.searchBar = [[UISearchBar alloc] init];
     self.searchBar.delegate = self;
-    self.searchBar.showsCancelButton = YES;
-    [self.view addSubview:self.searchBar];
+    self.navigationItem.titleView = self.searchBar;
     
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, self.navigationController.navigationBar.bounds.size.height + 20 + 50, self.view.bounds.size.width, self.view.bounds.size.height - 70)]; //Hard-Coded the coordinates for labels and table-view
+    self.tableView = [[UITableView alloc] initWithFrame:self.view.frame];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+    [self.tableView registerClass:UITableViewCell.class forCellReuseIdentifier:@"SearhResultCell"];
     [self.view addSubview:self.tableView];
 }
 
@@ -53,36 +53,76 @@ static BOOL loadingData;
     [super didReceiveMemoryWarning];
 }
 
-- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar{
-    if([self.searchBar.text isEqual: @""]) [self.searchLocationArray removeAllObjects];
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+    if([searchText isEqual: @""]) {
+        [self.searchLocationArray removeAllObjects];
+        [self.tableView reloadData];
+    }
     else if(!loadingData){
-        loadingData = YES;
-        [[GeoAPIManager shared] searchForLocationByName:self.searchBar.text withOffset:0 withCompletion:^(NSDictionary *data, NSError *error) {
-            if (data) {
-                NSArray *geonamesArray = data[@"geonames"];
-                for (NSDictionary *geoname in geonamesArray) {
-                    Location *loc = [Location initWithSearchDictionary:geoname];
-                    [self.searchLocationArray addObject:loc];
-                }
-                loadingData = NO;
-                [self.tableView reloadData];
-            }
-            else {
-                NSLog(@"%@", error.localizedDescription);
-            }
-        }];
+        [self searchUsingQuery:searchText];
     }
 }
 
-- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar{
-    [self.searchLocationArray removeAllObjects];
-    [self.searchBar resignFirstResponder];
-    [self.tableView reloadData];
+- (void) searchUsingQuery:(NSString *)query {
+    loadingData = YES;
+    [[GeoAPIManager shared] searchForLocationByName:query withOffset:0 withCompletion:^(NSDictionary *data, NSError *error) {
+        if (data) {
+            [self.searchLocationArray removeAllObjects];
+            NSArray *geonamesArray = data[@"geonames"];
+            for (NSDictionary *geoname in geonamesArray) {
+                Location *loc = [Location initWithSearchDictionary:geoname];
+                [self.searchLocationArray addObject:loc];
+            }
+            if (geonamesArray.count == 0) {
+                Location *loc = [[Location alloc] init];
+                loc.fullPlaceName = [NSString stringWithFormat:@"No locations found", self.searchBar.text];
+                [self.searchLocationArray addObject:loc];
+            }
+            loadingData = NO;
+            [self.tableView reloadData];
+        }
+        else {
+            NSLog(@"%@", error.localizedDescription);
+        }
+    }];
 }
 
+//- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar{
+//    if([self.searchBar.text isEqual: @""]) [self.searchLocationArray removeAllObjects];
+//    else if(!loadingData){
+//        loadingData = YES;
+//        [[GeoAPIManager shared] searchForLocationByName:self.searchBar.text withOffset:0 withCompletion:^(NSDictionary *data, NSError *error) {
+//            if (data) {
+//                NSArray *geonamesArray = data[@"geonames"];
+//                for (NSDictionary *geoname in geonamesArray) {
+//                    Location *loc = [Location initWithSearchDictionary:geoname];
+//                    [self.searchLocationArray addObject:loc];
+//                }
+//                if (geonamesArray.count == 0) {
+//                    Location *loc = [[Location alloc] init];
+//                    loc.fullPlaceName = [NSString stringWithFormat:@"No locations found for %@", self.searchBar.text];
+//                    [self.searchLocationArray addObject:loc];
+//                }
+//                loadingData = NO;
+//                [self.tableView reloadData];
+//            }
+//            else {
+//                NSLog(@"%@", error.localizedDescription);
+//            }
+//        }];
+//    }
+//}
+
+//- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar{
+//    [self.searchLocationArray removeAllObjects];
+//    [self.searchBar resignFirstResponder];
+//    [self.tableView reloadData];
+//}
+
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
-    [self.searchLocationArray removeAllObjects];
+//    [self.searchLocationArray removeAllObjects];
     [self.searchBar resignFirstResponder];
+    [self searchUsingQuery:searchBar.text];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -104,28 +144,19 @@ static BOOL loadingData;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    LocationDetailsViewController *locDetailVC = [[LocationDetailsViewController alloc] init];
-    locDetailVC.location = self.searchLocationArray[indexPath.row];
-    locDetailVC.saveNewLocation = YES;
-//    UINavigationController *locationDetailNVC = [[UINavigationController alloc] initWithRootViewController:locDetailVC];
-    [self.navigationController pushViewController:locDetailVC animated:YES];
-//    [self.navigationController presentViewController:locationDetailNVC animated:YES completion:nil];
+    Location *loc = self.searchLocationArray[indexPath.row];
+    if (![loc.fullPlaceName isEqualToString:@"No locations found"]) {
+        LocationDetailsViewController *locDetailVC = [[LocationDetailsViewController alloc] init];
+        locDetailVC.location = self.searchLocationArray[indexPath.row];
+        locDetailVC.saveNewLocation = YES;
+        [self.navigationController pushViewController:locDetailVC animated:YES];
+    }
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 
 - (void) didTapCancel {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
-
-
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
 
 @end
