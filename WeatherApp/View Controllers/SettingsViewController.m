@@ -17,8 +17,6 @@
 
 @property (strong, nonatomic) User *user;
 @property (strong, nonatomic) NSMutableDictionary *updatePrefDict;
-@property (strong, nonatomic) UITextField *tooHotTextField;
-@property (strong, nonatomic) UITextField *tooColdTextField;
 @property (strong, nonatomic) UISegmentedControl *tempTypeSegementedControl;
 @property (strong, nonatomic) UISwitch *locationOnSwitch;
 @property (strong, nonatomic) UISwitch *notificationsOnSwitch;
@@ -61,7 +59,7 @@ static NSString *locationCellID = @"LocationTableViewCell";
             @[@"", self.resetButton]
     ],
         @"Locations":@[],
-        @"AddLocation": @[Location.new]
+        @"AddLocation":@[@"Add more locations..."]
     }];
 }
 
@@ -208,6 +206,7 @@ static NSString *locationCellID = @"LocationTableViewCell";
             [revealController tapGestureRecognizer];
             
             [revealController revealToggle:sender];
+            self.navigationController.navigationBar.topItem.leftBarButtonItem.image = [UIImage imageNamed:@"hamburger"];
             self.navigationController.navigationBar.topItem.titleView = self.storedSC;
             self.navigationController.navigationBar.topItem.rightBarButtonItem = self.storedButton;
         }
@@ -220,8 +219,6 @@ static NSString *locationCellID = @"LocationTableViewCell";
 - (IBAction)onTapClose:(id)sender {
     [self.tooHotTextField resignFirstResponder];
     [self.tooColdTextField resignFirstResponder];
-    
-    [self.navDelegate dismissViewController];
 }
 
 - (IBAction)onEditedHot:(id)sender {
@@ -272,13 +269,8 @@ static NSString *locationCellID = @"LocationTableViewCell";
 }
 
 - (IBAction)onTapReset:(id)sender {
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Warning" message:@"You are about to reset all your preferences to the default settings. Do you wish to continue?" preferredStyle:(UIAlertControllerStyleAlert)];
-    
-    // create a cancel action
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {}];
-    [alert addAction:cancelAction];
-    
-    UIAlertAction *yesAction = [UIAlertAction actionWithTitle:@"Yes" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    [self presentConfirmActionAlertWithTitle:@"Warning" message:@"You are about to reset all your preferences to the default settings. Do you wish to continue?"
+    yesHandler:^(UIAlertAction * _Nonnull action) {
         [self.user saveNewPreferences:Preferences.defaultPreferences withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
             if (succeeded) {
                 [self loadPreferences];
@@ -287,12 +279,7 @@ static NSString *locationCellID = @"LocationTableViewCell";
                 NSLog(@"Error occured: %@", error.localizedDescription);
             }
         }];
-    }];
-    [alert addAction:yesAction];
-    
-    [self presentViewController:alert animated:YES completion:^{
-        // optional code for what happens after the alert controller has finished presenting
-    }];
+    } completion:nil];
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
@@ -306,6 +293,22 @@ static NSString *locationCellID = @"LocationTableViewCell";
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
     self.screenTap.enabled = NO;
+}
+
+
+
+- (void) presentConfirmActionAlertWithTitle:(NSString *)title message:(NSString *)message yesHandler:(void(^)(UIAlertAction * _Nonnull action))yesHandler completion:(void(^)(void))completion{
+    
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:(UIAlertControllerStyleAlert)];
+    
+    // create a cancel action
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {}];
+    [alert addAction:cancelAction];
+    
+    UIAlertAction *yesAction = [UIAlertAction actionWithTitle:@"Yes" style:UIAlertActionStyleDefault handler:yesHandler];
+    [alert addAction:yesAction];
+    
+    [self presentViewController:alert animated:YES completion:completion];
 }
 
 /*-----------------TABLE VIEW DELEGATE METHODS-----------------*/
@@ -325,7 +328,8 @@ static NSString *locationCellID = @"LocationTableViewCell";
 
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
     NSArray *items = sectionsDict[sectionsArray[indexPath.section]];
-    if (indexPath.section == 0) {
+    
+    if (indexPath.section == [sectionsArray indexOfObject:@"Preferences"]) {
         // preferences cell
         PreferenceTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:preferenceCellID forIndexPath:indexPath];
         if (!cell) {
@@ -334,7 +338,7 @@ static NSString *locationCellID = @"LocationTableViewCell";
         cell.preferenceArray = items[indexPath.row];
         return cell;
     }
-    else if (indexPath.section == 1){
+    else if (indexPath.section == [sectionsArray indexOfObject:@"Locations"]){
         LocationTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:locationCellID forIndexPath:indexPath];
         
         if (!cell) {
@@ -344,7 +348,7 @@ static NSString *locationCellID = @"LocationTableViewCell";
         cell.location = items[indexPath.row];
         return cell;
     }
-    else if (indexPath.section == 2) return [self makeTextCellWithMessage:@"Add more locations..."];
+    else if (indexPath.section == [sectionsArray indexOfObject:@"AddLocation"]) return [self makeTextCellWithMessage:@"Add more locations..."];
     return [[UITableViewCell alloc] init];
 }
 

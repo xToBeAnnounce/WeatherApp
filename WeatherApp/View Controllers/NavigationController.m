@@ -23,13 +23,8 @@
 -(instancetype)initWithViewController:(UIViewController*)viewController{
     self.navStack = [[UINavigationController alloc] initWithRootViewController:viewController];
     if ([viewController.class isEqual:PageViewController.class]) {
-//        UINavigationController *pageNavController = [[UINavigationController alloc] initWithRootViewController:viewController];
-        
-        //UITableViewController *userVC = [[UITableViewController alloc] init];
-        //userVC.view.backgroundColor = UIColor.orangeColor;
         SettingsViewController *settingsVC = SettingsViewController.new;
         settingsVC.navDelegate = self;
-//        self.settingsNVC = [[UINavigationController alloc] initWithRootViewController:settingsVC];
 
         self.revealViewController = [[SWRevealViewController alloc]initWithRearViewController:settingsVC frontViewController:viewController];
         self.revealViewController.rearViewRevealWidth = UIScreen.mainScreen.bounds.size.width;

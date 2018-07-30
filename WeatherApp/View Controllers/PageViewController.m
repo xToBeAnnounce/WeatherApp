@@ -12,6 +12,7 @@
 #import "LocationWeatherViewController.h"
 #import "LocationPickerViewController.h"
 #import "LocationDetailsViewController.h"
+#import "SettingsViewController.h"
 #import "SWRevealViewController.h"
 
 @interface PageViewController ()<UIPageViewControllerDataSource,UIPageViewControllerDelegate>
@@ -296,10 +297,17 @@ BOOL settingUpLocations;
     [revealController tapGestureRecognizer];
     
     [revealController revealToggle:sender];
+    SettingsViewController *settingsVC = (SettingsViewController *)revealController.rearViewController;
+
     if (revealController.frontViewPosition == FrontViewPositionRight) {
+        [settingsVC loadPreferences];
         self.navigationController.navigationBar.topItem.title = @"Settings";
+        self.navigationController.navigationBar.topItem.leftBarButtonItem.image = [UIImage imageNamed:@"close"];
     }
     else {
+        [settingsVC.tooHotTextField resignFirstResponder];
+        [settingsVC.tooColdTextField resignFirstResponder];
+        self.navigationController.navigationBar.topItem.leftBarButtonItem.image = [UIImage imageNamed:@"hamburger"];
         self.navigationController.navigationBar.topItem.titleView = self.DailyWeeklySC;
         self.navigationController.navigationBar.topItem.rightBarButtonItem = self.addLocationButton;
     }

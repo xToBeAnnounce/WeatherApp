@@ -11,4 +11,8 @@
 
 @interface SettingsViewController : UIViewController
 @property (strong, nonatomic) id<NavigationDelegate> navDelegate;
+@property (strong, nonatomic) UITextField *tooHotTextField;
+@property (strong, nonatomic) UITextField *tooColdTextField;
+
+- (void) loadPreferences;
 @end
