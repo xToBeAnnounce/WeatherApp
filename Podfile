@@ -18,4 +18,7 @@ target 'WeatherApp' do
     # Pods for testing
   end
 
+target 'Current Weather' do
+    pod 'Parse'
+    end
 end
