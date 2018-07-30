@@ -25,7 +25,6 @@
 @property (strong,nonatomic) WeeklyView *weeklyView;
 
 
-
 @end
 
 @implementation LocationWeatherViewController
@@ -50,24 +49,26 @@
 }
 
 - (void) viewWillAppear:(BOOL)animated {
-    
     [super viewWillAppear:animated];
     
     [User.currentUser getUserPreferencesWithBlock:^(Preferences *pref, NSError *error) {
         if (pref) {
-            self.dailyView.tempType = pref.tempTypeString;
-            self.weeklyView.tempType = pref.tempTypeString;
+            self.tempTypeString = pref.tempTypeString;
         }
         else {
             NSLog(@"%@", error.localizedDescription);
         }
     }];
-    
 }
 
 - (void) viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     self.locationDetailsButton.hidden = !self.location.objectId;
+}
+
+- (void)setTempTypeString:(NSString *)tempTypeString {
+    self.dailyView.tempType = tempTypeString;
+    self.weeklyView.tempType = tempTypeString;
 }
 
 - (void) setUI {
@@ -83,12 +84,6 @@
     
     [self setConstraintsForView:self.dailyView];
     [self setConstraintsForView:self.weeklyView];
-    
-//    UIView *randomView = [[UIView alloc] init];
-//    randomView.backgroundColor = [UIColor orangeColor];
-//    randomView.translatesAutoresizingMaskIntoConstraints = NO;
-//    [self.view addSubview:randomView];
-//    [self setConstraintsForView:randomView];
 }
 
 - (void)setLocation:(Location *)location {
@@ -107,9 +102,5 @@
     [view.bottomAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.bottomAnchor].active = YES;
     [view.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor].active = YES;
     [view.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor].active = YES;
-}
-
-- (BOOL) locationMatches:(Location *)location {
-    return [self.location isEqual:location];
 }
 @end

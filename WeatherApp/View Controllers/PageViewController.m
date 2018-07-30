@@ -51,8 +51,7 @@ BOOL settingUpLocations;
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    [self updateLocations];
-    [self updateUserPreferences];
+    [self refreshView];
 }
 
 - (void) viewDidAppear:(BOOL)animated {
@@ -279,6 +278,10 @@ BOOL settingUpLocations;
             currentLocation = pref.locationOn;
             [self refreshPageViewWithStartIndex:[self currentPageIndex]];
             settingUpLocations = NO;
+            
+            for (LocationWeatherViewController *locWVC in [self.locViewArrary filteredArrayUsingPredicate:[NSPredicate predicateWithFormat: @"self isKindOfClass: %@", LocationWeatherViewController.class]]) {
+                locWVC.tempTypeString = pref.tempTypeString;
+            }
         }
         else {
             [self alertControllerWithTitle:@"Error" message:error.localizedDescription btnText:@"OK"];
@@ -300,11 +303,13 @@ BOOL settingUpLocations;
     SettingsViewController *settingsVC = (SettingsViewController *)revealController.rearViewController;
 
     if (revealController.frontViewPosition == FrontViewPositionRight) {
+        // User tapped button to go to settings
         [settingsVC loadPreferences];
         self.navigationController.navigationBar.topItem.title = @"Settings";
         self.navigationController.navigationBar.topItem.leftBarButtonItem.image = [UIImage imageNamed:@"close"];
     }
     else {
+        // User closed settings without saving
         [settingsVC.tooHotTextField resignFirstResponder];
         [settingsVC.tooColdTextField resignFirstResponder];
         self.navigationController.navigationBar.topItem.leftBarButtonItem.image = [UIImage imageNamed:@"hamburger"];
@@ -317,6 +322,18 @@ BOOL settingUpLocations;
     LocationPickerViewController *locationVC = LocationPickerViewController.new;
     UINavigationController *locationNavVC = [[UINavigationController alloc] initWithRootViewController:locationVC];
     [self.navigationController presentViewController:locationNavVC animated:YES completion:nil];
+}
+
+- (void) updateCurrentScreen{
+    if ([self.viewControllers[0] isKindOfClass:LocationWeatherViewController.class]) {
+        LocationWeatherViewController *locWVC = self.viewControllers[0];
+        [locWVC updatePreferences];
+    }
+}
+
+- (void) refreshView {
+    [self updateLocations];
+    [self updateUserPreferences];
 }
 @end
 
