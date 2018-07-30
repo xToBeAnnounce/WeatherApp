@@ -88,7 +88,7 @@ BOOL settingUpLocations;
 }
 
 - (void) setUI {
-    self.DailyWeeklySC = [self.navDelegate getDailyWeeklySegmentControl];
+//    self.DailyWeeklySC = [self.navDelegate getDailyWeeklySegmentControl];
     self.DailyWeeklySC.selectedSegmentIndex = 0;
     
     self.locationDetailsButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
