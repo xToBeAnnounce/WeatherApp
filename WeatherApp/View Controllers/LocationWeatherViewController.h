@@ -15,5 +15,4 @@
 @property (strong, nonatomic) NSString *tempTypeString;
 
 - (instancetype) initWithLocation:(Location *)location segmentedControl:(UISegmentedControl *)DailyWeeklySC locDetailsButton:(UIButton *)locationsDetailsButton;
-- (void) updatePreferences ;
 @end

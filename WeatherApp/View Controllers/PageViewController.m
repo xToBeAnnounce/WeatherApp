@@ -20,8 +20,12 @@
 @property (strong,nonatomic) NSArray *viewControllerArrary;
 @property (strong,nonatomic) UIPageControl *pageControl;
 @property (strong, nonatomic) NSMutableArray *locViewArrary;
+
 @property (strong, nonatomic) UIViewController *placeholderScreen;
 @property (strong, nonatomic) UILabel *placeholderLabel;
+@property (strong, nonatomic) UIActivityIndicatorView *loadingActivityIndicator;
+@property (strong, nonatomic) UIButton *placeholderButton;
+
 @property (strong,nonatomic) UISegmentedControl *DailyWeeklySC;
 @property (strong, nonatomic) UIButton *locationDetailsButton;
 
@@ -63,13 +67,29 @@ BOOL settingUpLocations;
 - (void) makePlaceHolderScreen {
     // creating placeholder view controller
     self.placeholderScreen = [[UIViewController alloc] init];
-//    self.placeholderScreen.view.backgroundColor = [UIColor blueColor];
     
     self.placeholderLabel = [[UILabel alloc] init];
-    self.placeholderLabel.text = @"Please wait while your locations are loading";
+//    self.placeholderLabel.text = @"Please wait while your locations are loading";
     [self.placeholderLabel sizeToFit];
     self.placeholderLabel.translatesAutoresizingMaskIntoConstraints = NO;
     [self.placeholderScreen.view addSubview:self.placeholderLabel];
+    
+    self.loadingActivityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    self.loadingActivityIndicator.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.loadingActivityIndicator startAnimating];
+    [self.placeholderScreen.view addSubview:self.loadingActivityIndicator];
+    
+    self.placeholderButton = [[UIButton alloc] init];
+    [self.placeholderButton setTitle:@"Add some locations" forState:UIControlStateNormal];
+    [self.placeholderButton setTitleColor:self.view.tintColor forState:UIControlStateNormal];
+    self.placeholderButton.layer.cornerRadius = 7;
+    self.placeholderButton.layer.borderColor = [self.view.tintColor CGColor];
+    self.placeholderButton.layer.borderWidth = 1;
+    [self.placeholderButton setContentEdgeInsets:UIEdgeInsetsMake(3, 3, 3, 3)];
+    self.placeholderButton.translatesAutoresizingMaskIntoConstraints = NO;
+    self.placeholderButton.hidden = YES;
+    [self.placeholderButton addTarget:self action:@selector(segueToAddLocation) forControlEvents:UIControlEventTouchUpInside];
+    [self.placeholderScreen.view addSubview:self.placeholderButton];
     
     [self.locViewArrary addObject:self.placeholderScreen];
   
@@ -81,6 +101,13 @@ BOOL settingUpLocations;
 - (void) setConstraints {
     [self.placeholderLabel.centerXAnchor constraintEqualToAnchor:self.placeholderScreen.view.centerXAnchor].active = YES;
     [self.placeholderLabel.centerYAnchor constraintEqualToAnchor:self.placeholderScreen.view.centerYAnchor].active = YES;
+    
+    [self.loadingActivityIndicator.centerXAnchor constraintEqualToAnchor:self.placeholderScreen.view.centerXAnchor].active = YES;
+    [self.loadingActivityIndicator.centerYAnchor constraintEqualToAnchor:self.placeholderScreen.view.centerYAnchor].active = YES;
+    
+    [self.placeholderButton.centerXAnchor constraintEqualToAnchor:self.placeholderScreen.view.centerXAnchor].active = YES;
+    [self.placeholderButton.centerYAnchor constraintEqualToAnchor:self.placeholderScreen.view.centerYAnchor].active = YES;
+    
     [self.locationDetailsButton.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor constant:-2].active = YES;
     [self.locationDetailsButton.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor constant:-2].active = YES;
     [self.locationDetailsButton.heightAnchor constraintEqualToConstant:35].active = YES;
@@ -161,10 +188,11 @@ BOOL settingUpLocations;
 - (void) addPlaceholderIfNeeded {
     if (self.locViewArrary.count == 0) {
         self.locationDetailsButton.hidden = YES;
+        self.placeholderButton.hidden = NO;
         
-        self.placeholderLabel.text = @"Add some locations!";
-        self.placeholderLabel.font = [UIFont systemFontOfSize:20 weight:UIFontWeightThin];
-        [self.placeholderLabel sizeToFit];
+//        self.placeholderLabel.text = @"Add some locations!";
+//        self.placeholderLabel.font = [UIFont systemFontOfSize:20 weight:UIFontWeightThin];
+//        [self.placeholderLabel sizeToFit];
         [self.locViewArrary addObject:self.placeholderScreen];
     }
 }
@@ -234,6 +262,7 @@ BOOL settingUpLocations;
     
     [User.currentUser getLocationsArrayInBackgroundWithBlock:^(NSMutableArray *locations, NSError *error) {
         if (locations) {
+            [self.loadingActivityIndicator stopAnimating];
             [self.locViewArrary removeObject:self.placeholderScreen];
             
             for (int i=0; i<locations.count; i++) {
@@ -265,6 +294,7 @@ BOOL settingUpLocations;
             if (pref.locationOn && !currentLocation) {
                 // Remove current location screen if it exists
                 [self removeCurrentLocationScreen];
+                [self.loadingActivityIndicator stopAnimating];
                 [self.locViewArrary removeObject:self.placeholderScreen];
                 
                 // Add new current location screen
@@ -322,13 +352,6 @@ BOOL settingUpLocations;
     LocationPickerViewController *locationVC = LocationPickerViewController.new;
     UINavigationController *locationNavVC = [[UINavigationController alloc] initWithRootViewController:locationVC];
     [self.navigationController presentViewController:locationNavVC animated:YES completion:nil];
-}
-
-- (void) updateCurrentScreen{
-    if ([self.viewControllers[0] isKindOfClass:LocationWeatherViewController.class]) {
-        LocationWeatherViewController *locWVC = self.viewControllers[0];
-        [locWVC updatePreferences];
-    }
 }
 
 - (void) refreshView {
