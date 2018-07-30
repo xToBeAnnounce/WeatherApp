@@ -50,7 +50,9 @@
 }
 
 - (void) viewWillAppear:(BOOL)animated {
+    
     [super viewWillAppear:animated];
+    
     [User.currentUser getUserPreferencesWithBlock:^(Preferences *pref, NSError *error) {
         if (pref) {
             self.dailyView.tempType = pref.tempTypeString;
@@ -60,6 +62,7 @@
             NSLog(@"%@", error.localizedDescription);
         }
     }];
+    
 }
 
 - (void) viewDidAppear:(BOOL)animated {
@@ -80,6 +83,12 @@
     
     [self setConstraintsForView:self.dailyView];
     [self setConstraintsForView:self.weeklyView];
+    
+//    UIView *randomView = [[UIView alloc] init];
+//    randomView.backgroundColor = [UIColor orangeColor];
+//    randomView.translatesAutoresizingMaskIntoConstraints = NO;
+//    [self.view addSubview:randomView];
+//    [self setConstraintsForView:randomView];
 }
 
 - (void)setLocation:(Location *)location {

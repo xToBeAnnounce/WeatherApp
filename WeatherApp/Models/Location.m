@@ -21,8 +21,6 @@
 @synthesize locationManager;
 
 /*-----------------------WEATHER-----------------------*/
-// static float lat = 42.3601;
-// static float lng = -71.0589;
 static int const numDaysInWeek = 7;
 static int const numHoursInDay = 24;
 @synthesize dailyData, weeklyData;
