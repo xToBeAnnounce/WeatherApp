@@ -56,24 +56,23 @@
     self.tempStackView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.contentView addSubview:self.tempStackView];
     
-    self.sunnyActivity = [[UIButton alloc] init];
-    //self.sunnyActivity.titleLabel.text = @"Sunny";
-    [self.sunnyActivity setTitle:@"Sunny" forState:UIControlStateNormal];
+    self.sunnyActivity = [[UIButton alloc]init];
+    [self.sunnyActivity setTitle:@"cafe" forState:UIControlStateNormal];
     [self.sunnyActivity setTitleColor:UIColor.blackColor forState:UIControlStateNormal];
-    //self.sunnyActivity.titleLabel.textColor = UIColor.blackColor;
     [self.sunnyActivity sizeToFit];
+    [self.sunnyActivity addTarget:self action:@selector(onSelectActivity:) forControlEvents:UIControlEventTouchUpInside];
     [self.contentView addSubview:self.sunnyActivity];
-    
-    self.rainyActivity = [[UIButton alloc] init];
-    [self.rainyActivity setTitle:@"Rainy" forState:UIControlStateNormal];
-    //self.rainyActivity.titleLabel.text = @"Rainy";
-    [self.rainyActivity setTitleColor:UIColor.blackColor forState:UIControlStateNormal];
-    [self.rainyActivity sizeToFit];
-    [self.contentView addSubview:self.rainyActivity];
     
     [self setConstraints];
     
     return self;
+}
+
+-(IBAction)onSelectActivity:(id)sender{
+    UIButton *activity = (UIButton*)sender;
+    NSString *activityName = activity.titleLabel.text;
+    
+    [self.delegate displayPopoverWithType:activityName Location:self.location AtRow:self.rowNum Height:self.rowHeight];
 }
 
 - (void)setDayWeather:(Weather *)dayWeather {
@@ -95,7 +94,6 @@
     [self.lowTempLabel sizeToFit];
     
     self.sunnyActivity.hidden = !self.displayActivity;
-    self.rainyActivity.hidden = !self.displayActivity;
 }
 
 - (void) setConstraints {
@@ -115,10 +113,6 @@
     [self.sunnyActivity.leadingAnchor constraintEqualToAnchor:self.contentView.leadingAnchor constant:8].active = YES;
     [self.sunnyActivity.topAnchor constraintEqualToAnchor:self.dateLabel.bottomAnchor constant:8].active = YES;
     [self.sunnyActivity.bottomAnchor constraintEqualToAnchor:self.contentView.bottomAnchor constant:-8].active = YES;
-    
-    [self.rainyActivity.leadingAnchor constraintEqualToAnchor:self.sunnyActivity.trailingAnchor constant:8].active = YES;
-    [self.rainyActivity.topAnchor constraintEqualToAnchor:self.dateLabel.bottomAnchor constant:8].active = YES;
-    [self.rainyActivity.bottomAnchor constraintEqualToAnchor:self.contentView.bottomAnchor constant:-8].active = YES;
 }
 
 @end

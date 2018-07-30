@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "Location.h"
 #import "AppDelegate.h"
+#import "Activity.h"
 
-@interface LocationWeatherViewController : UIViewController
+@interface LocationWeatherViewController : UIViewController <ActivityDelegate>
 
 @property (strong, nonatomic) UILabel *locLabel;
 @property (strong, nonatomic) Location *location;

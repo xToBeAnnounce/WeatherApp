@@ -61,10 +61,13 @@ static NSIndexPath *selectedCell;
         weeklycell.tempType = self.tempType;
         Weather *dayWeather = self.location.weeklyData[indexPath.row];
         if(selectedCell == indexPath) weeklycell.displayActivity = YES;
-        else{
-            weeklycell.displayActivity = NO;
-        }
+        else weeklycell.displayActivity = NO;
+        
         weeklycell.dayWeather = dayWeather;
+        weeklycell.delegate = self.sourceVC;
+        weeklycell.location = @[@(self.location.lattitude), @(self.location.longitude)];
+        weeklycell.rowNum = (int)indexPath.row;
+        weeklycell.rowHeight = self.WeeklytableView.estimatedRowHeight;
     }
     return weeklycell;
 }
@@ -74,16 +77,11 @@ static NSIndexPath *selectedCell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
-    //[self.WeeklytableView deselectRowAtIndexPath:indexPath animated:YES];
-    //[self.delegate displayPopoverDataRow:(int)indexPath.row Height: (int)self.WeeklytableView.estimatedRowHeight];
     if(selectedCell == nil){
         selectedCell = indexPath;
-        [self.WeeklytableView reloadData];
     }
     else selectedCell = nil;
-    // Create an activity for the location here
-    // Initalize the popover view
-    // Display the activity data in the popover view
+    [self.WeeklytableView reloadData];
 }
 
 

@@ -14,7 +14,7 @@
 #import "Activity.h"
 #import "ActivityViewController.h"
 
-@interface LocationWeatherViewController () <ActivityDelegate, UIPopoverPresentationControllerDelegate>
+@interface LocationWeatherViewController () <UIPopoverPresentationControllerDelegate>
 @property (strong,nonatomic) UISegmentedControl *DailyWeeklySC;
 @property (strong,nonatomic) DailyView *dailyView;
 @property (strong,nonatomic) WeeklyView *weeklyView;
@@ -49,8 +49,8 @@
     
     self.dailyView = [[DailyView alloc]initWithFrame:UIScreen.mainScreen.bounds];
     self.weeklyView = [[WeeklyView alloc]initWithFrame:UIScreen.mainScreen.bounds];
-    self.weeklyView.delegate = self;
     self.weeklyView.location = self.location;
+    self.weeklyView.sourceVC = self;
     self.dailyView.location = self.location;
     
     [self.view addSubview:self.dailyView];
@@ -61,9 +61,8 @@
    [self selectedIndex];
 }
 
--(void)displayPopoverDataRow:(int)rowNum Height:(int)height{
-    //UIViewController *popoverView = [[UIViewController alloc] init];
-    ActivityViewController *popoverView = [[ActivityViewController alloc] initWithLocation:@[@42.3601, @-71.0589] Type:@"cafe"];
+-(void)displayPopoverWithType:(NSString*)type Location:(NSArray*)loc AtRow:(int)rowNum Height:(int)height{
+    ActivityViewController *popoverView = [[ActivityViewController alloc] initWithLocation:loc Type:type];
     popoverView.modalPresentationStyle = UIModalPresentationPopover;
     
     UIPopoverPresentationController *popController = popoverView.popoverPresentationController;

@@ -32,7 +32,7 @@
 -(void)getActivityDataWithLocation:(NSArray*)loc Type:(NSString*)type{
     //Parameters not placed in use yet
     ActivityAPIManager *activityAPI = [ActivityAPIManager shared];
-    [activityAPI getActivityDataWithLocation:@[@42.3601, @-71.0589] Type:@"cafe" Keyword:@"cafe" WithCompletion:^(NSDictionary *data, NSError *error) {
+    [activityAPI getActivityDataWithLocation:loc Keyword:type WithCompletion:^(NSDictionary *data, NSError *error) {
         if(error == nil){
             for(NSMutableDictionary *dict in data){
                 [self.activities addObject:[[Activity alloc] initWithDictionary:dict]];

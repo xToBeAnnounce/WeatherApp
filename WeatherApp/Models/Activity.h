@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @protocol ActivityDelegate
--(void)displayPopoverDataRow:(int)rowNumber Height:(int)height;
+-(void)displayPopoverWithType:(NSString*)type Location:(NSArray*)loc AtRow:(int)rowNum Height:(int)height;
 @end
 
 @interface Activity : NSObject

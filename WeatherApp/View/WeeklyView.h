@@ -8,11 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "Location.h"
-#import "Activity.h"
+#import "LocationWeatherViewController.h"
 
-@interface WeeklyView : UIView <UITableViewDelegate, UITableViewDataSource, UIPopoverControllerDelegate>
+@interface WeeklyView : UIView <UITableViewDelegate, UITableViewDataSource>
 @property (strong, nonatomic) UITableView *WeeklytableView;
 @property (strong,nonatomic) Location *location;
 @property (strong, nonatomic) NSString *tempType;
-@property (strong, nonatomic) id<ActivityDelegate>delegate;
+@property (strong, nonatomic) LocationWeatherViewController *sourceVC;
 @end
