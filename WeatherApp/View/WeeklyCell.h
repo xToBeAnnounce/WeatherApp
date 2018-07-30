@@ -19,7 +19,10 @@
 @property (strong, nonatomic) UILabel *lowTempLabel;
 @property (strong, nonatomic) UILabel *highTempLabel;
 @property (strong, nonatomic) UIStackView *tempStackView;
+
+@property (strong, nonatomic) UIStackView *activityStack;
 @property (strong, nonatomic) UIButton *sunnyActivity;
+@property (strong, nonatomic) NSLayoutConstraint *bottomConstraint;
 
 /* Weather Information */
 @property (strong, nonatomic) Weather *dayWeather;
@@ -31,4 +34,5 @@
 @property (strong, nonatomic) NSArray *location;
 @property int rowNum;
 @property int rowHeight;
+
 @end
