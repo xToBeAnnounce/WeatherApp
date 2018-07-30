@@ -7,6 +7,7 @@
 //
 
 #import "TodayViewController.h"
+#import <Parse/Parse.h>
 #import "Location.h"
 #import "Weather.h"
 #import <NotificationCenter/NotificationCenter.h>
@@ -23,6 +24,7 @@
 @implementation TodayViewController
 
 - (void)viewDidLoad {
+    [self parseBackendSetup];
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     self.location = Location.currentLocation;
@@ -44,6 +46,17 @@
     completionHandler(NCUpdateResultNewData);
 }
 
+-(void)parseBackendSetup{
+    ParseClientConfiguration *config = [ParseClientConfiguration   configurationWithBlock:^(id<ParseMutableClientConfiguration> configuration) {
+        
+        configuration.applicationId = @"ttjWeatherApp";
+        configuration.clientKey = @"ttjWAMasterKey";
+        configuration.server = @"https://ttj-weather-app.herokuapp.com/parse";
+        configuration.localDatastoreEnabled = YES;
+    }];
+    [Parse initializeWithConfiguration:config];
+}
+
 - (void) displayLocation {
     [self.location updatePlaceNameWithBlock:^(NSDictionary *data, NSError *error) {
         if (data) {
@@ -57,7 +70,7 @@
                     }
                     if (self.location.weeklyData.count) {
                         Weather *todayWeather = self.location.weeklyData[0];
-                        self.currentTempLabel.text = [NSString stringWithFormat:@"%@/%@", [todayWeather getTempInString:todayWeather.temperatureHigh],  [todayWeather getTempInString:todayWeather.temperatureLow]];
+                        self.highLowTempLabel.text = [NSString stringWithFormat:@" %@/ %@", [todayWeather getTempInString:todayWeather.temperatureHigh],  [todayWeather getTempInString:todayWeather.temperatureLow]];
                     }
                 }
             }];
