@@ -60,9 +60,9 @@
 - (void) displayLocation {
     [self.location updatePlaceNameWithBlock:^(NSDictionary *data, NSError *error) {
         if (data) {
-            self.placeNameLabel.text = self.location.fullPlaceName;
             [self.location fetchDataType:@"widget" WithCompletion:^(NSDictionary *data, NSError *error) {
                 if (data) {
+                    self.placeNameLabel.text = self.location.fullPlaceName;
                     if (self.location.dailyData.count) {
                         Weather *currentWeather = self.location.dailyData[0];
                         self.currentTempLabel.text = [currentWeather getTempInString:currentWeather.temperature];
@@ -70,7 +70,7 @@
                     }
                     if (self.location.weeklyData.count) {
                         Weather *todayWeather = self.location.weeklyData[0];
-                        self.highLowTempLabel.text = [NSString stringWithFormat:@" %@/ %@", [todayWeather getTempInString:todayWeather.temperatureHigh],  [todayWeather getTempInString:todayWeather.temperatureLow]];
+                        self.highLowTempLabel.text = [NSString stringWithFormat:@"%@/ %@", [todayWeather getTempInString:todayWeather.temperatureHigh],  [todayWeather getTempInString:todayWeather.temperatureLow]];
                     }
                 }
             }];
