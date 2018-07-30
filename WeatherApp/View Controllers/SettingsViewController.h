@@ -10,5 +10,5 @@
 #import "AppDelegate.h"
 
 @interface SettingsViewController : UIViewController
-@property (strong, nonatomic) id<NavigationDelegate> delegate;
+@property (strong, nonatomic) id<NavigationDelegate> navDelegate;
 @end

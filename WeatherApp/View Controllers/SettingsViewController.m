@@ -25,6 +25,10 @@
 @property (strong, nonatomic) UIButton *resetButton;
 @property (strong, nonatomic) UITapGestureRecognizer *screenTap;
 
+@property (strong, nonatomic) UIBarButtonItem *saveButton;
+@property (strong, nonatomic) UIBarButtonItem *storedButton;
+@property (strong, nonatomic) UISegmentedControl *storedSC;
+
 @property (strong, nonatomic) UITableView *tableView;
 
 @end
@@ -63,6 +67,7 @@ static NSString *locationCellID = @"LocationTableViewCell";
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    [self setNavigationUI];
     [self.user getLocationsArrayInBackgroundWithBlock:^(NSMutableArray *locations, NSError *error) {
         if (locations) {
             
@@ -75,6 +80,13 @@ static NSString *locationCellID = @"LocationTableViewCell";
     }];
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [self.tooHotTextField resignFirstResponder];
+    [self.tooColdTextField resignFirstResponder];
+    
+    [super viewWillDisappear:animated];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
@@ -82,6 +94,12 @@ static NSString *locationCellID = @"LocationTableViewCell";
 /*--------------------CONFIGURING UI METHODS--------------------*/
 
 - (void) initalizePreferenceControls {
+    self.storedButton = self.navigationController.navigationBar.topItem.rightBarButtonItem;
+    self.storedSC = (UISegmentedControl *)self.navigationController.navigationBar.topItem.titleView;
+    
+    // Save Button
+    self.saveButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(onTapSave:)];
+    
     // Tap Gesture
     self.screenTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onTap:)];
     self.screenTap.enabled = NO;
@@ -151,13 +169,14 @@ static NSString *locationCellID = @"LocationTableViewCell";
     }];
 }
 
+- (void) setNavigationUI {
+    // Sets navigation bar titlte and buttons
+    self.navigationController.navigationBar.topItem.titleView = nil;
+    self.navigationController.navigationBar.topItem.rightBarButtonItem = self.saveButton;
+}
+
 - (void) setUI {
     self.view.backgroundColor = [UIColor whiteColor];
-    
-    // Sets navigation bar titlte and buttons
-    self.navigationController.navigationBar.topItem.title = @"Settings";
-    UIBarButtonItem* saveBtn = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(onTapSave:)];
-    self.navigationController.navigationBar.topItem.rightBarButtonItem = saveBtn;
     
     // Sets up table view
     self.tableView = [[UITableView alloc] initWithFrame: CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
@@ -171,7 +190,6 @@ static NSString *locationCellID = @"LocationTableViewCell";
     self.tableView.rowHeight = UITableViewAutomaticDimension;
     [self.view addSubview:self.tableView];
 }
-
 /*--------------------ACTION METHODS--------------------*/
 - (IBAction)onTap:(id)sender{
     [self.view endEditing:YES];
@@ -184,7 +202,14 @@ static NSString *locationCellID = @"LocationTableViewCell";
     [self.user updatePreferencesWithDictionary:[NSDictionary dictionaryWithDictionary:self.updatePrefDict] withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
         if (succeeded) {
             NSLog(@"Saved preferences!");
-            [self dismissViewControllerAnimated:YES completion:nil];
+            SWRevealViewController *revealController = [self.navDelegate getRevealViewController];
+            
+            [revealController panGestureRecognizer];
+            [revealController tapGestureRecognizer];
+            
+            [revealController revealToggle:sender];
+            self.navigationController.navigationBar.topItem.titleView = self.storedSC;
+            self.navigationController.navigationBar.topItem.rightBarButtonItem = self.storedButton;
         }
         else {
             NSLog(@"Unsuccessful");
@@ -196,7 +221,7 @@ static NSString *locationCellID = @"LocationTableViewCell";
     [self.tooHotTextField resignFirstResponder];
     [self.tooColdTextField resignFirstResponder];
     
-    [self.delegate dismissViewController];
+    [self.navDelegate dismissViewController];
 }
 
 - (IBAction)onEditedHot:(id)sender {

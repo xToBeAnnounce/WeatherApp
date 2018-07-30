@@ -229,7 +229,7 @@ BOOL saving = NO;
     else {
         [locationAttributeDict setObject:self.customNameTextField.text forKey:@"customName"];
     }
-    NSLog(@"%@", [locationAttributeDict objectForKey:@"customName"]);
+//    NSLog(@"%@", [locationAttributeDict objectForKey:@"customName"]);
 }
 
 -(void)cancelSelectedLocation{

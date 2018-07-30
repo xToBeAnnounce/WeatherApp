@@ -12,7 +12,6 @@
 #import "SWRevealViewController.h"
 
 @interface NavigationController()
-@property (strong, nonatomic) UIBarButtonItem *settingsButton;
 @property (strong, nonatomic) UIBarButtonItem *addLocationButton;
 @property (strong, nonatomic) UISegmentedControl *DailyWeeklySegmentedControl;
 @property (strong, nonatomic) UINavigationController *settingsNVC;
@@ -24,15 +23,15 @@
 -(instancetype)initWithViewController:(UIViewController*)viewController{
     self.navStack = [[UINavigationController alloc] initWithRootViewController:viewController];
     if ([viewController.class isEqual:PageViewController.class]) {
-        UINavigationController *pageNavController = [[UINavigationController alloc] initWithRootViewController:viewController];
+//        UINavigationController *pageNavController = [[UINavigationController alloc] initWithRootViewController:viewController];
         
         //UITableViewController *userVC = [[UITableViewController alloc] init];
         //userVC.view.backgroundColor = UIColor.orangeColor;
         SettingsViewController *settingsVC = SettingsViewController.new;
-        settingsVC.delegate = self;
-        self.settingsNVC = [[UINavigationController alloc] initWithRootViewController:settingsVC];
+        settingsVC.navDelegate = self;
+//        self.settingsNVC = [[UINavigationController alloc] initWithRootViewController:settingsVC];
 
-        self.revealViewController = [[SWRevealViewController alloc]initWithRearViewController:self.settingsNVC frontViewController:pageNavController];
+        self.revealViewController = [[SWRevealViewController alloc]initWithRearViewController:settingsVC frontViewController:viewController];
         self.revealViewController.rearViewRevealWidth = UIScreen.mainScreen.bounds.size.width;
         self.revealViewController.toggleAnimationDuration = 0.5;
         
@@ -66,9 +65,8 @@
 }
 
 -(void)setPageVCNavigationBar:(UINavigationController*)currentNavController{
-    self.addLocationButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(segueToAddLocation)];
-    self.addLocationButton.image = [UIImage imageNamed:@"plus-1"];
-    self.addLocationButton.tintColor = UIColor.whiteColor;
+    self.addLocationButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"plus-1"] style:UIBarButtonItemStylePlain target:self action:@selector(segueToAddLocation)];
+//    self.addLocationButton.tintColor = UIColor.whiteColor;
     currentNavController.navigationBar.topItem.rightBarButtonItem = self.addLocationButton;
     
     self.DailyWeeklySegmentedControl = [[UISegmentedControl alloc]initWithItems:@[@"Daily",@"Weekly"]];
@@ -83,7 +81,7 @@
 
 -(void)segueToAddLocation{
     LocationPickerViewController *locationVC = LocationPickerViewController.new;
-    locationVC.delegate = self;
+//    locationVC.delegate = self;
     UINavigationController *locationNavVC = [[UINavigationController alloc] initWithRootViewController:locationVC];
     [self presentViewController:locationNavVC Name:@"location"];
 }
