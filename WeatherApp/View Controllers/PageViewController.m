@@ -334,10 +334,7 @@ BOOL settingUpLocations;
     //SettingsViewController *settingsVC = (SettingsViewController *)revealController.rearViewController;
 
     if (revealController.frontViewPosition == FrontViewPositionRight) {
-<<<<<<< HEAD
         // User tapped button to go to settings
-=======
->>>>>>> Updated date allowances in location creation screen
         //[settingsVC loadPreferences];
         self.navigationController.navigationBar.topItem.title = @"Settings";
         self.navigationController.navigationBar.topItem.leftBarButtonItem.image = [UIImage imageNamed:@"close"];
