@@ -33,6 +33,9 @@
 		9203E63220FD47DD00F8C858 /* APIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9203E63120FD47DD00F8C858 /* APIManager.m */; };
 		9203E63620FD546900F8C858 /* WeeklyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9203E63520FD546900F8C858 /* WeeklyViewController.m */; };
 		9203E63A20FD73C600F8C858 /* WeeklyCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9203E63920FD73C600F8C858 /* WeeklyCell.m */; };
+		92499B26210A4B07005874C8 /* ActivityAPIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 92499B25210A4B07005874C8 /* ActivityAPIManager.m */; };
+		92499B29210A5C73005874C8 /* Activity.m in Sources */ = {isa = PBXBuildFile; fileRef = 92499B28210A5C73005874C8 /* Activity.m */; };
+		92499B2F210B9C65005874C8 /* ActivityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 92499B2E210B9C65005874C8 /* ActivityViewController.m */; };
 		9262591621067E7500BEF660 /* LocationDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9262591521067E7500BEF660 /* LocationDetailsViewController.m */; };
 		927E18A2210106B700CA03F6 /* Weather.m in Sources */ = {isa = PBXBuildFile; fileRef = 927E18A1210106B700CA03F6 /* Weather.m */; };
 		9283A3F121091BF500F4858F /* NavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9283A3F021091BF500F4858F /* NavigationController.m */; };
@@ -135,6 +138,12 @@
 		9203E63520FD546900F8C858 /* WeeklyViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WeeklyViewController.m; sourceTree = "<group>"; };
 		9203E63820FD73C600F8C858 /* WeeklyCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WeeklyCell.h; sourceTree = "<group>"; };
 		9203E63920FD73C600F8C858 /* WeeklyCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WeeklyCell.m; sourceTree = "<group>"; };
+		92499B24210A4B07005874C8 /* ActivityAPIManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ActivityAPIManager.h; sourceTree = "<group>"; };
+		92499B25210A4B07005874C8 /* ActivityAPIManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ActivityAPIManager.m; sourceTree = "<group>"; };
+		92499B27210A5C73005874C8 /* Activity.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Activity.h; sourceTree = "<group>"; };
+		92499B28210A5C73005874C8 /* Activity.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Activity.m; sourceTree = "<group>"; };
+		92499B2D210B9C65005874C8 /* ActivityViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ActivityViewController.h; sourceTree = "<group>"; };
+		92499B2E210B9C65005874C8 /* ActivityViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ActivityViewController.m; sourceTree = "<group>"; };
 		9262591421067E7500BEF660 /* LocationDetailsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LocationDetailsViewController.h; sourceTree = "<group>"; };
 		9262591521067E7500BEF660 /* LocationDetailsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LocationDetailsViewController.m; sourceTree = "<group>"; };
 		927E18A0210106B700CA03F6 /* Weather.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Weather.h; sourceTree = "<group>"; };
@@ -255,6 +264,8 @@
 				9262591521067E7500BEF660 /* LocationDetailsViewController.m */,
 				3330AE292107EE2B00B37975 /* LocationWeatherViewController.h */,
 				3330AE2A2107EE2B00B37975 /* LocationWeatherViewController.m */,
+				92499B2D210B9C65005874C8 /* ActivityViewController.h */,
+				92499B2E210B9C65005874C8 /* ActivityViewController.m */,
 				CCE8567F210F7C440035230F /* HamburgerViewController.h */,
 				CCE85680210F7C440035230F /* HamburgerViewController.m */,
 			);
@@ -283,6 +294,8 @@
 				33F00C1120FD1244008F56CE /* Preferences.m */,
 				927E18A0210106B700CA03F6 /* Weather.h */,
 				927E18A1210106B700CA03F6 /* Weather.m */,
+				92499B27210A5C73005874C8 /* Activity.h */,
+				92499B28210A5C73005874C8 /* Activity.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -312,6 +325,8 @@
 				9203E63120FD47DD00F8C858 /* APIManager.m */,
 				3330AE1F2101363B00B37975 /* GeoAPIManager.h */,
 				3330AE202101363B00B37975 /* GeoAPIManager.m */,
+				92499B24210A4B07005874C8 /* ActivityAPIManager.h */,
+				92499B25210A4B07005874C8 /* ActivityAPIManager.m */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -697,6 +712,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3330AE282107A16700B37975 /* LocationTableViewCell.m in Sources */,
+				92499B26210A4B07005874C8 /* ActivityAPIManager.m in Sources */,
 				CCE85684210F7F8B0035230F /* HamburgerTableViewCell.m in Sources */,
 				927E18A2210106B700CA03F6 /* Weather.m in Sources */,
 				9203E63A20FD73C600F8C858 /* WeeklyCell.m in Sources */,
@@ -705,6 +721,8 @@
 				9262591621067E7500BEF660 /* LocationDetailsViewController.m in Sources */,
 				9283A3F121091BF500F4858F /* NavigationController.m in Sources */,
 				3330AE2B2107EE2B00B37975 /* LocationWeatherViewController.m in Sources */,
+				92499B2F210B9C65005874C8 /* ActivityViewController.m in Sources */,
+				92499B29210A5C73005874C8 /* Activity.m in Sources */,
 				3330AE1C2101112000B37975 /* LocationPickerViewController.m in Sources */,
 				CCE8557421098B480035230F /* DailyView.m in Sources */,
 				33F00C0F20FD1215008F56CE /* Location.m in Sources */,
@@ -935,13 +953,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = LS88PBY5M5;
+				DEVELOPMENT_TEAM = 3ADDW46C7A;
 				INFOPLIST_FILE = WeatherApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = xToBeAnnounce.WeatherApp;
+				PRODUCT_BUNDLE_IDENTIFIER = xToBeAnnounce.WeatherApp1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -953,13 +971,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = LS88PBY5M5;
+				DEVELOPMENT_TEAM = 3ADDW46C7A;
 				INFOPLIST_FILE = WeatherApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = xToBeAnnounce.WeatherApp;
+				PRODUCT_BUNDLE_IDENTIFIER = xToBeAnnounce.WeatherApp1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

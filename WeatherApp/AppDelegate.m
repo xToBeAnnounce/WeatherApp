@@ -12,6 +12,7 @@
 #import "LoginViewController.h"
 #import "PageViewController.h"
 #import "NavigationController.h"
+#import "ActivityAPIManager.h"
 
 @interface AppDelegate ()
 @property PageViewController *pageVC;

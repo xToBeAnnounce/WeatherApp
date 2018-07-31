@@ -50,6 +50,7 @@
         [self.navStack presentViewController:viewController animated:YES completion:nil];
     }
 }
+
 - (void)pushViewController:(UIViewController *)viewController{
     [self.navStack pushViewController:viewController animated:YES];
 }
