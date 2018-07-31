@@ -58,6 +58,18 @@
     return cell;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    Activity *activity = self.activities[indexPath.row];
+    if([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"comgooglemaps://"]]){
+        NSString *baseURL = @"comgooglemaps://";
+        NSString *url = [NSString stringWithFormat:@"%@?center=%@,%@", baseURL, activity.location[0], activity.location[1]];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url] options:nil completionHandler:nil];
+    }
+    else{
+        NSLog(@"Unable to open Google Maps");
+    }
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
 }

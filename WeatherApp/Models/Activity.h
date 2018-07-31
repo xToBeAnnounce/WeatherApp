@@ -17,6 +17,7 @@
 @property (strong, nonatomic) NSString *icon; //Icon of location provided
 @property (strong, nonatomic) NSString *placeID; //Used to access webview / google maps in the future
 @property (strong, nonatomic) NSString *address;
+@property (strong, nonatomic) NSArray *location; //Lat, lng
 
 -(instancetype)initWithDictionary:(NSDictionary*)dict;
 @end

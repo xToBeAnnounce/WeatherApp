@@ -14,6 +14,8 @@
     self.icon = data[@"icon"];
     self.address = data[@"vicinity"];
     self.placeID = data[@"placeID"];
+    NSDictionary *loc = data[@"geometry"][@"location"];
+    self.location = @[loc[@"lat"], loc[@"lng"]];
     return self;
 }
 

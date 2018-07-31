@@ -57,15 +57,7 @@ static NSArray *activityNames;
     self.tempStackView.spacing = 8;
     self.tempStackView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.contentView addSubview:self.tempStackView];
-    
-//    self.sunnyActivity = [[UIButton alloc]init];
-//    [self.sunnyActivity setTitle:@"cafe" forState:UIControlStateNormal];
-//    [self.sunnyActivity setTitleColor:UIColor.blackColor forState:UIControlStateNormal];
-//    [self.sunnyActivity sizeToFit];
-//    self.sunnyActivity.translatesAutoresizingMaskIntoConstraints = NO;
-//    [self.sunnyActivity addTarget:self action:@selector(onSelectActivity:) forControlEvents:UIControlEventTouchUpInside];
-//    [self.contentView addSubview:self.sunnyActivity];
-    
+        
     self.bottomConstraint = [self.iconImageView.bottomAnchor constraintEqualToAnchor:self.contentView.bottomAnchor constant:-4];
     self.bottomConstraint.active = YES;
     
