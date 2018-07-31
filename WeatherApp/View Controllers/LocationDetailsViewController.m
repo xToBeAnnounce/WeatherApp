@@ -88,23 +88,23 @@ BOOL saving = NO;
     
     // Date Switches
     self.startSwitch = [[UISwitch alloc] init];
-//    self.startSwitch.on = (BOOL)self.location.startDate;
+    self.startSwitch.on = (BOOL)self.location.startDate;
     [self.startSwitch addTarget:self action:@selector(onToggleDate:) forControlEvents:UIControlEventValueChanged];
     
     self.endSwitch = [[UISwitch alloc] init];
-//    self.endSwitch.on = (BOOL)self.location.endDate;
+    self.endSwitch.on = (BOOL)self.location.endDate;
     [self.endSwitch addTarget:self action:@selector(onToggleDate:) forControlEvents:UIControlEventValueChanged];
     
     //Start and End date pickers (Next step: try to make them hidden when unsed)
     self.startDatePicker = [[UIDatePicker alloc] init];
     self.startDatePicker.datePickerMode = UIDatePickerModeDate;
     if (self.location.startDate) [self.startDatePicker setDate:self.location.startDate];
-    self.startDatePicker.hidden = YES;
+    self.startDatePicker.hidden = !(BOOL)self.location.startDate;;
     
     self.endDatePicker = [[UIDatePicker alloc]init];
     self.endDatePicker.datePickerMode = UIDatePickerModeDate;
     if (self.location.endDate) [self.endDatePicker setDate:self.location.endDate];
-    self.endDatePicker.hidden = YES;
+    self.endDatePicker.hidden = !(BOOL)self.location.endDate;
     
     // Delete location button
     self.deleteLocationButton = [[UIButton alloc] init];
@@ -241,24 +241,22 @@ BOOL saving = NO;
     if (saving) return;
     
     saving = YES;
-    [locationAttributeDict setObject:self.startDatePicker.date forKey:@"startDate"];
-    [locationAttributeDict setObject:self.endDatePicker.date forKey:@"endDate"];
+    NSDate *startDate = self.startDatePicker.date;
+    NSDate *endDate = self.endDatePicker.date;
     
-    if(!self.startSwitch.isOn) [locationAttributeDict removeObjectForKey:@"startDate"];
-    if(!self.endSwitch.isOn) [locationAttributeDict removeObjectForKey:@"endDate"];
+    if(!self.startSwitch.isOn) startDate = nil;
+    if(!self.endSwitch.isOn) endDate = nil;
     
-    NSDate *startDate = [locationAttributeDict objectForKey:@"startDate"];
-    NSDate *endDate = [locationAttributeDict objectForKey:@"endDate"];
-    
-    //Does not save is endDate > startDate or end date is in the past
-//    if (endDate && [[[NSDate dateWithTimeIntervalSinceNow:-60*60*24] earlierDate:endDate] isEqualToDate:endDate]) {
-//        [self presentAlertWithMessage:@"End date cannot be in the past"];
-//    }else
     if (startDate && endDate && [[startDate earlierDate:endDate] isEqualToDate:endDate]) {
         [self presentAlertWithMessage:@"Start date cannot be later than end date."];
     }
+    else if (self.saveNewLocation && endDate && [[[NSDate dateWithTimeIntervalSinceNow:-60*60*24] earlierDate:endDate] isEqualToDate:endDate]) {
+        [self presentAlertWithMessage:@"Cannot create new location with expired end date."];
+    }
     else {
         [self.location setValuesForKeysWithDictionary:locationAttributeDict];
+        self.location.startDate = startDate;
+        self.location.endDate = endDate;
         if (self.saveNewLocation) {
             // Add location to user
             [User.currentUser addLocation:self.location completion:^(BOOL succeeded, NSError * _Nullable error) {

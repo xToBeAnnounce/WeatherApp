@@ -184,6 +184,19 @@ BOOL settingUpLocations;
     }
 }
 
+- (void) removeLocScreen:(LocationWeatherViewController *)locWVC {
+    [User.currentUser deleteLocationWithID:locWVC.location.objectId withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
+        if (succeeded ){
+            [self.locViewArrary removeObject:locWVC];
+            [self addPlaceholderIfNeeded];
+            [self refreshPageViewWithStartIndex:[self currentPageIndex]];
+        }
+        else {
+            NSLog(@"Error: %@", error.localizedDescription);
+        }
+    }];
+}
+
 - (void) addPlaceholderIfNeeded {
     if (self.locViewArrary.count == 0) {
         self.locationDetailsButton.hidden = YES;
@@ -262,6 +275,7 @@ BOOL settingUpLocations;
         if (locations) {
             [self.loadingActivityIndicator stopAnimating];
             [self.locViewArrary removeObject:self.placeholderScreen];
+            NSMutableArray *expiredLocationScreens = [[NSMutableArray alloc] init];
             
             for (int i=0; i<locations.count; i++) {
                 Location *loc = locations[i];
@@ -272,13 +286,18 @@ BOOL settingUpLocations;
                     [self.locViewArrary insertObject:newLocationWVC atIndex:viewIndex];
                 }
                 else {
-                    if ([[[NSDate date] earlierDate:loc.endDate] isEqualToDate:loc.endDate]) {
-                        NSLog(@"This Location %@ is Old", loc.customName);
-                    }
                     LocationWeatherViewController *locWVC = self.locViewArrary[viewIndex];
+                    if ([[[NSDate dateWithTimeIntervalSinceNow:-60*60*24] earlierDate:loc.endDate] isEqualToDate:loc.endDate]) {
+                        [expiredLocationScreens addObject:locWVC];
+                    }
                     locWVC.location = loc;
                 }
             }
+            
+            for (LocationWeatherViewController *locWVC in expiredLocationScreens) {
+                [self removeLocScreen:locWVC];
+            }
+            
             [self refreshPageViewWithStartIndex:[self currentPageIndex]];
         }
         else {
@@ -331,22 +350,6 @@ BOOL settingUpLocations;
     [revealController tapGestureRecognizer];
     
     [revealController revealToggle:sender];
-    //SettingsViewController *settingsVC = (SettingsViewController *)revealController.rearViewController;
-
-//    if (revealController.frontViewPosition == FrontViewPositionRight) {
-//        // User tapped button to go to settings
-//        //[settingsVC loadPreferences];
-//        self.navigationController.navigationBar.topItem.title = @"Settings";
-//        self.navigationController.navigationBar.topItem.leftBarButtonItem.image = [UIImage imageNamed:@"close"];
-//    }
-//    else {
-        // User closed settings without saving
-        //[settingsVC.tooHotTextField resignFirstResponder];
-        //[settingsVC.tooColdTextField resignFirstResponder];
-//        self.navigationController.navigationBar.topItem.leftBarButtonItem.image = [UIImage imageNamed:@"hamburger"];
-//        self.navigationController.navigationBar.topItem.titleView = self.DailyWeeklySC;
-//        self.navigationController.navigationBar.topItem.rightBarButtonItem = self.addLocationButton;
-//    }
 }
 
 -(void)segueToAddLocation{

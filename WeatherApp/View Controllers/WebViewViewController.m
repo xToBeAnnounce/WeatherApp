@@ -8,12 +8,12 @@
 
 #import "WebViewViewController.h"
 #import "Location.h"
-#import <WebKit/WebKit.h>
 #import "MBProgressHUD.h"
 
 
 @interface WebViewViewController ()
 @property (strong,nonatomic) WKWebView *mapWV;
+@property (strong,nonatomic) MBProgressHUD *hud;
 @end
 
 @implementation WebViewViewController
@@ -24,12 +24,16 @@
     self.navigationController.navigationBar.topItem.title = @"Map";
     self.navigationController.navigationBar.topItem.rightBarButtonItem = nil;
     
-    [MBProgressHUD showHUDAddedTo:self.view animated:true];
+    self.mapWV = [[WKWebView alloc]initWithFrame:UIScreen.mainScreen.bounds];
+    self.mapWV.UIDelegate = self;
+    [self.view addSubview:self.mapWV];
+    
+    self.hud = [MBProgressHUD showHUDAddedTo:self.mapWV animated:YES];
+    self.hud.backgroundColor = [UIColor lightTextColor];
+    
     Location *location = Location.currentLocation;
     NSString *urlString = [@"https://maps.darksky.net/" stringByAppendingString:[NSString stringWithFormat:@"@temperature,%f,%f,10", location.lattitude, location.longitude]];
     NSURL *url = [NSURL URLWithString:urlString];
-    self.mapWV = [[WKWebView alloc]initWithFrame:UIScreen.mainScreen.bounds];
-    [self.view addSubview:self.mapWV];
     
     NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10.0];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
@@ -38,22 +42,28 @@
             NSLog(@"%@", [error localizedDescription]);
         }
         else {
-           
-            NSURLRequest *request = [NSURLRequest requestWithURL:url
-                                                     cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
-                                                 timeoutInterval:10.0];
             [self.mapWV loadRequest:request];
-            [MBProgressHUD hideHUDForView:self.view animated:true];
+//            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//                // No explicit autorelease pool needed here.
+//                // The code runs in background, not strangling
+//                // the main run loop.
+//                while (self.mapWV.isLoading) {
+//                }
+//                dispatch_sync(dispatch_get_main_queue(), ^{
+                    [MBProgressHUD hideHUDForView:self.mapWV animated:YES];
+//                });
+//            });
         }
     }];
     [task resume];
-    
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+
 
 /*
 #pragma mark - Navigation
