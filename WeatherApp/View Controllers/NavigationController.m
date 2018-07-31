@@ -10,12 +10,14 @@
 #import "SettingsViewController.h"
 #import "LocationPickerViewController.h"
 #import "SWRevealViewController.h"
+#import "HamburgerViewController.h"
 
 @interface NavigationController()
 @property (strong, nonatomic) UIBarButtonItem *addLocationButton;
 @property (strong, nonatomic) UISegmentedControl *DailyWeeklySegmentedControl;
 @property (strong, nonatomic) UINavigationController *settingsNVC;
 @property (strong, nonatomic) SWRevealViewController *revealViewController;
+@property (strong,nonatomic) HamburgerViewController *hamburgerVC;
 @end
 
 @implementation NavigationController
@@ -23,13 +25,12 @@
 -(instancetype)initWithViewController:(UIViewController*)viewController{
     self.navStack = [[UINavigationController alloc] initWithRootViewController:viewController];
     if ([viewController.class isEqual:PageViewController.class]) {
-        SettingsViewController *settingsVC = SettingsViewController.new;
-        settingsVC.navDelegate = self;
-
-        self.revealViewController = [[SWRevealViewController alloc]initWithRearViewController:settingsVC frontViewController:viewController];
-        self.revealViewController.rearViewRevealWidth = UIScreen.mainScreen.bounds.size.width;
+      
+        self.hamburgerVC = [[HamburgerViewController alloc]init];
+        self.revealViewController = [[SWRevealViewController alloc]initWithRearViewController:self.hamburgerVC frontViewController:viewController];
+        self.revealViewController.rearViewRevealWidth = UIScreen.mainScreen.bounds.size.width - 225;
         self.revealViewController.toggleAnimationDuration = 0.5;
-        
+            
         self.navStack = [[UINavigationController alloc] initWithRootViewController:self.revealViewController];
         [self setPageVCNavigationBar:self.navStack];
         //[self.navStack presentViewController:self.revealViewController animated:YES completion:nil];
@@ -49,7 +50,6 @@
         [self.navStack presentViewController:viewController animated:YES completion:nil];
     }
 }
-
 - (void)pushViewController:(UIViewController *)viewController{
     [self.navStack pushViewController:viewController animated:YES];
 }

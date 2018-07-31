@@ -12,6 +12,7 @@
 #import "LocationDetailsViewController.h"
 #import "LocationPickerViewController.h"
 #import "User.h"
+#import "PageViewController.h"
 
 @interface SettingsViewController () <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate>
 
@@ -22,6 +23,7 @@
 @property (strong, nonatomic) UISwitch *notificationsOnSwitch;
 @property (strong, nonatomic) UIButton *resetButton;
 @property (strong, nonatomic) UITapGestureRecognizer *screenTap;
+@property (strong,nonatomic) UIBarButtonItem *CancelButton;
 
 @property (strong, nonatomic) UIBarButtonItem *saveButton;
 @property (strong, nonatomic) UIBarButtonItem *storedButton;
@@ -176,6 +178,16 @@ static NSString *locationCellID = @"LocationTableViewCell";
 - (void) setUI {
     self.view.backgroundColor = [UIColor whiteColor];
     
+
+    // Sets navigation bar titlte and buttons
+    self.navigationController.navigationBar.topItem.title = @"Settings";
+    UIBarButtonItem* saveBtn = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(onTapSave:)];
+    self.navigationController.navigationBar.topItem.rightBarButtonItem = saveBtn;
+    
+    self.CancelButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(setCancelButton)];
+    self.navigationController.navigationBar.topItem.leftBarButtonItem = self.CancelButton;
+
+
     // Sets up table view
     self.tableView = [[UITableView alloc] initWithFrame: CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
     self.tableView.dataSource = self;
@@ -295,6 +307,10 @@ static NSString *locationCellID = @"LocationTableViewCell";
     self.screenTap.enabled = NO;
 }
 
+
+-(void)setCancelButton{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
 
 
 - (void) presentConfirmActionAlertWithTitle:(NSString *)title message:(NSString *)message yesHandler:(void(^)(UIAlertAction * _Nonnull action))yesHandler completion:(void(^)(void))completion{
