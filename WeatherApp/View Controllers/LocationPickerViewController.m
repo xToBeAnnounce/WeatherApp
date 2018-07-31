@@ -75,7 +75,8 @@ static BOOL loadingData;
             }
             if (geonamesArray.count == 0) {
                 Location *loc = [[Location alloc] init];
-                loc.fullPlaceName = [NSString stringWithFormat:@"No locations found", self.searchBar.text];
+//                loc.fullPlaceName = [NSString stringWithFormat:@"No locations found", self.searchBar.text];
+                loc.fullPlaceName = @"No locations found";
                 [self.searchLocationArray addObject:loc];
             }
             loadingData = NO;
