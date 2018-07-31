@@ -332,14 +332,14 @@ BOOL settingUpLocations;
 
     if (revealController.frontViewPosition == FrontViewPositionRight) {
         // User tapped button to go to settings
-        [settingsVC loadPreferences];
+        //[settingsVC loadPreferences];
         self.navigationController.navigationBar.topItem.title = @"Settings";
         self.navigationController.navigationBar.topItem.leftBarButtonItem.image = [UIImage imageNamed:@"close"];
     }
     else {
         // User closed settings without saving
-        [settingsVC.tooHotTextField resignFirstResponder];
-        [settingsVC.tooColdTextField resignFirstResponder];
+        //[settingsVC.tooHotTextField resignFirstResponder];
+        //[settingsVC.tooColdTextField resignFirstResponder];
         self.navigationController.navigationBar.topItem.leftBarButtonItem.image = [UIImage imageNamed:@"hamburger"];
         self.navigationController.navigationBar.topItem.titleView = self.DailyWeeklySC;
         self.navigationController.navigationBar.topItem.rightBarButtonItem = self.addLocationButton;

@@ -13,6 +13,7 @@
 #import "NavigationController.h"
 #import "Activity.h"
 #import "ActivityViewController.h"
+#import "User.h"
 
 @interface LocationWeatherViewController () <UIPopoverPresentationControllerDelegate>
 @property (strong,nonatomic) UISegmentedControl *DailyWeeklySC;
