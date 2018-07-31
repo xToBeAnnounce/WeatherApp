@@ -17,9 +17,6 @@
 @interface HamburgerViewController ()<UITableViewDelegate, UITableViewDataSource>
 @property (strong,nonatomic) UITableView *hamburgerTableView;
 
-
-
-
 @end
 
 @implementation HamburgerViewController

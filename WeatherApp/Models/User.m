@@ -12,8 +12,7 @@
 @dynamic preferences, locationsIDArray;
 
 + (instancetype)currentUser {
-    User *user = (User *)PFUser.currentUser;
-    return user;
+    return (User *)PFUser.currentUser;
 }
 
 - (void)signUpInBackgroundWithBlock:(PFBooleanResultBlock)block {
@@ -99,16 +98,6 @@
             completion(location, error);
         });
     });
-//    PFQuery *query = [PFQuery queryWithClassName:@"Location"];
-//    [query getObjectInBackgroundWithId:locID block:^(PFObject * _Nullable object, NSError * _Nullable error) {
-//        if (object) {
-//            Location *location = (Location *)object;
-//            completion(location, nil);
-//        }
-//        else {
-//            completion(nil, error);
-//        }
-//    }];
 }
 
 // delete location with given id
@@ -117,7 +106,7 @@
         if (location) {
             [self.locationsIDArray removeObject:locID];
             self.locationsIDArray = [self.locationsIDArray copy];
-            [self saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+            [User.currentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
                 if (succeeded) {
                     [location deleteInBackgroundWithBlock:completion];
                 }

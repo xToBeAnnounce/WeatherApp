@@ -43,7 +43,6 @@ BOOL saving = NO;
 - (void)viewDidLoad {
     [super viewDidLoad];
     locationAttributeDict = [[NSMutableDictionary alloc] init];
-    
     [self setUI];
 }
 
@@ -53,6 +52,7 @@ BOOL saving = NO;
     UIBarButtonItem *saveButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(saveLocationDetail)];
     self.navigationItem.rightBarButtonItem = saveButton;
     
+    //For information page
     if (self.navigationController.viewControllers.count <= 1) {
         UIBarButtonItem *closeButton = [[UIBarButtonItem alloc] initWithTitle:@"Close" style:UIBarButtonItemStylePlain target:self action:@selector(didTapClose:)];
         self.navigationItem.leftBarButtonItem = closeButton;
@@ -229,7 +229,6 @@ BOOL saving = NO;
     else {
         [locationAttributeDict setObject:self.customNameTextField.text forKey:@"customName"];
     }
-//    NSLog(@"%@", [locationAttributeDict objectForKey:@"customName"]);
 }
 
 -(void)cancelSelectedLocation{
@@ -258,9 +257,12 @@ BOOL saving = NO;
             [User.currentUser addLocation:self.location completion:^(BOOL succeeded, NSError * _Nullable error) {
                 if(succeeded){
                     saving = NO;
-                    [self dismissViewControllerAnimated:YES completion:nil];
+                    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
                 }
-                else NSLog(@"%@", error.localizedDescription);
+                else{
+                    saving = NO;
+                    NSLog(@"%@", error.localizedDescription);
+                }
             }];
         }
         else {
@@ -268,7 +270,7 @@ BOOL saving = NO;
             [self.location saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
                 if (succeeded) {
                     saving = NO;
-                    [self navigateBackAppropriatelyAnimated:YES completion:nil];
+                     [self navigateBackAppropriatelyAnimated:YES completion:nil];
                 }
             }];
         }
