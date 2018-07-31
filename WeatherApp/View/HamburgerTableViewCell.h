@@ -10,6 +10,7 @@
 
 @interface HamburgerTableViewCell : UITableViewCell
 @property (strong,nonatomic) UILabel *sectionLabel;
+@property (strong,nonatomic) UIImageView *icon;
 
 -(void)setUI;
 
