@@ -9,11 +9,15 @@
 #import "NavigationController.h"
 #import "SettingsViewController.h"
 #import "LocationPickerViewController.h"
+#import "SWRevealViewController.h"
+#import "HamburgerViewController.h"
 
 @interface NavigationController()
-@property (strong, nonatomic) UIBarButtonItem *settingsButton;
 @property (strong, nonatomic) UIBarButtonItem *addLocationButton;
-@property (strong,nonatomic) UISegmentedControl *DailyWeeklySegmentedControl;
+@property (strong, nonatomic) UISegmentedControl *DailyWeeklySegmentedControl;
+@property (strong, nonatomic) UINavigationController *settingsNVC;
+@property (strong, nonatomic) SWRevealViewController *revealViewController;
+@property (strong,nonatomic) HamburgerViewController *hamburgerVC;
 @end
 
 @implementation NavigationController
@@ -21,7 +25,16 @@
 -(instancetype)initWithViewController:(UIViewController*)viewController{
     self.navStack = [[UINavigationController alloc] initWithRootViewController:viewController];
     if ([viewController.class isEqual:PageViewController.class]) {
-        [self setPageVCNavigationBar:viewController.navigationController];
+      
+        self.hamburgerVC = [[HamburgerViewController alloc]init];
+        self.revealViewController = [[SWRevealViewController alloc]initWithRearViewController:self.hamburgerVC frontViewController:viewController];
+        self.revealViewController.rearViewRevealWidth = UIScreen.mainScreen.bounds.size.width - 225;
+        self.revealViewController.toggleAnimationDuration = 0.5;
+            
+        self.navStack = [[UINavigationController alloc] initWithRootViewController:self.revealViewController];
+        [self setPageVCNavigationBar:self.navStack];
+        //[self.navStack presentViewController:self.revealViewController animated:YES completion:nil];
+        //[self setPageVCNavigationBar:viewController.navigationController];
     }
     return self;
 }
@@ -38,10 +51,6 @@
     }
 }
 
--(UINavigationController*)getNavController{
-    return self.navStack;
-}
-
 - (void)pushViewController:(UIViewController *)viewController{
     [self.navStack pushViewController:viewController animated:YES];
 }
@@ -51,36 +60,35 @@
     [self.navStack dismissViewControllerAnimated:YES completion:nil];
 }
 
--(void)setPageVCNavigationBar:(UINavigationController*)pageNavController{
-    self.settingsButton = [[UIBarButtonItem alloc] initWithTitle:@"Settings" style:UIBarButtonItemStylePlain target:self action:@selector(segueToSettings)];
-    self.settingsButton.image = [UIImage imageNamed:@"hamburger"];
-    self.settingsButton.tintColor = UIColor.whiteColor;
-    pageNavController.navigationBar.topItem.leftBarButtonItem = self.settingsButton;
-    self.addLocationButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(segueToAddLocation)];
-    self.addLocationButton.image = [UIImage imageNamed:@"plus-1"];
-    self.addLocationButton.tintColor = UIColor.whiteColor;
-    pageNavController.navigationBar.topItem.rightBarButtonItem = self.addLocationButton;
+-(void)setPageVCNavigationBar:(UINavigationController*)currentNavController{
+    self.addLocationButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"plus-1"] style:UIBarButtonItemStylePlain target:self action:@selector(segueToAddLocation)];
+//    self.addLocationButton.tintColor = UIColor.whiteColor;
+    currentNavController.navigationBar.topItem.rightBarButtonItem = self.addLocationButton;
     
     self.DailyWeeklySegmentedControl = [[UISegmentedControl alloc]initWithItems:@[@"Daily",@"Weekly"]];
     self.DailyWeeklySegmentedControl.selectedSegmentIndex = 0;
     self.DailyWeeklySegmentedControl.tintColor = UIColor.blackColor;
-    pageNavController.navigationBar.topItem.titleView = self.DailyWeeklySegmentedControl;
+    currentNavController.navigationBar.topItem.titleView = self.DailyWeeklySegmentedControl;
 }
 
--(void)segueToSettings{
-    SettingsViewController *settingsVC = SettingsViewController.new;
-    settingsVC.delegate = self;
-    UINavigationController *settingsNavigationController = [[UINavigationController alloc] initWithRootViewController:settingsVC];
-    [self presentViewController:settingsNavigationController Name:@"setting"];
+-(UISegmentedControl*)getDailyWeeklySegmentControl{
+    return self.DailyWeeklySegmentedControl;
 }
 
 -(void)segueToAddLocation{
     LocationPickerViewController *locationVC = LocationPickerViewController.new;
-    locationVC.delegate = self;
+//    locationVC.delegate = self;
     UINavigationController *locationNavVC = [[UINavigationController alloc] initWithRootViewController:locationVC];
     [self presentViewController:locationNavVC Name:@"location"];
 }
 
+-(void)setLeftBarItem:(UIBarButtonItem *)button{
+    self.navStack.navigationBar.topItem.leftBarButtonItem = button;
+}
+
+-(SWRevealViewController*)getRevealViewController{
+    return self.revealViewController;
+}
 
 @end
 

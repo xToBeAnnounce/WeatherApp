@@ -19,6 +19,7 @@ static NSIndexPath *selectedCell;
 // An empty implementation adversely affects performance during animation.
 - (void)drawRect:(CGRect)rect {
     selectedCell = nil;
+    [super drawRect:rect];
     [self setWeeklyUI];
     
     [self.location fetchDataType:@"weekly" WithCompletion:^(NSDictionary * data, NSError * error) {
@@ -33,6 +34,16 @@ static NSIndexPath *selectedCell;
     self.WeeklytableView.dataSource = self;
 }
 
+- (void) setLocation:(Location *)location {
+    _location = location;
+    [self refreshView];
+}
+
+- (void) setTempType:(NSString *)tempType {
+    _tempType = tempType;
+    [self.WeeklytableView reloadData];
+}
+
 /*-----------------------------SETS WEEKLY UI-----------------------------------------*/
 -(void)setWeeklyUI{
     self.WeeklytableView = [[UITableView alloc] initWithFrame: CGRectMake(0, 0, self.frame.size.width,self.frame.size.height)];
@@ -42,6 +53,9 @@ static NSIndexPath *selectedCell;
     [self addSubview:self.WeeklytableView];
     [self.WeeklytableView registerClass: WeeklyCell.class forCellReuseIdentifier:@"WeeklyCell"];
     [self setWeeklyConstraints];
+    
+    self.WeeklytableView.delegate = self;
+    self.WeeklytableView.dataSource = self;
 }
 
 - (void) setWeeklyConstraints {
@@ -82,6 +96,10 @@ static NSIndexPath *selectedCell;
     }
     else selectedCell = nil;
     [self.WeeklytableView reloadData];
+}
+
+- (void) refreshView {
+    // Put code in here if we decide to display location stuff on weekly view
 }
 
 

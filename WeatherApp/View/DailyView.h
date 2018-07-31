@@ -10,9 +10,10 @@
 #import "Location.h"
 
 @interface DailyView : UIView <UITableViewDataSource,UITableViewDelegate>
+@property (strong,nonatomic) Location *location;
+@property (strong, nonatomic) NSString *tempType;
 
 @property (strong, nonatomic) UIView *currentWeatherView;
-@property (strong, nonatomic) NSString *tempType;
 @property (strong,nonatomic) UITableView *DailytableView;
 @property (strong, nonatomic) UIStackView *weatherDisplayStackView;
 @property (strong,nonatomic) UIImageView *iconImageView;
@@ -21,9 +22,6 @@
 @property (strong,nonatomic) UILabel *customNameLabel;
 @property (strong,nonatomic) UIImageView *backgroundImageView;
 
-@property (strong,nonatomic) Location *location;
-
--(void)setDailyUI:(Location *)location;
--(void)displayCurrentWeather:(Location *)location;
+- (void) refreshView;
 
 @end

@@ -21,8 +21,6 @@
 @synthesize locationManager;
 
 /*-----------------------WEATHER-----------------------*/
-static float lat = 42.3601;
-static float lng = -71.0589;
 static int const numDaysInWeek = 7;
 static int const numHoursInDay = 24;
 @synthesize dailyData, weeklyData;
@@ -159,11 +157,10 @@ static int const numHoursInDay = 24;
                 completion(nil, error);
             }
         }];
-//        [self getDataWithLong:(int)lng Lat:(int)lat Type:dataType Completion:completion];
     }
     else if([dataType isEqualToString:@"weekly"]){
         self.weeklyData = [[NSMutableArray alloc] init];
-        [self getDataWithLong:(int)lng Lat:(int)lat Type:dataType Completion:^(NSDictionary *data, NSError *error) {
+        [self getDataWithLong:(int)self.longitude Lat:(int)self.lattitude Type:dataType Completion:^(NSDictionary *data, NSError *error) {
             if (data) {
                 [self setWeeklyDataWithDictionary:data];
                 completion(data, nil);
@@ -171,6 +168,25 @@ static int const numHoursInDay = 24;
             else {
                 completion(nil, error);
             }
+        }];
+    }
+    else if([dataType isEqualToString:@"widget"]) {
+        [self getDataWithLong:(int)self.longitude Lat:(int)self.lattitude Type:@"daily" Completion:^(NSDictionary *data, NSError *error) {
+            if (data) {
+                NSDictionary *currentData = data[@"hourly"][@"data"][0];
+                self.dailyData = [NSMutableArray arrayWithObject:[[Weather alloc] initWithData:currentData]];
+                [self getDataWithLong:(int)self.longitude Lat:(int)self.lattitude Type:@"weekly" Completion:^(NSDictionary *data, NSError *error) {
+                    if (data) {
+                        NSDictionary *todayData = data[@"daily"][@"data"][0];
+                        self.weeklyData = [NSMutableArray arrayWithObject:[[Weather alloc] initWithData:todayData]];
+                        completion(data, nil);
+                    }
+                    else {
+                        completion(nil, error);
+                    }
+                }];
+            }
+            else completion(nil, error);
         }];
     }
 }

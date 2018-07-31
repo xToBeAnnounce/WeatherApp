@@ -17,5 +17,6 @@
 @property (strong, nonatomic) Location *location;
 @property (strong, nonatomic) id<NavigationDelegate>navDelegate;
 
-- (instancetype) initWithLocation:(Location *)location segmentedControl:(UISegmentedControl *)DailyWeeklySC;
+- (instancetype) initWithLocation:(Location *)location segmentedControl:(UISegmentedControl *)DailyWeeklySC locDetailsButton:(UIButton *)locationsDetailsButton;
+- (BOOL) locationMatches:(Location *)location;
 @end
