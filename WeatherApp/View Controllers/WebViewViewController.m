@@ -20,6 +20,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.navigationController.navigationBar.topItem.titleView = nil;
+    self.navigationController.navigationBar.topItem.title = @"Map";
+    self.navigationController.navigationBar.topItem.rightBarButtonItem = nil;
+    
     [MBProgressHUD showHUDAddedTo:self.view animated:true];
     Location *location = Location.currentLocation;
     NSString *urlString = [@"https://maps.darksky.net/" stringByAppendingString:[NSString stringWithFormat:@"@temperature,%f,%f,10", location.lattitude, location.longitude]];

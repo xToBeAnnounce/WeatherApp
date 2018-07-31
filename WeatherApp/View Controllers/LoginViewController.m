@@ -7,6 +7,7 @@
 //
 
 #import "LoginViewController.h"
+#import "PageViewController.h"
 #import <Parse/Parse.h>
 #import "User.h"
 
@@ -71,7 +72,8 @@
             [self AlertController:error.localizedDescription];
         } else {
             NSLog(@"User logged in successfully");
-            [self.navDelegate presentViewController:self.pageVC Name:@"pageVC"];
+            [self.navigationController presentViewController:[[PageViewController alloc] init] animated:NO completion:nil];
+//            [self.navDelegate presentViewController:self.pageVC Name:@"pageVC"];
         }
     }];
 }
@@ -86,7 +88,7 @@
             [self AlertController:error.localizedDescription];
         } else {
             NSLog(@"User registered successfully");
-            [self.navDelegate presentViewController:self.pageVC Name:@"pageVC"];
+            [self.navigationController presentViewController:[[PageViewController alloc] init] animated:NO completion:nil];
         }
     }];
 }
