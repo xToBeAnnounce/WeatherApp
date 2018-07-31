@@ -7,7 +7,7 @@ target 'WeatherApp' do
 
   # Pods for WeatherApp
   pod 'Parse'
-      pod 'MBProgressHUD'
+  pod 'MBProgressHUD'
 
   target 'WeatherAppTests' do
     inherit! :search_paths

@@ -15,7 +15,6 @@
 -(void)dismissViewController;
 -(void)setLeftBarItem:(UIBarButtonItem*)button;
 -(SWRevealViewController*)getRevealViewController;
--(UISegmentedControl*)getDailyWeeklySegmentControl;
 @end
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>

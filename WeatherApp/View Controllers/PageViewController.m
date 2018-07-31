@@ -54,13 +54,11 @@ BOOL settingUpLocations;
 
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
     [self refreshView];
 }
 
 - (void) viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    
 }
 
 /*------------------SET UI METHODS------------------*/
@@ -118,7 +116,9 @@ BOOL settingUpLocations;
     self.addLocationButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"plus-1"] style:UIBarButtonItemStylePlain target:self action:@selector(segueToAddLocation)];
     self.navigationController.navigationBar.topItem.rightBarButtonItem = self.addLocationButton;
     
-    self.DailyWeeklySC = [self.navDelegate getDailyWeeklySegmentControl];
+    self.DailyWeeklySC = [[UISegmentedControl alloc]initWithItems:@[@"Daily",@"Weekly"]];
+    self.DailyWeeklySC.tintColor = UIColor.blackColor;
+    self.navigationController.navigationBar.topItem.titleView = self.DailyWeeklySC;
     self.DailyWeeklySC.selectedSegmentIndex = 0;
     
     self.locationDetailsButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
@@ -272,6 +272,9 @@ BOOL settingUpLocations;
                     [self.locViewArrary insertObject:newLocationWVC atIndex:viewIndex];
                 }
                 else {
+                    if ([[[NSDate date] earlierDate:loc.endDate] isEqualToDate:loc.endDate]) {
+                        NSLog(@"This Location %@ is Old", loc.customName);
+                    }
                     LocationWeatherViewController *locWVC = self.locViewArrary[viewIndex];
                     locWVC.location = loc;
                 }
@@ -328,22 +331,22 @@ BOOL settingUpLocations;
     [revealController tapGestureRecognizer];
     
     [revealController revealToggle:sender];
-    SettingsViewController *settingsVC = (SettingsViewController *)revealController.rearViewController;
+    //SettingsViewController *settingsVC = (SettingsViewController *)revealController.rearViewController;
 
-    if (revealController.frontViewPosition == FrontViewPositionRight) {
-        // User tapped button to go to settings
-        //[settingsVC loadPreferences];
-        self.navigationController.navigationBar.topItem.title = @"Settings";
-        self.navigationController.navigationBar.topItem.leftBarButtonItem.image = [UIImage imageNamed:@"close"];
-    }
-    else {
+//    if (revealController.frontViewPosition == FrontViewPositionRight) {
+//        // User tapped button to go to settings
+//        //[settingsVC loadPreferences];
+//        self.navigationController.navigationBar.topItem.title = @"Settings";
+//        self.navigationController.navigationBar.topItem.leftBarButtonItem.image = [UIImage imageNamed:@"close"];
+//    }
+//    else {
         // User closed settings without saving
         //[settingsVC.tooHotTextField resignFirstResponder];
         //[settingsVC.tooColdTextField resignFirstResponder];
-        self.navigationController.navigationBar.topItem.leftBarButtonItem.image = [UIImage imageNamed:@"hamburger"];
-        self.navigationController.navigationBar.topItem.titleView = self.DailyWeeklySC;
-        self.navigationController.navigationBar.topItem.rightBarButtonItem = self.addLocationButton;
-    }
+//        self.navigationController.navigationBar.topItem.leftBarButtonItem.image = [UIImage imageNamed:@"hamburger"];
+//        self.navigationController.navigationBar.topItem.titleView = self.DailyWeeklySC;
+//        self.navigationController.navigationBar.topItem.rightBarButtonItem = self.addLocationButton;
+//    }
 }
 
 -(void)segueToAddLocation{

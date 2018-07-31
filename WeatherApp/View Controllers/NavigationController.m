@@ -17,7 +17,6 @@
 
 @interface NavigationController()
 @property (strong, nonatomic) UIBarButtonItem *addLocationButton;
-@property (strong, nonatomic) UISegmentedControl *DailyWeeklySegmentedControl;
 @property (strong, nonatomic) UINavigationController *settingsNVC;
 @property (strong, nonatomic) SWRevealViewController *revealVC;
 @property (strong,nonatomic) HamburgerViewController *hamburgerVC;
@@ -96,6 +95,7 @@
 -(UISegmentedControl*)getDailyWeeklySegmentControl{
     return self.DailyWeeklySegmentedControl;
 }
+
 
 @end
 

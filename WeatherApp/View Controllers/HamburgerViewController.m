@@ -13,6 +13,8 @@
 #import "SWRevealViewController.h"
 #import "PageViewController.h"
 #import "WebViewViewController.h"
+#import "User.h"
+#import "LoginViewController.h"
 
 @interface HamburgerViewController ()<UITableViewDelegate, UITableViewDataSource>
 @property (strong,nonatomic) UITableView *hamburgerTableView;
@@ -20,15 +22,15 @@
 @end
 
 @implementation HamburgerViewController
-static NSArray *cellcontent;
-static NSArray *cellimages;
+static NSArray *cellContent;
+static NSArray *cellImages;
 static NSString *cellID = @"hamburgerMenu";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setTableView];
-    cellimages = @[@"weatherIcon",@"user",@"activities",@"map",@"settings",@"logout"];
-    cellcontent = @[@"Weather",@"Account",@"Activies",@"Map",@"Settings",@"Logout"];
+    cellImages = @[@"weatherIcon",@"user",@"activities",@"map",@"settings",@"logout"];
+    cellContent = @[@"Weather",@"Account",@"Activies",@"Map",@"Settings",@"Logout"];
     
     
 }
@@ -47,8 +49,8 @@ static NSString *cellID = @"hamburgerMenu";
         cell = [[HamburgerTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
     }
     [cell setUI];
-    cell.sectionLabel.text = cellcontent[indexPath.row];
-    cell.icon.image = [UIImage imageNamed:cellimages[indexPath.row]];
+    cell.sectionLabel.text = cellContent[indexPath.row];
+    cell.icon.image = [UIImage imageNamed:cellImages[indexPath.row]];
     return cell;
 }
 
@@ -56,9 +58,7 @@ static NSString *cellID = @"hamburgerMenu";
     SWRevealViewController *revealController = self.revealViewController;
     if (indexPath.row == 0){
         PageViewController *PageVC = [[PageViewController alloc]initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:nil];
-        //UINavigationController *PageNVC = [[UINavigationController alloc]initWithRootViewController:PageVC];
         [revealController pushFrontViewController:PageVC animated:YES];
-        [self.hamburgerTableView deselectRowAtIndexPath:indexPath animated:YES];
     }
     if (indexPath.row == 3){
         WebViewViewController *webVC = WebViewViewController.new;
@@ -67,18 +67,22 @@ static NSString *cellID = @"hamburgerMenu";
     
     if (indexPath.row == 4){
         SettingsViewController *settingsVC = SettingsViewController.new;
-        UINavigationController *settingsNVC = [[UINavigationController alloc]initWithRootViewController:settingsVC];
-//        [revealController pushFrontViewController:settingsVC animated:YES];
-//        [self.hamburgerTableView deselectRowAtIndexPath:indexPath animated:YES];
-        
-        [self presentViewController:settingsNVC animated:YES completion:nil];
-        
+        [revealController pushFrontViewController:settingsVC animated:YES];
     }
-    
+    if (indexPath.row == 5) {
+        [User logOutInBackgroundWithBlock:^(NSError * _Nullable error) {
+            if (!error) {
+                LoginViewController *loginVC = [[LoginViewController alloc] init];
+                loginVC.pageVC = PageViewController.new;
+                [self presentViewController:loginVC animated:NO completion:nil];
+            }
+        }];
+    }
+    [self.hamburgerTableView deselectRowAtIndexPath:indexPath animated:YES];
     
 }
 - (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return cellcontent.count;
+    return cellContent.count;
 }
 
 

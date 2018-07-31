@@ -125,6 +125,7 @@ static BOOL loadingData; //Is it currently loading data in the background
 
 
 - (void) didTapCancel {
+    [self.searchBar resignFirstResponder];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 

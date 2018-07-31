@@ -24,11 +24,8 @@
 @property (strong, nonatomic) UISwitch *notificationsOnSwitch;
 @property (strong, nonatomic) UIButton *resetButton;
 @property (strong, nonatomic) UITapGestureRecognizer *screenTap;
-@property (strong,nonatomic) UIBarButtonItem *CancelButton;
 
 @property (strong, nonatomic) UIBarButtonItem *saveButton;
-@property (strong, nonatomic) UIBarButtonItem *storedButton;
-@property (strong, nonatomic) UISegmentedControl *storedSC;
 
 @property (strong, nonatomic) UITableView *tableView;
 
@@ -95,9 +92,6 @@ static NSString *locationCellID = @"LocationTableViewCell";
 /*--------------------CONFIGURING UI METHODS--------------------*/
 
 - (void) initalizePreferenceControls {
-    self.storedButton = self.navigationController.navigationBar.topItem.rightBarButtonItem;
-    self.storedSC = (UISegmentedControl *)self.navigationController.navigationBar.topItem.titleView;
-    
     // Save Button
     self.saveButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(onTapSave:)];
     
@@ -179,14 +173,10 @@ static NSString *locationCellID = @"LocationTableViewCell";
 - (void) setUI {
     self.view.backgroundColor = [UIColor whiteColor];
     
-
-    // Sets navigation bar titlte and buttons
+    // Sets navigation bar title and buttons
+    self.navigationController.navigationBar.topItem.titleView = nil;
     self.navigationController.navigationBar.topItem.title = @"Settings";
-    UIBarButtonItem* saveBtn = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(onTapSave:)];
-    self.navigationController.navigationBar.topItem.rightBarButtonItem = saveBtn;
-    
-    self.CancelButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(setCancelButton)];
-    self.navigationController.navigationBar.topItem.leftBarButtonItem = self.CancelButton;
+    self.navigationController.navigationBar.topItem.rightBarButtonItem = self.saveButton;
 
 
     // Sets up table view
@@ -213,18 +203,12 @@ static NSString *locationCellID = @"LocationTableViewCell";
     [self.user updatePreferencesWithDictionary:[NSDictionary dictionaryWithDictionary:self.updatePrefDict] withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
         if (succeeded) {
             NSLog(@"Saved preferences!");
-            SWRevealViewController *revealController = [self.navDelegate getRevealViewController];
-            
-            [revealController panGestureRecognizer];
-            [revealController tapGestureRecognizer];
-            
-            [revealController revealToggle:sender];
-            self.navigationController.navigationBar.topItem.leftBarButtonItem.image = [UIImage imageNamed:@"hamburger"];
-            self.navigationController.navigationBar.topItem.titleView = self.storedSC;
-            self.navigationController.navigationBar.topItem.rightBarButtonItem = self.storedButton;
-            
-            PageViewController *pageVC = (PageViewController *)revealController.frontViewController;
-            [pageVC refreshView];
+//            SWRevealViewController *revealController = [self.navDelegate getRevealViewController];
+//
+//            [revealController panGestureRecognizer];
+//            [revealController tapGestureRecognizer];
+//
+//            [revealController revealToggle:sender];
         }
         else {
             NSLog(@"Unsuccessful");
