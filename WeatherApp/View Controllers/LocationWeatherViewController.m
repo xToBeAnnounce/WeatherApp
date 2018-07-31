@@ -23,7 +23,6 @@
 @end
 
 @implementation LocationWeatherViewController
-//DOESNOTHING
 
 - (instancetype) initWithLocation:(Location *)location segmentedControl:(UISegmentedControl *)DailyWeeklySC locDetailsButton:(UIButton *)locationsDetailsButton{
     [self setUI];
@@ -92,12 +91,14 @@
     ActivityViewController *popoverView = [[ActivityViewController alloc] initWithLocation:loc Type:type];
     popoverView.modalPresentationStyle = UIModalPresentationPopover;
     
+    int navBarHeight = self.navigationController.navigationBar.frame.size.height;
+    
     UIPopoverPresentationController *popController = popoverView.popoverPresentationController;
     popController.delegate = self;
     popController.sourceView = (UIView*)self.weeklyView;
-    popController.sourceRect = CGRectMake(self.weeklyView.bounds.size.width/2, height*rowNum + rowNum/2, 1, 1);
-    popController.permittedArrowDirections = UIPopoverArrowDirectionUp;
-    popoverView.preferredContentSize = CGSizeMake(300, 300);
+    popController.sourceRect = CGRectMake(self.weeklyView.bounds.size.width/2, height*rowNum + rowNum/2 + navBarHeight, 1, 1);
+    popController.permittedArrowDirections = UIPopoverArrowDirectionAny;
+    popoverView.preferredContentSize = CGSizeMake(300, 500);
     
     [self presentViewController:popoverView animated:YES completion:nil];
 }
