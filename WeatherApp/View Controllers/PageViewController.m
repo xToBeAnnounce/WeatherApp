@@ -140,7 +140,6 @@ BOOL settingUpLocations;
     
     UIPageViewController *pagecontentVC = pageViewController.viewControllers[0];
     self.pageControl.currentPage = [self.locViewArrary indexOfObject:pagecontentVC];
-    
 }
 
 -(UIViewController *)viewControllerAtIndex:(NSUInteger)index {
@@ -242,7 +241,6 @@ BOOL settingUpLocations;
 
 - (void) updateLocations {
     self.view.userInteractionEnabled = NO;
-//    [self reorderLocations];
     NSRange locRange = NSMakeRange(currentLocation, self.locViewArrary.count - currentLocation);
     NSArray *userLocsArray = [self.locViewArrary subarrayWithRange:locRange];
     NSPredicate *predicate = [NSPredicate predicateWithFormat: @"self isKindOfClass: %@", LocationWeatherViewController.class];

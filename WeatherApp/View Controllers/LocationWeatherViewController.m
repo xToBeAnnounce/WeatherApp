@@ -8,22 +8,17 @@
 
 #import "LocationWeatherViewController.h"
 #import "APIManager.h"
-#import "DailyTableViewCell.h"
-#import "Weather.h"
-#import "User.h"
-#import "LoginViewController.h"
-#import "WeeklyCell.h"
 #import "DailyView.h"
 #import "WeeklyView.h"
 #import "NavigationController.h"
+#import "Activity.h"
+#import "ActivityViewController.h"
 
-@interface LocationWeatherViewController ()
+@interface LocationWeatherViewController () <UIPopoverPresentationControllerDelegate>
 @property (strong,nonatomic) UISegmentedControl *DailyWeeklySC;
 @property (strong, nonatomic) UIButton *locationDetailsButton;
 @property (strong,nonatomic) DailyView *dailyView;
 @property (strong,nonatomic) WeeklyView *weeklyView;
-
-
 @end
 
 @implementation LocationWeatherViewController
@@ -72,13 +67,14 @@
 
 - (void) setUI {
     self.view.backgroundColor = [[UIColor alloc]initWithPatternImage:[UIImage imageNamed:@"grad"]];
-    
+
     self.dailyView = [[DailyView alloc]initWithFrame:self.view.frame];
     self.dailyView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.view addSubview:self.dailyView];
     
     self.weeklyView = [[WeeklyView alloc]initWithFrame:self.view.frame];
     self.weeklyView.translatesAutoresizingMaskIntoConstraints = NO;
+    self.weeklyView.sourceVC = self;
     [self.view addSubview:self.weeklyView];
     
     [self setConstraintsForView:self.dailyView];
@@ -89,6 +85,24 @@
     _location = location;
     self.dailyView.location = location;
     self.weeklyView.location = location;
+}
+
+-(void)displayPopoverWithType:(NSString*)type Location:(NSArray*)loc AtRow:(int)rowNum Height:(int)height{
+    ActivityViewController *popoverView = [[ActivityViewController alloc] initWithLocation:loc Type:type];
+    popoverView.modalPresentationStyle = UIModalPresentationPopover;
+    
+    UIPopoverPresentationController *popController = popoverView.popoverPresentationController;
+    popController.delegate = self;
+    popController.sourceView = (UIView*)self.weeklyView;
+    popController.sourceRect = CGRectMake(self.weeklyView.bounds.size.width/2, height*rowNum + rowNum/2, 1, 1);
+    popController.permittedArrowDirections = UIPopoverArrowDirectionUp;
+    popoverView.preferredContentSize = CGSizeMake(300, 300);
+    
+    [self presentViewController:popoverView animated:YES completion:nil];
+}
+
+- (UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:(UIPresentationController *)controller{
+    return UIModalPresentationNone;
 }
 
 -(void)selectedIndex{

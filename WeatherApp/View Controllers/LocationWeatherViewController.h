@@ -8,11 +8,14 @@
 
 #import <UIKit/UIKit.h>
 #import "Location.h"
+#import "AppDelegate.h"
+#import "Activity.h"
 
-@interface LocationWeatherViewController : UIViewController
+@interface LocationWeatherViewController : UIViewController <ActivityDelegate>
 
 @property (strong, nonatomic) Location *location;
 @property (strong, nonatomic) NSString *tempTypeString;
+@property (strong, nonatomic) id<NavigationDelegate>navDelegate;
 
 - (instancetype) initWithLocation:(Location *)location segmentedControl:(UISegmentedControl *)DailyWeeklySC locDetailsButton:(UIButton *)locationsDetailsButton;
 @end

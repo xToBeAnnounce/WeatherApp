@@ -10,13 +10,15 @@
 #import "WeeklyCell.h"
 #import "Location.h"
 @implementation WeeklyView
+
 static bool loadWeeklyData = NO;
 static NSString *WeeklycellIdentifier = @"WeeklyCell";
-
+static NSIndexPath *selectedCell;
 
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
 - (void)drawRect:(CGRect)rect {
+    selectedCell = nil;
     [super drawRect:rect];
     [self setWeeklyUI];
     
@@ -27,6 +29,9 @@ static NSString *WeeklycellIdentifier = @"WeeklyCell";
         }
         else NSLog(@"%@", error.localizedDescription);
     }];
+    
+    self.WeeklytableView.delegate = self;
+    self.WeeklytableView.dataSource = self;
 }
 
 - (void) setLocation:(Location *)location {
@@ -60,8 +65,6 @@ static NSString *WeeklycellIdentifier = @"WeeklyCell";
     [self.WeeklytableView.bottomAnchor constraintEqualToAnchor:self.safeAreaLayoutGuide.bottomAnchor].active = YES;
 }
 
-
-
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
     
     WeeklyCell *weeklycell = [self.WeeklytableView dequeueReusableCellWithIdentifier:WeeklycellIdentifier];
@@ -71,7 +74,14 @@ static NSString *WeeklycellIdentifier = @"WeeklyCell";
     if(loadWeeklyData){
         weeklycell.tempType = self.tempType;
         Weather *dayWeather = self.location.weeklyData[indexPath.row];
+        if(selectedCell == indexPath) weeklycell.displayActivity = YES;
+        else weeklycell.displayActivity = NO;
+        
         weeklycell.dayWeather = dayWeather;
+        weeklycell.delegate = self.sourceVC;
+        weeklycell.location = @[@(self.location.lattitude), @(self.location.longitude)];
+        weeklycell.rowNum = (int)indexPath.row;
+        weeklycell.rowHeight = self.WeeklytableView.estimatedRowHeight;
     }
     return weeklycell;
 }
@@ -80,9 +90,12 @@ static NSString *WeeklycellIdentifier = @"WeeklyCell";
     return self.location.weeklyData.count;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [self.WeeklytableView deselectRowAtIndexPath:indexPath animated:YES];
-
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
+    if(selectedCell == nil){
+        selectedCell = indexPath;
+    }
+    else selectedCell = nil;
+    [self.WeeklytableView reloadData];
 }
 
 - (void) refreshView {

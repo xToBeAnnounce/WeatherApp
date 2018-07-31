@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "Weather.h"
+#import "Activity.h"
+#import "Location.h"
 
 @interface WeeklyCell : UITableViewCell
 
@@ -18,7 +20,19 @@
 @property (strong, nonatomic) UILabel *highTempLabel;
 @property (strong, nonatomic) UIStackView *tempStackView;
 
+@property (strong, nonatomic) UIStackView *activityStack;
+@property (strong, nonatomic) UIButton *sunnyActivity;
+@property (strong, nonatomic) NSLayoutConstraint *bottomConstraint;
+
 /* Weather Information */
 @property (strong, nonatomic) Weather *dayWeather;
 @property (strong, nonatomic) NSString *tempType; //C or F
+
+/* Activity Information */
+@property bool displayActivity;
+@property (strong, nonatomic) id<ActivityDelegate>delegate;
+@property (strong, nonatomic) NSArray *location;
+@property int rowNum;
+@property int rowHeight;
+
 @end
