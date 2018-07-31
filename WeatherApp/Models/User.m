@@ -106,7 +106,7 @@
         if (location) {
             [self.locationsIDArray removeObject:locID];
             self.locationsIDArray = [self.locationsIDArray copy];
-            [User.currentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+            [self saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
                 if (succeeded) {
                     [location deleteInBackgroundWithBlock:completion];
                 }
