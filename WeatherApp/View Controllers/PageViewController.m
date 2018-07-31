@@ -289,11 +289,7 @@ BOOL settingUpLocations;
 - (void) reorderLocations {
     
 }
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-=======
-=======
->>>>>>> a13b068926884cd0620685954bd95d8e858ea950
+
 
 - (IBAction)toggleScreens:(id)sender{
     SWRevealViewController *revealController = [self.navDelegate getRevealViewController];
@@ -305,22 +301,16 @@ BOOL settingUpLocations;
     SettingsViewController *settingsVC = (SettingsViewController *)revealController.rearViewController;
 
     if (revealController.frontViewPosition == FrontViewPositionRight) {
-<<<<<<< HEAD
+
        // [settingsVC loadPreferences];
-=======
-        [settingsVC loadPreferences];
->>>>>>> a13b068926884cd0620685954bd95d8e858ea950
+
         self.navigationController.navigationBar.topItem.title = @"Settings";
         self.navigationController.navigationBar.topItem.leftBarButtonItem.image = [UIImage imageNamed:@"close"];
     }
     else {
-<<<<<<< HEAD
+
      //   [settingsVC.tooHotTextField resignFirstResponder];
      //   [settingsVC.tooColdTextField resignFirstResponder];
-=======
-        [settingsVC.tooHotTextField resignFirstResponder];
-        [settingsVC.tooColdTextField resignFirstResponder];
->>>>>>> a13b068926884cd0620685954bd95d8e858ea950
         self.navigationController.navigationBar.topItem.leftBarButtonItem.image = [UIImage imageNamed:@"hamburger"];
         self.navigationController.navigationBar.topItem.titleView = self.DailyWeeklySC;
         self.navigationController.navigationBar.topItem.rightBarButtonItem = self.addLocationButton;
@@ -332,9 +322,6 @@ BOOL settingUpLocations;
     UINavigationController *locationNavVC = [[UINavigationController alloc] initWithRootViewController:locationVC];
     [self.navigationController presentViewController:locationNavVC animated:YES completion:nil];
 }
-<<<<<<< HEAD
->>>>>>> Stashed changes
-=======
->>>>>>> a13b068926884cd0620685954bd95d8e858ea950
+
 @end
 
