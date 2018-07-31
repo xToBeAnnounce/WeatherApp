@@ -157,6 +157,7 @@ static BOOL loadingData;
 
 
 - (void) didTapCancel {
+    [self.searchBar resignFirstResponder];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
