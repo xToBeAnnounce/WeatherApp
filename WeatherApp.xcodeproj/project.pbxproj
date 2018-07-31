@@ -52,6 +52,8 @@
 		CCE855B82109C3090035230F /* WeeklyView.m in Sources */ = {isa = PBXBuildFile; fileRef = CCE855B72109C3090035230F /* WeeklyView.m */; };
 		CCE85681210F7C440035230F /* HamburgerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CCE85680210F7C440035230F /* HamburgerViewController.m */; };
 		CCE85684210F7F8B0035230F /* HamburgerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CCE85683210F7F8B0035230F /* HamburgerTableViewCell.m */; };
+		CCE856912110D7C70035230F /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCE856902110D7C70035230F /* WebKit.framework */; };
+		CCE856942110D93A0035230F /* WebViewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CCE856932110D93A0035230F /* WebViewViewController.m */; };
 		CE280C0B166C66C23D6B080B /* libPods-WeatherAppTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ABCEC71E4DF87C4C79A8B9BF /* libPods-WeatherAppTests.a */; };
 /* End PBXBuildFile section */
 
@@ -179,6 +181,9 @@
 		CCE85680210F7C440035230F /* HamburgerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HamburgerViewController.m; sourceTree = "<group>"; };
 		CCE85682210F7F8B0035230F /* HamburgerTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HamburgerTableViewCell.h; sourceTree = "<group>"; };
 		CCE85683210F7F8B0035230F /* HamburgerTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HamburgerTableViewCell.m; sourceTree = "<group>"; };
+		CCE856902110D7C70035230F /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		CCE856922110D93A0035230F /* WebViewViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WebViewViewController.h; sourceTree = "<group>"; };
+		CCE856932110D93A0035230F /* WebViewViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WebViewViewController.m; sourceTree = "<group>"; };
 		E045F920045B440297515456 /* Pods-WeatherApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeatherApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-WeatherApp/Pods-WeatherApp.release.xcconfig"; sourceTree = "<group>"; };
 		F8D075B6F1961A6A8BFFC1BC /* Pods-WeatherApp-Current Weather.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeatherApp-Current Weather.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WeatherApp-Current Weather/Pods-WeatherApp-Current Weather.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -197,6 +202,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CCE856912110D7C70035230F /* WebKit.framework in Frameworks */,
 				3330AE1E210118CC00B37975 /* CoreLocation.framework in Frameworks */,
 				65982CF7EFB30A343E94A270 /* libPods-WeatherApp.a in Frameworks */,
 			);
@@ -258,6 +264,8 @@
 				92499B2E210B9C65005874C8 /* ActivityViewController.m */,
 				CCE8567F210F7C440035230F /* HamburgerViewController.h */,
 				CCE85680210F7C440035230F /* HamburgerViewController.m */,
+				CCE856922110D93A0035230F /* WebViewViewController.h */,
+				CCE856932110D93A0035230F /* WebViewViewController.m */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -293,6 +301,7 @@
 		85F548516BD29901A61DB33D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CCE856902110D7C70035230F /* WebKit.framework */,
 				3330AE9E210BF7F500B37975 /* libParse.a */,
 				3330AE9C210BF78700B37975 /* libPods-WeatherApp.a */,
 				3330AE99210BF68000B37975 /* libParse.a */,
@@ -723,6 +732,7 @@
 				CC7D392B20FD053D00913023 /* main.m in Sources */,
 				CCE855B82109C3090035230F /* WeeklyView.m in Sources */,
 				CCC8951920FFCCBA00DEF6AD /* DailyTableViewCell.m in Sources */,
+				CCE856942110D93A0035230F /* WebViewViewController.m in Sources */,
 				CC7A6A0A210115D600028419 /* LoginViewController.m in Sources */,
 				CC7A6A0D2102B10F00028419 /* PageViewController.m in Sources */,
 				CC7D391D20FD053A00913023 /* AppDelegate.m in Sources */,

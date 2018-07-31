@@ -12,6 +12,7 @@
 #import "NavigationController.h"
 #import "SWRevealViewController.h"
 #import "PageViewController.h"
+#import "WebViewViewController.h"
 
 @interface HamburgerViewController ()<UITableViewDelegate, UITableViewDataSource>
 @property (strong,nonatomic) UITableView *hamburgerTableView;
@@ -23,12 +24,14 @@
 
 @implementation HamburgerViewController
 static NSArray *cellcontent;
+static NSArray *cellimages;
 static NSString *cellID = @"hamburgerMenu";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setTableView];
-    cellcontent = @[@"Weather",@"Settings",@"Activies",@"Locations",@"Logout"];
+    cellimages = @[@"weatherIcon",@"user",@"activities",@"map",@"settings",@"logout"];
+    cellcontent = @[@"Weather",@"Account",@"Activies",@"Map",@"Settings",@"Logout"];
     
     
 }
@@ -48,6 +51,7 @@ static NSString *cellID = @"hamburgerMenu";
     }
     [cell setUI];
     cell.sectionLabel.text = cellcontent[indexPath.row];
+    cell.icon.image = [UIImage imageNamed:cellimages[indexPath.row]];
     return cell;
 }
 
@@ -55,12 +59,16 @@ static NSString *cellID = @"hamburgerMenu";
     SWRevealViewController *revealController = self.revealViewController;
     if (indexPath.row == 0){
         PageViewController *PageVC = [[PageViewController alloc]initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:nil];
-        UINavigationController *PageNVC = [[UINavigationController alloc]initWithRootViewController:PageVC];
-        [revealController pushFrontViewController:PageNVC animated:YES];
+        //UINavigationController *PageNVC = [[UINavigationController alloc]initWithRootViewController:PageVC];
+        [revealController pushFrontViewController:PageVC animated:YES];
         [self.hamburgerTableView deselectRowAtIndexPath:indexPath animated:YES];
     }
+    if (indexPath.row == 3){
+        WebViewViewController *webVC = WebViewViewController.new;
+        [revealController pushFrontViewController:webVC animated:YES];
+    }
     
-    if (indexPath.row == 1){
+    if (indexPath.row == 4){
         SettingsViewController *settingsVC = SettingsViewController.new;
         UINavigationController *settingsNVC = [[UINavigationController alloc]initWithRootViewController:settingsVC];
 //        [revealController pushFrontViewController:settingsVC animated:YES];
