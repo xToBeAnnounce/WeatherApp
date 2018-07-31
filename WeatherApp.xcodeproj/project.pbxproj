@@ -40,6 +40,8 @@
 		CCE855B82109C3090035230F /* WeeklyView.m in Sources */ = {isa = PBXBuildFile; fileRef = CCE855B72109C3090035230F /* WeeklyView.m */; };
 		CCE85681210F7C440035230F /* HamburgerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CCE85680210F7C440035230F /* HamburgerViewController.m */; };
 		CCE85684210F7F8B0035230F /* HamburgerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CCE85683210F7F8B0035230F /* HamburgerTableViewCell.m */; };
+		CCE85686211036250035230F /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCE85685211036240035230F /* WebKit.framework */; };
+		CCE85689211036790035230F /* WebViewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CCE85688211036790035230F /* WebViewViewController.m */; };
 		CE280C0B166C66C23D6B080B /* libPods-WeatherAppTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ABCEC71E4DF87C4C79A8B9BF /* libPods-WeatherAppTests.a */; };
 /* End PBXBuildFile section */
 
@@ -145,6 +147,9 @@
 		CCE85680210F7C440035230F /* HamburgerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HamburgerViewController.m; sourceTree = "<group>"; };
 		CCE85682210F7F8B0035230F /* HamburgerTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HamburgerTableViewCell.h; sourceTree = "<group>"; };
 		CCE85683210F7F8B0035230F /* HamburgerTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HamburgerTableViewCell.m; sourceTree = "<group>"; };
+		CCE85685211036240035230F /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		CCE85687211036790035230F /* WebViewViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WebViewViewController.h; sourceTree = "<group>"; };
+		CCE85688211036790035230F /* WebViewViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WebViewViewController.m; sourceTree = "<group>"; };
 		E045F920045B440297515456 /* Pods-WeatherApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeatherApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-WeatherApp/Pods-WeatherApp.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -153,6 +158,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CCE85686211036250035230F /* WebKit.framework in Frameworks */,
 				3330AE1E210118CC00B37975 /* CoreLocation.framework in Frameworks */,
 				3D67EBC237442807A2CAC4DA /* libPods-WeatherApp.a in Frameworks */,
 			);
@@ -213,6 +219,8 @@
 				3330AE2A2107EE2B00B37975 /* LocationWeatherViewController.m */,
 				CCE8567F210F7C440035230F /* HamburgerViewController.h */,
 				CCE85680210F7C440035230F /* HamburgerViewController.m */,
+				CCE85687211036790035230F /* WebViewViewController.h */,
+				CCE85688211036790035230F /* WebViewViewController.m */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -235,6 +243,15 @@
 		85F548516BD29901A61DB33D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+<<<<<<< Updated upstream
+=======
+				CCE85685211036240035230F /* WebKit.framework */,
+				3330AE9E210BF7F500B37975 /* libParse.a */,
+				3330AE9C210BF78700B37975 /* libPods-WeatherApp.a */,
+				3330AE99210BF68000B37975 /* libParse.a */,
+				3330AE97210BF66A00B37975 /* libPods-WeatherApp.a */,
+				3330AE95210BF64E00B37975 /* libPods-WeatherAppTests.a */,
+>>>>>>> Stashed changes
 				3330AE1D210118CC00B37975 /* CoreLocation.framework */,
 				2F6BFD206F93B681F538A176 /* libPods-WeatherApp.a */,
 				ABCEC71E4DF87C4C79A8B9BF /* libPods-WeatherAppTests.a */,
@@ -558,6 +575,7 @@
 				9203E63A20FD73C600F8C858 /* WeeklyCell.m in Sources */,
 				9203E63220FD47DD00F8C858 /* APIManager.m in Sources */,
 				33F00C0C20FD116C008F56CE /* User.m in Sources */,
+				CCE85689211036790035230F /* WebViewViewController.m in Sources */,
 				9262591621067E7500BEF660 /* LocationDetailsViewController.m in Sources */,
 				9283A3F121091BF500F4858F /* NavigationController.m in Sources */,
 				3330AE2B2107EE2B00B37975 /* LocationWeatherViewController.m in Sources */,

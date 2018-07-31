@@ -289,5 +289,37 @@ BOOL settingUpLocations;
 - (void) reorderLocations {
     
 }
+<<<<<<< Updated upstream
+=======
+
+- (IBAction)toggleScreens:(id)sender{
+    SWRevealViewController *revealController = [self.navDelegate getRevealViewController];
+    
+    [revealController panGestureRecognizer];
+    [revealController tapGestureRecognizer];
+    
+    [revealController revealToggle:sender];
+    SettingsViewController *settingsVC = (SettingsViewController *)revealController.rearViewController;
+
+    if (revealController.frontViewPosition == FrontViewPositionRight) {
+       // [settingsVC loadPreferences];
+        self.navigationController.navigationBar.topItem.title = @"Settings";
+        self.navigationController.navigationBar.topItem.leftBarButtonItem.image = [UIImage imageNamed:@"close"];
+    }
+    else {
+     //   [settingsVC.tooHotTextField resignFirstResponder];
+     //   [settingsVC.tooColdTextField resignFirstResponder];
+        self.navigationController.navigationBar.topItem.leftBarButtonItem.image = [UIImage imageNamed:@"hamburger"];
+        self.navigationController.navigationBar.topItem.titleView = self.DailyWeeklySC;
+        self.navigationController.navigationBar.topItem.rightBarButtonItem = self.addLocationButton;
+    }
+}
+
+-(void)segueToAddLocation{
+    LocationPickerViewController *locationVC = LocationPickerViewController.new;
+    UINavigationController *locationNavVC = [[UINavigationController alloc] initWithRootViewController:locationVC];
+    [self.navigationController presentViewController:locationNavVC animated:YES completion:nil];
+}
+>>>>>>> Stashed changes
 @end
 

@@ -16,8 +16,11 @@
 }
 
 -(void)setUI {
-    self.sectionLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 150, 20)];
+    self.sectionLabel = [[UILabel alloc]initWithFrame:CGRectMake(35, 10, 150, 20)];
     [self.contentView addSubview:self.sectionLabel];
+    
+    self.icon = [[UIImageView alloc]initWithFrame:CGRectMake(0, 7, 25, 25)];
+    [self.contentView addSubview:self.icon];
 }
 
 
