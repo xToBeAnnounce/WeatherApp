@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 46;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -79,8 +79,12 @@
 		2D5B5E93A8680489B7996838DE15F815 /* PFEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 773AC38AE81F63A65B5272417336D362 /* PFEncoder.m */; };
 		2E428C870ACC42F6A2EF057E0C245373 /* PFPush+Synchronous.h in Headers */ = {isa = PBXBuildFile; fileRef = 6B801890D2C030B2861C54983D50B20B /* PFPush+Synchronous.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		2EB4FED9548EEA9DA8E27019927279E0 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A44D2AABBEA7400BCD979C9FCE3B4E1 /* AudioToolbox.framework */; };
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 		30B8C698AAC46F74A1C7210D41242601 /* Pods-WeatherApp-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BCF482ED7E6BDE9D9C345D03389E4AD /* Pods-WeatherApp-dummy.m */; };
+=======
+		30B8C698AAC46F74A1C7210D41242601 /* Pods-WeatherApp-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 039D777B3EDE1805C0B591CCBAB9EA8D /* Pods-WeatherApp-dummy.m */; };
+>>>>>>> a13b068926884cd0620685954bd95d8e858ea950
 		328930421099CA4B94FF1D189975311B /* ParseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4614634C82007E610C1A4E9A51E8EC06 /* ParseManager.m */; };
 		336DF2DC72C3333B89C58BF089785B7B /* ParseModule.h in Headers */ = {isa = PBXBuildFile; fileRef = A43CBA6F1C3335FE95FCA636E3F42032 /* ParseModule.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		33770DD0B964AFD377D1BF7002B1CDD7 /* PFURLConstructor.h in Headers */ = {isa = PBXBuildFile; fileRef = 3E548DE7E47DC652EF619E2D0BDCEE53 /* PFURLConstructor.h */; settings = {ATTRIBUTES = (Project, ); }; };
@@ -196,6 +200,7 @@
 		78F935026BFC0289D7EFC9FF93F2AE7F /* PFPushManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EE91E47C291882D43EF7D28BAD68FDD /* PFPushManager.m */; };
 		7903E0DB15301E77BE4C324E53C05C40 /* PFPaymentTransactionObserver.h in Headers */ = {isa = PBXBuildFile; fileRef = 322D719A8D984AE693C7228003C9C57E /* PFPaymentTransactionObserver.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		798DFC45135C2E7359AB48FC995B451D /* PFSession.h in Headers */ = {isa = PBXBuildFile; fileRef = 3663364C25EB2742E589F78E9789BD38 /* PFSession.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		7A37EFFC5BA566D4547C7644E86EFD18 /* Pods-WeatherApp-Current Weather-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = DD2F75256D2BB79FA4354AF79DD29D6E /* Pods-WeatherApp-Current Weather-dummy.m */; };
 		7B07484F626F53046C1A2F64845BD439 /* PFGeoPointPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = C04BB1A08F5F8F8139119FEC7C24C549 /* PFGeoPointPrivate.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		7B7B65C29A08637C720F9E800817C74F /* PFSQLiteDatabaseResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 27C266B80EFEBAE4F68CFD9E4E57993F /* PFSQLiteDatabaseResult.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		7B7E56ADD6D9BB93B500D83574BF346E /* PFAnonymousAuthenticationProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 55EFB6909D2D5E3F23900E3E4CC595A6 /* PFAnonymousAuthenticationProvider.m */; };
@@ -245,7 +250,7 @@
 		8F9329571A9048A8D09A63F4BA16A3AA /* PFRelation.h in Headers */ = {isa = PBXBuildFile; fileRef = 07090784451388518921F857E3EE576D /* PFRelation.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		90B4BF4F0F6A416B599BC2E3BE098E7A /* PFURLSessionDataTaskDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 291EDE23EE6D89D0F19DD0F95E91AC50 /* PFURLSessionDataTaskDelegate.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		9182F81BC68FA416A9B58A3391B84F23 /* PFAsyncTaskQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = 40EF78DE4FC37191086440AAE202E5F9 /* PFAsyncTaskQueue.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		9203A9E1749748957E500DA48608E5A0 /* Pods-WeatherAppUITests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 405F8250263B09C00BB4FAD30704C3BA /* Pods-WeatherAppUITests-dummy.m */; };
+		9203A9E1749748957E500DA48608E5A0 /* Pods-WeatherAppUITests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BA9B133592B254D6E75D1BB7F865583 /* Pods-WeatherAppUITests-dummy.m */; };
 		92A461469D18DEF65095F8898F08FCC0 /* ParseClientConfiguration_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = FA49870D832367CDEDC97122EAB0E43C /* ParseClientConfiguration_Private.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		9344A8730F8FF8DE651A5BF6ED4AAF5A /* PFRelationPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 15872F15B0086A1BEFFB497FD92DA75D /* PFRelationPrivate.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		93C7D4F0C2C8A852E8299A216D6F8BE3 /* PFDateFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 37B304FFF1D89CBB97E2F42F1B5792BC /* PFDateFormatter.m */; };
@@ -268,7 +273,7 @@
 		9D19859D4325FAA162D265A7DE485ACB /* PFFileManager.h in Headers */ = {isa = PBXBuildFile; fileRef = BD83849B2AD3FEF73BFFB50E864E45DF /* PFFileManager.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		9E3F1A7AF304E9D550C8A5A285AF56BF /* PFAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E1995B3CDA2AC57FBCDF6D389EA3B59 /* PFAlertView.m */; };
 		9EF2795E7095A1E2CF71ACF3E81AF340 /* PFProductsRequestHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = C8BF2B3548AECF91F946EE2B0D4ED469 /* PFProductsRequestHandler.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		9F73919E32573AA0F9033DA2D9337C2E /* Pods-WeatherAppTests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 4488EFE7AE97CC28BB60537FB4686CDA /* Pods-WeatherAppTests-dummy.m */; };
+		9F73919E32573AA0F9033DA2D9337C2E /* Pods-WeatherAppTests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = D2E6FDA29A7324D82674F68D5BA965F7 /* Pods-WeatherAppTests-dummy.m */; };
 		9FEA6B6B87A7476CB6C3659B1007E17F /* PFObjectSubclassInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 4242F9E2540F21A4B9D230D632814D87 /* PFObjectSubclassInfo.m */; };
 		A01CB37823E6D15C9316C8BA9D8C74C2 /* PFQuery.h in Headers */ = {isa = PBXBuildFile; fileRef = 354D088CFEEB94FEDFCD6D4A4D63B590 /* PFQuery.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		A065031487BF7AE62E39BEB5955622BA /* PFURLSession.h in Headers */ = {isa = PBXBuildFile; fileRef = 13C9705CCD52969C1D2429252390B79A /* PFURLSession.h */; settings = {ATTRIBUTES = (Project, ); }; };
@@ -636,7 +641,17 @@
 			remoteGlobalIDString = D6EF2EE752CB215D9DD3C027899301FC;
 			remoteInfo = Parse;
 		};
+<<<<<<< HEAD
 <<<<<<< Updated upstream
+=======
+		567D63DE485C50710CF5D711B8C7396A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D6EF2EE752CB215D9DD3C027899301FC;
+			remoteInfo = Parse;
+		};
+>>>>>>> a13b068926884cd0620685954bd95d8e858ea950
 		8142159D2D155D748B8CD073B9620B96 /* PBXContainerItemProxy */ = {
 =======
 		890515A2A7FDB99F5333B6ECB4111A1F /* PBXContainerItemProxy */ = {
@@ -654,15 +669,20 @@
 			remoteGlobalIDString = 26BF235B420589570D8C83E44CF0C52A;
 			remoteInfo = Bolts;
 		};
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 =======
 		B8A1FFE705A7512554B73ACB3C38EC98 /* PBXContainerItemProxy */ = {
+=======
+		A6F324FF42BD9A02A29424355AD5A1E2 /* PBXContainerItemProxy */ = {
+>>>>>>> a13b068926884cd0620685954bd95d8e858ea950
 			isa = PBXContainerItemProxy;
 			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 26BF235B420589570D8C83E44CF0C52A;
 			remoteInfo = Bolts;
 		};
+<<<<<<< HEAD
 		BD7C7C5F955EB382BE9319781B25ABD3 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
@@ -671,6 +691,8 @@
 			remoteInfo = MBProgressHUD;
 		};
 >>>>>>> Stashed changes
+=======
+>>>>>>> a13b068926884cd0620685954bd95d8e858ea950
 		CD4345D2753851640EB6BC0144824B48 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
@@ -706,14 +728,18 @@
 		009878783E82B02E230C05BDD7E2FB67 /* PFHash.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFHash.h; path = Parse/Parse/Internal/PFHash.h; sourceTree = "<group>"; };
 		00DC5F9DF298072FD36F38B36C9F6671 /* PFConfigController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFConfigController.m; path = Parse/Parse/Internal/Config/Controller/PFConfigController.m; sourceTree = "<group>"; };
 		0263FC5A60C319437D740557CE1B93E6 /* PFObjectConstants.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFObjectConstants.m; path = Parse/Parse/Internal/Object/Constants/PFObjectConstants.m; sourceTree = "<group>"; };
+		039D777B3EDE1805C0B591CCBAB9EA8D /* Pods-WeatherApp-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-WeatherApp-dummy.m"; sourceTree = "<group>"; };
 		03C61E04AB150AC2443CAD64F0C17F8B /* PFGeoPoint.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFGeoPoint.h; path = Parse/Parse/PFGeoPoint.h; sourceTree = "<group>"; };
 		04B4773ED2FCFF00D6114130D73E93B0 /* PFFile.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFFile.h; path = Parse/Parse/PFFile.h; sourceTree = "<group>"; };
 		04DACEFC9CB3CA54DAFF77690F3B8CDE /* PFCurrentObjectControlling.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFCurrentObjectControlling.h; path = Parse/Parse/Internal/Object/CurrentController/PFCurrentObjectControlling.h; sourceTree = "<group>"; };
+		055E79DBA7FDCDC27F999338291BA665 /* Pods-WeatherApp-Current Weather-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-WeatherApp-Current Weather-resources.sh"; sourceTree = "<group>"; };
 		05E8CD6DB7AA9686478FC82000C38DDD /* PFMutableRelationState.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFMutableRelationState.m; path = Parse/Parse/Internal/Relation/State/PFMutableRelationState.m; sourceTree = "<group>"; };
 		068A0A0E6BD080DD09F8F18E80218A01 /* PFCommandCache_Private.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFCommandCache_Private.h; path = Parse/Parse/Internal/PFCommandCache_Private.h; sourceTree = "<group>"; };
 		07090784451388518921F857E3EE576D /* PFRelation.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFRelation.h; path = Parse/Parse/PFRelation.h; sourceTree = "<group>"; };
 		070F8D81C482029337759AE727FB52F8 /* PFCloud+Deprecated.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "PFCloud+Deprecated.h"; path = "Parse/Parse/PFCloud+Deprecated.h"; sourceTree = "<group>"; };
+		07150FE613FDA55D81516C7E7A1F8BD4 /* libParse.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libParse.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		07359CD4280B1FBB08F36F792AE05908 /* PFLocationManager.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFLocationManager.h; path = Parse/Parse/Internal/PFLocationManager.h; sourceTree = "<group>"; };
+		07A7CC9A25A929A14EAB69CE06685655 /* libPods-WeatherAppUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WeatherAppUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		07C6D4ABE6967EB1A17370187CC8FFF4 /* PFOfflineQueryController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFOfflineQueryController.h; path = Parse/Parse/Internal/Query/Controller/PFOfflineQueryController.h; sourceTree = "<group>"; };
 		07CAEC9016FDEB44A0182E63452805A2 /* PFRole.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFRole.h; path = Parse/Parse/PFRole.h; sourceTree = "<group>"; };
 		093B95EDD38B69C6900204B3876CCFB5 /* PFUser+Deprecated.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "PFUser+Deprecated.h"; path = "Parse/Parse/PFUser+Deprecated.h"; sourceTree = "<group>"; };
@@ -721,18 +747,19 @@
 		09BCAAFA4FAE97FCC48693C88D2EF85F /* PFObjectController_Private.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFObjectController_Private.h; path = Parse/Parse/Internal/Object/Controller/PFObjectController_Private.h; sourceTree = "<group>"; };
 		0A27161A08998D5EB266065DA4A59AE7 /* PFObjectSubclassInfo.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFObjectSubclassInfo.h; path = Parse/Parse/Internal/Object/Subclassing/PFObjectSubclassInfo.h; sourceTree = "<group>"; };
 		0A86419F20BD9CE2A83702351530B1C9 /* PFInstallation.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFInstallation.m; path = Parse/Parse/PFInstallation.m; sourceTree = "<group>"; };
-		0A91090E47473414D976653D0FFDD94B /* Parse.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = Parse.bundle; path = "Parse-Parse.bundle"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0ADB9CFBBD6D1862B5C1D3D0EFA74837 /* PFDefaultACLController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFDefaultACLController.h; path = Parse/Parse/Internal/ACL/DefaultACLController/PFDefaultACLController.h; sourceTree = "<group>"; };
 		0B07CD7D90622322F9534F5FF904BF01 /* PFEventuallyQueue.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFEventuallyQueue.m; path = Parse/Parse/Internal/PFEventuallyQueue.m; sourceTree = "<group>"; };
 		0B229D70746F1A1A4369FB861D8C54C7 /* PFConfig_Private.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFConfig_Private.h; path = Parse/Parse/Internal/Config/PFConfig_Private.h; sourceTree = "<group>"; };
+		0BA9B133592B254D6E75D1BB7F865583 /* Pods-WeatherAppUITests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-WeatherAppUITests-dummy.m"; sourceTree = "<group>"; };
 		0C042918956ADADD8873B6EC19E8A2D0 /* PFUserController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFUserController.m; path = Parse/Parse/Internal/User/Controller/PFUserController.m; sourceTree = "<group>"; };
-		0C28C0CBB0CE6BE5F511D958534BBB87 /* Pods-WeatherApp-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-WeatherApp-frameworks.sh"; sourceTree = "<group>"; };
-		0D1AD96FA7C906CEF0E06E53F32C758E /* Pods-WeatherAppUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-WeatherAppUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		0D4096AB87EFCDB228530C68E69ED286 /* PFRelationState_Private.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFRelationState_Private.h; path = Parse/Parse/Internal/Relation/State/PFRelationState_Private.h; sourceTree = "<group>"; };
 		0D6171CE8C2E7A4836AFB4B5E05C8EC2 /* PFPin.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFPin.m; path = Parse/Parse/Internal/LocalDataStore/Pin/PFPin.m; sourceTree = "<group>"; };
+		0D78431756BD9FC74F13C516B4588226 /* Pods-WeatherAppUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-WeatherAppUITests.release.xcconfig"; sourceTree = "<group>"; };
 		0D835B39DD6ABB1484AF7F4D0D990BD8 /* PFUserConstants.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFUserConstants.m; path = Parse/Parse/Internal/User/Constants/PFUserConstants.m; sourceTree = "<group>"; };
 		0F1FA17B76259D0087F744F573453213 /* PFDecoder.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFDecoder.h; path = Parse/Parse/PFDecoder.h; sourceTree = "<group>"; };
+		0F88FD79623D2EA30E44DD9E802E0448 /* Pods-WeatherApp-Current Weather-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-WeatherApp-Current Weather-acknowledgements.plist"; sourceTree = "<group>"; };
 		0F983A563EFF0CE8437871FEFCE05C6E /* PFFileStagingController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFFileStagingController.m; path = Parse/Parse/Internal/File/Controller/PFFileStagingController.m; sourceTree = "<group>"; };
+		103E3CF2317C6BF44EBC796153E68B6C /* Pods-WeatherAppTests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-WeatherAppTests-frameworks.sh"; sourceTree = "<group>"; };
 		127594D30C84D393AAED15F2DC53A246 /* PFCommandRunningConstants.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFCommandRunningConstants.m; path = Parse/Parse/Internal/Commands/CommandRunner/PFCommandRunningConstants.m; sourceTree = "<group>"; };
 		13BCE478E6796B2F4D83B83BC13BE0D5 /* PFInstallationIdentifierStore.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFInstallationIdentifierStore.h; path = Parse/Parse/Internal/Installation/InstallationIdentifierStore/PFInstallationIdentifierStore.h; sourceTree = "<group>"; };
 		13C9705CCD52969C1D2429252390B79A /* PFURLSession.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFURLSession.h; path = Parse/Parse/Internal/Commands/CommandRunner/URLSession/Session/PFURLSession.h; sourceTree = "<group>"; };
@@ -753,12 +780,12 @@
 		1CB3A114C71786E0774631C4C068AF83 /* PFObjectSubclassingController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFObjectSubclassingController.h; path = Parse/Parse/Internal/Object/Subclassing/PFObjectSubclassingController.h; sourceTree = "<group>"; };
 		1E32B1B632A3DAF70636998B0940E672 /* PFObjectFileCoder.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFObjectFileCoder.m; path = Parse/Parse/Internal/Object/Coder/File/PFObjectFileCoder.m; sourceTree = "<group>"; };
 		1E478BAEF87F1AD737CE273D125E037C /* PFPushChannelsController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFPushChannelsController.h; path = Parse/Parse/Internal/Push/ChannelsController/PFPushChannelsController.h; sourceTree = "<group>"; };
-		1F69571375C4F8B60760D6A89077DB1E /* libPods-WeatherAppTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = "libPods-WeatherAppTests.a"; path = "libPods-WeatherAppTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F728E361EFE61CE7914C408680580C6 /* PFFile_Private.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFFile_Private.h; path = Parse/Parse/Internal/File/PFFile_Private.h; sourceTree = "<group>"; };
 		20726110895EB9C70EDAE1AE07C049E6 /* PFSQLiteDatabase.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFSQLiteDatabase.h; path = Parse/Parse/Internal/LocalDataStore/SQLite/PFSQLiteDatabase.h; sourceTree = "<group>"; };
 		208F8FA230B91A73677F8280A4FEFDE2 /* PFAnonymousUtils+Deprecated.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "PFAnonymousUtils+Deprecated.h"; path = "Parse/Parse/PFAnonymousUtils+Deprecated.h"; sourceTree = "<group>"; };
 		21191582A292ECF38A1A5187ACFD73B5 /* PFObjectController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFObjectController.h; path = Parse/Parse/Internal/Object/Controller/PFObjectController.h; sourceTree = "<group>"; };
 		215B300E43822E818FCAEAE19A541623 /* PFObjectLocalIdStore.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFObjectLocalIdStore.m; path = Parse/Parse/Internal/Object/LocalIdStore/PFObjectLocalIdStore.m; sourceTree = "<group>"; };
+		216FF90A5C2C9210AC7B257177700B92 /* libPods-WeatherAppTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WeatherAppTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		21960FB75EDEDE2D803BA4A1AF0269AE /* PFFileStagingController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFFileStagingController.h; path = Parse/Parse/Internal/File/Controller/PFFileStagingController.h; sourceTree = "<group>"; };
 		21DA46AF45B2E5CAF45F4EB62346FD54 /* PFPushState.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFPushState.h; path = Parse/Parse/Internal/Push/State/PFPushState.h; sourceTree = "<group>"; };
 		2573BE33C45A30A8CEEBCC8CBC3BEF8B /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.3.sdk/System/Library/Frameworks/Security.framework; sourceTree = DEVELOPER_DIR; };
@@ -767,9 +794,7 @@
 		26A8FE17FA29367AC71474B8E7B4E028 /* PFPolygon.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFPolygon.m; path = Parse/Parse/PFPolygon.m; sourceTree = "<group>"; };
 		27B26F6856B77B3342DFBE19DAFD8EF0 /* PFApplication.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFApplication.h; path = Parse/Parse/Internal/PFApplication.h; sourceTree = "<group>"; };
 		27C266B80EFEBAE4F68CFD9E4E57993F /* PFSQLiteDatabaseResult.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFSQLiteDatabaseResult.h; path = Parse/Parse/Internal/LocalDataStore/SQLite/PFSQLiteDatabaseResult.h; sourceTree = "<group>"; };
-		27D37D5F8EE1C0616D02B5FFFB94BF50 /* Pods-WeatherApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-WeatherApp.release.xcconfig"; sourceTree = "<group>"; };
 		28ECDE91B3FFDE02ED689F4DC32358FC /* PFObject+Synchronous.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "PFObject+Synchronous.h"; path = "Parse/Parse/PFObject+Synchronous.h"; sourceTree = "<group>"; };
-		290F0A5D39C2823FD199422D2D30B9F3 /* Pods-WeatherAppUITests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-WeatherAppUITests-acknowledgements.plist"; sourceTree = "<group>"; };
 		291EDE23EE6D89D0F19DD0F95E91AC50 /* PFURLSessionDataTaskDelegate.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFURLSessionDataTaskDelegate.h; path = Parse/Parse/Internal/Commands/CommandRunner/URLSession/Session/TaskDelegate/PFURLSessionDataTaskDelegate.h; sourceTree = "<group>"; };
 		297590227EC7D0B9A89BB6B704DE3627 /* PFObjectFilePersistenceController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFObjectFilePersistenceController.m; path = Parse/Parse/Internal/Object/FilePersistence/PFObjectFilePersistenceController.m; sourceTree = "<group>"; };
 		2A203B3601CBE3240836BB1FBA1C9497 /* PFMutableUserState.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFMutableUserState.m; path = Parse/Parse/Internal/User/State/PFMutableUserState.m; sourceTree = "<group>"; };
@@ -779,7 +804,6 @@
 		2C3BF72658832BAAC9EC143123879DDB /* Bolts.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = Bolts.m; path = Bolts/Common/Bolts.m; sourceTree = "<group>"; };
 		2CF75D10B31AC1CA8EF0DD6F3E1278FA /* PFFileUploadController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFFileUploadController.h; path = Parse/Parse/PFFileUploadController.h; sourceTree = "<group>"; };
 		2D59D488BF7A50912063EC2A6E486942 /* PFURLSessionDataTaskDelegate_Private.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFURLSessionDataTaskDelegate_Private.h; path = Parse/Parse/Internal/Commands/CommandRunner/URLSession/Session/TaskDelegate/PFURLSessionDataTaskDelegate_Private.h; sourceTree = "<group>"; };
-		2D86BD66CEFE64E97C36EB87E1C9C054 /* Pods-WeatherAppUITests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-WeatherAppUITests-frameworks.sh"; sourceTree = "<group>"; };
 		2DCD349FBFC210131BFF187C923AE373 /* PFPropertyInfo_Private.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFPropertyInfo_Private.h; path = Parse/Parse/Internal/PropertyInfo/PFPropertyInfo_Private.h; sourceTree = "<group>"; };
 		2F299882DE4FB4B01A2656B03EE84C92 /* PFOfflineObjectController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFOfflineObjectController.h; path = Parse/Parse/Internal/Object/Controller/OfflineController/PFOfflineObjectController.h; sourceTree = "<group>"; };
 		2F3891BDBEB1CDE21142501CE6F56A72 /* PFConfig.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFConfig.m; path = Parse/Parse/PFConfig.m; sourceTree = "<group>"; };
@@ -787,6 +811,7 @@
 		2FD264E55F991FED2DCBCC10ADE1EB50 /* PFPush.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFPush.m; path = Parse/Parse/PFPush.m; sourceTree = "<group>"; };
 		30FAB937BFA97FC4A6231DA6CFFAADDD /* PFUserState_Private.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFUserState_Private.h; path = Parse/Parse/Internal/User/State/PFUserState_Private.h; sourceTree = "<group>"; };
 		3121D47655ECF81CC9062F1DFD540F13 /* PFNetworkCommand.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFNetworkCommand.h; path = Parse/Parse/Internal/PFNetworkCommand.h; sourceTree = "<group>"; };
+		31466DE5098EAFB27FB50B0E2F6A792F /* libBolts.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libBolts.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		319B4ABF7210C07DC2187C00741B97BF /* PFObjectController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFObjectController.m; path = Parse/Parse/Internal/Object/Controller/PFObjectController.m; sourceTree = "<group>"; };
 		3207B6D347817E4219819249D29DE8CC /* PFMutableObjectState.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFMutableObjectState.h; path = Parse/Parse/Internal/Object/State/PFMutableObjectState.h; sourceTree = "<group>"; };
 		322D719A8D984AE693C7228003C9C57E /* PFPaymentTransactionObserver.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFPaymentTransactionObserver.h; path = Parse/Parse/Internal/Purchase/PaymentTransactionObserver/PFPaymentTransactionObserver.h; sourceTree = "<group>"; };
@@ -796,17 +821,16 @@
 		345F964FA659ADDD0C90262C95864EFE /* PFURLSessionUploadTaskDelegate.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFURLSessionUploadTaskDelegate.m; path = Parse/Parse/Internal/Commands/CommandRunner/URLSession/Session/TaskDelegate/PFURLSessionUploadTaskDelegate.m; sourceTree = "<group>"; };
 		348CBB5A3CD9A9E6FF49A8920024B5E8 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.3.sdk/System/Library/Frameworks/CFNetwork.framework; sourceTree = DEVELOPER_DIR; };
 		354D088CFEEB94FEDFCD6D4A4D63B590 /* PFQuery.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFQuery.h; path = Parse/Parse/PFQuery.h; sourceTree = "<group>"; };
+		363A7720A6C9BF06AB8C40D55179CB4E /* Pods-WeatherApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-WeatherApp.debug.xcconfig"; sourceTree = "<group>"; };
 		3663364C25EB2742E589F78E9789BD38 /* PFSession.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFSession.h; path = Parse/Parse/PFSession.h; sourceTree = "<group>"; };
 		366EC015E029EFE4AD23B797EAF3B54A /* PFMutableACLState.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFMutableACLState.m; path = Parse/Parse/Internal/ACL/State/PFMutableACLState.m; sourceTree = "<group>"; };
 		36C74364D7710289041D40C1519DC6BB /* PFFileState.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFFileState.h; path = Parse/Parse/Internal/File/State/PFFileState.h; sourceTree = "<group>"; };
+		37850625421C62427B237C55185CCB90 /* Pods-WeatherAppUITests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-WeatherAppUITests-acknowledgements.markdown"; sourceTree = "<group>"; };
 		378720A2A506CD79E5FF7C2EDF17D6A6 /* BFTask+Private.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "BFTask+Private.m"; path = "Parse/Parse/Internal/BFTask+Private.m"; sourceTree = "<group>"; };
-		3790197C2E34C02B2F83773AE168B977 /* Pods-WeatherAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-WeatherAppTests.debug.xcconfig"; sourceTree = "<group>"; };
 		37B304FFF1D89CBB97E2F42F1B5792BC /* PFDateFormatter.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFDateFormatter.m; path = Parse/Parse/Internal/PFDateFormatter.m; sourceTree = "<group>"; };
 		37F77D6A40231E9A9599B2A5BA185906 /* PFRESTUserCommand.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFRESTUserCommand.m; path = Parse/Parse/Internal/Commands/PFRESTUserCommand.m; sourceTree = "<group>"; };
 		388E9C03F44334B758A4954C9B2976F7 /* PFObjectFileCoder.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFObjectFileCoder.h; path = Parse/Parse/Internal/Object/Coder/File/PFObjectFileCoder.h; sourceTree = "<group>"; };
 		392B56A7B0FDE669E3918CEF8D51E9E7 /* PFPushManager.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFPushManager.h; path = Parse/Parse/Internal/Push/Manager/PFPushManager.h; sourceTree = "<group>"; };
-		397C359D130BD0008B0AB3AC04E68FF2 /* libBolts.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = libBolts.a; path = libBolts.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		3C46379F314619097AC9956AB351A878 /* Pods-WeatherApp-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-WeatherApp-resources.sh"; sourceTree = "<group>"; };
 		3C59576DA40B4BA1C33D7EBE966C3904 /* PFObjectEstimatedData.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFObjectEstimatedData.m; path = Parse/Parse/Internal/Object/EstimatedData/PFObjectEstimatedData.m; sourceTree = "<group>"; };
 		3C86FCA625AD27D7B4C6171D96D5EA00 /* PFRESTSessionCommand.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFRESTSessionCommand.m; path = Parse/Parse/Internal/Commands/PFRESTSessionCommand.m; sourceTree = "<group>"; };
 		3D335FFC503761C8483C7A5DF01B363E /* PFKeychainStore.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFKeychainStore.h; path = Parse/Parse/Internal/PFKeychainStore.h; sourceTree = "<group>"; };
@@ -815,9 +839,8 @@
 		3F0C39BDA7C77ACB96B975C555F699A8 /* PFRESTQueryCommand.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFRESTQueryCommand.m; path = Parse/Parse/Internal/Commands/PFRESTQueryCommand.m; sourceTree = "<group>"; };
 		3F195B60D3F08518E9F49E5BAB9C9290 /* PFPropertyInfo.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFPropertyInfo.m; path = Parse/Parse/Internal/PropertyInfo/PFPropertyInfo.m; sourceTree = "<group>"; };
 		3F480521001B18D1526968E6B42F78ED /* PFAnalyticsController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFAnalyticsController.m; path = Parse/Parse/Internal/Analytics/Controller/PFAnalyticsController.m; sourceTree = "<group>"; };
-		3FE46BC27C4F254D5FD2D050C556112F /* en.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = en.lproj; path = Parse/Parse/Resources/en.lproj; sourceTree = "<group>"; };
+		3FE46BC27C4F254D5FD2D050C556112F /* en.lproj */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder; name = en.lproj; path = Parse/Parse/Resources/en.lproj; sourceTree = "<group>"; };
 		40356CBEFA52124950FFEA50FAF489F5 /* PFUserFileCodingLogic.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFUserFileCodingLogic.m; path = Parse/Parse/Internal/User/Coder/File/PFUserFileCodingLogic.m; sourceTree = "<group>"; };
-		405F8250263B09C00BB4FAD30704C3BA /* Pods-WeatherAppUITests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-WeatherAppUITests-dummy.m"; sourceTree = "<group>"; };
 		407366BCBBB982296E20CCCD81071191 /* PFUserFileCodingLogic.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFUserFileCodingLogic.h; path = Parse/Parse/Internal/User/Coder/File/PFUserFileCodingLogic.h; sourceTree = "<group>"; };
 		40ACDD92B8E97163F66D2416E33E4163 /* PFQueryConstants.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFQueryConstants.h; path = Parse/Parse/Internal/Query/PFQueryConstants.h; sourceTree = "<group>"; };
 		40BA3393473BBC0A8AA2EA667BB425AF /* PFSessionUtilities.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFSessionUtilities.h; path = Parse/Parse/Internal/Session/Utilities/PFSessionUtilities.h; sourceTree = "<group>"; };
@@ -827,11 +850,11 @@
 		41AC8E418508BC50E4CC8151EC74725A /* PFSQLiteDatabase_Private.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFSQLiteDatabase_Private.h; path = Parse/Parse/Internal/LocalDataStore/SQLite/PFSQLiteDatabase_Private.h; sourceTree = "<group>"; };
 		4242F9E2540F21A4B9D230D632814D87 /* PFObjectSubclassInfo.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFObjectSubclassInfo.m; path = Parse/Parse/Internal/Object/Subclassing/PFObjectSubclassInfo.m; sourceTree = "<group>"; };
 		42D021ADDA7037022E585FB9DCCBCFB8 /* PFAnalyticsController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFAnalyticsController.h; path = Parse/Parse/Internal/Analytics/Controller/PFAnalyticsController.h; sourceTree = "<group>"; };
+		42F5CAB571412C62351A0A3F34B12C2E /* Pods-WeatherAppTests-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-WeatherAppTests-resources.sh"; sourceTree = "<group>"; };
 		42FE3FE6E077FEEDFE453144BAB9803C /* PFMutableRelationState.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFMutableRelationState.h; path = Parse/Parse/Internal/Relation/State/PFMutableRelationState.h; sourceTree = "<group>"; };
 		43B6BB2AE420876373C69DDFF6B983C1 /* PFCurrentConfigController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFCurrentConfigController.h; path = Parse/Parse/Internal/Config/Controller/PFCurrentConfigController.h; sourceTree = "<group>"; };
 		43D8CD08B986134F05C105F2B69D0B31 /* PFRESTObjectCommand.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFRESTObjectCommand.h; path = Parse/Parse/Internal/Commands/PFRESTObjectCommand.h; sourceTree = "<group>"; };
 		44202ECA418A3E583B49834CFE51CCC0 /* PFURLSessionCommandRunner_Private.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFURLSessionCommandRunner_Private.h; path = Parse/Parse/Internal/Commands/CommandRunner/URLSession/PFURLSessionCommandRunner_Private.h; sourceTree = "<group>"; };
-		4488EFE7AE97CC28BB60537FB4686CDA /* Pods-WeatherAppTests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-WeatherAppTests-dummy.m"; sourceTree = "<group>"; };
 		4488F20945237777CDBB148F2A03ED0A /* PFKeyValueCache_Private.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFKeyValueCache_Private.h; path = Parse/Parse/Internal/KeyValueCache/PFKeyValueCache_Private.h; sourceTree = "<group>"; };
 		4614634C82007E610C1A4E9A51E8EC06 /* ParseManager.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = ParseManager.m; path = Parse/Parse/Internal/ParseManager.m; sourceTree = "<group>"; };
 		46694B3E4BC0372FF8397CA2B7085C77 /* PFRole.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFRole.m; path = Parse/Parse/PFRole.m; sourceTree = "<group>"; };
@@ -844,11 +867,12 @@
 		4D052B7A9B552E3E169875A7187CBF40 /* PFCurrentUserController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFCurrentUserController.m; path = Parse/Parse/Internal/User/CurrentUserController/PFCurrentUserController.m; sourceTree = "<group>"; };
 		4D7E29F01309A9D20C3F67364732EE25 /* PFAnalytics_Private.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFAnalytics_Private.h; path = Parse/Parse/Internal/Analytics/PFAnalytics_Private.h; sourceTree = "<group>"; };
 		4E879D0B8139958B89DEC4F093656524 /* PFUser.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFUser.h; path = Parse/Parse/PFUser.h; sourceTree = "<group>"; };
-		4EA15329E38CD66E63ED2349920E4FB4 /* Pods-WeatherAppUITests-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-WeatherAppUITests-resources.sh"; sourceTree = "<group>"; };
 		4F29874FD2FB77B4B6120D254899D8E8 /* PFBaseState.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFBaseState.h; path = Parse/Parse/Internal/PFBaseState.h; sourceTree = "<group>"; };
 		5048748665FBA7FB88603E0DBAE597FD /* PFRelationState.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFRelationState.h; path = Parse/Parse/Internal/Relation/State/PFRelationState.h; sourceTree = "<group>"; };
 		52157F4FFA18931CBC8023AE1FD42894 /* PFSessionController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFSessionController.h; path = Parse/Parse/Internal/Session/Controller/PFSessionController.h; sourceTree = "<group>"; };
+		535F1D064AC7A5487278F5355EF03772 /* Pods-WeatherAppUITests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-WeatherAppUITests-acknowledgements.plist"; sourceTree = "<group>"; };
 		5360AD88CC36EC9B26E3672A497DD018 /* PFCommandRunningConstants.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFCommandRunningConstants.h; path = Parse/Parse/Internal/Commands/CommandRunner/PFCommandRunningConstants.h; sourceTree = "<group>"; };
+		5361A01BD9C3DCC991A3BE7469D1C6FA /* Pods-WeatherApp-Current Weather.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-WeatherApp-Current Weather.debug.xcconfig"; sourceTree = "<group>"; };
 		5496012931BBE24D729F8E63661CEAEB /* PFMutableObjectState.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFMutableObjectState.m; path = Parse/Parse/Internal/Object/State/PFMutableObjectState.m; sourceTree = "<group>"; };
 		54A6748F80811615E791AC6EE5A91D70 /* PFInstallationController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFInstallationController.h; path = Parse/Parse/Internal/Installation/Controller/PFInstallationController.h; sourceTree = "<group>"; };
 		54E52D4685CA476A5981023D42C52080 /* ParseClientConfiguration.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ParseClientConfiguration.h; path = Parse/Parse/ParseClientConfiguration.h; sourceTree = "<group>"; };
@@ -862,10 +886,9 @@
 		57C439CCB7C95222E2A851E4A6332837 /* PFConfig+Synchronous.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "PFConfig+Synchronous.h"; path = "Parse/Parse/PFConfig+Synchronous.h"; sourceTree = "<group>"; };
 		5995A294C545A84F8827A9DADC5DD6C4 /* PFTaskQueue.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFTaskQueue.h; path = Parse/Parse/Internal/PFTaskQueue.h; sourceTree = "<group>"; };
 		5AF6D62892AD116E270B737EB16543B2 /* PFPurchaseController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFPurchaseController.m; path = Parse/Parse/Internal/Purchase/Controller/PFPurchaseController.m; sourceTree = "<group>"; };
-		5B320F2DCA06E013752BE54BB26DF602 /* Pods-WeatherAppUITests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-WeatherAppUITests-acknowledgements.markdown"; sourceTree = "<group>"; };
 		5BC0EA7313B43A275D6551549DE00BA3 /* PFMutableQueryState.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFMutableQueryState.h; path = Parse/Parse/Internal/Query/State/PFMutableQueryState.h; sourceTree = "<group>"; };
-		5BCF482ED7E6BDE9D9C345D03389E4AD /* Pods-WeatherApp-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-WeatherApp-dummy.m"; sourceTree = "<group>"; };
 		5C4A4E2AF720EA02CA8821AE3EC66A7E /* PFRESTCommand.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFRESTCommand.m; path = Parse/Parse/Internal/Commands/PFRESTCommand.m; sourceTree = "<group>"; };
+		5E3383073822153FB72BF80C36A67729 /* Pods-WeatherAppUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-WeatherAppUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		5E51A8F6FC37408CAA9C1838CE1104D5 /* PFAnonymousAuthenticationProvider.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFAnonymousAuthenticationProvider.h; path = Parse/Parse/Internal/User/AuthenticationProviders/Providers/Anonymous/PFAnonymousAuthenticationProvider.h; sourceTree = "<group>"; };
 		5EE91E47C291882D43EF7D28BAD68FDD /* PFPushManager.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFPushManager.m; path = Parse/Parse/Internal/Push/Manager/PFPushManager.m; sourceTree = "<group>"; };
 		5EEA606F6DBE66D603DFDC6B29D42F58 /* PFURLSessionDataTaskDelegate.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFURLSessionDataTaskDelegate.m; path = Parse/Parse/Internal/Commands/CommandRunner/URLSession/Session/TaskDelegate/PFURLSessionDataTaskDelegate.m; sourceTree = "<group>"; };
@@ -896,8 +919,10 @@
 		6D27A7C8265D79E3462FFF43F2D14B7C /* PFCurrentConfigController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFCurrentConfigController.m; path = Parse/Parse/Internal/Config/Controller/PFCurrentConfigController.m; sourceTree = "<group>"; };
 		6EEEFC6A0887C5CB53056E7E205E7555 /* PFKeyValueCache.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFKeyValueCache.m; path = Parse/Parse/Internal/KeyValueCache/PFKeyValueCache.m; sourceTree = "<group>"; };
 		6EFD673E829B3F7265B82DCFADB4F35A /* PFEncoder.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFEncoder.h; path = Parse/Parse/PFEncoder.h; sourceTree = "<group>"; };
+		6FB2835164A7F29A77EAAC1ABA06B05A /* Pods-WeatherApp-Current Weather-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-WeatherApp-Current Weather-acknowledgements.markdown"; sourceTree = "<group>"; };
 		6FEE814FE87752BD147776C4CBA71C26 /* PFObject.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFObject.m; path = Parse/Parse/PFObject.m; sourceTree = "<group>"; };
 		706843A62C666F6F645324899850D956 /* PFMutableFileState.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFMutableFileState.h; path = Parse/Parse/Internal/File/State/PFMutableFileState.h; sourceTree = "<group>"; };
+		70723DDB295746A009DFF53ED77AD8FD /* Pods-WeatherAppUITests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-WeatherAppUITests-frameworks.sh"; sourceTree = "<group>"; };
 		70955BB583729D94613879E10EC5516D /* PFOperationSet.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFOperationSet.h; path = Parse/Parse/Internal/Object/OperationSet/PFOperationSet.h; sourceTree = "<group>"; };
 		70BAEE9A14B4B8491FB3292928A57DE0 /* PFEventuallyQueue_Private.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFEventuallyQueue_Private.h; path = Parse/Parse/Internal/PFEventuallyQueue_Private.h; sourceTree = "<group>"; };
 		70C890EC6FA6D561CA8EBB5737220EF6 /* PFInstallationIdentifierStore.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFInstallationIdentifierStore.m; path = Parse/Parse/Internal/Installation/InstallationIdentifierStore/PFInstallationIdentifierStore.m; sourceTree = "<group>"; };
@@ -909,6 +934,7 @@
 		733FB4FE3E7F2DE24A5549A5C6431A2F /* PFWeakValue.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFWeakValue.m; path = Parse/Parse/Internal/PFWeakValue.m; sourceTree = "<group>"; };
 		73AFAA14C0C7EE92F3A6D0ECDBBC114C /* PFAnonymousUtils_Private.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFAnonymousUtils_Private.h; path = Parse/Parse/Internal/User/AuthenticationProviders/Providers/Anonymous/PFAnonymousUtils_Private.h; sourceTree = "<group>"; };
 		752FB733BE515BCA51B66B3074325D2C /* PFPinningObjectStore.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFPinningObjectStore.h; path = Parse/Parse/Internal/Object/PinningStore/PFPinningObjectStore.h; sourceTree = "<group>"; };
+		764DAE50E955F06269D38AE5D0508D7D /* Pods-WeatherApp-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-WeatherApp-frameworks.sh"; sourceTree = "<group>"; };
 		76C623B73326B2CB854E63907052773F /* PFWeakValue.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFWeakValue.h; path = Parse/Parse/Internal/PFWeakValue.h; sourceTree = "<group>"; };
 		777C9D8F21693D3395BEB24758535542 /* PFFileState.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFFileState.m; path = Parse/Parse/Internal/File/State/PFFileState.m; sourceTree = "<group>"; };
 		778F52141BFDA46700C2C105013C7A41 /* PFUserState.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFUserState.m; path = Parse/Parse/Internal/User/State/PFUserState.m; sourceTree = "<group>"; };
@@ -923,12 +949,12 @@
 		7E1995B3CDA2AC57FBCDF6D389EA3B59 /* PFAlertView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFAlertView.m; path = Parse/Parse/Internal/PFAlertView.m; sourceTree = "<group>"; };
 		7EB44121C1734846B826941D81145CEC /* PFInstallationController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFInstallationController.m; path = Parse/Parse/Internal/Installation/Controller/PFInstallationController.m; sourceTree = "<group>"; };
 		7FBCA9CDEAC1C46D0D55F7711CD6A838 /* PFInstallationConstants.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFInstallationConstants.m; path = Parse/Parse/Internal/Installation/Constants/PFInstallationConstants.m; sourceTree = "<group>"; };
-		806F3BC785AAE818A9F79838FBFF8C19 /* libPods-WeatherApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = "libPods-WeatherApp.a"; path = "libPods-WeatherApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		80BFE2B0500748DD81F0AF06456AA1B0 /* PFApplication.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFApplication.m; path = Parse/Parse/Internal/PFApplication.m; sourceTree = "<group>"; };
 		81293B31247D35D0CC5BFCDD76192502 /* PFJSONSerialization.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFJSONSerialization.m; path = Parse/Parse/Internal/PFJSONSerialization.m; sourceTree = "<group>"; };
 		8231B0C770A25ECC0DBE78F570CA3A9F /* PFPushController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFPushController.m; path = Parse/Parse/Internal/Push/Controller/PFPushController.m; sourceTree = "<group>"; };
 		824EB8EE88EC74B2E6749E5D439288A9 /* ParseClientConfiguration.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = ParseClientConfiguration.m; path = Parse/Parse/ParseClientConfiguration.m; sourceTree = "<group>"; };
 		82517625B0CB92638E7EAA222585DE83 /* PFCurrentInstallationController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFCurrentInstallationController.h; path = Parse/Parse/Internal/Installation/CurrentInstallationController/PFCurrentInstallationController.h; sourceTree = "<group>"; };
+		83648CC648950DE0B4D89B8393FE1A96 /* Pods-WeatherAppTests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-WeatherAppTests-acknowledgements.markdown"; sourceTree = "<group>"; };
 		83EBEDEB2650D37188AA5D0917108D15 /* PFSQLiteDatabase.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFSQLiteDatabase.m; path = Parse/Parse/Internal/LocalDataStore/SQLite/PFSQLiteDatabase.m; sourceTree = "<group>"; };
 		84BF8501D04B903716469BCC3A20DF92 /* PFQueryUtilities.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFQueryUtilities.h; path = Parse/Parse/Internal/Query/Utilities/PFQueryUtilities.h; sourceTree = "<group>"; };
 		84C2CE3DEC859D40A7F3676ACE34B3CF /* PFObjectFilePersistenceController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFObjectFilePersistenceController.h; path = Parse/Parse/Internal/Object/FilePersistence/PFObjectFilePersistenceController.h; sourceTree = "<group>"; };
@@ -938,13 +964,15 @@
 		8730987A0881376BF9C4A0204F8B562A /* PFHTTPURLRequestConstructor.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFHTTPURLRequestConstructor.h; path = Parse/Parse/Internal/HTTPRequest/PFHTTPURLRequestConstructor.h; sourceTree = "<group>"; };
 		8759ABF9E455C643443B95FFC6A2B05F /* PFObjectBatchController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFObjectBatchController.h; path = Parse/Parse/Internal/Object/BatchController/PFObjectBatchController.h; sourceTree = "<group>"; };
 		877DCC54412888D22D0D187CF0A1BDD7 /* PFPushChannelsController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFPushChannelsController.m; path = Parse/Parse/Internal/Push/ChannelsController/PFPushChannelsController.m; sourceTree = "<group>"; };
-		88AA79624439743F858E3898EEDECE2F /* libPods-WeatherAppUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = "libPods-WeatherAppUITests.a"; path = "libPods-WeatherAppUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		886222F7E5216BC1E8EA792D158D6DFC /* Pods-WeatherAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-WeatherAppTests.release.xcconfig"; sourceTree = "<group>"; };
+		88B49F60F41CE072FC32632749B67035 /* Pods-WeatherAppTests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-WeatherAppTests-acknowledgements.plist"; sourceTree = "<group>"; };
 		8A400A20998DC120735D4DABED955777 /* PFCoreManager.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFCoreManager.m; path = Parse/Parse/Internal/PFCoreManager.m; sourceTree = "<group>"; };
 		8B4A817A3A668574AC04D1AE0B9739F4 /* PFACLState.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFACLState.m; path = Parse/Parse/Internal/ACL/State/PFACLState.m; sourceTree = "<group>"; };
 		8B6858E2345ED2BCEF687BB63D03E2C1 /* PFThreadsafety.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFThreadsafety.h; path = Parse/Parse/Internal/ThreadSafety/PFThreadsafety.h; sourceTree = "<group>"; };
 		8C9216C9F7EDA020713FD2C37CD299AC /* PFPaymentTransactionObserver.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFPaymentTransactionObserver.m; path = Parse/Parse/Internal/Purchase/PaymentTransactionObserver/PFPaymentTransactionObserver.m; sourceTree = "<group>"; };
 		8CCBDC22A0078820510504C8E2C23A95 /* PFCommandCache.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFCommandCache.m; path = Parse/Parse/Internal/PFCommandCache.m; sourceTree = "<group>"; };
 		8D536967E873AC5DE9C73153C9ED9603 /* PFReachability.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFReachability.m; path = Parse/Parse/Internal/PFReachability.m; sourceTree = "<group>"; };
+<<<<<<< HEAD
 =======
 		0079B7E241E766D4D690F1883A6D8F75 /* PFFileDataStream.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFFileDataStream.m; path = Parse/Parse/Internal/File/FileDataStream/PFFileDataStream.m; sourceTree = "<group>"; };
 		008520C4D48992BF23A626E726DBB8E1 /* BFCancellationTokenSource.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = BFCancellationTokenSource.m; path = Bolts/Common/BFCancellationTokenSource.m; sourceTree = "<group>"; };
@@ -1211,16 +1239,22 @@
 		8DAC54D02128B445A26B8714BFD8DCC8 /* PFInstallationController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFInstallationController.m; path = Parse/Parse/Internal/Installation/Controller/PFInstallationController.m; sourceTree = "<group>"; };
 		8E20CCCAB97338ABC821EADBEBD9B61D /* Pods-WeatherApp-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-WeatherApp-acknowledgements.plist"; sourceTree = "<group>"; };
 >>>>>>> Stashed changes
+=======
+		8E20CCCAB97338ABC821EADBEBD9B61D /* Pods-WeatherApp-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-WeatherApp-acknowledgements.plist"; sourceTree = "<group>"; };
+>>>>>>> a13b068926884cd0620685954bd95d8e858ea950
 		8E3B463003C92301812944DA5F10337D /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.3.sdk/System/Library/Frameworks/SystemConfiguration.framework; sourceTree = DEVELOPER_DIR; };
 		917D8F75C616F58BDD53125FD7F7E214 /* PFKeyValueCache.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFKeyValueCache.h; path = Parse/Parse/Internal/KeyValueCache/PFKeyValueCache.h; sourceTree = "<group>"; };
 		92E37F97D40225C396E0CE29D58E6756 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.3.sdk/System/Library/Frameworks/QuartzCore.framework; sourceTree = DEVELOPER_DIR; };
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+=======
+		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+>>>>>>> a13b068926884cd0620685954bd95d8e858ea950
 		953BB18568D53595AE9AB06BD6DD4B6D /* PFThreadsafety.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFThreadsafety.m; path = Parse/Parse/Internal/ThreadSafety/PFThreadsafety.m; sourceTree = "<group>"; };
 		9591E94D33348C0176BFD24C44EF6212 /* PFRESTObjectBatchCommand.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFRESTObjectBatchCommand.m; path = Parse/Parse/Internal/Commands/PFRESTObjectBatchCommand.m; sourceTree = "<group>"; };
 		95B038C91DA1ECC48715D0766FE893C3 /* PFQuery.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFQuery.m; path = Parse/Parse/PFQuery.m; sourceTree = "<group>"; };
 		96DA89229749F5BCCFD7DD159C90C5D5 /* PFMutableFileState.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFMutableFileState.m; path = Parse/Parse/Internal/File/State/PFMutableFileState.m; sourceTree = "<group>"; };
-		9711C97A6BBE575EC1B537CEE0B1269B /* Pods-WeatherAppTests-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-WeatherAppTests-resources.sh"; sourceTree = "<group>"; };
 		985621A88CB7D2A88F05218AF91BDC7D /* PFBaseState.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFBaseState.m; path = Parse/Parse/Internal/PFBaseState.m; sourceTree = "<group>"; };
 		9871C6096798427683285E0FBDC882E3 /* PFHash.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFHash.m; path = Parse/Parse/Internal/PFHash.m; sourceTree = "<group>"; };
 		9A292E4AE2B7EF7865521D49EE49034C /* PFSession.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFSession.m; path = Parse/Parse/PFSession.m; sourceTree = "<group>"; };
@@ -1232,9 +1266,9 @@
 		9BE4977F8FDFE6E8CC4F22BFC3E6BFD8 /* PFRESTConfigCommand.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFRESTConfigCommand.h; path = Parse/Parse/Internal/Commands/PFRESTConfigCommand.h; sourceTree = "<group>"; };
 		9C8970918FA9A718EB7BAB7EC13C2101 /* PFCategoryLoader.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFCategoryLoader.h; path = Parse/Parse/Internal/PFCategoryLoader.h; sourceTree = "<group>"; };
 		9D1C53641862504D8B570DDC011E2C20 /* PFAnalyticsUtilities.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFAnalyticsUtilities.m; path = Parse/Parse/Internal/Analytics/Utilities/PFAnalyticsUtilities.m; sourceTree = "<group>"; };
+		9DEACC290C8712500E43E665AED3B9D1 /* libPods-WeatherApp-Current Weather.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WeatherApp-Current Weather.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A080B496CB9CBB631FB1C5E325E9B58A /* PFRESTObjectBatchCommand.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFRESTObjectBatchCommand.h; path = Parse/Parse/Internal/Commands/PFRESTObjectBatchCommand.h; sourceTree = "<group>"; };
 		A148C18F1449D46B6D535A6DE48CE6E7 /* PFEventuallyQueue.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFEventuallyQueue.h; path = Parse/Parse/Internal/PFEventuallyQueue.h; sourceTree = "<group>"; };
-		A236DEBE039000281EBB772E3EF7CADC /* Pods-WeatherAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-WeatherAppTests.release.xcconfig"; sourceTree = "<group>"; };
 		A2D9F8832C7DE6254D263A972BF6B306 /* PFConfig.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFConfig.h; path = Parse/Parse/PFConfig.h; sourceTree = "<group>"; };
 		A43CBA6F1C3335FE95FCA636E3F42032 /* ParseModule.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ParseModule.h; path = Parse/Parse/Internal/ParseModule.h; sourceTree = "<group>"; };
 		A52D4EAEE64F26BB1D8423ACB76FD813 /* PFOfflineObjectController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFOfflineObjectController.m; path = Parse/Parse/Internal/Object/Controller/OfflineController/PFOfflineObjectController.m; sourceTree = "<group>"; };
@@ -1248,6 +1282,7 @@
 		A7B1C790C93C60B22F7A5EB6A4A879AC /* PFQueryConstants.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFQueryConstants.m; path = Parse/Parse/Internal/Query/PFQueryConstants.m; sourceTree = "<group>"; };
 		A8627023E312AADBE0DAE6F89D80F47A /* PFCommandResult.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFCommandResult.m; path = Parse/Parse/Internal/PFCommandResult.m; sourceTree = "<group>"; };
 		A9BAC3E998D5052948AAB4A341EC2684 /* PFProduct+Private.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "PFProduct+Private.h"; path = "Parse/Parse/Internal/Product/PFProduct+Private.h"; sourceTree = "<group>"; };
+		A9E262269B8043AB2482205A7F0594E9 /* Pods-WeatherApp-Current Weather.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-WeatherApp-Current Weather.release.xcconfig"; sourceTree = "<group>"; };
 		AA58C43A70B4395CA283682628239507 /* PFACL.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFACL.m; path = Parse/Parse/PFACL.m; sourceTree = "<group>"; };
 		AC5BF859CD4C885494CE35246ABA092D /* PFPushState.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFPushState.m; path = Parse/Parse/Internal/Push/State/PFPushState.m; sourceTree = "<group>"; };
 		AC5DDE377EA749B4E4D44F746D13F823 /* PFRESTPushCommand.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFRESTPushCommand.h; path = Parse/Parse/Internal/Commands/PFRESTPushCommand.h; sourceTree = "<group>"; };
@@ -1255,6 +1290,7 @@
 		AD0748058B7EF69F6A2BD3494F2F40AC /* PFFieldOperationDecoder.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFFieldOperationDecoder.m; path = Parse/Parse/Internal/FieldOperation/PFFieldOperationDecoder.m; sourceTree = "<group>"; };
 		ADCFFE53060C5564E927195E2896946B /* PFCachedQueryController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFCachedQueryController.m; path = Parse/Parse/Internal/Query/Controller/PFCachedQueryController.m; sourceTree = "<group>"; };
 		ADED00494F560CB9EC700A84B1F274D9 /* PFInstallationConstants.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFInstallationConstants.h; path = Parse/Parse/Internal/Installation/Constants/PFInstallationConstants.h; sourceTree = "<group>"; };
+		AEE3F30F0006CA07209001E3E356A7CB /* Pods-WeatherApp-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-WeatherApp-acknowledgements.markdown"; sourceTree = "<group>"; };
 		AF02E861DA4106E5E9377AEA72420979 /* PFPropertyInfo_Runtime.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFPropertyInfo_Runtime.m; path = Parse/Parse/Internal/PropertyInfo/PFPropertyInfo_Runtime.m; sourceTree = "<group>"; };
 		AF4CF42E0872D033FF87E935A0F3BFD9 /* PFURLSessionFileDownloadTaskDelegate.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFURLSessionFileDownloadTaskDelegate.h; path = Parse/Parse/Internal/Commands/CommandRunner/URLSession/Session/TaskDelegate/PFURLSessionFileDownloadTaskDelegate.h; sourceTree = "<group>"; };
 		AF571E6AFD0A53EAF661C87A7BEF8831 /* Parse_Private.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = Parse_Private.h; path = Parse/Parse/Internal/Parse_Private.h; sourceTree = "<group>"; };
@@ -1265,14 +1301,13 @@
 		B50995B60E309B11B5E63F4F43289F9C /* PFPinningObjectStore.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFPinningObjectStore.m; path = Parse/Parse/Internal/Object/PinningStore/PFPinningObjectStore.m; sourceTree = "<group>"; };
 		B653112F2296CC500DB9FEDEED69067C /* PFCloudCodeController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFCloudCodeController.m; path = Parse/Parse/Internal/CloudCode/PFCloudCodeController.m; sourceTree = "<group>"; };
 		B6558DD75FCD63E540D2CBD1439823B4 /* PFObjectState_Private.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFObjectState_Private.h; path = Parse/Parse/Internal/Object/State/PFObjectState_Private.h; sourceTree = "<group>"; };
+		B684F641366230346D4FC17873FF49ED /* libPods-WeatherApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WeatherApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B6B2E4AD614548CDCC5CC449AFCD1110 /* PFPurchase.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFPurchase.h; path = Parse/Parse/PFPurchase.h; sourceTree = "<group>"; };
 		B6D7AEDBE91FF52B8BFACFB9801E0F46 /* PFFilePersistenceGroup.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFFilePersistenceGroup.h; path = Parse/Parse/Internal/Persistence/Group/PFFilePersistenceGroup.h; sourceTree = "<group>"; };
 		B77DE2CABA0BD5A57846C092ABAE38F8 /* Parse.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Parse.xcconfig; sourceTree = "<group>"; };
 		B830CFB33E47D107CD09A9AF2557734B /* PFKeyValueCache.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFKeyValueCache.h; path = Parse/Parse/Internal/KeyValueCache/PFKeyValueCache.h; sourceTree = "<group>"; };
 		B834FC634A2892A9EC846121D0273D6A /* PFFile+Deprecated.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "PFFile+Deprecated.h"; path = "Parse/Parse/PFFile+Deprecated.h"; sourceTree = "<group>"; };
 		B896465DA079FE56B9878014EF701735 /* PFCommandRunning.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFCommandRunning.h; path = Parse/Parse/Internal/Commands/CommandRunner/PFCommandRunning.h; sourceTree = "<group>"; };
-		B9708D6E35269E709D390F1C12363975 /* Pods-WeatherAppTests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-WeatherAppTests-acknowledgements.plist"; sourceTree = "<group>"; };
-		BA26D033BC16D907A46617005022E6FE /* Pods-WeatherApp-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-WeatherApp-acknowledgements.plist"; sourceTree = "<group>"; };
 		BAD9433EF264D54F63E3BBA9C6E2D5D7 /* PFCommandURLRequestConstructor.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFCommandURLRequestConstructor.h; path = Parse/Parse/Internal/Commands/CommandRunner/URLRequestConstructor/PFCommandURLRequestConstructor.h; sourceTree = "<group>"; };
 		BB3D70BC9A9A59536183B5BDF1ECAB54 /* PFSubclassing.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFSubclassing.h; path = Parse/Parse/PFSubclassing.h; sourceTree = "<group>"; };
 		BD83849B2AD3FEF73BFFB50E864E45DF /* PFFileManager.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFFileManager.h; path = Parse/Parse/Internal/PFFileManager.h; sourceTree = "<group>"; };
@@ -1290,10 +1325,11 @@
 		C7965BD93ECABEF9ACEDA1315FE230AE /* PFCloud.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFCloud.m; path = Parse/Parse/PFCloud.m; sourceTree = "<group>"; };
 		C7FB90D50B15207B993973C326F798C9 /* PFPushUtilities.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFPushUtilities.h; path = Parse/Parse/Internal/Push/Utilites/PFPushUtilities.h; sourceTree = "<group>"; };
 		C8BF2B3548AECF91F946EE2B0D4ED469 /* PFProductsRequestHandler.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFProductsRequestHandler.h; path = Parse/Parse/Internal/Product/ProductsRequestHandler/PFProductsRequestHandler.h; sourceTree = "<group>"; };
+		C93F18317E0174D074CA3A25151C2583 /* Pods-WeatherAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-WeatherAppTests.debug.xcconfig"; sourceTree = "<group>"; };
 		C99F8798080BDA5682626CCCC135AFED /* PFNetworkActivityIndicatorManager.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFNetworkActivityIndicatorManager.m; path = Parse/Parse/PFNetworkActivityIndicatorManager.m; sourceTree = "<group>"; };
 		CA71E3992C4540347242FB71291DD0E4 /* PFReachability.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFReachability.h; path = Parse/Parse/Internal/PFReachability.h; sourceTree = "<group>"; };
 		CACE09FEC7E350C616A601AE3BAEFBE7 /* PFUserAuthenticationController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFUserAuthenticationController.m; path = Parse/Parse/Internal/User/AuthenticationProviders/Controller/PFUserAuthenticationController.m; sourceTree = "<group>"; };
-		CEB501FFD88E80CF41E9C76BF6166276 /* Pods-WeatherAppTests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-WeatherAppTests-acknowledgements.markdown"; sourceTree = "<group>"; };
+		CF85DAC948321EFD3163CB6C5CE2D17C /* Pods-WeatherApp-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-WeatherApp-resources.sh"; sourceTree = "<group>"; };
 		CF9E5915CBB75CCBE14DC6C58DDD6542 /* PFDateFormatter.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFDateFormatter.h; path = Parse/Parse/Internal/PFDateFormatter.h; sourceTree = "<group>"; };
 		D09DA233846F4ED6E913EE1484036CC7 /* PFQuery+Synchronous.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "PFQuery+Synchronous.h"; path = "Parse/Parse/PFQuery+Synchronous.h"; sourceTree = "<group>"; };
 		D0B36866877CE4E2075C268939A1D31C /* PFPersistenceGroup.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFPersistenceGroup.h; path = Parse/Parse/Internal/Persistence/Group/PFPersistenceGroup.h; sourceTree = "<group>"; };
@@ -1304,6 +1340,7 @@
 		D2832AC1D013BFD1A9B9088668DCD69C /* PFEventuallyPin.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFEventuallyPin.m; path = Parse/Parse/Internal/PFEventuallyPin.m; sourceTree = "<group>"; };
 		D2833391D84094BAE3BF799E90A5DD27 /* PFObjectUtilities.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFObjectUtilities.h; path = Parse/Parse/Internal/Object/Utilities/PFObjectUtilities.h; sourceTree = "<group>"; };
 		D2CAB12B474BC1886B1136439B37AFAA /* PFMulticastDelegate.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFMulticastDelegate.m; path = Parse/Parse/Internal/PFMulticastDelegate.m; sourceTree = "<group>"; };
+		D2E6FDA29A7324D82674F68D5BA965F7 /* Pods-WeatherAppTests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-WeatherAppTests-dummy.m"; sourceTree = "<group>"; };
 		D3786AFB14123EFF2A9461B3D66E96A3 /* Bolts.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = Bolts.h; path = Bolts/Common/Bolts.h; sourceTree = "<group>"; };
 		D49FA32AD8242CD4A196B386A31CD0E2 /* PFURLSessionJSONDataTaskDelegate.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFURLSessionJSONDataTaskDelegate.h; path = Parse/Parse/Internal/Commands/CommandRunner/URLSession/Session/TaskDelegate/PFURLSessionJSONDataTaskDelegate.h; sourceTree = "<group>"; };
 		D4A3E86E487F25B488E8F77A64A98816 /* PFCloud.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFCloud.h; path = Parse/Parse/PFCloud.h; sourceTree = "<group>"; };
@@ -1311,7 +1348,6 @@
 		D55906A63870231FFB21C499182DCC22 /* PFCommandRunning.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFCommandRunning.m; path = Parse/Parse/Internal/Commands/CommandRunner/PFCommandRunning.m; sourceTree = "<group>"; };
 		D60DA6F8520073A2F1FE07B8AA58332F /* PFMutableUserState.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFMutableUserState.h; path = Parse/Parse/Internal/User/State/PFMutableUserState.h; sourceTree = "<group>"; };
 		D780A471E1DDE7CFD71DACF737ED0BBA /* PFFileDataStream.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFFileDataStream.m; path = Parse/Parse/Internal/File/FileDataStream/PFFileDataStream.m; sourceTree = "<group>"; };
-		D7D6CC23311727C92D4793FD2F57D743 /* Pods-WeatherAppTests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-WeatherAppTests-frameworks.sh"; sourceTree = "<group>"; };
 		D7E862487D004FDC2756D1FE630F7F36 /* PFPinningEventuallyQueue.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFPinningEventuallyQueue.m; path = Parse/Parse/Internal/PFPinningEventuallyQueue.m; sourceTree = "<group>"; };
 		D8410FADFF8C8BFFD92E9997151AD33E /* PFLogger.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFLogger.m; path = Parse/Parse/Internal/PFLogger.m; sourceTree = "<group>"; };
 		D8424907EA12C0A525278B6041B39ABC /* PFInstallationIdentifierStore_Private.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFInstallationIdentifierStore_Private.h; path = Parse/Parse/Internal/Installation/InstallationIdentifierStore/PFInstallationIdentifierStore_Private.h; sourceTree = "<group>"; };
@@ -1322,6 +1358,7 @@
 		DC52731F1060A4D87C279CA54DA567CD /* PFJSONSerialization.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFJSONSerialization.h; path = Parse/Parse/Internal/PFJSONSerialization.h; sourceTree = "<group>"; };
 		DCA18AAD24C32E29F504F1BDDC272F69 /* PFUser+Synchronous.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "PFUser+Synchronous.h"; path = "Parse/Parse/PFUser+Synchronous.h"; sourceTree = "<group>"; };
 		DD03A34188D823C4040080BC0AD9EB3E /* PFObjectConstants.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFObjectConstants.h; path = Parse/Parse/Internal/Object/Constants/PFObjectConstants.h; sourceTree = "<group>"; };
+		DD2F75256D2BB79FA4354AF79DD29D6E /* Pods-WeatherApp-Current Weather-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-WeatherApp-Current Weather-dummy.m"; sourceTree = "<group>"; };
 		DD71EF1964C7AD3FA1614358E7EB5869 /* ResourceBundle-Parse-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "ResourceBundle-Parse-Info.plist"; sourceTree = "<group>"; };
 		DDE371E36743FB512CDF1F17727A3122 /* PFCloudCodeController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFCloudCodeController.h; path = Parse/Parse/Internal/CloudCode/PFCloudCodeController.h; sourceTree = "<group>"; };
 		DE49BA4AD1BB89F11FBC6BFD67E0238C /* Bolts-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Bolts-prefix.pch"; sourceTree = "<group>"; };
@@ -1350,6 +1387,8 @@
 		E7E21198CA33EEF4036DC7E2F230044B /* PFProduct.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFProduct.m; path = Parse/Parse/PFProduct.m; sourceTree = "<group>"; };
 		E833B7650D3E1F79DA7DAB2EBFA52846 /* PFObject+Subclass.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "PFObject+Subclass.h"; path = "Parse/Parse/PFObject+Subclass.h"; sourceTree = "<group>"; };
 		E83A7980F6F50C21C6B6F3BFEF9F5835 /* PFACLState_Private.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFACLState_Private.h; path = Parse/Parse/Internal/ACL/State/PFACLState_Private.h; sourceTree = "<group>"; };
+		E9CA108BC4204E5BFD5AED08ADE51B57 /* Pods-WeatherApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-WeatherApp.release.xcconfig"; sourceTree = "<group>"; };
+		EA48E8AA1A913A49151F5F70AC94A6FE /* Pods-WeatherAppUITests-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-WeatherAppUITests-resources.sh"; sourceTree = "<group>"; };
 		EA582E52A23D50BF1B84154543A39A4A /* PFQueryState_Private.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFQueryState_Private.h; path = Parse/Parse/Internal/Query/State/PFQueryState_Private.h; sourceTree = "<group>"; };
 		EAB0667537BAFD2DAC5BEC2038067C3E /* PFFileDataStream.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFFileDataStream.h; path = Parse/Parse/Internal/File/FileDataStream/PFFileDataStream.h; sourceTree = "<group>"; };
 		EB0506C4C1F6ABAB3519F73DACE1C00F /* PFSQLiteDatabaseController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFSQLiteDatabaseController.m; path = Parse/Parse/Internal/LocalDataStore/SQLite/PFSQLiteDatabaseController.m; sourceTree = "<group>"; };
@@ -1369,6 +1408,7 @@
 		EFFAECCB05B507C929FF63ADEC607DF1 /* PFInstallation.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFInstallation.h; path = Parse/Parse/PFInstallation.h; sourceTree = "<group>"; };
 		F056C943D330647E7AAA23CC78C5BF36 /* PFPush.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFPush.h; path = Parse/Parse/PFPush.h; sourceTree = "<group>"; };
 		F155CEE4EE70286C27ED816B740FB4A9 /* PFACLPrivate.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFACLPrivate.h; path = Parse/Parse/Internal/ACL/PFACLPrivate.h; sourceTree = "<group>"; };
+		F168769FCC203DD58DC8D6A5DBE191D4 /* Parse.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Parse.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		F17E603C12E8FA3AE04C1214AEFAF933 /* BFGeneric.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = BFGeneric.h; path = Bolts/Common/BFGeneric.h; sourceTree = "<group>"; };
 		F2728262EC4B4CE41F76C6698ACC9F6B /* PFCachedQueryController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFCachedQueryController.h; path = Parse/Parse/Internal/Query/Controller/PFCachedQueryController.h; sourceTree = "<group>"; };
 		F27788749108F2711E91CD56B9E59BB6 /* PFHTTPRequest.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFHTTPRequest.h; path = Parse/Parse/Internal/HTTPRequest/PFHTTPRequest.h; sourceTree = "<group>"; };
@@ -1381,16 +1421,13 @@
 		F40B74F00BB580E3366F123689BF7640 /* PFSQLiteDatabaseResult.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFSQLiteDatabaseResult.m; path = Parse/Parse/Internal/LocalDataStore/SQLite/PFSQLiteDatabaseResult.m; sourceTree = "<group>"; };
 		F4A78D17659F1136E737C9B5A32D458E /* PFLogger.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFLogger.h; path = Parse/Parse/Internal/PFLogger.h; sourceTree = "<group>"; };
 		F4C07CF391628C415A9A9E49257AA5BB /* PFPersistenceController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFPersistenceController.m; path = Parse/Parse/Internal/Persistence/PFPersistenceController.m; sourceTree = "<group>"; };
-		F66E09F8E9A4D83F76419A910CF496E7 /* libParse.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = libParse.a; path = libParse.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		F6A213DFC16EBBBDDDA825AFA82C3833 /* PFFileController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFFileController.m; path = Parse/Parse/Internal/File/Controller/PFFileController.m; sourceTree = "<group>"; };
 		F8139C993BCF048BC84FDFB2492675F2 /* PFUserDefaultsPersistenceGroup.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFUserDefaultsPersistenceGroup.h; path = Parse/Parse/Internal/Persistence/Group/PFUserDefaultsPersistenceGroup.h; sourceTree = "<group>"; };
 		F8801DD37B2C0EE37D49263D1D6413D7 /* PFSessionUtilities.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFSessionUtilities.m; path = Parse/Parse/Internal/Session/Utilities/PFSessionUtilities.m; sourceTree = "<group>"; };
 		F8FE4869886A4E507C6736432BB1520F /* PFFieldOperation.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFFieldOperation.h; path = Parse/Parse/Internal/FieldOperation/PFFieldOperation.h; sourceTree = "<group>"; };
 		FA1C24211DCBD633C7E0E0C10C5095E3 /* PFPushPrivate.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFPushPrivate.h; path = Parse/Parse/Internal/Push/PFPushPrivate.h; sourceTree = "<group>"; };
-		FA2CBC831AE3E4346D0257992710BF23 /* Pods-WeatherApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-WeatherApp.debug.xcconfig"; sourceTree = "<group>"; };
 		FA49870D832367CDEDC97122EAB0E43C /* ParseClientConfiguration_Private.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ParseClientConfiguration_Private.h; path = Parse/Parse/Internal/ParseClientConfiguration_Private.h; sourceTree = "<group>"; };
 		FB41D3A4B16DFCF331C5C1ABA0C3F480 /* PFEventuallyPin.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFEventuallyPin.h; path = Parse/Parse/Internal/PFEventuallyPin.h; sourceTree = "<group>"; };
-		FBDD1004A27220F8D1725BE7F3E8070B /* Pods-WeatherAppUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-WeatherAppUITests.release.xcconfig"; sourceTree = "<group>"; };
 		FC85DE52DB06D67EAADBAE9D5B76325C /* PFUser.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFUser.m; path = Parse/Parse/PFUser.m; sourceTree = "<group>"; };
 		FD2574C8DF191B742DE32A79A13FC5C3 /* ParseInternal.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ParseInternal.h; path = Parse/Parse/Internal/ParseInternal.h; sourceTree = "<group>"; };
 		FD7600E166AAE2F8192652D340953E96 /* Parse-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Parse-dummy.m"; sourceTree = "<group>"; };
@@ -1398,7 +1435,6 @@
 		FE9AD70B46AE4AC114570ABB173A8C76 /* PFObjectLocalIdStore.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFObjectLocalIdStore.h; path = Parse/Parse/Internal/Object/LocalIdStore/PFObjectLocalIdStore.h; sourceTree = "<group>"; };
 		FF250C6F10A49A0C0B130F02039DDA28 /* PFKeychainStore.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFKeychainStore.m; path = Parse/Parse/Internal/PFKeychainStore.m; sourceTree = "<group>"; };
 		FF465DB78C983143EA17C580F88E2519 /* PFACLState.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFACLState.h; path = Parse/Parse/Internal/ACL/State/PFACLState.h; sourceTree = "<group>"; };
-		FF5EB1D4E0E88EDCBB58E9D938A92B2C /* Pods-WeatherApp-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-WeatherApp-acknowledgements.markdown"; sourceTree = "<group>"; };
 		FFFC84665926E11A72451CD88D7620FB /* PFQueryUtilities.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFQueryUtilities.m; path = Parse/Parse/Internal/Query/Utilities/PFQueryUtilities.m; sourceTree = "<group>"; };
 =======
 		938DECE3E3434B55FB92B3F731C4212C /* PFRESTAnalyticsCommand.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFRESTAnalyticsCommand.h; path = Parse/Parse/Internal/Commands/PFRESTAnalyticsCommand.h; sourceTree = "<group>"; };
@@ -1625,7 +1661,17 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+<<<<<<< HEAD
 >>>>>>> Stashed changes
+=======
+		A127BCB79F535C5FD65BDF65445FCE54 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+>>>>>>> a13b068926884cd0620685954bd95d8e858ea950
 		CF5405BBEE54FCDCB0EF0005491BB26A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -1658,7 +1704,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+<<<<<<< HEAD
 <<<<<<< Updated upstream
+=======
+		17F582EB970445F13B91CBD9381AC599 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				31466DE5098EAFB27FB50B0E2F6A792F /* libBolts.a */,
+				07150FE613FDA55D81516C7E7A1F8BD4 /* libParse.a */,
+				B684F641366230346D4FC17873FF49ED /* libPods-WeatherApp.a */,
+				9DEACC290C8712500E43E665AED3B9D1 /* libPods-WeatherApp-Current Weather.a */,
+				216FF90A5C2C9210AC7B257177700B92 /* libPods-WeatherAppTests.a */,
+				07A7CC9A25A929A14EAB69CE06685655 /* libPods-WeatherAppUITests.a */,
+				F168769FCC203DD58DC8D6A5DBE191D4 /* Parse.bundle */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+>>>>>>> a13b068926884cd0620685954bd95d8e858ea950
 		26AE00BD73AD2F35F3D83D971B33E5D1 /* Support Files */ = {
 =======
 		05C888891B9598DCE2B468F9A4BA4221 /* Pods */ = {
@@ -1701,42 +1764,33 @@
 			path = MBProgressHUD;
 			sourceTree = "<group>";
 		};
-		2CFFABB4009F8C1B6B484039552F9325 /* Products */ = {
+		42240DD24D8E1EB0ACA63B863496BD10 /* Pods-WeatherApp-Current Weather */ = {
 			isa = PBXGroup;
 			children = (
-				397C359D130BD0008B0AB3AC04E68FF2 /* libBolts.a */,
-				F66E09F8E9A4D83F76419A910CF496E7 /* libParse.a */,
-				806F3BC785AAE818A9F79838FBFF8C19 /* libPods-WeatherApp.a */,
-				1F69571375C4F8B60760D6A89077DB1E /* libPods-WeatherAppTests.a */,
-				88AA79624439743F858E3898EEDECE2F /* libPods-WeatherAppUITests.a */,
-				0A91090E47473414D976653D0FFDD94B /* Parse.bundle */,
+				6FB2835164A7F29A77EAAC1ABA06B05A /* Pods-WeatherApp-Current Weather-acknowledgements.markdown */,
+				0F88FD79623D2EA30E44DD9E802E0448 /* Pods-WeatherApp-Current Weather-acknowledgements.plist */,
+				DD2F75256D2BB79FA4354AF79DD29D6E /* Pods-WeatherApp-Current Weather-dummy.m */,
+				055E79DBA7FDCDC27F999338291BA665 /* Pods-WeatherApp-Current Weather-resources.sh */,
+				5361A01BD9C3DCC991A3BE7469D1C6FA /* Pods-WeatherApp-Current Weather.debug.xcconfig */,
+				A9E262269B8043AB2482205A7F0594E9 /* Pods-WeatherApp-Current Weather.release.xcconfig */,
 			);
-			name = Products;
+			name = "Pods-WeatherApp-Current Weather";
+			path = "Target Support Files/Pods-WeatherApp-Current Weather";
 			sourceTree = "<group>";
 		};
-		39627099A71EA68D948A89852948D8C8 /* Targets Support Files */ = {
+		483B20B71D747004F6A858FFCFB3D641 /* Pods-WeatherAppUITests */ = {
 			isa = PBXGroup;
 			children = (
-				A57BCF76671BABD8470185B6A360196A /* Pods-WeatherApp */,
-				4298C3FC304402DF77E7810BC5E26BCF /* Pods-WeatherAppTests */,
-				EB9DAC5C0247F8EC1FFCE4EA8570072B /* Pods-WeatherAppUITests */,
+				37850625421C62427B237C55185CCB90 /* Pods-WeatherAppUITests-acknowledgements.markdown */,
+				535F1D064AC7A5487278F5355EF03772 /* Pods-WeatherAppUITests-acknowledgements.plist */,
+				0BA9B133592B254D6E75D1BB7F865583 /* Pods-WeatherAppUITests-dummy.m */,
+				70723DDB295746A009DFF53ED77AD8FD /* Pods-WeatherAppUITests-frameworks.sh */,
+				EA48E8AA1A913A49151F5F70AC94A6FE /* Pods-WeatherAppUITests-resources.sh */,
+				5E3383073822153FB72BF80C36A67729 /* Pods-WeatherAppUITests.debug.xcconfig */,
+				0D78431756BD9FC74F13C516B4588226 /* Pods-WeatherAppUITests.release.xcconfig */,
 			);
-			name = "Targets Support Files";
-			sourceTree = "<group>";
-		};
-		4298C3FC304402DF77E7810BC5E26BCF /* Pods-WeatherAppTests */ = {
-			isa = PBXGroup;
-			children = (
-				CEB501FFD88E80CF41E9C76BF6166276 /* Pods-WeatherAppTests-acknowledgements.markdown */,
-				B9708D6E35269E709D390F1C12363975 /* Pods-WeatherAppTests-acknowledgements.plist */,
-				4488EFE7AE97CC28BB60537FB4686CDA /* Pods-WeatherAppTests-dummy.m */,
-				D7D6CC23311727C92D4793FD2F57D743 /* Pods-WeatherAppTests-frameworks.sh */,
-				9711C97A6BBE575EC1B537CEE0B1269B /* Pods-WeatherAppTests-resources.sh */,
-				3790197C2E34C02B2F83773AE168B977 /* Pods-WeatherAppTests.debug.xcconfig */,
-				A236DEBE039000281EBB772E3EF7CADC /* Pods-WeatherAppTests.release.xcconfig */,
-			);
-			name = "Pods-WeatherAppTests";
-			path = "Target Support Files/Pods-WeatherAppTests";
+			name = "Pods-WeatherAppUITests";
+			path = "Target Support Files/Pods-WeatherAppUITests";
 			sourceTree = "<group>";
 		};
 <<<<<<< Updated upstream
@@ -1746,7 +1800,6 @@
 				6B470C49459A8374049F8F4839F1840E /* Core */,
 				26AE00BD73AD2F35F3D83D971B33E5D1 /* Support Files */,
 			);
-			name = Parse;
 			path = Parse;
 			sourceTree = "<group>";
 		};
@@ -1775,6 +1828,17 @@
 			name = Tasks;
 			sourceTree = "<group>";
 		};
+		6D426420ED6E9C1E7DFE4DB87B10E618 /* Targets Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				D93D964FF0F957BE16FA00167EF90F70 /* Pods-WeatherApp */,
+				42240DD24D8E1EB0ACA63B863496BD10 /* Pods-WeatherApp-Current Weather */,
+				B28F07BD02364A4974EF544D310F71B0 /* Pods-WeatherAppTests */,
+				483B20B71D747004F6A858FFCFB3D641 /* Pods-WeatherAppUITests */,
+			);
+			name = "Targets Support Files";
+			sourceTree = "<group>";
+		};
 		785553737B06AFC3DA711DDEB7D56194 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -1790,6 +1854,7 @@
 				785553737B06AFC3DA711DDEB7D56194 /* Frameworks */,
 <<<<<<< Updated upstream
 				684FB1214C199282C81566D83A5E7EDC /* Pods */,
+<<<<<<< HEAD
 				2CFFABB4009F8C1B6B484039552F9325 /* Products */,
 				39627099A71EA68D948A89852948D8C8 /* Targets Support Files */,
 =======
@@ -1797,6 +1862,10 @@
 				9F034815D03AB8A2BF24B342CE4F4077 /* Products */,
 				6D426420ED6E9C1E7DFE4DB87B10E618 /* Targets Support Files */,
 >>>>>>> Stashed changes
+=======
+				17F582EB970445F13B91CBD9381AC599 /* Products */,
+				6D426420ED6E9C1E7DFE4DB87B10E618 /* Targets Support Files */,
+>>>>>>> a13b068926884cd0620685954bd95d8e858ea950
 			);
 			sourceTree = "<group>";
 		};
@@ -2221,19 +2290,19 @@
 			path = "../Target Support Files/Bolts";
 			sourceTree = "<group>";
 		};
-		A57BCF76671BABD8470185B6A360196A /* Pods-WeatherApp */ = {
+		B28F07BD02364A4974EF544D310F71B0 /* Pods-WeatherAppTests */ = {
 			isa = PBXGroup;
 			children = (
-				FF5EB1D4E0E88EDCBB58E9D938A92B2C /* Pods-WeatherApp-acknowledgements.markdown */,
-				BA26D033BC16D907A46617005022E6FE /* Pods-WeatherApp-acknowledgements.plist */,
-				5BCF482ED7E6BDE9D9C345D03389E4AD /* Pods-WeatherApp-dummy.m */,
-				0C28C0CBB0CE6BE5F511D958534BBB87 /* Pods-WeatherApp-frameworks.sh */,
-				3C46379F314619097AC9956AB351A878 /* Pods-WeatherApp-resources.sh */,
-				FA2CBC831AE3E4346D0257992710BF23 /* Pods-WeatherApp.debug.xcconfig */,
-				27D37D5F8EE1C0616D02B5FFFB94BF50 /* Pods-WeatherApp.release.xcconfig */,
+				83648CC648950DE0B4D89B8393FE1A96 /* Pods-WeatherAppTests-acknowledgements.markdown */,
+				88B49F60F41CE072FC32632749B67035 /* Pods-WeatherAppTests-acknowledgements.plist */,
+				D2E6FDA29A7324D82674F68D5BA965F7 /* Pods-WeatherAppTests-dummy.m */,
+				103E3CF2317C6BF44EBC796153E68B6C /* Pods-WeatherAppTests-frameworks.sh */,
+				42F5CAB571412C62351A0A3F34B12C2E /* Pods-WeatherAppTests-resources.sh */,
+				C93F18317E0174D074CA3A25151C2583 /* Pods-WeatherAppTests.debug.xcconfig */,
+				886222F7E5216BC1E8EA792D158D6DFC /* Pods-WeatherAppTests.release.xcconfig */,
 			);
-			name = "Pods-WeatherApp";
-			path = "Target Support Files/Pods-WeatherApp";
+			name = "Pods-WeatherAppTests";
+			path = "Target Support Files/Pods-WeatherAppTests";
 			sourceTree = "<group>";
 		};
 		B7151C90C7E908CE087ACE3354B3F360 /* Support Files */ = {
@@ -2244,8 +2313,11 @@
 				470E5731CD15EC5FDA7AD2747122FE5A /* Parse-prefix.pch */,
 				F2332710BD15AF855893C3BB3758E0BE /* ResourceBundle-Parse-Info.plist */,
 			);
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 			name = Bolts;
+=======
+>>>>>>> a13b068926884cd0620685954bd95d8e858ea950
 			path = Bolts;
 =======
 			name = "Support Files";
@@ -2268,19 +2340,19 @@
 			name = iOS;
 			sourceTree = "<group>";
 		};
-		EB9DAC5C0247F8EC1FFCE4EA8570072B /* Pods-WeatherAppUITests */ = {
+		D93D964FF0F957BE16FA00167EF90F70 /* Pods-WeatherApp */ = {
 			isa = PBXGroup;
 			children = (
-				5B320F2DCA06E013752BE54BB26DF602 /* Pods-WeatherAppUITests-acknowledgements.markdown */,
-				290F0A5D39C2823FD199422D2D30B9F3 /* Pods-WeatherAppUITests-acknowledgements.plist */,
-				405F8250263B09C00BB4FAD30704C3BA /* Pods-WeatherAppUITests-dummy.m */,
-				2D86BD66CEFE64E97C36EB87E1C9C054 /* Pods-WeatherAppUITests-frameworks.sh */,
-				4EA15329E38CD66E63ED2349920E4FB4 /* Pods-WeatherAppUITests-resources.sh */,
-				0D1AD96FA7C906CEF0E06E53F32C758E /* Pods-WeatherAppUITests.debug.xcconfig */,
-				FBDD1004A27220F8D1725BE7F3E8070B /* Pods-WeatherAppUITests.release.xcconfig */,
+				AEE3F30F0006CA07209001E3E356A7CB /* Pods-WeatherApp-acknowledgements.markdown */,
+				8E20CCCAB97338ABC821EADBEBD9B61D /* Pods-WeatherApp-acknowledgements.plist */,
+				039D777B3EDE1805C0B591CCBAB9EA8D /* Pods-WeatherApp-dummy.m */,
+				764DAE50E955F06269D38AE5D0508D7D /* Pods-WeatherApp-frameworks.sh */,
+				CF85DAC948321EFD3163CB6C5CE2D17C /* Pods-WeatherApp-resources.sh */,
+				363A7720A6C9BF06AB8C40D55179CB4E /* Pods-WeatherApp.debug.xcconfig */,
+				E9CA108BC4204E5BFD5AED08ADE51B57 /* Pods-WeatherApp.release.xcconfig */,
 			);
-			name = "Pods-WeatherAppUITests";
-			path = "Target Support Files/Pods-WeatherAppUITests";
+			name = "Pods-WeatherApp";
+			path = "Target Support Files/Pods-WeatherApp";
 			sourceTree = "<group>";
 		};
 		F354114867283F163A18DF5D4C1F8143 /* Parse */ = {
@@ -2564,6 +2636,7 @@
 			);
 			name = "Pods-WeatherAppUITests";
 			productName = "Pods-WeatherAppUITests";
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 			productReference = 88AA79624439743F858E3898EEDECE2F /* libPods-WeatherAppUITests.a */;
 =======
@@ -2576,10 +2649,22 @@
 			buildPhases = (
 				26D4208C7FCB1ABC33100A5CBA858BF5 /* Sources */,
 				02A1E840DCA2573F73B50158E651DD4F /* Frameworks */,
+=======
+			productReference = 07A7CC9A25A929A14EAB69CE06685655 /* libPods-WeatherAppUITests.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		1F7D9340C67979E81234CE3BEB0FFE0C /* Pods-WeatherApp-Current Weather */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 76813004527C8405BEB9C5C71E26C03B /* Build configuration list for PBXNativeTarget "Pods-WeatherApp-Current Weather" */;
+			buildPhases = (
+				053C07965723EF3D7AC4C84438B3283C /* Sources */,
+				A127BCB79F535C5FD65BDF65445FCE54 /* Frameworks */,
+>>>>>>> a13b068926884cd0620685954bd95d8e858ea950
 			);
 			buildRules = (
 			);
 			dependencies = (
+<<<<<<< HEAD
 				FC57FD668AF876B3EABFA0EA54214DB9 /* PBXTargetDependency */,
 				DF3BA96CB79CF0D232FA8265502C0E85 /* PBXTargetDependency */,
 				51ACA78C01D344586937FDE1D8A6AAC0 /* PBXTargetDependency */,
@@ -2605,6 +2690,14 @@
 			productName = MBProgressHUD;
 			productReference = 07DB19E11D382E57F52D6DF8E96C2D7D /* libMBProgressHUD.a */;
 >>>>>>> Stashed changes
+=======
+				5D4775C581973C47313AE79D00122FA3 /* PBXTargetDependency */,
+				F58975B911350775CDD1EE8D8F0BE20A /* PBXTargetDependency */,
+			);
+			name = "Pods-WeatherApp-Current Weather";
+			productName = "Pods-WeatherApp-Current Weather";
+			productReference = 9DEACC290C8712500E43E665AED3B9D1 /* libPods-WeatherApp-Current Weather.a */;
+>>>>>>> a13b068926884cd0620685954bd95d8e858ea950
 			productType = "com.apple.product-type.library.static";
 		};
 		26BF235B420589570D8C83E44CF0C52A /* Bolts */ = {
@@ -2621,11 +2714,15 @@
 			);
 			name = Bolts;
 			productName = Bolts;
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 			productReference = 397C359D130BD0008B0AB3AC04E68FF2 /* libBolts.a */;
 =======
 			productReference = B7CB6C5A2E0D28E7AA31397C146EF2C4 /* libBolts.a */;
 >>>>>>> Stashed changes
+=======
+			productReference = 31466DE5098EAFB27FB50B0E2F6A792F /* libBolts.a */;
+>>>>>>> a13b068926884cd0620685954bd95d8e858ea950
 			productType = "com.apple.product-type.library.static";
 		};
 		3DF054000B2FF5B37DE1AC953D05BE4B /* Pods-WeatherApp */ = {
@@ -2644,11 +2741,15 @@
 			);
 			name = "Pods-WeatherApp";
 			productName = "Pods-WeatherApp";
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 			productReference = 806F3BC785AAE818A9F79838FBFF8C19 /* libPods-WeatherApp.a */;
 =======
 			productReference = 54C3A7968DF0715C38E5B16D1AB63F7D /* libPods-WeatherApp.a */;
 >>>>>>> Stashed changes
+=======
+			productReference = B684F641366230346D4FC17873FF49ED /* libPods-WeatherApp.a */;
+>>>>>>> a13b068926884cd0620685954bd95d8e858ea950
 			productType = "com.apple.product-type.library.static";
 		};
 		7280F5058E71F852EC60F38DC3F8F09E /* Parse-Parse */ = {
@@ -2665,11 +2766,15 @@
 			);
 			name = "Parse-Parse";
 			productName = "Parse-Parse";
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 			productReference = 0A91090E47473414D976653D0FFDD94B /* Parse.bundle */;
 =======
 			productReference = 09B043CF65907D70448C8234DF900A58 /* Parse.bundle */;
 >>>>>>> Stashed changes
+=======
+			productReference = F168769FCC203DD58DC8D6A5DBE191D4 /* Parse.bundle */;
+>>>>>>> a13b068926884cd0620685954bd95d8e858ea950
 			productType = "com.apple.product-type.bundle";
 		};
 		D6EF2EE752CB215D9DD3C027899301FC /* Parse */ = {
@@ -2688,11 +2793,15 @@
 			);
 			name = Parse;
 			productName = Parse;
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 			productReference = F66E09F8E9A4D83F76419A910CF496E7 /* libParse.a */;
 =======
 			productReference = 1DDC50A164DD8ACF8BD61C55C1C01C0C /* libParse.a */;
 >>>>>>> Stashed changes
+=======
+			productReference = 07150FE613FDA55D81516C7E7A1F8BD4 /* libParse.a */;
+>>>>>>> a13b068926884cd0620685954bd95d8e858ea950
 			productType = "com.apple.product-type.library.static";
 		};
 		D72786B77C455F74E18A040706CC9F72 /* Pods-WeatherAppTests */ = {
@@ -2709,11 +2818,15 @@
 			);
 			name = "Pods-WeatherAppTests";
 			productName = "Pods-WeatherAppTests";
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 			productReference = 1F69571375C4F8B60760D6A89077DB1E /* libPods-WeatherAppTests.a */;
 =======
 			productReference = B6404A6551A6E4D8D08B9A66DAA4653C /* libPods-WeatherAppTests.a */;
 >>>>>>> Stashed changes
+=======
+			productReference = 216FF90A5C2C9210AC7B257177700B92 /* libPods-WeatherAppTests.a */;
+>>>>>>> a13b068926884cd0620685954bd95d8e858ea950
 			productType = "com.apple.product-type.library.static";
 		};
 /* End PBXNativeTarget section */
@@ -2733,11 +2846,15 @@
 				en,
 			);
 			mainGroup = 7DB346D0F39D3F0E887471402A8071AB;
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 			productRefGroup = 2CFFABB4009F8C1B6B484039552F9325 /* Products */;
 =======
 			productRefGroup = 9F034815D03AB8A2BF24B342CE4F4077 /* Products */;
 >>>>>>> Stashed changes
+=======
+			productRefGroup = 17F582EB970445F13B91CBD9381AC599 /* Products */;
+>>>>>>> a13b068926884cd0620685954bd95d8e858ea950
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -2747,10 +2864,14 @@
 				7280F5058E71F852EC60F38DC3F8F09E /* Parse-Parse */,
 <<<<<<< Updated upstream
 				65506D21ECE890B1F7AE7954414F4E29 /* Pods-WeatherApp */,
+<<<<<<< HEAD
 =======
 				3DF054000B2FF5B37DE1AC953D05BE4B /* Pods-WeatherApp */,
 				10C2A84C2B6DE3CC1AE67927CC887CC2 /* Pods-WeatherApp-Current Weather */,
 >>>>>>> Stashed changes
+=======
+				1F7D9340C67979E81234CE3BEB0FFE0C /* Pods-WeatherApp-Current Weather */,
+>>>>>>> a13b068926884cd0620685954bd95d8e858ea950
 				D72786B77C455F74E18A040706CC9F72 /* Pods-WeatherAppTests */,
 				0454E63203BC994ABAD8E3E76C96E584 /* Pods-WeatherAppUITests */,
 			);
@@ -2769,7 +2890,18 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+<<<<<<< HEAD
 <<<<<<< Updated upstream
+=======
+		053C07965723EF3D7AC4C84438B3283C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7A37EFFC5BA566D4547C7644E86EFD18 /* Pods-WeatherApp-Current Weather-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+>>>>>>> a13b068926884cd0620685954bd95d8e858ea950
 		088DCB6BC259E36FBC365C4BDB6E890A /* Sources */ = {
 =======
 		1BECDFC2390399084ABD6DF3061C0AA2 /* Sources */ = {
@@ -3020,6 +3152,7 @@
 			target = 7280F5058E71F852EC60F38DC3F8F09E /* Parse-Parse */;
 			targetProxy = DA24EEB497FB77299D9969EF98546C50 /* PBXContainerItemProxy */;
 		};
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 =======
 		51ACA78C01D344586937FDE1D8A6AAC0 /* PBXTargetDependency */ = {
@@ -3035,6 +3168,14 @@
 			targetProxy = 9627F8517782046D8BC4065AAE3BC138 /* PBXContainerItemProxy */;
 		};
 >>>>>>> Stashed changes
+=======
+		5D4775C581973C47313AE79D00122FA3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Bolts;
+			target = 26BF235B420589570D8C83E44CF0C52A /* Bolts */;
+			targetProxy = A6F324FF42BD9A02A29424355AD5A1E2 /* PBXContainerItemProxy */;
+		};
+>>>>>>> a13b068926884cd0620685954bd95d8e858ea950
 		682BD1F793DB3F9779A0E81E241D63A8 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = "Pods-WeatherApp";
@@ -3071,14 +3212,26 @@
 			targetProxy = B8A1FFE705A7512554B73ACB3C38EC98 /* PBXContainerItemProxy */;
 >>>>>>> Stashed changes
 		};
+		F58975B911350775CDD1EE8D8F0BE20A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Parse;
+			target = D6EF2EE752CB215D9DD3C027899301FC /* Parse */;
+			targetProxy = 567D63DE485C50710CF5D711B8C7396A /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 =======
 		05CB7C7B92DA38133279187BD2133773 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F0626AE9D88B49431DC93996C9E68ACE /* Bolts.xcconfig */;
+=======
+		05CB7C7B92DA38133279187BD2133773 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A616FC1614C1B841CCA9590AA545E550 /* Bolts.xcconfig */;
+>>>>>>> a13b068926884cd0620685954bd95d8e858ea950
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -3101,10 +3254,13 @@
 			};
 			name = Release;
 		};
+<<<<<<< HEAD
 >>>>>>> Stashed changes
+=======
+>>>>>>> a13b068926884cd0620685954bd95d8e858ea950
 		1564BBD43869A3CED9C58125D0E90D3F /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A236DEBE039000281EBB772E3EF7CADC /* Pods-WeatherAppTests.release.xcconfig */;
+			baseConfigurationReference = 886222F7E5216BC1E8EA792D158D6DFC /* Pods-WeatherAppTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CLANG_ENABLE_OBJC_WEAK = NO;
@@ -3125,6 +3281,7 @@
 			};
 			name = Release;
 		};
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 		24C3F14B06C8AB1CE5E32D72A2F02C9D /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -3157,26 +3314,31 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F0626AE9D88B49431DC93996C9E68ACE /* Bolts.xcconfig */;
 >>>>>>> Stashed changes
+=======
+		20386BA6F7051312AC937BA78D387E02 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A616FC1614C1B841CCA9590AA545E550 /* Bolts.xcconfig */;
+>>>>>>> a13b068926884cd0620685954bd95d8e858ea950
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				GCC_PREFIX_HEADER = "Target Support Files/Parse/Parse-prefix.pch";
+				GCC_PREFIX_HEADER = "Target Support Files/Bolts/Bolts-prefix.pch";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
 				PRIVATE_HEADERS_FOLDER_PATH = "";
-				PRODUCT_MODULE_NAME = Parse;
-				PRODUCT_NAME = Parse;
+				PRODUCT_MODULE_NAME = Bolts;
+				PRODUCT_NAME = Bolts;
 				PUBLIC_HEADERS_FOLDER_PATH = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
 			};
-			name = Release;
+			name = Debug;
 		};
 		22859EC04D8B617FCF5626E30A491ECF /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -3202,7 +3364,7 @@
 		};
 		2B2B3C78858DB3CC583CB52D972A3ED9 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3790197C2E34C02B2F83773AE168B977 /* Pods-WeatherAppTests.debug.xcconfig */;
+			baseConfigurationReference = C93F18317E0174D074CA3A25151C2583 /* Pods-WeatherAppTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CLANG_ENABLE_OBJC_WEAK = NO;
@@ -3238,11 +3400,17 @@
 			};
 			name = Release;
 		};
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 =======
 		2FC87301D55A66D1CB2D2E1C5BC9C81F /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 12302AAF4AB4D5A00A33E3AB655EB875 /* Parse.xcconfig */;
+=======
+		2FC87301D55A66D1CB2D2E1C5BC9C81F /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B77DE2CABA0BD5A57846C092ABAE38F8 /* Parse.xcconfig */;
+>>>>>>> a13b068926884cd0620685954bd95d8e858ea950
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -3265,6 +3433,7 @@
 			};
 			name = Release;
 		};
+<<<<<<< HEAD
 		3628766E0C0C87815ABDFA2536B3A1FE /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A9E262269B8043AB2482205A7F0594E9 /* Pods-WeatherApp-Current Weather.release.xcconfig */;
@@ -3290,6 +3459,8 @@
 			name = Release;
 		};
 >>>>>>> Stashed changes
+=======
+>>>>>>> a13b068926884cd0620685954bd95d8e858ea950
 		438F76EF1ADD6FBCDC134601FF2D3CC5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 12302AAF4AB4D5A00A33E3AB655EB875 /* Parse.xcconfig */;
@@ -3308,7 +3479,7 @@
 		};
 		552D13B1DBB9F3D9919FA3E05BDD2AEF /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0D1AD96FA7C906CEF0E06E53F32C758E /* Pods-WeatherAppUITests.debug.xcconfig */;
+			baseConfigurationReference = 5E3383073822153FB72BF80C36A67729 /* Pods-WeatherAppUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CLANG_ENABLE_OBJC_WEAK = NO;
@@ -3391,11 +3562,16 @@
 			};
 			name = Debug;
 		};
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 		6DD437A6870EC5E0EB35685259A65C1E /* Release */ = {
+=======
+		77FB9679123EB65BEE4D117737164D00 /* Debug */ = {
+>>>>>>> a13b068926884cd0620685954bd95d8e858ea950
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A616FC1614C1B841CCA9590AA545E550 /* Bolts.xcconfig */;
+			baseConfigurationReference = 363A7720A6C9BF06AB8C40D55179CB4E /* Pods-WeatherApp.debug.xcconfig */;
 			buildSettings = {
+<<<<<<< HEAD
 =======
 		9ADBC2CAADFE698DF7E3C2876C70CD5F /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -3405,32 +3581,37 @@
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ENABLE_OBJC_WEAK = NO;
 >>>>>>> Stashed changes
+=======
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+>>>>>>> a13b068926884cd0620685954bd95d8e858ea950
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				GCC_PREFIX_HEADER = "Target Support Files/Bolts/Bolts-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				MACH_O_TYPE = staticlib;
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
-				PRIVATE_HEADERS_FOLDER_PATH = "";
-				PRODUCT_MODULE_NAME = Bolts;
-				PRODUCT_NAME = Bolts;
-				PUBLIC_HEADERS_FOLDER_PATH = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
 			};
-			name = Release;
+			name = Debug;
 		};
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 		77FB9679123EB65BEE4D117737164D00 /* Debug */ = {
+=======
+		817AA9942644F4D0A09C22F457851B0A /* Release */ = {
+>>>>>>> a13b068926884cd0620685954bd95d8e858ea950
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FA2CBC831AE3E4346D0257992710BF23 /* Pods-WeatherApp.debug.xcconfig */;
+			baseConfigurationReference = A9E262269B8043AB2482205A7F0594E9 /* Pods-WeatherApp-Current Weather.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ENABLE_OBJC_WEAK = NO;
 =======
 		A3E19C2655C2B157597A67F34C93564C /* Debug */ = {
@@ -3455,9 +3636,11 @@
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
 			};
-			name = Debug;
+			name = Release;
 		};
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 		9D540EF464DA00B9ECA4584CCAAEC9FE /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -3467,20 +3650,31 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 81ABF78287B8AFE0B6A3433FEBB4F0D9 /* MBProgressHUD.xcconfig */;
 >>>>>>> Stashed changes
+=======
+		A3E19C2655C2B157597A67F34C93564C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B77DE2CABA0BD5A57846C092ABAE38F8 /* Parse.xcconfig */;
+>>>>>>> a13b068926884cd0620685954bd95d8e858ea950
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 				GCC_PREFIX_HEADER = "Target Support Files/Bolts/Bolts-prefix.pch";
 =======
 				GCC_PREFIX_HEADER = "Target Support Files/MBProgressHUD/MBProgressHUD-prefix.pch";
 >>>>>>> Stashed changes
+=======
+				GCC_PREFIX_HEADER = "Target Support Files/Parse/Parse-prefix.pch";
+>>>>>>> a13b068926884cd0620685954bd95d8e858ea950
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
 				PRIVATE_HEADERS_FOLDER_PATH = "";
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 				PRODUCT_MODULE_NAME = Bolts;
 				PRODUCT_NAME = Bolts;
@@ -3488,6 +3682,10 @@
 				PRODUCT_MODULE_NAME = MBProgressHUD;
 				PRODUCT_NAME = MBProgressHUD;
 >>>>>>> Stashed changes
+=======
+				PRODUCT_MODULE_NAME = Parse;
+				PRODUCT_NAME = Parse;
+>>>>>>> a13b068926884cd0620685954bd95d8e858ea950
 				PUBLIC_HEADERS_FOLDER_PATH = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -3554,10 +3752,43 @@
 			};
 			name = Release;
 		};
+<<<<<<< HEAD
 		C907F79C9527E975ACD0D4E2243B17E2 /* Release */ = {
 <<<<<<< Updated upstream
+=======
+		AF0A8DDACBB0F00040D0474381794FFC /* Debug */ = {
+>>>>>>> a13b068926884cd0620685954bd95d8e858ea950
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FBDD1004A27220F8D1725BE7F3E8070B /* Pods-WeatherAppUITests.release.xcconfig */;
+			baseConfigurationReference = 5361A01BD9C3DCC991A3BE7469D1C6FA /* Pods-WeatherApp-Current Weather.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				MACH_O_TYPE = staticlib;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+<<<<<<< HEAD
+		D257913D112ACE9D82DF814AF8DE8AD1 /* Debug */ = {
+=======
+>>>>>>> Stashed changes
+=======
+		C907F79C9527E975ACD0D4E2243B17E2 /* Release */ = {
+>>>>>>> a13b068926884cd0620685954bd95d8e858ea950
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0D78431756BD9FC74F13C516B4588226 /* Pods-WeatherAppUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CLANG_ENABLE_OBJC_WEAK = NO;
@@ -3578,38 +3809,17 @@
 			};
 			name = Release;
 		};
-		D257913D112ACE9D82DF814AF8DE8AD1 /* Debug */ = {
-=======
->>>>>>> Stashed changes
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = B77DE2CABA0BD5A57846C092ABAE38F8 /* Parse.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				GCC_PREFIX_HEADER = "Target Support Files/Parse/Parse-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRIVATE_HEADERS_FOLDER_PATH = "";
-				PRODUCT_MODULE_NAME = Parse;
-				PRODUCT_NAME = Parse;
-				PUBLIC_HEADERS_FOLDER_PATH = "";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
 		FE2A0774C3AAA3534C0E192FFB582423 /* Release */ = {
 			isa = XCBuildConfiguration;
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 			baseConfigurationReference = 27D37D5F8EE1C0616D02B5FFFB94BF50 /* Pods-WeatherApp.release.xcconfig */;
 =======
 			baseConfigurationReference = 81ABF78287B8AFE0B6A3433FEBB4F0D9 /* MBProgressHUD.xcconfig */;
 >>>>>>> Stashed changes
+=======
+			baseConfigurationReference = E9CA108BC4204E5BFD5AED08ADE51B57 /* Pods-WeatherApp.release.xcconfig */;
+>>>>>>> a13b068926884cd0620685954bd95d8e858ea950
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -3638,8 +3848,8 @@
 		02F092A76E5188AD101DD30E8EEB9E20 /* Build configuration list for PBXNativeTarget "Bolts" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				9D540EF464DA00B9ECA4584CCAAEC9FE /* Debug */,
-				6DD437A6870EC5E0EB35685259A65C1E /* Release */,
+				20386BA6F7051312AC937BA78D387E02 /* Debug */,
+				05CB7C7B92DA38133279187BD2133773 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -3647,8 +3857,8 @@
 		13E246F8FD64E0E80BF772B6BE38039A /* Build configuration list for PBXNativeTarget "Parse" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				D257913D112ACE9D82DF814AF8DE8AD1 /* Debug */,
-				24C3F14B06C8AB1CE5E32D72A2F02C9D /* Release */,
+				A3E19C2655C2B157597A67F34C93564C /* Debug */,
+				2FC87301D55A66D1CB2D2E1C5BC9C81F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -3701,8 +3911,21 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+<<<<<<< HEAD
 		7C66CB3E04875BC1C255326C7ADB2D78 /* Build configuration list for PBXNativeTarget "MBProgressHUD" */ = {
 >>>>>>> Stashed changes
+=======
+		76813004527C8405BEB9C5C71E26C03B /* Build configuration list for PBXNativeTarget "Pods-WeatherApp-Current Weather" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AF0A8DDACBB0F00040D0474381794FFC /* Debug */,
+				817AA9942644F4D0A09C22F457851B0A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8876A8F18EC66E279A331311FBADC895 /* Build configuration list for PBXNativeTarget "Pods-WeatherApp" */ = {
+>>>>>>> a13b068926884cd0620685954bd95d8e858ea950
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A8139A63A5F05B0C4A81D0EFD0572E52 /* Debug */,

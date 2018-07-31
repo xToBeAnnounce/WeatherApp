@@ -7,12 +7,12 @@
 //
 
 #import "PageViewController.h"
-#import "DailyViewController.h"
-#import "WeeklyViewController.h"
-#import "LocationWeatherViewController.h"
-#import "LocationDetailsViewController.h"
 #import "User.h"
 #import "NavigationController.h"
+#import "LocationWeatherViewController.h"
+#import "LocationPickerViewController.h"
+#import "LocationDetailsViewController.h"
+#import "SettingsViewController.h"
 #import "SWRevealViewController.h"
 
 @interface PageViewController ()<UIPageViewControllerDataSource,UIPageViewControllerDelegate>
@@ -24,6 +24,8 @@
 @property (strong, nonatomic) UILabel *placeholderLabel;
 @property (strong,nonatomic) UISegmentedControl *DailyWeeklySC;
 @property (strong, nonatomic) UIButton *locationDetailsButton;
+
+@property (strong, nonatomic) UIBarButtonItem *addLocationButton;
 
 @end
 
@@ -40,13 +42,7 @@ BOOL settingUpLocations;
     self.locViewArrary = [[NSMutableArray alloc] init];
     currentLocation = NO;
     
-    SWRevealViewController *revealController = [self.navDelegate getRevealViewController];
-    
-    [revealController panGestureRecognizer];
-    [revealController tapGestureRecognizer];
-    
-    UIBarButtonItem *revealButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"hamburger"] style:UIBarButtonItemStylePlain target:revealController action:@selector(revealToggle:)];
-    
+    UIBarButtonItem *revealButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"hamburger"] style:UIBarButtonItemStylePlain target:self action:@selector(toggleScreens:)];
     [self.navDelegate setLeftBarItem:revealButtonItem];
     
     [self setUI];
@@ -57,6 +53,11 @@ BOOL settingUpLocations;
     
     [self updateLocations];
     [self updateUserPreferences];
+}
+
+- (void) viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
 }
 
 /*------------------SET UI METHODS------------------*/
@@ -88,6 +89,9 @@ BOOL settingUpLocations;
 }
 
 - (void) setUI {
+    self.addLocationButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"plus-1"] style:UIBarButtonItemStylePlain target:self action:@selector(segueToAddLocation)];
+    self.navigationController.navigationBar.topItem.rightBarButtonItem = self.addLocationButton;
+    
     self.DailyWeeklySC = [self.navDelegate getDailyWeeklySegmentControl];
     self.DailyWeeklySC.selectedSegmentIndex = 0;
     
@@ -232,14 +236,10 @@ BOOL settingUpLocations;
     [User.currentUser getLocationsArrayInBackgroundWithBlock:^(NSMutableArray *locations, NSError *error) {
         if (locations) {
             [self.locViewArrary removeObject:self.placeholderScreen];
-            for (LocationWeatherViewController *locWVC in self.locViewArrary) {
-                NSLog(@"%@", locWVC.location);
-            }
             
             for (int i=0; i<locations.count; i++) {
-                
                 Location *loc = locations[i];
-                int viewIndex = i + currentLocation;
+                int viewIndex = i + currentLocation; // corresponding view
                 
                 if ([newLocationIds containsObject:loc.objectId]) {
                     LocationWeatherViewController *newLocationWVC = [[LocationWeatherViewController alloc] initWithLocation:loc segmentedControl:self.DailyWeeklySC locDetailsButton:self.locationDetailsButton];
@@ -289,8 +289,11 @@ BOOL settingUpLocations;
 - (void) reorderLocations {
     
 }
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 =======
+=======
+>>>>>>> a13b068926884cd0620685954bd95d8e858ea950
 
 - (IBAction)toggleScreens:(id)sender{
     SWRevealViewController *revealController = [self.navDelegate getRevealViewController];
@@ -302,13 +305,22 @@ BOOL settingUpLocations;
     SettingsViewController *settingsVC = (SettingsViewController *)revealController.rearViewController;
 
     if (revealController.frontViewPosition == FrontViewPositionRight) {
+<<<<<<< HEAD
        // [settingsVC loadPreferences];
+=======
+        [settingsVC loadPreferences];
+>>>>>>> a13b068926884cd0620685954bd95d8e858ea950
         self.navigationController.navigationBar.topItem.title = @"Settings";
         self.navigationController.navigationBar.topItem.leftBarButtonItem.image = [UIImage imageNamed:@"close"];
     }
     else {
+<<<<<<< HEAD
      //   [settingsVC.tooHotTextField resignFirstResponder];
      //   [settingsVC.tooColdTextField resignFirstResponder];
+=======
+        [settingsVC.tooHotTextField resignFirstResponder];
+        [settingsVC.tooColdTextField resignFirstResponder];
+>>>>>>> a13b068926884cd0620685954bd95d8e858ea950
         self.navigationController.navigationBar.topItem.leftBarButtonItem.image = [UIImage imageNamed:@"hamburger"];
         self.navigationController.navigationBar.topItem.titleView = self.DailyWeeklySC;
         self.navigationController.navigationBar.topItem.rightBarButtonItem = self.addLocationButton;
@@ -320,6 +332,9 @@ BOOL settingUpLocations;
     UINavigationController *locationNavVC = [[UINavigationController alloc] initWithRootViewController:locationVC];
     [self.navigationController presentViewController:locationNavVC animated:YES completion:nil];
 }
+<<<<<<< HEAD
 >>>>>>> Stashed changes
+=======
+>>>>>>> a13b068926884cd0620685954bd95d8e858ea950
 @end
 
