@@ -14,9 +14,7 @@
 
 @interface NavigationController()
 @property (strong, nonatomic) UIBarButtonItem *addLocationButton;
-@property (strong, nonatomic) UISegmentedControl *DailyWeeklySegmentedControl;
 @property (strong, nonatomic) UINavigationController *settingsNVC;
-@property (strong, nonatomic) SWRevealViewController *revealViewController;
 @property (strong,nonatomic) HamburgerViewController *hamburgerVC;
 @end
 
@@ -32,7 +30,6 @@
         self.revealViewController.toggleAnimationDuration = 0.5;
             
         self.navStack = [[UINavigationController alloc] initWithRootViewController:self.revealViewController];
-        [self setPageVCNavigationBar:self.navStack];
         //[self.navStack presentViewController:self.revealViewController animated:YES completion:nil];
         //[self setPageVCNavigationBar:viewController.navigationController];
     }
@@ -42,7 +39,6 @@
 - (void)presentViewController:(UIViewController *)viewController Name:(NSString*)name{
     if([name isEqualToString:@"pageVC"]){
         UINavigationController *pageNavController = [[UINavigationController alloc] initWithRootViewController:viewController];
-        [self setPageVCNavigationBar:pageNavController];
         [self.navStack presentViewController:pageNavController animated:YES completion:nil];
         self.navStack = pageNavController;
     }
@@ -60,21 +56,6 @@
     [self.navStack dismissViewControllerAnimated:YES completion:nil];
 }
 
--(void)setPageVCNavigationBar:(UINavigationController*)currentNavController{
-    self.addLocationButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"plus-1"] style:UIBarButtonItemStylePlain target:self action:@selector(segueToAddLocation)];
-//    self.addLocationButton.tintColor = UIColor.whiteColor;
-    currentNavController.navigationBar.topItem.rightBarButtonItem = self.addLocationButton;
-    
-    self.DailyWeeklySegmentedControl = [[UISegmentedControl alloc]initWithItems:@[@"Daily",@"Weekly"]];
-    self.DailyWeeklySegmentedControl.selectedSegmentIndex = 0;
-    self.DailyWeeklySegmentedControl.tintColor = UIColor.blackColor;
-    currentNavController.navigationBar.topItem.titleView = self.DailyWeeklySegmentedControl;
-}
-
--(UISegmentedControl*)getDailyWeeklySegmentControl{
-    return self.DailyWeeklySegmentedControl;
-}
-
 -(void)segueToAddLocation{
     LocationPickerViewController *locationVC = LocationPickerViewController.new;
 //    locationVC.delegate = self;
@@ -89,6 +70,7 @@
 -(SWRevealViewController*)getRevealViewController{
     return self.revealViewController;
 }
+
 
 @end
 

@@ -7,6 +7,7 @@
 //
 
 #import "WebViewViewController.h"
+#import "Location.h"
 #import <WebKit/WebKit.h>
 #import "MBProgressHUD.h"
 
@@ -19,8 +20,14 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.navigationController.navigationBar.topItem.titleView = nil;
+    self.navigationController.navigationBar.topItem.title = @"Map";
+    self.navigationController.navigationBar.topItem.rightBarButtonItem = nil;
+    
     [MBProgressHUD showHUDAddedTo:self.view animated:true];
-    NSURL *url = [NSURL URLWithString:@"https://maps.darksky.net/"];
+    Location *location = Location.currentLocation;
+    NSString *urlString = [@"https://maps.darksky.net/" stringByAppendingString:[NSString stringWithFormat:@"@temperature,%f,%f,10", location.lattitude, location.longitude]];
+    NSURL *url = [NSURL URLWithString:urlString];
     self.mapWV = [[WKWebView alloc]initWithFrame:UIScreen.mainScreen.bounds];
     [self.view addSubview:self.mapWV];
     

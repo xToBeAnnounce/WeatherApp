@@ -57,9 +57,6 @@ static NSArray *activityNames;
     self.tempStackView.spacing = 8;
     self.tempStackView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.contentView addSubview:self.tempStackView];
-        
-    self.bottomConstraint = [self.iconImageView.bottomAnchor constraintEqualToAnchor:self.contentView.bottomAnchor constant:-4];
-    self.bottomConstraint.active = YES;
     
     activityNames = @[@"cafe", @"bike", @"movie", @"park"];
     [self initActivityButtons];
@@ -107,6 +104,9 @@ static NSArray *activityNames;
 }
 
 - (void) setConstraints {
+    self.bottomConstraint = [self.iconImageView.bottomAnchor constraintEqualToAnchor:self.contentView.bottomAnchor constant:-4];
+    self.bottomConstraint.active = YES;
+    
     [self.dateLabel.centerYAnchor constraintEqualToAnchor:self.contentView.centerYAnchor].active = YES;
     [self.dateLabel.leadingAnchor constraintEqualToAnchor:self.contentView.leadingAnchor constant:8].active = YES;
     

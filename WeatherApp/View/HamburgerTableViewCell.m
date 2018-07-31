@@ -16,10 +16,12 @@
 }
 
 -(void)setUI {
-    self.sectionLabel = [[UILabel alloc]initWithFrame:CGRectMake(29, 10, 150, 20)];
+    self.sectionLabel = [[UILabel alloc]initWithFrame:CGRectMake(41, 10, 150, 20)];
     [self.contentView addSubview:self.sectionLabel];
     
-    self.icon = [[UIImageView alloc]initWithFrame:CGRectMake(0,7, 25, 25)];
+    self.icon = [[UIImageView alloc]initWithFrame:CGRectMake(8,8, 25, 25)];
+    self.icon.contentMode = UIViewContentModeScaleAspectFill;
+    self.icon.clipsToBounds = YES;
     [self.contentView addSubview:self.icon];
     
 }

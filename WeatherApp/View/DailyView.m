@@ -42,6 +42,16 @@ static NSString *DailycellIdentifier = @"DailyTableViewCell";
 
 - (void) setLocation:(Location *)location {
     _location = location;
+    if ([self.location.placeName isEqualToString:self.location.customName]) {
+        self.customNameLabel.font = [UIFont systemFontOfSize:45];
+        self.locationLabel.hidden = YES;
+    }
+    else {
+        self.locationLabel.hidden = NO;
+        self.customNameLabel.font = [UIFont systemFontOfSize:35];
+        self.locationLabel.text = self.location.placeName;
+        [self.locationLabel sizeToFit];
+    }
     self.customNameLabel.text = self.location.customName;
     [self refreshView];
 }
@@ -149,7 +159,7 @@ static NSString *DailycellIdentifier = @"DailyTableViewCell";
     }
     else if ([self.location.placeName isEqualToString:self.location.customName]) {
         self.customNameLabel.font = [UIFont systemFontOfSize:45];
-        [self.locationLabel removeFromSuperview];
+        self.locationLabel.hidden = YES;
     }
     else {
         self.locationLabel.text = self.location.placeName;
