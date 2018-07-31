@@ -13,10 +13,9 @@
 
 @interface LocationWeatherViewController : UIViewController <ActivityDelegate>
 
-@property (strong, nonatomic) UILabel *locLabel;
 @property (strong, nonatomic) Location *location;
+@property (strong, nonatomic) NSString *tempTypeString;
 @property (strong, nonatomic) id<NavigationDelegate>navDelegate;
 
 - (instancetype) initWithLocation:(Location *)location segmentedControl:(UISegmentedControl *)DailyWeeklySC locDetailsButton:(UIButton *)locationsDetailsButton;
-- (BOOL) locationMatches:(Location *)location;
 @end

@@ -11,4 +11,5 @@
 
 @interface PageViewController : UIPageViewController
 @property (strong, nonatomic) id<NavigationDelegate>navDelegate;
+- (void) refreshView;
 @end

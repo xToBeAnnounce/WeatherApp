@@ -11,6 +11,7 @@
 #import "LocationTableViewCell.h"
 #import "LocationDetailsViewController.h"
 #import "LocationPickerViewController.h"
+#import "PageViewController.h"
 #import "User.h"
 #import "PageViewController.h"
 
@@ -221,16 +222,14 @@ static NSString *locationCellID = @"LocationTableViewCell";
             self.navigationController.navigationBar.topItem.leftBarButtonItem.image = [UIImage imageNamed:@"hamburger"];
             self.navigationController.navigationBar.topItem.titleView = self.storedSC;
             self.navigationController.navigationBar.topItem.rightBarButtonItem = self.storedButton;
+            
+            PageViewController *pageVC = (PageViewController *)revealController.frontViewController;
+            [pageVC refreshView];
         }
         else {
             NSLog(@"Unsuccessful");
         }
     }];
-}
-
-- (IBAction)onTapClose:(id)sender {
-    [self.tooHotTextField resignFirstResponder];
-    [self.tooColdTextField resignFirstResponder];
 }
 
 - (IBAction)onEditedHot:(id)sender {
