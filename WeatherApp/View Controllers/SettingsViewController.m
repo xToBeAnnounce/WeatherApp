@@ -12,6 +12,7 @@
 #import "LocationDetailsViewController.h"
 #import "LocationPickerViewController.h"
 #import "User.h"
+#import "PageViewController.h"
 
 @interface SettingsViewController () <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate>
 
@@ -24,6 +25,7 @@
 @property (strong, nonatomic) UISwitch *notificationsOnSwitch;
 @property (strong, nonatomic) UIButton *resetButton;
 @property (strong, nonatomic) UITapGestureRecognizer *screenTap;
+@property (strong,nonatomic) UIBarButtonItem *CancelButton;
 
 @property (strong, nonatomic) UITableView *tableView;
 
@@ -159,6 +161,11 @@ static NSString *locationCellID = @"LocationTableViewCell";
     UIBarButtonItem* saveBtn = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(onTapSave:)];
     self.navigationController.navigationBar.topItem.rightBarButtonItem = saveBtn;
     
+    self.CancelButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(setCancelButton)];
+    self.navigationController.navigationBar.topItem.leftBarButtonItem = self.CancelButton;
+
+    
+    
     // Sets up table view
     self.tableView = [[UITableView alloc] initWithFrame: CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
     self.tableView.dataSource = self;
@@ -281,6 +288,10 @@ static NSString *locationCellID = @"LocationTableViewCell";
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
     self.screenTap.enabled = NO;
+}
+
+-(void)setCancelButton{
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 /*-----------------TABLE VIEW DELEGATE METHODS-----------------*/

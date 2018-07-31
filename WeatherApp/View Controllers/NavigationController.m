@@ -10,6 +10,7 @@
 #import "SettingsViewController.h"
 #import "LocationPickerViewController.h"
 #import "SWRevealViewController.h"
+#import "HamburgerViewController.h"
 
 @interface NavigationController()
 @property (strong, nonatomic) UIBarButtonItem *settingsButton;
@@ -17,6 +18,7 @@
 @property (strong, nonatomic) UISegmentedControl *DailyWeeklySegmentedControl;
 @property (strong, nonatomic) UINavigationController *settingsNVC;
 @property (strong, nonatomic) SWRevealViewController *revealViewController;
+@property (strong,nonatomic) HamburgerViewController *hamburgerVC;
 @end
 
 @implementation NavigationController
@@ -26,16 +28,12 @@
     if ([viewController.class isEqual:PageViewController.class]) {
         UINavigationController *pageNavController = [[UINavigationController alloc] initWithRootViewController:viewController];
         
-        //UITableViewController *userVC = [[UITableViewController alloc] init];
-        //userVC.view.backgroundColor = UIColor.orangeColor;
-        SettingsViewController *settingsVC = SettingsViewController.new;
-        settingsVC.delegate = self;
-        self.settingsNVC = [[UINavigationController alloc] initWithRootViewController:settingsVC];
-
-        self.revealViewController = [[SWRevealViewController alloc]initWithRearViewController:self.settingsNVC frontViewController:pageNavController];
-        self.revealViewController.rearViewRevealWidth = UIScreen.mainScreen.bounds.size.width;
-        self.revealViewController.toggleAnimationDuration = 0.5;
+        self.hamburgerVC = [[HamburgerViewController alloc]init];
         
+        self.revealViewController = [[SWRevealViewController alloc]initWithRearViewController:self.hamburgerVC frontViewController:pageNavController];
+        self.revealViewController.rearViewRevealWidth = UIScreen.mainScreen.bounds.size.width - 225;
+        self.revealViewController.toggleAnimationDuration = 0.5;
+            
         self.navStack = [[UINavigationController alloc] initWithRootViewController:self.revealViewController];
         [self setPageVCNavigationBar:self.navStack];
         //[self.navStack presentViewController:self.revealViewController animated:YES completion:nil];
@@ -55,7 +53,6 @@
         [self.navStack presentViewController:viewController animated:YES completion:nil];
     }
 }
-
 - (void)pushViewController:(UIViewController *)viewController{
     [self.navStack pushViewController:viewController animated:YES];
 }

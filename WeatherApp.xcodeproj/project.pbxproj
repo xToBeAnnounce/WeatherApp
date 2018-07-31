@@ -38,6 +38,8 @@
 		CCC8951920FFCCBA00DEF6AD /* DailyTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC8951820FFCCBA00DEF6AD /* DailyTableViewCell.m */; };
 		CCE8557421098B480035230F /* DailyView.m in Sources */ = {isa = PBXBuildFile; fileRef = CCE8557321098B480035230F /* DailyView.m */; };
 		CCE855B82109C3090035230F /* WeeklyView.m in Sources */ = {isa = PBXBuildFile; fileRef = CCE855B72109C3090035230F /* WeeklyView.m */; };
+		CCE85681210F7C440035230F /* HamburgerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CCE85680210F7C440035230F /* HamburgerViewController.m */; };
+		CCE85684210F7F8B0035230F /* HamburgerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CCE85683210F7F8B0035230F /* HamburgerTableViewCell.m */; };
 		CE280C0B166C66C23D6B080B /* libPods-WeatherAppTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ABCEC71E4DF87C4C79A8B9BF /* libPods-WeatherAppTests.a */; };
 /* End PBXBuildFile section */
 
@@ -139,6 +141,10 @@
 		CCE8557321098B480035230F /* DailyView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DailyView.m; sourceTree = "<group>"; };
 		CCE855B62109C3090035230F /* WeeklyView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WeeklyView.h; sourceTree = "<group>"; };
 		CCE855B72109C3090035230F /* WeeklyView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WeeklyView.m; sourceTree = "<group>"; };
+		CCE8567F210F7C440035230F /* HamburgerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HamburgerViewController.h; sourceTree = "<group>"; };
+		CCE85680210F7C440035230F /* HamburgerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HamburgerViewController.m; sourceTree = "<group>"; };
+		CCE85682210F7F8B0035230F /* HamburgerTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HamburgerTableViewCell.h; sourceTree = "<group>"; };
+		CCE85683210F7F8B0035230F /* HamburgerTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HamburgerTableViewCell.m; sourceTree = "<group>"; };
 		E045F920045B440297515456 /* Pods-WeatherApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeatherApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-WeatherApp/Pods-WeatherApp.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -205,6 +211,8 @@
 				9262591521067E7500BEF660 /* LocationDetailsViewController.m */,
 				3330AE292107EE2B00B37975 /* LocationWeatherViewController.h */,
 				3330AE2A2107EE2B00B37975 /* LocationWeatherViewController.m */,
+				CCE8567F210F7C440035230F /* HamburgerViewController.h */,
+				CCE85680210F7C440035230F /* HamburgerViewController.m */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -262,6 +270,8 @@
 				CCE8557321098B480035230F /* DailyView.m */,
 				CCE855B62109C3090035230F /* WeeklyView.h */,
 				CCE855B72109C3090035230F /* WeeklyView.m */,
+				CCE85682210F7F8B0035230F /* HamburgerTableViewCell.h */,
+				CCE85683210F7F8B0035230F /* HamburgerTableViewCell.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -543,6 +553,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3330AE282107A16700B37975 /* LocationTableViewCell.m in Sources */,
+				CCE85684210F7F8B0035230F /* HamburgerTableViewCell.m in Sources */,
 				927E18A2210106B700CA03F6 /* Weather.m in Sources */,
 				9203E63A20FD73C600F8C858 /* WeeklyCell.m in Sources */,
 				9203E63220FD47DD00F8C858 /* APIManager.m in Sources */,
@@ -556,6 +567,7 @@
 				92EEBD01210BEEE100D6721F /* SWRevealViewController.m in Sources */,
 				3330AE252102842700B37975 /* PreferenceTableViewCell.m in Sources */,
 				33F00C1220FD1244008F56CE /* Preferences.m in Sources */,
+				CCE85681210F7C440035230F /* HamburgerViewController.m in Sources */,
 				CC7D392B20FD053D00913023 /* main.m in Sources */,
 				9203E63620FD546900F8C858 /* WeeklyViewController.m in Sources */,
 				CCE855B82109C3090035230F /* WeeklyView.m in Sources */,
