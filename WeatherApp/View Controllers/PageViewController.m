@@ -47,7 +47,7 @@ BOOL settingUpLocations;
     currentLocation = NO;
     
     UIBarButtonItem *revealButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"hamburger"] style:UIBarButtonItemStylePlain target:self action:@selector(toggleScreens:)];
-    [self.navDelegate setLeftBarItem:revealButtonItem];
+    [self.navDelegate setLeftBarItem:revealButtonItem WithNVC:self.navigationController];
     
     [self setUI];
 }
@@ -331,22 +331,6 @@ BOOL settingUpLocations;
     [revealController tapGestureRecognizer];
     
     [revealController revealToggle:sender];
-    //SettingsViewController *settingsVC = (SettingsViewController *)revealController.rearViewController;
-
-//    if (revealController.frontViewPosition == FrontViewPositionRight) {
-//        // User tapped button to go to settings
-//        //[settingsVC loadPreferences];
-//        self.navigationController.navigationBar.topItem.title = @"Settings";
-//        self.navigationController.navigationBar.topItem.leftBarButtonItem.image = [UIImage imageNamed:@"close"];
-//    }
-//    else {
-        // User closed settings without saving
-        //[settingsVC.tooHotTextField resignFirstResponder];
-        //[settingsVC.tooColdTextField resignFirstResponder];
-//        self.navigationController.navigationBar.topItem.leftBarButtonItem.image = [UIImage imageNamed:@"hamburger"];
-//        self.navigationController.navigationBar.topItem.titleView = self.DailyWeeklySC;
-//        self.navigationController.navigationBar.topItem.rightBarButtonItem = self.addLocationButton;
-//    }
 }
 
 -(void)segueToAddLocation{

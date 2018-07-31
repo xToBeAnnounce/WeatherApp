@@ -43,9 +43,9 @@
 - (void)presentViewController:(NSString*)name{
     if([name isEqualToString:@"pageVC"]){
         [self initalizeRevealViewController];
-        UINavigationController *pageNVC = [[UINavigationController alloc] initWithRootViewController:self.revealVC];
-        [self setWeatherNavigationBar:pageNVC];
-        [self.navStack presentViewController:pageNVC animated:YES completion:nil];
+        UINavigationController *revealNVC = [[UINavigationController alloc] initWithRootViewController:self.revealVC];
+        [self setWeatherNavigationBar:revealNVC];
+        [self.navStack presentViewController:revealNVC animated:YES completion:nil];
     }
 }
 
@@ -60,7 +60,9 @@
 
 -(void)initalizeRevealViewController{
     self.hamburgerVC = [[HamburgerViewController alloc]init];
+    self.hamburgerVC.navDelegate = self;
     self.pageVC = [[PageViewController alloc]initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:nil];
+    self.pageVC.navDelegate = self;
     
     self.revealVC = [[SWRevealViewController alloc]initWithRearViewController:self.hamburgerVC frontViewController:self.pageVC];
     self.revealVC.rearViewRevealWidth = UIScreen.mainScreen.bounds.size.width - 225;
@@ -70,11 +72,6 @@
 -(void)setWeatherNavigationBar:(UINavigationController*)currentNavController{
     self.addLocationButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"plus-1"] style:UIBarButtonItemStylePlain target:self action:@selector(segueToAddLocation)];
     currentNavController.navigationBar.topItem.rightBarButtonItem = self.addLocationButton;
-    
-    self.DailyWeeklySegmentedControl = [[UISegmentedControl alloc]initWithItems:@[@"Daily",@"Weekly"]];
-    self.DailyWeeklySegmentedControl.selectedSegmentIndex = 0;
-    self.DailyWeeklySegmentedControl.tintColor = UIColor.blackColor;
-    currentNavController.navigationBar.topItem.titleView = self.DailyWeeklySegmentedControl;
 }
 
 -(void)segueToAddLocation{
@@ -84,18 +81,13 @@
     [self.navStack presentViewController:locationNavVC animated:YES completion:nil];
 }
 
--(void)setLeftBarItem:(UIBarButtonItem *)button{
-    self.navStack.navigationBar.topItem.leftBarButtonItem = button;
+-(void)setLeftBarItem:(UIBarButtonItem *)button WithNVC:(UINavigationController*)navController{
+    navController.navigationBar.topItem.leftBarButtonItem = button;
 }
 
 -(SWRevealViewController*)getRevealViewController{
     return self.revealVC;
 }
-
--(UISegmentedControl*)getDailyWeeklySegmentControl{
-    return self.DailyWeeklySegmentedControl;
-}
-
 
 @end
 

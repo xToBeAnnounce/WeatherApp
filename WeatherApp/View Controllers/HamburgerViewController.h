@@ -10,5 +10,5 @@
 #import "NavigationController.h"
 
 @interface HamburgerViewController : UIViewController
-
+@property (strong, nonatomic) id<NavigationDelegate> navDelegate;
 @end

@@ -13,7 +13,7 @@
 -(void)presentViewController:(NSString*)name;
 -(void)pushViewController:(UIViewController*)viewController;
 -(void)dismissViewController;
--(void)setLeftBarItem:(UIBarButtonItem*)button;
+-(void)setLeftBarItem:(UIBarButtonItem *)button WithNVC:(UINavigationController*)navController;
 -(SWRevealViewController*)getRevealViewController;
 @end
 
