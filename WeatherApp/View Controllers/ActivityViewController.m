@@ -63,7 +63,7 @@
     if([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"comgooglemaps://"]]){
         NSString *baseURL = @"comgooglemaps://";
         NSString *url = [NSString stringWithFormat:@"%@?center=%@,%@", baseURL, activity.location[0], activity.location[1]];
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url] options:nil completionHandler:nil];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url] options:@{} completionHandler:nil];
     }
     else{
         NSLog(@"Unable to open Google Maps");

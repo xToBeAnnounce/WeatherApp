@@ -272,6 +272,9 @@ BOOL settingUpLocations;
                     [self.locViewArrary insertObject:newLocationWVC atIndex:viewIndex];
                 }
                 else {
+                    if ([[[NSDate date] earlierDate:loc.endDate] isEqualToDate:loc.endDate]) {
+                        NSLog(@"This Location %@ is Old", loc.customName);
+                    }
                     LocationWeatherViewController *locWVC = self.locViewArrary[viewIndex];
                     locWVC.location = loc;
                 }
@@ -328,10 +331,13 @@ BOOL settingUpLocations;
     [revealController tapGestureRecognizer];
     
     [revealController revealToggle:sender];
-    SettingsViewController *settingsVC = (SettingsViewController *)revealController.rearViewController;
+    //SettingsViewController *settingsVC = (SettingsViewController *)revealController.rearViewController;
 
     if (revealController.frontViewPosition == FrontViewPositionRight) {
+<<<<<<< HEAD
         // User tapped button to go to settings
+=======
+>>>>>>> Updated date allowances in location creation screen
         //[settingsVC loadPreferences];
         self.navigationController.navigationBar.topItem.title = @"Settings";
         self.navigationController.navigationBar.topItem.leftBarButtonItem.image = [UIImage imageNamed:@"close"];
