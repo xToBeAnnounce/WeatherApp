@@ -13,7 +13,4 @@
 
 @interface NavigationController : NSObject <NavigationDelegate>
 @property (strong, nonatomic) UINavigationController *navStack;
-@property (strong, nonatomic) PageViewController *pageVC;
-@property (strong, nonatomic) SWRevealViewController *revealViewController;
--(instancetype)initWithViewController:(UIViewController*)viewController;
 @end

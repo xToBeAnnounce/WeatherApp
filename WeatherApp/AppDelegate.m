@@ -9,14 +9,9 @@
 #import "AppDelegate.h"
 #import <Parse/Parse.h>
 #import "User.h"
-#import "LoginViewController.h"
-#import "PageViewController.h"
 #import "NavigationController.h"
-#import "ActivityAPIManager.h"
 
 @interface AppDelegate ()
-@property PageViewController *pageVC;
-@property LoginViewController *loginVC;
 @property NavigationController *mainNavController;
 @end
 
@@ -25,21 +20,9 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [self parseBackendSetup];
+    self.mainNavController = [[NavigationController alloc] init];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    self.loginVC = [[LoginViewController alloc] init];
-    self.pageVC = [[PageViewController alloc]initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:nil];
-    
-    if(User.currentUser){
-        self.mainNavController = [[NavigationController alloc] initWithViewController:self.pageVC];
-    }
-    else{
-        self.mainNavController = [[NavigationController alloc] initWithViewController:self.loginVC];
-    }
-    
-    self.loginVC.navDelegate = self.mainNavController;
-    self.pageVC.navDelegate = self.mainNavController;
-    self.loginVC.pageVC = self.pageVC;
     self.window.rootViewController = self.mainNavController.navStack;
     [self.window makeKeyAndVisible];
     return YES;
@@ -47,7 +30,6 @@
 
 -(void)parseBackendSetup{
     ParseClientConfiguration *config = [ParseClientConfiguration   configurationWithBlock:^(id<ParseMutableClientConfiguration> configuration) {
-        
         configuration.applicationId = @"ttjWeatherApp";
         configuration.clientKey = @"ttjWAMasterKey";
         configuration.server = @"https://ttj-weather-app.herokuapp.com/parse";

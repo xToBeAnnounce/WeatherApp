@@ -47,7 +47,7 @@ BOOL settingUpLocations;
     currentLocation = NO;
     
     UIBarButtonItem *revealButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"hamburger"] style:UIBarButtonItemStylePlain target:self action:@selector(toggleScreens:)];
-    [self.navDelegate setLeftBarItem:revealButtonItem];
+    [self.navDelegate setLeftBarItem:revealButtonItem WithNVC:self.navigationController];
     
     [self setUI];
 }

@@ -70,11 +70,10 @@ static NSString *cellID = @"hamburgerMenu";
         [revealController pushFrontViewController:self.settingsVC animated:YES];
     }
     if (indexPath.row == 5) {
+        AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
         [User logOutInBackgroundWithBlock:^(NSError * _Nullable error) {
             if (!error) {
-                LoginViewController *loginVC = [[LoginViewController alloc] init];
-                loginVC.pageVC = PageViewController.new;
-                [self presentViewController:loginVC animated:NO completion:nil];
+                appDelegate.window.rootViewController = [[NavigationController alloc] init].navStack;
             }
         }];
     }

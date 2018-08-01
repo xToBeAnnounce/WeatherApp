@@ -24,11 +24,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setLoginUI];
-    self.view.backgroundColor = UIColor.whiteColor;
-    
 }
 
 -(void)setLoginUI{
+    self.view.backgroundColor = UIColor.whiteColor;
+
     self.usernameField = [[UITextField alloc] initWithFrame:CGRectMake(35, 258, 305, 45)];
     self.usernameField.placeholder = @"username";
     self.usernameField.borderStyle = UITextBorderStyleRoundedRect;
@@ -72,8 +72,7 @@
             [self AlertController:error.localizedDescription];
         } else {
             NSLog(@"User logged in successfully");
-            [self.navigationController presentViewController:[[PageViewController alloc] init] animated:NO completion:nil];
-//            [self.navDelegate presentViewController:self.pageVC Name:@"pageVC"];
+            [self.navDelegate presentViewController:@"pageVC"];
         }
     }];
 }
@@ -88,7 +87,7 @@
             [self AlertController:error.localizedDescription];
         } else {
             NSLog(@"User registered successfully");
-            [self.navigationController presentViewController:[[PageViewController alloc] init] animated:NO completion:nil];
+            [self.navDelegate presentViewController:@"pageVC"];
         }
     }];
 }
@@ -102,15 +101,5 @@
     [alert addAction:button];
     [self presentViewController:alert animated:YES completion:nil];
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

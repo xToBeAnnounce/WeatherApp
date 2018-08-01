@@ -9,36 +9,40 @@
 #import "NavigationController.h"
 #import "SWRevealViewController.h"
 #import "HamburgerViewController.h"
+#import "PageViewController.h"
+#import "LoginViewController.h"
+#import "Parse.h"
 
 @interface NavigationController()
 @property (strong, nonatomic) UIBarButtonItem *addLocationButton;
+@property (strong, nonatomic) SWRevealViewController *revealVC;
 @property (strong,nonatomic) HamburgerViewController *hamburgerVC;
+@property (strong, nonatomic) PageViewController *pageVC;
+@property (strong, nonatomic) LoginViewController *loginVC;
 @end
 
 @implementation NavigationController
-
--(instancetype)initWithViewController:(UIViewController*)viewController{
-    self.navStack = [[UINavigationController alloc] initWithRootViewController:viewController];
-    if ([viewController.class isEqual:PageViewController.class]) {
-      
-        self.hamburgerVC = [[HamburgerViewController alloc]init];
-        self.revealViewController = [[SWRevealViewController alloc]initWithRearViewController:self.hamburgerVC frontViewController:viewController];
-        self.revealViewController.rearViewRevealWidth = UIScreen.mainScreen.bounds.size.width - 225;
-        self.revealViewController.toggleAnimationDuration = 0.5;
-            
-        self.navStack = [[UINavigationController alloc] initWithRootViewController:self.revealViewController];
+  
+-(instancetype)init{
+    if (PFUser.currentUser) {
+        [self initalizeRevealViewController];
+        self.navStack = [[UINavigationController alloc] initWithRootViewController:self.revealVC];
+        [self setWeatherNavigationBar:self.navStack];
+    }
+    else{
+        self.loginVC = [[LoginViewController alloc] init];
+        self.loginVC.navDelegate = self;
+        self.navStack = [[UINavigationController alloc] initWithRootViewController:self.loginVC];
     }
     return self;
 }
 
-- (void)presentViewController:(UIViewController *)viewController Name:(NSString*)name{
+- (void)presentViewController:(NSString*)name{
     if([name isEqualToString:@"pageVC"]){
-        UINavigationController *pageNavController = [[UINavigationController alloc] initWithRootViewController:viewController];
-        [self.navStack presentViewController:pageNavController animated:YES completion:nil];
-        self.navStack = pageNavController;
-    }
-    else{
-        [self.navStack presentViewController:viewController animated:YES completion:nil];
+        [self initalizeRevealViewController];
+        UINavigationController *revealNVC = [[UINavigationController alloc] initWithRootViewController:self.revealVC];
+        [self setWeatherNavigationBar:revealNVC];
+        [self.navStack presentViewController:revealNVC animated:YES completion:nil];
     }
 }
 
@@ -51,14 +55,36 @@
     [self.navStack dismissViewControllerAnimated:YES completion:nil];
 }
 
--(void)setLeftBarItem:(UIBarButtonItem *)button{
-    self.navStack.navigationBar.topItem.leftBarButtonItem = button;
+-(void)initalizeRevealViewController{
+    self.hamburgerVC = [[HamburgerViewController alloc]init];
+    self.hamburgerVC.navDelegate = self;
+    self.pageVC = [[PageViewController alloc]initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:nil];
+    self.pageVC.navDelegate = self;
+    
+    self.revealVC = [[SWRevealViewController alloc]initWithRearViewController:self.hamburgerVC frontViewController:self.pageVC];
+    self.revealVC.rearViewRevealWidth = UIScreen.mainScreen.bounds.size.width - 225;
+    self.revealVC.toggleAnimationDuration = 0.5;
+}
+
+-(void)setWeatherNavigationBar:(UINavigationController*)currentNavController{
+    self.addLocationButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"plus-1"] style:UIBarButtonItemStylePlain target:self action:@selector(segueToAddLocation)];
+    currentNavController.navigationBar.topItem.rightBarButtonItem = self.addLocationButton;
+}
+
+-(void)segueToAddLocation{
+    LocationPickerViewController *locationVC = LocationPickerViewController.new;
+    locationVC.delegate = self;
+    UINavigationController *locationNavVC = [[UINavigationController alloc] initWithRootViewController:locationVC];
+    [self.navStack presentViewController:locationNavVC animated:YES completion:nil];
+}
+
+-(void)setLeftBarItem:(UIBarButtonItem *)button WithNVC:(UINavigationController*)navController{
+    navController.navigationBar.topItem.leftBarButtonItem = button;
 }
 
 -(SWRevealViewController*)getRevealViewController{
-    return self.revealViewController;
+    return self.revealVC;
 }
-
 
 @end
 
