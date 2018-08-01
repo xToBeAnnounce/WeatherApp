@@ -213,6 +213,19 @@ bool isgranted;
     }
 }
 
+- (void) removeLocScreen:(LocationWeatherViewController *)locWVC {
+    [User.currentUser deleteLocationWithID:locWVC.location.objectId withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
+        if (succeeded ){
+            [self.locViewArrary removeObject:locWVC];
+            [self addPlaceholderIfNeeded];
+            [self refreshPageViewWithStartIndex:[self currentPageIndex]];
+        }
+        else {
+            NSLog(@"Error: %@", error.localizedDescription);
+        }
+    }];
+}
+
 - (void) addPlaceholderIfNeeded {
     if (self.locViewArrary.count == 0) {
         self.locationDetailsButton.hidden = YES;
@@ -291,6 +304,7 @@ bool isgranted;
         if (locations) {
             [self.loadingActivityIndicator stopAnimating];
             [self.locViewArrary removeObject:self.placeholderScreen];
+            NSMutableArray *expiredLocationScreens = [[NSMutableArray alloc] init];
             
             for (int i=0; i<locations.count; i++) {
                 Location *loc = locations[i];
@@ -301,13 +315,18 @@ bool isgranted;
                     [self.locViewArrary insertObject:newLocationWVC atIndex:viewIndex];
                 }
                 else {
-                    if ([[[NSDate date] earlierDate:loc.endDate] isEqualToDate:loc.endDate]) {
-                        NSLog(@"This Location %@ is Old", loc.customName);
-                    }
                     LocationWeatherViewController *locWVC = self.locViewArrary[viewIndex];
+                    if ([[[NSDate dateWithTimeIntervalSinceNow:-60*60*24] earlierDate:loc.endDate] isEqualToDate:loc.endDate]) {
+                        [expiredLocationScreens addObject:locWVC];
+                    }
                     locWVC.location = loc;
                 }
             }
+            
+            for (LocationWeatherViewController *locWVC in expiredLocationScreens) {
+                [self removeLocScreen:locWVC];
+            }
+            
             [self refreshPageViewWithStartIndex:[self currentPageIndex]];
         }
         else {

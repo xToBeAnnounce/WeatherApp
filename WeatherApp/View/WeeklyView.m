@@ -11,7 +11,6 @@
 #import "Location.h"
 @implementation WeeklyView
 
-static bool loadWeeklyData = NO;
 static NSString *WeeklycellIdentifier = @"WeeklyCell";
 static NSIndexPath *selectedCell;
 
@@ -24,7 +23,6 @@ static NSIndexPath *selectedCell;
     
     [self.location fetchDataType:@"weekly" WithCompletion:^(NSDictionary * data, NSError * error) {
         if(error == nil){
-            loadWeeklyData = YES;
             [self.WeeklytableView reloadData];
         }
         else NSLog(@"%@", error.localizedDescription);
@@ -66,23 +64,27 @@ static NSIndexPath *selectedCell;
 }
 
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
+    NSDate *cellDate = [NSDate dateWithTimeIntervalSinceNow:3600*24*indexPath.row];
     
     WeeklyCell *weeklycell = [self.WeeklytableView dequeueReusableCellWithIdentifier:WeeklycellIdentifier];
     if(weeklycell == nil){
         weeklycell = [[WeeklyCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:WeeklycellIdentifier];
     }
-    if(loadWeeklyData){
-        weeklycell.tempType = self.tempType;
-        Weather *dayWeather = self.location.weeklyData[indexPath.row];
-        if(selectedCell == indexPath) weeklycell.displayActivity = YES;
-        else weeklycell.displayActivity = NO;
-        
-        weeklycell.dayWeather = dayWeather;
-        weeklycell.delegate = self.sourceVC;
-        weeklycell.location = @[@(self.location.lattitude), @(self.location.longitude)];
-        weeklycell.rowNum = (int)indexPath.row;
-        weeklycell.rowHeight = self.WeeklytableView.estimatedRowHeight;
+    
+    weeklycell.tempType = self.tempType;
+    Weather *dayWeather = self.location.weeklyData[indexPath.row];
+    if(selectedCell == indexPath) weeklycell.displayActivity = YES;
+    else weeklycell.displayActivity = NO;
+    
+    weeklycell.dayWeather = dayWeather;
+    weeklycell.delegate = self.sourceVC;
+    weeklycell.location = @[@(self.location.lattitude), @(self.location.longitude)];
+    weeklycell.rowNum = (int)indexPath.row;
+    weeklycell.rowHeight = self.WeeklytableView.estimatedRowHeight;
+    if ([self shouldHighlightDate:cellDate]) {
+        weeklycell.backgroundColor = UIColor.greenColor;
     }
+    
     return weeklycell;
 }
 
@@ -100,7 +102,20 @@ static NSIndexPath *selectedCell;
 
 - (void) refreshView {
     // Put code in here if we decide to display location stuff on weekly view
+    [self.WeeklytableView reloadData];
 }
 
+- (BOOL) shouldHighlightDate:(NSDate *)date {
+    if (self.location.endDate) {
+        if (self.location.startDate) return [self date:date isBetweenStartDate:self.location.startDate andEndDate:self.location.endDate];
+        else return [[date earlierDate:[NSDate dateWithTimeInterval:60*60*24 sinceDate:self.location.endDate]] isEqualToDate:date];
+    }
+    return NO;
+}
 
+- (BOOL) date:(NSDate *)date isBetweenStartDate:(NSDate *)startDate andEndDate:(NSDate *)endDate {
+    if ([[date earlierDate:startDate] isEqualToDate:date]) return NO;
+    if ([[date earlierDate:endDate] isEqualToDate:endDate]) return NO;
+    return YES;
+}
 @end

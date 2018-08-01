@@ -79,5 +79,4 @@
     
     [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[stackView]-8-[rightArrowImageView]" options:NSLayoutFormatAlignAllCenterY metrics:nil views:@{@"stackView":self.labelsStackView, @"rightArrowImageView":self.rightArrowImageView}]];
 }
-
 @end

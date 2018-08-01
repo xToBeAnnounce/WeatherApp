@@ -7,8 +7,6 @@
 //
 
 #import "NavigationController.h"
-#import "SettingsViewController.h"
-#import "LocationPickerViewController.h"
 #import "SWRevealViewController.h"
 #import "HamburgerViewController.h"
 #import "PageViewController.h"
@@ -17,7 +15,6 @@
 
 @interface NavigationController()
 @property (strong, nonatomic) UIBarButtonItem *addLocationButton;
-@property (strong, nonatomic) UINavigationController *settingsNVC;
 @property (strong, nonatomic) SWRevealViewController *revealVC;
 @property (strong,nonatomic) HamburgerViewController *hamburgerVC;
 @property (strong, nonatomic) PageViewController *pageVC;
@@ -25,7 +22,7 @@
 @end
 
 @implementation NavigationController
-
+  
 -(instancetype)init{
     if (PFUser.currentUser) {
         [self initalizeRevealViewController];

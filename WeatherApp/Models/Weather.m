@@ -20,6 +20,9 @@
     NSDate *time = [NSDate dateWithTimeIntervalSince1970:timeInSeconds];
     self.time = [calendar dateByAddingComponents:components toDate:time options:0];
     
+    self.summary = data[@"summary"];
+    self.icon = data[@"icon"];
+    
     if(data[@"temperatureHigh"]){
         self.temperatureHigh = (int)[data[@"temperatureHigh"] doubleValue];
         self.temperatureLow = (int)[data[@"temperatureLow"] doubleValue];
@@ -30,7 +33,6 @@
         self.temperatureLow = -1;
         self.temperatureHigh = -1;
     }
-    self.icon = data[@"icon"];
     return self;
 }
 
