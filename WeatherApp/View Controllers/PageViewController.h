@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "AppDelegate.h"
+#import <UserNotifications/UserNotifications.h>
 
 @interface PageViewController : UIPageViewController
 @property (strong, nonatomic) id<NavigationDelegate>navDelegate;

@@ -19,10 +19,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [MBProgressHUD showHUDAddedTo:self.view animated:true];
-    NSURL *url = [NSURL URLWithString:@"https://maps.darksky.net/"];
+    NSURL *url = [NSURL URLWithString:@"https://maps.darksky.net/@temperature"];
     self.mapWV = [[WKWebView alloc]initWithFrame:UIScreen.mainScreen.bounds];
     [self.view addSubview:self.mapWV];
+    [MBProgressHUD showHUDAddedTo:self.view animated:true];
     
     NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10.0];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:nil delegateQueue:[NSOperationQueue mainQueue]];

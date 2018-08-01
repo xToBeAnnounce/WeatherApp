@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "SWRevealViewController.h"
+#import <UserNotifications/UserNotifications.h>
+
 
 @protocol NavigationDelegate
 -(void)presentViewController:(UIViewController*)viewController Name:(NSString*)name;
@@ -18,7 +20,7 @@
 -(UISegmentedControl*)getDailyWeeklySegmentControl;
 @end
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate,UNUserNotificationCenterDelegate>
 @property (strong, nonatomic) UIWindow *window;
 @end
 
