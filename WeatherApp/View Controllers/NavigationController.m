@@ -7,14 +7,11 @@
 //
 
 #import "NavigationController.h"
-#import "SettingsViewController.h"
-#import "LocationPickerViewController.h"
 #import "SWRevealViewController.h"
 #import "HamburgerViewController.h"
 
 @interface NavigationController()
 @property (strong, nonatomic) UIBarButtonItem *addLocationButton;
-@property (strong, nonatomic) UINavigationController *settingsNVC;
 @property (strong,nonatomic) HamburgerViewController *hamburgerVC;
 @end
 
@@ -30,8 +27,6 @@
         self.revealViewController.toggleAnimationDuration = 0.5;
             
         self.navStack = [[UINavigationController alloc] initWithRootViewController:self.revealViewController];
-        //[self.navStack presentViewController:self.revealViewController animated:YES completion:nil];
-        //[self setPageVCNavigationBar:viewController.navigationController];
     }
     return self;
 }
@@ -54,13 +49,6 @@
 -(void)dismissViewController{
     [self.navStack popViewControllerAnimated:YES];
     [self.navStack dismissViewControllerAnimated:YES completion:nil];
-}
-
--(void)segueToAddLocation{
-    LocationPickerViewController *locationVC = LocationPickerViewController.new;
-//    locationVC.delegate = self;
-    UINavigationController *locationNavVC = [[UINavigationController alloc] initWithRootViewController:locationVC];
-    [self presentViewController:locationNavVC Name:@"location"];
 }
 
 -(void)setLeftBarItem:(UIBarButtonItem *)button{

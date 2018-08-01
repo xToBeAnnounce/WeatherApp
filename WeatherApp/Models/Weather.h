@@ -13,10 +13,11 @@
 
 @interface Weather : NSObject
 @property (strong, nonatomic) NSDate *time;
+@property (strong, nonatomic) NSString *summary;
+@property (strong, nonatomic) NSString *icon;
 @property (nonatomic) int temperature;
 @property (nonatomic) int temperatureHigh;
 @property (nonatomic) int temperatureLow;
-@property (strong, nonatomic) NSString *icon;
 
 //Formatting functions for display in string
 - (NSString*)getHourInDayWithTime:(NSDate*)date;

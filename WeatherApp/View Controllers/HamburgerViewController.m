@@ -18,10 +18,9 @@
 
 @interface HamburgerViewController ()<UITableViewDelegate, UITableViewDataSource>
 @property (strong,nonatomic) UITableView *hamburgerTableView;
-
-
-
-
+@property (strong, nonatomic) PageViewController *pageVC;
+@property (strong, nonatomic) WebViewViewController *mapWVC;
+@property (strong, nonatomic) SettingsViewController *settingsVC;
 @end
 
 @implementation HamburgerViewController
@@ -34,8 +33,9 @@ static NSString *cellID = @"hamburgerMenu";
     [self setTableView];
     cellImages = @[@"weatherIcon",@"user",@"activities",@"map",@"settings",@"logout"];
     cellContent = @[@"Weather",@"Account",@"Activies",@"Map",@"Settings",@"Logout"];
-    
-    
+    self.pageVC = [[PageViewController alloc]initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:nil];
+    self.mapWVC = WebViewViewController.new;
+    self.settingsVC = SettingsViewController.new;
 }
 
 -(void)setTableView{
@@ -60,17 +60,14 @@ static NSString *cellID = @"hamburgerMenu";
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     SWRevealViewController *revealController = self.revealViewController;
     if (indexPath.row == 0){
-        PageViewController *PageVC = [[PageViewController alloc]initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:nil];
-        [revealController pushFrontViewController:PageVC animated:YES];
+        [revealController pushFrontViewController:self.pageVC animated:YES];
     }
     if (indexPath.row == 3){
-        WebViewViewController *webVC = WebViewViewController.new;
-        [revealController pushFrontViewController:webVC animated:YES];
+        [revealController pushFrontViewController:self.mapWVC animated:YES];
     }
     
     if (indexPath.row == 4){
-        SettingsViewController *settingsVC = SettingsViewController.new;
-        [revealController pushFrontViewController:settingsVC animated:YES];
+        [revealController pushFrontViewController:self.settingsVC animated:YES];
     }
     if (indexPath.row == 5) {
         [User logOutInBackgroundWithBlock:^(NSError * _Nullable error) {
@@ -87,7 +84,6 @@ static NSString *cellID = @"hamburgerMenu";
 - (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return cellContent.count;
 }
-
 
 - (UIViewController *)presentFrontViewController:(UIViewController *)viewController {
     return viewController;
