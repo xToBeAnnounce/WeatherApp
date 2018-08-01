@@ -9,6 +9,7 @@
 #import "NavigationController.h"
 #import "SWRevealViewController.h"
 #import "HamburgerViewController.h"
+#import "LocationPickerViewController.h"
 #import "PageViewController.h"
 #import "LoginViewController.h"
 #import "Parse.h"
