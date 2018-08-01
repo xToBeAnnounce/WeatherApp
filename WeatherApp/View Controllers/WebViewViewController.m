@@ -20,6 +20,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+   
     self.navigationController.navigationBar.topItem.titleView = nil;
     self.navigationController.navigationBar.topItem.title = @"Map";
     self.navigationController.navigationBar.topItem.rightBarButtonItem = nil;

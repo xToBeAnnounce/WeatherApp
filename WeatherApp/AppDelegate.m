@@ -18,6 +18,12 @@
 @implementation AppDelegate
 
 
+
+-(void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler{
+    UNNotificationPresentationOptions presentation = UNNotificationPresentationOptionAlert+UNNotificationPresentationOptionSound;
+    completionHandler(presentation);
+}
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [self parseBackendSetup];
     self.mainNavController = [[NavigationController alloc] init];
@@ -25,6 +31,10 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.rootViewController = self.mainNavController.navStack;
     [self.window makeKeyAndVisible];
+    
+    UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+    center.delegate = self;
+    
     return YES;
 }
 

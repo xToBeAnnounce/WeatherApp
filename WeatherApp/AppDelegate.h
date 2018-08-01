@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "SWRevealViewController.h"
+#import <UserNotifications/UserNotifications.h>
+
 
 @protocol NavigationDelegate
 -(void)presentViewController:(NSString*)name;
@@ -17,7 +19,7 @@
 -(SWRevealViewController*)getRevealViewController;
 @end
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate,UNUserNotificationCenterDelegate>
 @property (strong, nonatomic) UIWindow *window;
 @end
 

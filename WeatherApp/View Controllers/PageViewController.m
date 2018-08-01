@@ -37,11 +37,13 @@
 
 BOOL currentLocation;
 BOOL settingUpLocations;
+bool isgranted;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.dataSource = self;
     self.delegate = self;
+    isgranted = false;
     
     self.locViewArrary = [[NSMutableArray alloc] init];
     currentLocation = NO;
@@ -50,6 +52,33 @@ BOOL settingUpLocations;
     [self.navDelegate setLeftBarItem:revealButtonItem WithNVC:self.navigationController];
     
     [self setUI];
+    [self Notification];
+    
+    
+    //Notification Set UP
+    UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+    UNAuthorizationOptions options = UNAuthorizationOptionAlert+UNAuthorizationOptionSound;
+    [center requestAuthorizationWithOptions:options completionHandler:^(BOOL granted, NSError * _Nullable error) {
+        isgranted = granted;
+    }];
+    
+}
+
+-(void)Notification{
+    if(isgranted = YES){
+         UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+        UNMutableNotificationContent *content = [[UNMutableNotificationContent alloc]init];
+        content.title = @"title";
+        content.subtitle = @"subtitle";
+        content.body = @"body";
+        content.sound = [UNNotificationSound defaultSound];
+        
+        UNTimeIntervalNotificationTrigger *trigger = [UNTimeIntervalNotificationTrigger triggerWithTimeInterval:5 repeats:NO];
+        
+        UNNotificationRequest *request = [UNNotificationRequest requestWithIdentifier:@"UNrequest" content:content trigger:trigger];
+        
+        [center addNotificationRequest:request withCompletionHandler:nil];
+    }
 }
 
 - (void) viewWillAppear:(BOOL)animated {

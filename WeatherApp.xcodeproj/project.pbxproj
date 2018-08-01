@@ -54,6 +54,7 @@
 		CCE85684210F7F8B0035230F /* HamburgerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CCE85683210F7F8B0035230F /* HamburgerTableViewCell.m */; };
 		CCE856912110D7C70035230F /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCE856902110D7C70035230F /* WebKit.framework */; };
 		CCE856942110D93A0035230F /* WebViewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CCE856932110D93A0035230F /* WebViewViewController.m */; };
+		CCE85696211101810035230F /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCE85695211101810035230F /* UserNotifications.framework */; };
 		CE280C0B166C66C23D6B080B /* libPods-WeatherAppTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ABCEC71E4DF87C4C79A8B9BF /* libPods-WeatherAppTests.a */; };
 /* End PBXBuildFile section */
 
@@ -184,6 +185,7 @@
 		CCE856902110D7C70035230F /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		CCE856922110D93A0035230F /* WebViewViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WebViewViewController.h; sourceTree = "<group>"; };
 		CCE856932110D93A0035230F /* WebViewViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WebViewViewController.m; sourceTree = "<group>"; };
+		CCE85695211101810035230F /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		E045F920045B440297515456 /* Pods-WeatherApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeatherApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-WeatherApp/Pods-WeatherApp.release.xcconfig"; sourceTree = "<group>"; };
 		F8D075B6F1961A6A8BFFC1BC /* Pods-WeatherApp-Current Weather.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeatherApp-Current Weather.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WeatherApp-Current Weather/Pods-WeatherApp-Current Weather.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -202,6 +204,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CCE85696211101810035230F /* UserNotifications.framework in Frameworks */,
 				CCE856912110D7C70035230F /* WebKit.framework in Frameworks */,
 				3330AE1E210118CC00B37975 /* CoreLocation.framework in Frameworks */,
 				65982CF7EFB30A343E94A270 /* libPods-WeatherApp.a in Frameworks */,
@@ -301,6 +304,7 @@
 		85F548516BD29901A61DB33D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CCE85695211101810035230F /* UserNotifications.framework */,
 				CCE856902110D7C70035230F /* WebKit.framework */,
 				3330AE9E210BF7F500B37975 /* libParse.a */,
 				3330AE9C210BF78700B37975 /* libPods-WeatherApp.a */,
