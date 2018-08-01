@@ -251,16 +251,16 @@
 			children = (
 				9283A3EF21091BF500F4858F /* NavigationController.h */,
 				9283A3F021091BF500F4858F /* NavigationController.m */,
+				CC7A6A08210115D600028419 /* LoginViewController.h */,
+				CC7A6A09210115D600028419 /* LoginViewController.m */,
 				3330AE1720FE739700B37975 /* SettingsViewController.h */,
 				3330AE1820FE739700B37975 /* SettingsViewController.m */,
 				3330AE1A2101112000B37975 /* LocationPickerViewController.h */,
 				3330AE1B2101112000B37975 /* LocationPickerViewController.m */,
-				CC7A6A08210115D600028419 /* LoginViewController.h */,
-				CC7A6A09210115D600028419 /* LoginViewController.m */,
-				CC7A6A0B2102B10F00028419 /* PageViewController.h */,
-				CC7A6A0C2102B10F00028419 /* PageViewController.m */,
 				9262591421067E7500BEF660 /* LocationDetailsViewController.h */,
 				9262591521067E7500BEF660 /* LocationDetailsViewController.m */,
+				CC7A6A0B2102B10F00028419 /* PageViewController.h */,
+				CC7A6A0C2102B10F00028419 /* PageViewController.m */,
 				3330AE292107EE2B00B37975 /* LocationWeatherViewController.h */,
 				3330AE2A2107EE2B00B37975 /* LocationWeatherViewController.m */,
 				92499B2D210B9C65005874C8 /* ActivityViewController.h */,
@@ -954,8 +954,8 @@
 			baseConfigurationReference = C8F1DA2B1A28A8278AEEF034 /* Pods-WeatherApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = "";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = LS88PBY5M5;
 				INFOPLIST_FILE = WeatherApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -973,8 +973,8 @@
 			baseConfigurationReference = E045F920045B440297515456 /* Pods-WeatherApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = "";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = LS88PBY5M5;
 				INFOPLIST_FILE = WeatherApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

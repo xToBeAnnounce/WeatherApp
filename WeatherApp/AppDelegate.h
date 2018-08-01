@@ -12,12 +12,11 @@
 
 
 @protocol NavigationDelegate
--(void)presentViewController:(UIViewController*)viewController Name:(NSString*)name;
+-(void)presentViewController:(NSString*)name;
 -(void)pushViewController:(UIViewController*)viewController;
 -(void)dismissViewController;
--(void)setLeftBarItem:(UIBarButtonItem*)button;
+-(void)setLeftBarItem:(UIBarButtonItem *)button WithNVC:(UINavigationController*)navController;
 -(SWRevealViewController*)getRevealViewController;
--(UISegmentedControl*)getDailyWeeklySegmentControl;
 @end
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate,UNUserNotificationCenterDelegate>

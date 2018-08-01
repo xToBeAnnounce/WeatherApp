@@ -43,16 +43,16 @@ BOOL saving = NO;
 - (void)viewDidLoad {
     [super viewDidLoad];
     locationAttributeDict = [[NSMutableDictionary alloc] init];
-    
     [self setUI];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     //Setting up navigation buttons
-    UIBarButtonItem *saveButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(saveLocationDetail)];
+    UIBarButtonItem *saveButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(saveLocationDetail:)];
     self.navigationItem.rightBarButtonItem = saveButton;
     
+    //For information page
     if (self.navigationController.viewControllers.count <= 1) {
         UIBarButtonItem *closeButton = [[UIBarButtonItem alloc] initWithTitle:@"Close" style:UIBarButtonItemStylePlain target:self action:@selector(didTapClose:)];
         self.navigationItem.leftBarButtonItem = closeButton;
@@ -229,14 +229,13 @@ BOOL saving = NO;
     else {
         [locationAttributeDict setObject:self.customNameTextField.text forKey:@"customName"];
     }
-//    NSLog(@"%@", [locationAttributeDict objectForKey:@"customName"]);
 }
 
 -(void)cancelSelectedLocation{
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
--(void)saveLocationDetail{
+-(IBAction)saveLocationDetail:(id)sender{
     [self.customNameTextField resignFirstResponder];
     if (saving) return;
     
@@ -250,17 +249,26 @@ BOOL saving = NO;
     NSDate *startDate = [locationAttributeDict objectForKey:@"startDate"];
     NSDate *endDate = [locationAttributeDict objectForKey:@"endDate"];
     
-    //Does not save is endDate > startDate
-    if ((startDate == nil || endDate == nil) || [[startDate earlierDate:endDate] isEqualToDate:startDate]) {
+    //Does not save is endDate > startDate or end date is in the past
+//    if (endDate && [[[NSDate dateWithTimeIntervalSinceNow:-60*60*24] earlierDate:endDate] isEqualToDate:endDate]) {
+//        [self presentAlertWithMessage:@"End date cannot be in the past"];
+//    }else
+    if (startDate && endDate && [[startDate earlierDate:endDate] isEqualToDate:endDate]) {
+        [self presentAlertWithMessage:@"Start date cannot be later than end date."];
+    }
+    else {
         [self.location setValuesForKeysWithDictionary:locationAttributeDict];
         if (self.saveNewLocation) {
             // Add location to user
             [User.currentUser addLocation:self.location completion:^(BOOL succeeded, NSError * _Nullable error) {
                 if(succeeded){
                     saving = NO;
-                    [self dismissViewControllerAnimated:YES completion:nil];
+                    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
                 }
-                else NSLog(@"%@", error.localizedDescription);
+                else{
+                    saving = NO;
+                    NSLog(@"%@", error.localizedDescription);
+                }
             }];
         }
         else {
@@ -268,26 +276,27 @@ BOOL saving = NO;
             [self.location saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
                 if (succeeded) {
                     saving = NO;
-                    [self navigateBackAppropriatelyAnimated:YES completion:nil];
+                     [self navigateBackAppropriatelyAnimated:YES completion:nil];
                 }
             }];
         }
-    }
-    else {
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Invalid Dates" message:@"Start date cannot be later than end date." preferredStyle:(UIAlertControllerStyleAlert)];
-        
-        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        }];
-        [alert addAction:okAction];
-        
-        [self presentViewController:alert animated:YES completion:^{
-            // optional code for what happens after the alert controller has finished presenting
-        }];
     }
 }
 
 - (IBAction)onTap:(id)sender {
     [self.view endEditing:YES];
+}
+
+- (void) presentAlertWithMessage:(NSString *)message {
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Invalid Date Input" message:message preferredStyle:(UIAlertControllerStyleAlert)];
+    
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    }];
+    [alert addAction:okAction];
+    
+    [self presentViewController:alert animated:YES completion:^{
+        saving = NO;
+    }];
 }
 
 - (IBAction)onTapDelete:(id)sender {
