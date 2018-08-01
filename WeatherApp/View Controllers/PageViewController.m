@@ -65,7 +65,7 @@ bool isgranted;
 }
 
 -(void)Notification{
-    if(isgranted = YES){
+    if(isgranted){
          UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
         UNMutableNotificationContent *content = [[UNMutableNotificationContent alloc]init];
         content.title = @"title";
@@ -83,6 +83,7 @@ bool isgranted;
 
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    [self setNavigationBarUI];
     [self refreshView];
 }
 
@@ -141,13 +142,16 @@ bool isgranted;
     [self.locationDetailsButton.widthAnchor constraintEqualToAnchor:self.locationDetailsButton.heightAnchor].active = YES;
 }
 
+- (void) setNavigationBarUI {
+    self.navigationController.navigationBar.topItem.rightBarButtonItem = self.addLocationButton;
+    self.navigationController.navigationBar.topItem.titleView = self.DailyWeeklySC;
+}
+
 - (void) setUI {
     self.addLocationButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"plus-1"] style:UIBarButtonItemStylePlain target:self action:@selector(segueToAddLocation)];
-    self.navigationController.navigationBar.topItem.rightBarButtonItem = self.addLocationButton;
     
     self.DailyWeeklySC = [[UISegmentedControl alloc]initWithItems:@[@"Daily",@"Weekly"]];
     self.DailyWeeklySC.tintColor = UIColor.blackColor;
-    self.navigationController.navigationBar.topItem.titleView = self.DailyWeeklySC;
     self.DailyWeeklySC.selectedSegmentIndex = 0;
     
     self.locationDetailsButton = [UIButton buttonWithType:UIButtonTypeInfoLight];

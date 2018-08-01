@@ -8,20 +8,12 @@
 
 #import "HamburgerViewController.h"
 #import "HamburgerTableViewCell.h"
-#import "SettingsViewController.h"
-#import "NavigationController.h"
 #import "SWRevealViewController.h"
-#import "PageViewController.h"
-#import "WebViewViewController.h"
 #import "User.h"
 #import "LoginViewController.h"
 
 @interface HamburgerViewController ()<UITableViewDelegate, UITableViewDataSource>
-@property (strong,nonatomic) UITableView *hamburgerTableView;
-@property (strong, nonatomic) PageViewController *pageVC;
-@property (strong, nonatomic) WebViewViewController *mapWVC;
-@property (strong, nonatomic) SettingsViewController *settingsVC;
-@end
+@property (strong,nonatomic) UITableView *hamburgerTableView;@end
 
 @implementation HamburgerViewController
 static NSArray *cellContent;
@@ -33,9 +25,9 @@ static NSString *cellID = @"hamburgerMenu";
     [self setTableView];
     cellImages = @[@"weatherIcon",@"user",@"activities",@"map",@"settings",@"logout"];
     cellContent = @[@"Weather",@"Account",@"Activies",@"Map",@"Settings",@"Logout"];
-    self.pageVC = [[PageViewController alloc]initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:nil];
-    self.mapWVC = WebViewViewController.new;
-    self.settingsVC = SettingsViewController.new;
+//    self.pageVC = [[PageViewController alloc]initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:nil];
+//    self.mapWVC = WebViewViewController.new;
+//    self.settingsVC = SettingsViewController.new;
 }
 
 -(void)setTableView{
