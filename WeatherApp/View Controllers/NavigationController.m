@@ -8,42 +8,40 @@
 
 #import "NavigationController.h"
 #import "User.h"
-#import "SWRevealViewController.h"
 #import "HamburgerViewController.h"
 #import "WebViewViewController.h"
 #import "SettingsViewController.h"
 #import "PageViewController.h"
 #import "LoginViewController.h"
 
+
 @interface NavigationController()
-@property (strong, nonatomic) UIBarButtonItem *addLocationButton;
+
 @property (strong, nonatomic) SWRevealViewController *revealVC;
 @property (strong,nonatomic) HamburgerViewController *hamburgerVC;
-@property (strong, nonatomic) PageViewController *pageVC;
-@property (strong, nonatomic) LoginViewController *loginVC;
+@property (strong, nonatomic) UIViewController *rootVC;
+
 @end
 
 @implementation NavigationController
   
 -(instancetype)init{
+    [self initalizeRevealViewController];
     if (User.currentUser) {
-        [self initalizeRevealViewController];
-        self.navStack = [[UINavigationController alloc] initWithRootViewController:self.revealVC];
-//        [self setWeatherNavigationBar:self.navStack];
+        self.rootVC = self.revealVC;
     }
     else{
-        self.loginVC = [[LoginViewController alloc] init];
-        self.loginVC.navDelegate = self;
-        self.navStack = [[UINavigationController alloc] initWithRootViewController:self.loginVC];
+        LoginViewController *loginVC = [[LoginViewController alloc] init];
+        loginVC.navDelegate = self;
+        self.rootVC = loginVC;
     }
+    self.navStack = [[UINavigationController alloc] initWithRootViewController: self.rootVC];
     return self;
 }
 
 - (void)presentViewController:(NSString*)name{
     if([name isEqualToString:@"pageVC"]){
-        [self initalizeRevealViewController];
         UINavigationController *revealNVC = [[UINavigationController alloc] initWithRootViewController:self.revealVC];
-//        [self setWeatherNavigationBar:revealNVC];
         [self.navStack presentViewController:revealNVC animated:YES completion:nil];
     }
 }
@@ -71,18 +69,6 @@
     self.revealVC.toggleAnimationDuration = 0.5;
 }
 
-//-(void)setWeatherNavigationBar:(UINavigationController*)currentNavController{
-//    self.addLocationButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"plus-1"] style:UIBarButtonItemStylePlain target:self action:@selector(segueToAddLocation)];
-//    currentNavController.navigationBar.topItem.rightBarButtonItem = self.addLocationButton;
-//}
-
-//-(void)segueToAddLocation{
-//    LocationPickerViewController *locationVC = LocationPickerViewController.new;
-//    locationVC.delegate = self;
-//    UINavigationController *locationNavVC = [[UINavigationController alloc] initWithRootViewController:locationVC];
-//    [self.navStack presentViewController:locationNavVC animated:YES completion:nil];
-//}
-
 -(void)setLeftBarItem:(UIBarButtonItem *)button WithNVC:(UINavigationController*)navController{
     navController.navigationBar.topItem.leftBarButtonItem = button;
 }
@@ -90,6 +76,5 @@
 -(SWRevealViewController*)getRevealViewController{
     return self.revealVC;
 }
-
 @end
 

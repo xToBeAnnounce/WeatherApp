@@ -25,9 +25,6 @@ static NSString *cellID = @"hamburgerMenu";
     [self setTableView];
     cellImages = @[@"weatherIcon",@"user",@"activities",@"map",@"settings",@"logout"];
     cellContent = @[@"Weather",@"Account",@"Activies",@"Map",@"Settings",@"Logout"];
-//    self.pageVC = [[PageViewController alloc]initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:nil];
-//    self.mapWVC = WebViewViewController.new;
-//    self.settingsVC = SettingsViewController.new;
 }
 
 -(void)setTableView{
