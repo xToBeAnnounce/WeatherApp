@@ -84,6 +84,9 @@ static NSIndexPath *selectedCell;
     if ([self shouldHighlightDate:cellDate]) {
         weeklycell.backgroundColor = UIColor.greenColor;
     }
+    else {
+        weeklycell.backgroundColor = UIColor.whiteColor;
+    }
     
     return weeklycell;
 }

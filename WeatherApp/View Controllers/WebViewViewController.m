@@ -20,14 +20,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
-   
-    self.navigationController.navigationBar.topItem.titleView = nil;
-    self.navigationController.navigationBar.topItem.title = @"Map";
-    self.navigationController.navigationBar.topItem.rightBarButtonItem = nil;
     
     self.mapWV = [[WKWebView alloc]initWithFrame:UIScreen.mainScreen.bounds];
-    self.mapWV.UIDelegate = self;
     [self.view addSubview:self.mapWV];
     
     self.hud = [MBProgressHUD showHUDAddedTo:self.mapWV animated:YES];
@@ -45,16 +39,7 @@
         }
         else {
             [self.mapWV loadRequest:request];
-//            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-//                // No explicit autorelease pool needed here.
-//                // The code runs in background, not strangling
-//                // the main run loop.
-//                while (self.mapWV.isLoading) {
-//                }
-//                dispatch_sync(dispatch_get_main_queue(), ^{
-                    [MBProgressHUD hideHUDForView:self.mapWV animated:YES];
-//                });
-//            });
+            [MBProgressHUD hideHUDForView:self.mapWV animated:YES];
         }
     }];
     [task resume];
@@ -65,7 +50,13 @@
     // Dispose of any resources that can be recreated.
 }
 
-
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    self.navigationController.navigationBar.topItem.titleView = nil;
+    self.navigationController.navigationBar.topItem.title = @"Map";
+    self.navigationController.navigationBar.topItem.rightBarButtonItem = nil;
+}
 
 /*
 #pragma mark - Navigation
