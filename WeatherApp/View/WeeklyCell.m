@@ -59,8 +59,6 @@ static NSArray *activityNames;
     [self.contentView addSubview:self.tempStackView];
     
     [self setConstraints];
-//    activityNames = @[@"cafe", @"bike", @"movie", @"park"];
-//    [self initActivityButtons];
     return self;
 }
 
