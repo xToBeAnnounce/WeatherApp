@@ -12,7 +12,6 @@
 @interface DailyView : UIView <UITableViewDataSource,UITableViewDelegate>
 @property (strong,nonatomic) Location *location;
 @property (strong, nonatomic) NSString *tempType;
-
 @property (strong, nonatomic) UIView *currentWeatherView;
 @property (strong,nonatomic) UITableView *DailytableView;
 @property (strong, nonatomic) UIStackView *weatherDisplayStackView;
@@ -21,6 +20,7 @@
 @property (strong,nonatomic) UILabel *locationLabel;
 @property (strong,nonatomic) UILabel *customNameLabel;
 @property (strong,nonatomic) UIImageView *backgroundImageView;
+@property CGRect oldframe;
 
 - (void) refreshView;
 

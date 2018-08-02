@@ -52,7 +52,7 @@ bool isgranted;
     [self.navDelegate setLeftBarItem:revealButtonItem WithNVC:self.navigationController];
     
     [self setUI];
-    [self Notification];
+    //[self Notification];
     
     
     //Notification Set UP
