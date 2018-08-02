@@ -27,20 +27,20 @@ static NSString *DailycellIdentifier = @"DailyTableViewCell";
     [super drawRect:rect];
     [self setDailyUI];
     [self displayCurrentWeather];
-    self.DailytableView.dataSource = self;
-    self.DailytableView.delegate = self;
+   
+}
 
-
-    
-    [self.location fetchDataType:@"daily" WithCompletion:^(NSDictionary * data, NSError * error) {
-        if(error == nil){
-            loadDailyData = YES;
-            [self displayCurrentWeather];
-            [self.DailytableView reloadData];
-        }
-        else NSLog(@"%@", error.localizedDescription);
-    }];
-
+- (void) updateDataIfNeeded {
+    if (self.location.dailyData.count == 0) {
+        [self.location fetchDataType:@"daily" WithCompletion:^(NSDictionary * data, NSError * error) {
+            if(error == nil){
+                loadDailyData = YES;
+                [self displayCurrentWeather];
+                [self.DailytableView reloadData];
+            }
+            else NSLog(@"%@", error.localizedDescription);
+        }];
+    }
 }
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
@@ -65,10 +65,6 @@ static NSString *DailycellIdentifier = @"DailyTableViewCell";
     }
 }
 
-
-
-
-
 - (void) setLocation:(Location *)location {
     _location = location;
     if ([self.location.placeName isEqualToString:self.location.customName]) {
@@ -82,6 +78,8 @@ static NSString *DailycellIdentifier = @"DailyTableViewCell";
         [self.locationLabel sizeToFit];
     }
     self.customNameLabel.text = self.location.customName;
+    
+    [self updateDataIfNeeded];
     [self refreshView];
 }
 
@@ -96,7 +94,8 @@ static NSString *DailycellIdentifier = @"DailyTableViewCell";
     self.DailytableView.estimatedRowHeight = 44.0;
     self.DailytableView.rowHeight = UITableViewAutomaticDimension;
     self.DailytableView.translatesAutoresizingMaskIntoConstraints = NO;
-    
+    self.DailytableView.dataSource = self;
+    self.DailytableView.delegate = self;
     [self addSubview:self.DailytableView];
     
     self.currentWeatherView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height/2)];

@@ -145,6 +145,7 @@ bool isgranted;
 - (void) setNavigationBarUI {
     self.navigationController.navigationBar.topItem.rightBarButtonItem = self.addLocationButton;
     self.navigationController.navigationBar.topItem.titleView = self.DailyWeeklySC;
+    [self.DailyWeeklySC addTarget:self action:@selector(onToggleDailyWeekly) forControlEvents:UIControlEventValueChanged];
 }
 
 - (void) setUI {
@@ -221,7 +222,6 @@ bool isgranted;
     [User.currentUser deleteLocationWithID:locWVC.location.objectId withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
         if (succeeded ){
             [self.locViewArrary removeObject:locWVC];
-            [self addPlaceholderIfNeeded];
             [self refreshPageViewWithStartIndex:[self currentPageIndex]];
         }
         else {
@@ -253,7 +253,6 @@ bool isgranted;
             locDetailsVC.location = locWeatherVC.location;
             locDetailsVC.saveNewLocation = NO;
             [self presentViewController:[[UINavigationController alloc] initWithRootViewController:locDetailsVC] animated:YES completion:nil];
-//            [self.navigationController pushViewController:locDetailsVC animated:YES];
         }
     }
 }
@@ -320,7 +319,7 @@ bool isgranted;
                 }
                 else {
                     LocationWeatherViewController *locWVC = self.locViewArrary[viewIndex];
-                    if ([[[NSDate dateWithTimeIntervalSinceNow:-60*60*24] earlierDate:loc.endDate] isEqualToDate:loc.endDate]) {
+                    if ([NSCalendar.currentCalendar compareDate:[NSDate dateWithTimeIntervalSinceNow:-60*60*24] toDate:loc.endDate toUnitGranularity:NSCalendarUnitDay] != NSOrderedAscending) {
                         [expiredLocationScreens addObject:locWVC];
                     }
                     locWVC.location = loc;
@@ -395,5 +394,15 @@ bool isgranted;
     [self updateLocations];
     [self updateUserPreferences];
 }
+
+- (void) onToggleDailyWeekly {
+    if (self.DailyWeeklySC.selectedSegmentIndex == 1) {
+        if ([self.viewControllers[0] isKindOfClass: LocationWeatherViewController.class]) {
+            LocationWeatherViewController *locWVC = self.viewControllers[0];
+            [locWVC showBannerIfNeededWithCompletion:nil];
+        }
+    }
+}
+    
 @end
 

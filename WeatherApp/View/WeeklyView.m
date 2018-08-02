@@ -8,32 +8,45 @@
 
 #import "WeeklyView.h"
 #import "WeeklyCell.h"
-#import "Location.h"
+
 @implementation WeeklyView
 
 static NSString *WeeklycellIdentifier = @"WeeklyCell";
 static NSIndexPath *selectedCell;
+static BOOL showBanner;
+
+- (instancetype)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (self) {
+        selectedCell = nil;
+        showBanner = NO;
+        [self setWeeklyUI];
+        [self setWeeklyConstraints];
+    }
+    return self;
+}
 
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
 - (void)drawRect:(CGRect)rect {
-    selectedCell = nil;
     [super drawRect:rect];
-    [self setWeeklyUI];
-    
-    [self.location fetchDataType:@"weekly" WithCompletion:^(NSDictionary * data, NSError * error) {
-        if(error == nil){
-            [self.WeeklytableView reloadData];
-        }
-        else NSLog(@"%@", error.localizedDescription);
-    }];
-    
-    self.WeeklytableView.delegate = self;
-    self.WeeklytableView.dataSource = self;
+}
+
+- (void) updateDataIfNeeded {
+    if (self.location.weeklyData.count == 0) {
+        [self.location fetchDataType:@"weekly" WithCompletion:^(NSDictionary * data, NSError * error) {
+            if(error == nil){
+                [self.WeeklytableView reloadData];
+            }
+            else NSLog(@"%@", error.localizedDescription);
+        }];
+    }
 }
 
 - (void) setLocation:(Location *)location {
     _location = location;
+    [self updateDataIfNeeded];
     [self refreshView];
 }
 
@@ -50,10 +63,13 @@ static NSIndexPath *selectedCell;
     self.WeeklytableView.translatesAutoresizingMaskIntoConstraints = NO;
     [self addSubview:self.WeeklytableView];
     [self.WeeklytableView registerClass: WeeklyCell.class forCellReuseIdentifier:@"WeeklyCell"];
-    [self setWeeklyConstraints];
     
     self.WeeklytableView.delegate = self;
     self.WeeklytableView.dataSource = self;
+    
+    self.weatherBanner = [[BannerView alloc] initWithMessage:@""];
+    self.weatherBanner.backgroundColor = [UIColor redColor];
+    [self addSubview:self.weatherBanner];
 }
 
 - (void) setWeeklyConstraints {
@@ -61,6 +77,8 @@ static NSIndexPath *selectedCell;
     [self.WeeklytableView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor].active = YES;
     [self.WeeklytableView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor].active = YES;
     [self.WeeklytableView.bottomAnchor constraintEqualToAnchor:self.safeAreaLayoutGuide.bottomAnchor].active = YES;
+    
+    [self.weatherBanner setDefaultSuperviewConstraints];
 }
 
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
@@ -82,10 +100,14 @@ static NSIndexPath *selectedCell;
     weeklycell.rowNum = (int)indexPath.row;
     weeklycell.rowHeight = self.WeeklytableView.estimatedRowHeight;
     if ([self shouldHighlightDate:cellDate]) {
-        weeklycell.backgroundColor = UIColor.greenColor;
+        weeklycell.backgroundColor = [UIColor.greenColor colorWithAlphaComponent:0.1];
+        if (!showBanner && [self.weatherBanner.bannerLabel.text isEqualToString:@""]) {
+            showBanner = YES;
+            [self.weatherBanner setBannerMessage:[self makeAlertStringForWeather:dayWeather]];
+        }
     }
     else {
-        weeklycell.backgroundColor = UIColor.whiteColor;
+        weeklycell.backgroundColor = nil;
     }
     
     return weeklycell;
@@ -104,21 +126,43 @@ static NSIndexPath *selectedCell;
 }
 
 - (void) refreshView {
-    // Put code in here if we decide to display location stuff on weekly view
     [self.WeeklytableView reloadData];
 }
 
 - (BOOL) shouldHighlightDate:(NSDate *)date {
     if (self.location.endDate) {
         if (self.location.startDate) return [self date:date isBetweenStartDate:self.location.startDate andEndDate:self.location.endDate];
-        else return [[date earlierDate:[NSDate dateWithTimeInterval:60*60*24 sinceDate:self.location.endDate]] isEqualToDate:date];
+        else {
+            return !([NSCalendar.currentCalendar compareDate:date toDate:self.location.endDate toUnitGranularity:NSCalendarUnitDay] == NSOrderedDescending);
+        }
     }
     return NO;
 }
 
 - (BOOL) date:(NSDate *)date isBetweenStartDate:(NSDate *)startDate andEndDate:(NSDate *)endDate {
-    if ([[date earlierDate:startDate] isEqualToDate:date]) return NO;
-    if ([[date earlierDate:endDate] isEqualToDate:endDate]) return NO;
+    NSComparisonResult startDateComparison = [NSCalendar.currentCalendar compareDate:date toDate:startDate toUnitGranularity:NSCalendarUnitDay];
+    NSComparisonResult endDateComparison = [NSCalendar.currentCalendar compareDate:date toDate:endDate toUnitGranularity:NSCalendarUnitDay];
+    
+    if (startDateComparison == NSOrderedAscending) return NO;
+    if (endDateComparison == NSOrderedDescending) return NO;
     return YES;
+}
+
+- (NSString *)makeAlertStringForWeather:(Weather *)weather {
+    NSString *alertString = [NSString stringWithFormat:@"%@ will be %@",
+                             [weather getDayOfWeekWithTime:weather.time], [weather.summary lowercaseString]];
+    return alertString;
+}
+
+- (void) showBannerIfNeededWithCompletion:(void(^)(BOOL finished))completion{
+    if (showBanner && ![self.weatherBanner.bannerLabel.text isEqualToString:@""]) {
+        showBanner = NO;
+        [self.weatherBanner animateBannerWithCompletion:^(BOOL finished) {
+            if (finished) {
+                [self.weatherBanner setBannerMessage:@""];
+                if (completion) completion(finished);
+            }
+        }];
+    }
 }
 @end

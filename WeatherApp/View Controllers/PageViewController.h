@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "AppDelegate.h"
+#import "NavigationController.h"
 #import <UserNotifications/UserNotifications.h>
 
 @interface PageViewController : UIPageViewController
-@property (strong, nonatomic) id<NavigationDelegate>navDelegate;
-- (void) refreshView;
+
+@property (strong, nonatomic) id<NavigationDelegate> navDelegate;
+
 @end
