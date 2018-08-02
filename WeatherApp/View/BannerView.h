@@ -13,7 +13,9 @@
 @property (strong, nonatomic) UILabel *bannerLabel;
 
 - (instancetype) initWithMessage:(NSString *)message;
-- (void) setBannerMessage:(NSString *)message;
+
 - (void) setDefaultSuperviewConstraints;
+- (void) setBannerMessage:(NSString *)message;
 - (void)animateBannerWithCompletion:(void(^)(BOOL finished))completion;
+
 @end

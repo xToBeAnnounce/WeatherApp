@@ -36,11 +36,12 @@ static NSString *cellID = @"hamburgerMenu";
 }
 
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
-    HamburgerTableViewCell *cell = [self.hamburgerTableView dequeueReusableCellWithIdentifier: cellID];
+    HamburgerTableViewCell *cell = [self.hamburgerTableView dequeueReusableCellWithIdentifier:cellID forIndexPath:indexPath];
+    
     if(cell == nil){
         cell = [[HamburgerTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
     }
-    [cell setUI];
+    
     cell.sectionLabel.text = cellContent[indexPath.row];
     cell.icon.image = [UIImage imageNamed:cellImages[indexPath.row]];
     return cell;

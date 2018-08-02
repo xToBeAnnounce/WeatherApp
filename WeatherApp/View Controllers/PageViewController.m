@@ -48,6 +48,7 @@ bool isgranted;
     
     self.locViewArrary = [[NSMutableArray alloc] init];
     currentLocation = NO;
+    settingUpLocations = YES;
     
     UIBarButtonItem *revealButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"hamburger"] style:UIBarButtonItemStylePlain target:self action:@selector(toggleScreens:)];
     [self.navDelegate setLeftBarItem:revealButtonItem WithNVC:self.navigationController];
@@ -232,7 +233,10 @@ bool isgranted;
     }
 }
 
-- (void) removeLocScreen:(LocationWeatherViewController *)locWVC {
+- (void) removeExpiredLocScreen:(LocationWeatherViewController *)locWVC {
+    if (settingUpLocations) {
+        [self alertControllerWithTitle:@"Expired Location" message:[NSString stringWithFormat:@"%@ has expired and will be deleted", locWVC.location.customName] btnText:@"OK"];
+    }
     [User.currentUser deleteLocationWithID:locWVC.location.objectId withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
         if (succeeded ){
             [self.locViewArrary removeObject:locWVC];
@@ -337,7 +341,10 @@ bool isgranted;
                 }
                 else {
                     LocationWeatherViewController *locWVC = self.locViewArrary[viewIndex];
-                    if ([NSCalendar.currentCalendar compareDate:[NSDate dateWithTimeIntervalSinceNow:-60*60*24] toDate:loc.endDate toUnitGranularity:NSCalendarUnitDay] != NSOrderedAscending) {
+                    
+                    NSComparisonResult endDateCompare = [NSCalendar.currentCalendar compareDate:[NSDate dateWithTimeIntervalSinceNow:-60*60*24] toDate:loc.endDate toUnitGranularity:NSCalendarUnitDay];
+                    
+                    if (loc.endDate && endDateCompare != NSOrderedAscending) {
                         [expiredLocationScreens addObject:locWVC];
                     }
                     locWVC.location = loc;
@@ -345,9 +352,9 @@ bool isgranted;
             }
             
             for (LocationWeatherViewController *locWVC in expiredLocationScreens) {
-                [self removeLocScreen:locWVC];
+                [self removeExpiredLocScreen:locWVC];
             }
-            
+            settingUpLocations = NO;
             [self refreshPageViewWithStartIndex:[self currentPageIndex]];
         }
         else {
