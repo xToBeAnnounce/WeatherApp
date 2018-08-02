@@ -11,5 +11,5 @@
 
 @interface ActivityAPIManager : NSObject
 +(instancetype)shared;
--(void)getActivityDataWithLocation:(NSArray*)location Keyword:(NSString*)keyword WithCompletion:(void(^)(NSDictionary *data, NSError *error))completion;
+-(void)getActivityDataWithLocation:(NSArray*)location Type:(NSString*)type WithCompletion:(void(^)(NSDictionary *data, NSError *error))completion;
 @end

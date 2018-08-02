@@ -23,7 +23,7 @@
 @end
 
 @implementation NavigationController
-  
+
 -(instancetype)init{
     if (PFUser.currentUser) {
         [self initalizeRevealViewController];

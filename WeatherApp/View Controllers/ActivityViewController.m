@@ -25,14 +25,14 @@
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     [self.view addSubview:self.tableView];
-    
+    [self setTableViewConstraint];
     return self;
 }
 
 -(void)getActivityDataWithLocation:(NSArray*)loc Type:(NSString*)type{
     //Parameters not placed in use yet
     ActivityAPIManager *activityAPI = [ActivityAPIManager shared];
-    [activityAPI getActivityDataWithLocation:loc Keyword:type WithCompletion:^(NSDictionary *data, NSError *error) {
+    [activityAPI getActivityDataWithLocation:loc Type:type WithCompletion:^(NSDictionary *data, NSError *error) {
         if(error == nil){
             for(NSMutableDictionary *dict in data){
                 [self.activities addObject:[[Activity alloc] initWithDictionary:dict]];
@@ -72,6 +72,14 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+}
+
+-(void)setTableViewConstraint{
+    self.tableView.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.tableView.topAnchor constraintEqualToAnchor:self.view.topAnchor].active = YES;
+    [self.tableView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor].active = YES;
+    [self.tableView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor].active = YES;
+    [self.tableView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor].active = YES;
 }
 
 - (void)didReceiveMemoryWarning {

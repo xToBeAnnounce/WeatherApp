@@ -58,23 +58,22 @@ static NSArray *activityNames;
     self.tempStackView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.contentView addSubview:self.tempStackView];
     
-    activityNames = @[@"cafe", @"bike", @"movie", @"park"];
-    [self initActivityButtons];
     [self setConstraints];
-    
+//    activityNames = @[@"cafe", @"bike", @"movie", @"park"];
+//    [self initActivityButtons];
     return self;
 }
 
 -(IBAction)onSelectActivity:(id)sender{
     UIButton *activity = (UIButton*)sender;
-    NSString *activityName = activity.titleLabel.text;
+    NSString *activityType = activity.titleLabel.text;
     
-    [self.delegate displayPopoverWithType:activityName Location:self.location AtRow:self.rowNum Height:self.rowHeight];
+    [self.delegate displayPopoverWithType:activityType Location:self.location];
 }
 
 - (void)setDayWeather:(Weather *)dayWeather {
     _dayWeather = dayWeather;
-    
+    NSLog(@"%@", dayWeather.icon);
     // Day of Week Label
     self.dateLabel.text = [dayWeather getDayOfWeekWithTime:dayWeather.time];
     [self.dateLabel sizeToFit];
@@ -90,16 +89,26 @@ static NSArray *activityNames;
     self.lowTempLabel.text = [dayWeather getTempInString:dayWeather.temperatureLow withType:self.tempType];
     [self.lowTempLabel sizeToFit];
     
-    self.activityStack.hidden = !self.displayActivity;
-    
-    if(!self.displayActivity){
-        [self.activityStack removeFromSuperview];
-        self.bottomConstraint.active = YES;
+    //Activity
+    NSString *weatherCondition = dayWeather.icon;
+    if([weatherCondition rangeOfString:@"clear"].location != NSNotFound){
+        activityNames = @[@"amusement_park", @"campground", @"park", @"zoo", @"stadium", @"resturant", @"cafe"];
     }
-    else{
+    else if([weatherCondition rangeOfString:@"cloud"].location != NSNotFound ||
+            [weatherCondition rangeOfString:@"rain"].location != NSNotFound){
+        activityNames = @[@"aquarium", @"cafe", @"resturant", @"bowling_alley", @"clothing_store", @"gym", @"library", @"movie_theater", @"shopping_mall"];
+    }
+
+    self.activityStack.hidden = !self.displayActivity;
+    if(self.displayActivity){
+        [self initActivityButtons];
         self.bottomConstraint.active = NO;
         [self.contentView addSubview:self.activityStack];
         [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[iconView]-10-[activityView]-|" options:NSLayoutFormatAlignAllCenterX metrics:nil views:@{@"iconView":self.iconImageView, @"activityView":self.activityStack}]];
+    }
+    else{
+        [self.activityStack removeFromSuperview];
+        self.bottomConstraint.active = YES;
     }
 }
 
@@ -120,21 +129,35 @@ static NSArray *activityNames;
 }
 
 -(void)initActivityButtons{
+    int rowCount = 6;
     self.activityStack = [[UIStackView alloc] init];
-    self.activityStack.axis = UILayoutConstraintAxisHorizontal;
+    self.activityStack.axis = UILayoutConstraintAxisVertical;
     self.activityStack.distribution = UIStackViewDistributionFill;
     self.activityStack.alignment = UIStackViewAlignmentCenter;
-    self.activityStack.spacing = 8;
+    self.activityStack.spacing = 5;
     self.activityStack.translatesAutoresizingMaskIntoConstraints = NO;
     
-    for(NSString *title in activityNames){
-        UIButton *activity = [[UIButton alloc] init];
-        [activity setTitle:title forState:UIControlStateNormal];
-        [activity setTitleColor:UIColor.blackColor forState:UIControlStateNormal];
-        [activity sizeToFit];
-        activity.translatesAutoresizingMaskIntoConstraints = NO;
-        [activity addTarget:self action:@selector(onSelectActivity:) forControlEvents:UIControlEventTouchUpInside];
-        [self.activityStack addArrangedSubview:activity];
+    for(int i=0; i<((activityNames.count + rowCount-1) / rowCount); i++){
+        UIStackView *rowStack = [[UIStackView alloc] init];
+        rowStack.axis = UILayoutConstraintAxisHorizontal;
+        rowStack.distribution = UIStackViewDistributionFill;
+        rowStack.alignment = UIStackViewAlignmentCenter;
+        rowStack.spacing = 5;
+        rowStack.translatesAutoresizingMaskIntoConstraints = NO;
+        
+        for(int j=0; j<rowCount; j++){
+            if(rowCount*i + j == activityNames.count) break;
+            NSString *title = activityNames[rowCount*i + j];
+            UIButton *activity = [[UIButton alloc] init];
+            [activity setTitle:title forState:UIControlStateNormal];
+            [activity setImage:[UIImage imageNamed:title] forState:UIControlStateNormal];
+            [activity.heightAnchor constraintEqualToConstant:30].active = YES;
+            [activity.widthAnchor constraintEqualToConstant:30].active = YES;
+            activity.translatesAutoresizingMaskIntoConstraints = NO;
+            [activity addTarget:self action:@selector(onSelectActivity:) forControlEvents:UIControlEventTouchUpInside];
+            [rowStack addArrangedSubview:activity];
+        }
+        [self.activityStack addArrangedSubview:rowStack];
     }
     [self.contentView addSubview:self.activityStack];
 }
