@@ -319,7 +319,7 @@ bool isgranted;
                 }
                 else {
                     LocationWeatherViewController *locWVC = self.locViewArrary[viewIndex];
-                    if ([[[NSDate dateWithTimeIntervalSinceNow:-60*60*24] earlierDate:loc.endDate] isEqualToDate:loc.endDate]) {
+                    if ([NSCalendar.currentCalendar compareDate:[NSDate dateWithTimeIntervalSinceNow:-60*60*24] toDate:loc.endDate toUnitGranularity:NSCalendarUnitDay] != NSOrderedAscending) {
                         [expiredLocationScreens addObject:locWVC];
                     }
                     locWVC.location = loc;

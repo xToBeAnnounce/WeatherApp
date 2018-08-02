@@ -56,9 +56,9 @@
     [super viewDidAppear:animated];
     self.locationDetailsButton.hidden = !self.location.objectId;
     
-//    if (!self.weeklyView.hidden) {
-//        [self showBannerIfNeededWithCompletion:nil];
-//    }
+    if (!self.weeklyView.hidden) {
+        [self showBannerIfNeededWithCompletion:nil];
+    }
 }
 
 - (void)setTempTypeString:(NSString *)tempTypeString {

@@ -21,6 +21,7 @@ double readingTime;
         self.bannerLabel.translatesAutoresizingMaskIntoConstraints = NO;
         [self addSubview:self.bannerLabel];
         
+        self.clipsToBounds = YES;
         self.translatesAutoresizingMaskIntoConstraints = NO;
         
         [self setInternalConstraints];
@@ -39,7 +40,7 @@ double readingTime;
     self.bannerLabel.text = message;
     [self.bannerLabel sizeToFit];
     
-    readingTime = self.bannerLabel.frame.size.width/300;
+    readingTime = self.bannerLabel.frame.size.width/250;
     if (readingTime < 1.5) readingTime = 1.5;
     
     [self adjustLabelBasedConstraints];

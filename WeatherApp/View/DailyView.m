@@ -27,17 +27,20 @@ static NSString *DailycellIdentifier = @"DailyTableViewCell";
     [super drawRect:rect];
     [self setDailyUI];
     [self displayCurrentWeather];
-    
-    [self.location fetchDataType:@"daily" WithCompletion:^(NSDictionary * data, NSError * error) {
-        if(error == nil){
-            loadDailyData = YES;
-            [self displayCurrentWeather];
-            [self.DailytableView reloadData];
-        }
-        else NSLog(@"%@", error.localizedDescription);
-    }];
-    
    
+}
+
+- (void) updateDataIfNeeded {
+    if (self.location.dailyData.count == 0) {
+        [self.location fetchDataType:@"daily" WithCompletion:^(NSDictionary * data, NSError * error) {
+            if(error == nil){
+                loadDailyData = YES;
+                [self displayCurrentWeather];
+                [self.DailytableView reloadData];
+            }
+            else NSLog(@"%@", error.localizedDescription);
+        }];
+    }
 }
 
 - (void) setLocation:(Location *)location {
@@ -53,6 +56,8 @@ static NSString *DailycellIdentifier = @"DailyTableViewCell";
         [self.locationLabel sizeToFit];
     }
     self.customNameLabel.text = self.location.customName;
+    
+    [self updateDataIfNeeded];
     [self refreshView];
 }
 

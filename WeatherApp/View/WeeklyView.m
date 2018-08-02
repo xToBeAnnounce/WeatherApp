@@ -31,17 +31,22 @@ static BOOL showBanner;
 // An empty implementation adversely affects performance during animation.
 - (void)drawRect:(CGRect)rect {
     [super drawRect:rect];
-    
-    [self.location fetchDataType:@"weekly" WithCompletion:^(NSDictionary * data, NSError * error) {
-        if(error == nil){
-            [self.WeeklytableView reloadData];
-        }
-        else NSLog(@"%@", error.localizedDescription);
-    }];
+}
+
+- (void) updateDataIfNeeded {
+    if (self.location.weeklyData.count == 0) {
+        [self.location fetchDataType:@"weekly" WithCompletion:^(NSDictionary * data, NSError * error) {
+            if(error == nil){
+                [self.WeeklytableView reloadData];
+            }
+            else NSLog(@"%@", error.localizedDescription);
+        }];
+    }
 }
 
 - (void) setLocation:(Location *)location {
     _location = location;
+    [self updateDataIfNeeded];
     [self refreshView];
 }
 
@@ -95,14 +100,14 @@ static BOOL showBanner;
     weeklycell.rowNum = (int)indexPath.row;
     weeklycell.rowHeight = self.WeeklytableView.estimatedRowHeight;
     if ([self shouldHighlightDate:cellDate]) {
-        weeklycell.backgroundColor = UIColor.greenColor;
-        if ([self.weatherBanner.bannerLabel.text isEqualToString:@""]) {
+        weeklycell.backgroundColor = [UIColor.greenColor colorWithAlphaComponent:0.1];
+        if (!showBanner && [self.weatherBanner.bannerLabel.text isEqualToString:@""]) {
             showBanner = YES;
             [self.weatherBanner setBannerMessage:[self makeAlertStringForWeather:dayWeather]];
         }
     }
     else {
-        weeklycell.backgroundColor = UIColor.whiteColor;
+        weeklycell.backgroundColor = nil;
     }
     
     return weeklycell;
@@ -127,20 +132,23 @@ static BOOL showBanner;
 - (BOOL) shouldHighlightDate:(NSDate *)date {
     if (self.location.endDate) {
         if (self.location.startDate) return [self date:date isBetweenStartDate:self.location.startDate andEndDate:self.location.endDate];
-        else return [date isEqualToDate:self.location.endDate] || [[date earlierDate:self.location.endDate] isEqualToDate:date];
+        else {
+            return !([NSCalendar.currentCalendar compareDate:date toDate:self.location.endDate toUnitGranularity:NSCalendarUnitDay] == NSOrderedDescending);
+        }
     }
     return NO;
 }
 
 - (BOOL) date:(NSDate *)date isBetweenStartDate:(NSDate *)startDate andEndDate:(NSDate *)endDate {
-    if ([[date earlierDate:startDate] isEqualToDate:date]) return NO;
-    if ([[date earlierDate:endDate] isEqualToDate:endDate]) return NO;
+    NSComparisonResult startDateComparison = [NSCalendar.currentCalendar compareDate:date toDate:startDate toUnitGranularity:NSCalendarUnitDay];
+    NSComparisonResult endDateComparison = [NSCalendar.currentCalendar compareDate:date toDate:endDate toUnitGranularity:NSCalendarUnitDay];
+    
+    if (startDateComparison == NSOrderedAscending) return NO;
+    if (endDateComparison == NSOrderedDescending) return NO;
     return YES;
 }
 
 - (NSString *)makeAlertStringForWeather:(Weather *)weather {
-    
-//    NSString *alertString = [NSString stringWithFormat:@"%@'s weather has changed from tornado to %@", [weather getDayOfWeekWithTime:weather.time], weather.icon];
     NSString *alertString = [NSString stringWithFormat:@"%@ will be %@",
                              [weather getDayOfWeekWithTime:weather.time], [weather.summary lowercaseString]];
     return alertString;
@@ -152,6 +160,7 @@ static BOOL showBanner;
         [self.weatherBanner animateBannerWithCompletion:^(BOOL finished) {
             if (finished) {
                 [self.weatherBanner setBannerMessage:@""];
+                if (completion) completion(finished);
             }
         }];
     }
