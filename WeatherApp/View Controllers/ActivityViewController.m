@@ -25,14 +25,14 @@
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     [self.view addSubview:self.tableView];
-    
+    [self setTableViewConstraint];
     return self;
 }
 
 -(void)getActivityDataWithLocation:(NSArray*)loc Type:(NSString*)type{
     //Parameters not placed in use yet
     ActivityAPIManager *activityAPI = [ActivityAPIManager shared];
-    [activityAPI getActivityDataWithLocation:loc Keyword:type WithCompletion:^(NSDictionary *data, NSError *error) {
+    [activityAPI getActivityDataWithLocation:loc Type:type WithCompletion:^(NSDictionary *data, NSError *error) {
         if(error == nil){
             for(NSMutableDictionary *dict in data){
                 [self.activities addObject:[[Activity alloc] initWithDictionary:dict]];
@@ -62,8 +62,10 @@
     Activity *activity = self.activities[indexPath.row];
     if([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"comgooglemaps://"]]){
         NSString *baseURL = @"comgooglemaps://";
-        NSString *url = [NSString stringWithFormat:@"%@?center=%@,%@", baseURL, activity.location[0], activity.location[1]];
+        NSString *activityName = [activity.name stringByReplacingOccurrencesOfString:@" " withString:@"+"];
+        NSString *url = [NSString stringWithFormat:@"%@?q=%@&center=%@,%@", baseURL,activityName, activity.location[0], activity.location[1]];
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url] options:@{} completionHandler:nil];
+        NSLog(@"%@", url);
     }
     else{
         NSLog(@"Unable to open Google Maps");
@@ -72,6 +74,14 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+}
+
+-(void)setTableViewConstraint{
+    self.tableView.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.tableView.topAnchor constraintEqualToAnchor:self.view.topAnchor].active = YES;
+    [self.tableView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor].active = YES;
+    [self.tableView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor].active = YES;
+    [self.tableView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor].active = YES;
 }
 
 - (void)didReceiveMemoryWarning {

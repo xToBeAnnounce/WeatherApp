@@ -43,6 +43,28 @@ static NSString *DailycellIdentifier = @"DailyTableViewCell";
     }
 }
 
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    CGFloat TableViewHeight = self.DailytableView.frame.size.height;
+    CGFloat TableViewContentHeight = self.DailytableView.contentSize.height;
+    CGFloat TableViewOffset = self.DailytableView.contentOffset.y;
+    
+    if(TableViewOffset == 0){
+        [UIView animateWithDuration:0.3 delay:0 usingSpringWithDamping:50 initialSpringVelocity:1 options:UIViewAnimationOptionCurveEaseIn animations:^{
+            self.currentWeatherView.frame = self.oldframe;
+            [self layoutIfNeeded];
+            
+        } completion:nil];
+    }
+    else if(TableViewOffset + TableViewHeight == TableViewContentHeight){
+         [UIView animateWithDuration:0.5 delay:0 usingSpringWithDamping:50 initialSpringVelocity:1 options:UIViewAnimationOptionCurveEaseOut animations:^{
+             CGRect newframe = CGRectMake(0, 0, self.currentWeatherView.frame.size.width,0);;
+             self.currentWeatherView.frame = newframe;
+             [self layoutIfNeeded];
+             
+         } completion:nil];
+    }
+}
+
 - (void) setLocation:(Location *)location {
     _location = location;
     if ([self.location.placeName isEqualToString:self.location.customName]) {
@@ -72,7 +94,6 @@ static NSString *DailycellIdentifier = @"DailyTableViewCell";
     self.DailytableView.estimatedRowHeight = 44.0;
     self.DailytableView.rowHeight = UITableViewAutomaticDimension;
     self.DailytableView.translatesAutoresizingMaskIntoConstraints = NO;
-    
     self.DailytableView.dataSource = self;
     self.DailytableView.delegate = self;
     [self addSubview:self.DailytableView];
@@ -116,6 +137,7 @@ static NSString *DailycellIdentifier = @"DailyTableViewCell";
     self.weatherDisplayStackView.alignment = UIStackViewAlignmentCenter;
     self.weatherDisplayStackView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.currentWeatherView addSubview:self.weatherDisplayStackView];
+    self.oldframe = self.currentWeatherView.frame;
     
     [self setConstraints];
 }

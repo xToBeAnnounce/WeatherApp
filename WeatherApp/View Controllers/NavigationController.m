@@ -24,7 +24,7 @@
 @end
 
 @implementation NavigationController
-  
+
 -(instancetype)init{
     [self initalizeRevealViewController];
     if (User.currentUser) {
