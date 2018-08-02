@@ -88,19 +88,16 @@
     self.weeklyView.location = location;
 }
 
--(void)displayPopoverWithType:(NSString*)type Location:(NSArray*)loc AtRow:(int)rowNum Height:(int)height{
+-(void)displayPopoverWithType:(NSString*)type Location:(NSArray*)loc{
     ActivityViewController *popoverView = [[ActivityViewController alloc] initWithLocation:loc Type:type];
     popoverView.modalPresentationStyle = UIModalPresentationPopover;
-    
-    int navBarHeight = self.navigationController.navigationBar.frame.size.height;
+    popoverView.preferredContentSize = CGSizeMake(self.weeklyView.bounds.size.width-50, self.weeklyView.bounds.size.height-150);
     
     UIPopoverPresentationController *popController = popoverView.popoverPresentationController;
     popController.delegate = self;
     popController.sourceView = (UIView*)self.weeklyView;
-    popController.sourceRect = CGRectMake(self.weeklyView.bounds.size.width/2, height*rowNum + rowNum/2 + navBarHeight, 1, 1);
-    popController.permittedArrowDirections = UIPopoverArrowDirectionAny;
-    popoverView.preferredContentSize = CGSizeMake(300, 500);
-    
+    popController.sourceRect = CGRectMake(self.weeklyView.bounds.size.width/2, self.weeklyView.bounds.size.height/2, 1, 1);
+    popController.permittedArrowDirections = 0;
     [self presentViewController:popoverView animated:YES completion:nil];
 }
 
