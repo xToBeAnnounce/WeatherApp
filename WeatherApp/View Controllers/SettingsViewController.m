@@ -198,12 +198,6 @@ static NSString *locationCellID = @"LocationTableViewCell";
     [self.user updatePreferencesWithDictionary:[NSDictionary dictionaryWithDictionary:self.updatePrefDict] withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
         if (succeeded) {
             NSLog(@"Saved preferences!");
-//            SWRevealViewController *revealController = [self.navDelegate getRevealViewController];
-//
-//            [revealController panGestureRecognizer];
-//            [revealController tapGestureRecognizer];
-//
-//            [revealController revealToggle:sender];
         }
         else {
             NSLog(@"Unsuccessful");

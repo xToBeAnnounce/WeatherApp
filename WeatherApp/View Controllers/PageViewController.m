@@ -12,7 +12,7 @@
 #import "LocationWeatherViewController.h"
 #import "LocationPickerViewController.h"
 #import "LocationDetailsViewController.h"
-#import "SettingsViewController.h"
+#import "WebViewViewController.h"
 #import "SWRevealViewController.h"
 
 @interface PageViewController ()<UIPageViewControllerDataSource,UIPageViewControllerDelegate>
@@ -28,6 +28,7 @@
 
 @property (strong,nonatomic) UISegmentedControl *DailyWeeklySC;
 @property (strong, nonatomic) UIButton *locationDetailsButton;
+@property (strong, nonatomic) UIButton *mapButton;
 
 @property (strong, nonatomic) UIBarButtonItem *addLocationButton;
 
@@ -135,11 +136,16 @@ bool isgranted;
     
     [self.placeholderButton.centerXAnchor constraintEqualToAnchor:self.placeholderScreen.view.centerXAnchor].active = YES;
     [self.placeholderButton.centerYAnchor constraintEqualToAnchor:self.placeholderScreen.view.centerYAnchor].active = YES;
-    
+
     [self.locationDetailsButton.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor constant:-2].active = YES;
     [self.locationDetailsButton.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor constant:-2].active = YES;
     [self.locationDetailsButton.heightAnchor constraintEqualToConstant:35].active = YES;
     [self.locationDetailsButton.widthAnchor constraintEqualToAnchor:self.locationDetailsButton.heightAnchor].active = YES;
+    
+    [self.mapButton.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor constant:-2].active = YES;
+    [self.mapButton.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor constant:2].active = YES;
+    [self.mapButton.heightAnchor constraintEqualToConstant:30].active = YES;
+    [self.mapButton.widthAnchor constraintEqualToAnchor:self.mapButton.heightAnchor].active = YES;
 }
 
 - (void) setNavigationBarUI {
@@ -155,8 +161,16 @@ bool isgranted;
     self.DailyWeeklySC.tintColor = UIColor.blackColor;
     self.DailyWeeklySC.selectedSegmentIndex = 0;
     
+    self.mapButton = [[UIButton alloc] init];
+    [self.mapButton setImage:[UIImage imageNamed:@"map"] forState:UIControlStateNormal];
+    self.mapButton.contentMode = UIViewContentModeScaleAspectFit;
+    self.mapButton.clipsToBounds = YES;
+    [self.mapButton addTarget:self action:@selector(didTapBottomButton:) forControlEvents:UIControlEventTouchUpInside];
+    self.mapButton.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.view addSubview:self.mapButton];
+    
     self.locationDetailsButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
-    [self.locationDetailsButton addTarget:self action:@selector(didTapLocDetails:) forControlEvents:UIControlEventTouchUpInside];
+    [self.locationDetailsButton addTarget:self action:@selector(didTapBottomButton:) forControlEvents:UIControlEventTouchUpInside];
     self.locationDetailsButton.translatesAutoresizingMaskIntoConstraints = NO;
     self.locationDetailsButton.hidden = YES;
     [self.view addSubview:self.locationDetailsButton];
@@ -242,17 +256,18 @@ bool isgranted;
     }
 }
 
-- (IBAction)didTapLocDetails:(id)sender {
+- (IBAction)didTapBottomButton:(id)sender {
     if ([self.viewControllers[0] isKindOfClass:LocationWeatherViewController.class]) {
         LocationWeatherViewController *locWeatherVC = self.viewControllers[0];
-        if (!locWeatherVC.location.objectId) {
-            [self alertControllerWithTitle:@"Nice Try" message:@"I won't show this page." btnText:@"OK"];
-        }
-        else {
+        if ([sender isEqual:self.locationDetailsButton]) {
             LocationDetailsViewController *locDetailsVC = [[LocationDetailsViewController alloc] init];
             locDetailsVC.location = locWeatherVC.location;
             locDetailsVC.saveNewLocation = NO;
             [self presentViewController:[[UINavigationController alloc] initWithRootViewController:locDetailsVC] animated:YES completion:nil];
+        }
+        else if ([sender isEqual:self.mapButton]) {
+            WebViewViewController *mapWVC = [[WebViewViewController alloc] initWithLocation:locWeatherVC.location];
+            [self presentViewController:[[UINavigationController alloc] initWithRootViewController:mapWVC] animated:YES completion:nil];
         }
     }
 }
@@ -262,7 +277,10 @@ bool isgranted;
     
     __weak typeof(self) weakSelf = self;
     [self setViewControllers:@[self.locViewArrary[index]] direction:UIPageViewControllerNavigationDirectionReverse animated:NO completion:^(BOOL finished) {
-        if (finished) [weakSelf.view bringSubviewToFront:weakSelf.locationDetailsButton];
+        if (finished) {
+            [weakSelf.view bringSubviewToFront:weakSelf.locationDetailsButton];
+            [weakSelf.view bringSubviewToFront:weakSelf.mapButton];
+        }
     }];
 }
 

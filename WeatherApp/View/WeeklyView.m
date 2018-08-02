@@ -34,7 +34,7 @@ static BOOL showBanner;
 }
 
 - (void) updateDataIfNeeded {
-    if (self.location.weeklyData.count == 0) {
+    if (self.WeeklytableView.visibleCells.count == 0) {
         [self.location fetchDataType:@"weekly" WithCompletion:^(NSDictionary * data, NSError * error) {
             if(error == nil){
                 [self.WeeklytableView reloadData];

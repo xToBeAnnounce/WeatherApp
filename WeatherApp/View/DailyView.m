@@ -27,11 +27,11 @@ static NSString *DailycellIdentifier = @"DailyTableViewCell";
     [super drawRect:rect];
     [self setDailyUI];
     [self displayCurrentWeather];
-   
+    [self updateDataIfNeeded];
 }
 
 - (void) updateDataIfNeeded {
-    if (self.location.dailyData.count == 0) {
+    if (self.DailytableView.visibleCells.count == 0) {
         [self.location fetchDataType:@"daily" WithCompletion:^(NSDictionary * data, NSError * error) {
             if(error == nil){
                 loadDailyData = YES;
