@@ -134,6 +134,7 @@
         // No explicit autorelease pool needed here.
         // The code runs in background, not strangling
         // the main run loop.
+        
         NSMutableArray *locations = [self getLocationsArray];
         NSError *error;
         dispatch_sync(dispatch_get_main_queue(), ^{

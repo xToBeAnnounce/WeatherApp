@@ -27,7 +27,6 @@ static NSString *DailycellIdentifier = @"DailyTableViewCell";
     [super drawRect:rect];
     [self setDailyUI];
     [self displayCurrentWeather];
-   
 }
 
 - (void) updateDataIfNeeded {

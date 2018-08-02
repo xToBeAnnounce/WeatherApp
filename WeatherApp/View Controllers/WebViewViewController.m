@@ -7,28 +7,63 @@
 //
 
 #import "WebViewViewController.h"
-#import "Location.h"
 #import "MBProgressHUD.h"
 
 
 @interface WebViewViewController ()
+@property (strong, nonatomic) Location *location;
 @property (strong,nonatomic) WKWebView *mapWV;
-@property (strong,nonatomic) MBProgressHUD *hud;
 @end
 
 @implementation WebViewViewController
 
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        self.mapWV = [[WKWebView alloc]initWithFrame:UIScreen.mainScreen.bounds];
+        self.mapWV.navigationDelegate = self;
+        [self.view addSubview:self.mapWV];
+        
+        [MBProgressHUD showHUDAddedTo:self.mapWV animated:YES];
+    }
+    return self;
+}
+
+- (instancetype) initWithLocation:(Location *)location {
+    self = [self init];
+    self.location = location;
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+    if (!self.location) self.location = Location.currentLocation;
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self setNavigationUI];
+    [self loadMap];
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+- (void) setNavigationUI {
+    self.navigationController.navigationBar.topItem.titleView = nil;
+    self.navigationController.navigationBar.topItem.rightBarButtonItem = nil;
+    self.navigationController.navigationBar.topItem.title = @"Map";
     
-    self.mapWV = [[WKWebView alloc]initWithFrame:UIScreen.mainScreen.bounds];
-    [self.view addSubview:self.mapWV];
-    
-    self.hud = [MBProgressHUD showHUDAddedTo:self.mapWV animated:YES];
-    self.hud.backgroundColor = [UIColor lightTextColor];
-    
-    Location *location = Location.currentLocation;
-    NSString *urlString = [@"https://maps.darksky.net/" stringByAppendingString:[NSString stringWithFormat:@"@temperature,%f,%f,10", location.lattitude, location.longitude]];
+    if (!self.navigationController.navigationBar.topItem.leftBarButtonItem) {
+        self.navigationController.navigationBar.topItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Close" style:UIBarButtonItemStylePlain target:self action:@selector(onTapClose:)];
+    }
+}
+
+- (void) loadMap {
+    NSString *urlString = [@"https://maps.darksky.net/" stringByAppendingString:[NSString stringWithFormat:@"@temperature,%f,%f,9", self.location.lattitude, self.location.longitude]];
     NSURL *url = [NSURL URLWithString:urlString];
     
     NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10.0];
@@ -39,33 +74,18 @@
         }
         else {
             [self.mapWV loadRequest:request];
-            [MBProgressHUD hideHUDForView:self.mapWV animated:YES];
         }
     }];
+    
     [task resume];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
+    [MBProgressHUD hideHUDForView:self.mapWV animated:YES];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    
-    self.navigationController.navigationBar.topItem.titleView = nil;
-    self.navigationController.navigationBar.topItem.title = @"Map";
-    self.navigationController.navigationBar.topItem.rightBarButtonItem = nil;
+- (IBAction)onTapClose:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

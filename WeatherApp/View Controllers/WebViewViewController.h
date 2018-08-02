@@ -8,7 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import <WebKit/WebKit.h>
+#import "Location.h"
 
-@interface WebViewViewController : UIViewController
-
+@interface WebViewViewController : UIViewController <WKNavigationDelegate>
+- (instancetype) initWithLocation:(Location *)location;
 @end

@@ -9,9 +9,20 @@
 #import "BannerView.h"
 
 @implementation BannerView
+{
+    NSLayoutConstraint *_bannerHeightConstraint;
+    NSLayoutConstraint *_bannerHideConstraint;
+    NSLayoutConstraint *_bannerShowConstraint;
+    
+    NSLayoutConstraint *_labelWidthConstraint;
+    NSLayoutConstraint *_labelStartConstraint;
+    NSLayoutConstraint *_labelEndConstraint;
+}
 
 double readingTime;
 
+/*------------------INIT FUNCTIONS------------------*/
+// initalizes bannerlabel and sets some view properties
 - (instancetype)init
 {
     self = [super init];
@@ -30,12 +41,55 @@ double readingTime;
     return self;
 }
 
+// sets message of banner label after init
 - (instancetype) initWithMessage:(NSString *)message{
     self = [self init];
     [self setBannerMessage:message];
     return self;
 }
 
+/*------------------CONSTRAINT METHODS------------------*/
+// Set internal constraints for label and view
+- (void) setInternalConstraints {
+    // set banner height to adjust to label height
+    _bannerHeightConstraint = [self.heightAnchor constraintEqualToAnchor:self.bannerLabel.heightAnchor constant:10];
+    _bannerHeightConstraint.active = YES;
+    
+    [self.bannerLabel.centerYAnchor constraintEqualToAnchor:self.centerYAnchor].active = YES;
+    
+    _labelStartConstraint = [self.bannerLabel.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:8];
+    _labelStartConstraint.active = YES;
+    
+    _labelEndConstraint = [self.bannerLabel.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:-8];
+    _labelEndConstraint.active = NO;
+}
+
+// set banner constraints with regards to superview
+- (void) setDefaultSuperviewConstraints{
+    [self.leadingAnchor constraintEqualToAnchor:self.superview.leadingAnchor].active = YES;
+    [self.trailingAnchor constraintEqualToAnchor:self.superview.trailingAnchor].active = YES;
+    
+    _bannerHideConstraint = [self.bottomAnchor constraintEqualToAnchor:self.superview.safeAreaLayoutGuide.topAnchor];
+    _bannerShowConstraint = [self.topAnchor constraintEqualToAnchor:self.superview.safeAreaLayoutGuide.topAnchor];
+}
+
+// Change constraints based on height of label
+- (void) adjustLabelBasedConstraints {
+    NSLayoutConstraint *oldWidthConstraint = _labelWidthConstraint;
+    if (self.bannerLabel.frame.size.width > self.superview.frame.size.width-16) {
+        self.bannerLabel.textAlignment = NSTextAlignmentLeft;
+        _labelWidthConstraint = [self.bannerLabel.widthAnchor constraintEqualToConstant:self.bannerLabel.frame.size.width];
+    }
+    else {
+        self.bannerLabel.textAlignment = NSTextAlignmentCenter;
+        _labelWidthConstraint = [self.bannerLabel.widthAnchor constraintEqualToConstant:self.superview.frame.size.width-16];
+    }
+    oldWidthConstraint.active = NO;
+    _labelWidthConstraint.active = YES;
+}
+
+/*------------------DISPLAY METHODS------------------*/
+// sets text of bannerLabel and adjusts constraints/view accordingly
 - (void) setBannerMessage:(NSString *)message{
     self.bannerLabel.text = message;
     [self.bannerLabel sizeToFit];
@@ -46,55 +100,21 @@ double readingTime;
     [self adjustLabelBasedConstraints];
 }
 
-- (void) setInternalConstraints {
-    [self.bannerLabel.centerYAnchor constraintEqualToAnchor:self.centerYAnchor].active = YES;
-    
-    self.bannerHeightConstraint = [self.heightAnchor constraintEqualToAnchor:self.bannerLabel.heightAnchor constant:10];
-    self.bannerHeightConstraint.active = YES;
-    
-    self.labelStartConstraint = [self.bannerLabel.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:8];
-    self.labelStartConstraint.active = YES;
-    
-    self.labelEndConstraint = [self.bannerLabel.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:-8];
-    self.labelEndConstraint.active = NO;
-}
-
-
-- (void) setDefaultSuperviewConstraints{
-    [self.leadingAnchor constraintEqualToAnchor:self.superview.leadingAnchor].active = YES;
-    [self.trailingAnchor constraintEqualToAnchor:self.superview.trailingAnchor].active = YES;
-    
-    self.bannerHideConstraint = [self.bottomAnchor constraintEqualToAnchor:self.superview.safeAreaLayoutGuide.topAnchor];
-    self.bannerShowConstraint = [self.topAnchor constraintEqualToAnchor:self.superview.safeAreaLayoutGuide.topAnchor];
-}
-
-- (void) adjustLabelBasedConstraints {
-    NSLayoutConstraint *oldWidthConstraint = self.labelWidthConstraint;
-    if (self.bannerLabel.frame.size.width > self.superview.frame.size.width-16) {
-        self.bannerLabel.textAlignment = NSTextAlignmentLeft;
-        self.labelWidthConstraint = [self.bannerLabel.widthAnchor constraintEqualToConstant:self.bannerLabel.frame.size.width];
-    }
-    else {
-        self.bannerLabel.textAlignment = NSTextAlignmentCenter;
-        self.labelWidthConstraint = [self.bannerLabel.widthAnchor constraintEqualToConstant:self.superview.frame.size.width-16];
-    }
-    oldWidthConstraint.active = NO;
-    self.labelWidthConstraint.active = YES;
-}
-
+// shows or hides the banner
 - (void) showAlert:(BOOL)show {
     if (show) {
-        self.bannerHideConstraint.active = NO;
-        self.bannerShowConstraint.active = YES;
+        _bannerHideConstraint.active = NO;
+        _bannerShowConstraint.active = YES;
     }
     else {
-        self.bannerShowConstraint.active = NO;
-        self.bannerHideConstraint.active = YES;
+        _bannerShowConstraint.active = NO;
+        _bannerHideConstraint.active = YES;
     }
     self.alpha = (int)show;
     [self.superview layoutIfNeeded];
 }
 
+// Animates the banner
 - (void)animateBannerWithCompletion:(void(^)(BOOL finished))completion {
     [self adjustLabelBasedConstraints];
     
@@ -107,8 +127,8 @@ double readingTime;
             // After banner has appeared
             [UIView animateWithDuration:readingTime delay:0.3 options:UIViewAnimationOptionCurveLinear animations:^{
                 
-                self.labelStartConstraint.active = NO;
-                self.labelEndConstraint.active = YES;
+                self->_labelStartConstraint.active = NO;
+                self->_labelEndConstraint.active = YES;
                 [self.superview layoutIfNeeded];
                 
             } completion:^(BOOL finished) {
@@ -120,8 +140,8 @@ double readingTime;
                         
                     } completion:^(BOOL finished) {
                         if (finished) {
-                            self.labelEndConstraint.active = NO;
-                            self.labelStartConstraint.active = YES;
+                            self->_labelEndConstraint.active = NO;
+                            self->_labelStartConstraint.active = YES;
                         }
                         if (completion) completion(finished);
                     }];
