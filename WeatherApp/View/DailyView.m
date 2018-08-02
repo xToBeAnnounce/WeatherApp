@@ -43,27 +43,6 @@ static NSString *DailycellIdentifier = @"DailyTableViewCell";
 
 }
 
--(void)SwipedUpOrDown{
-
-        
-        [UIView animateWithDuration:0.3 delay:0 usingSpringWithDamping:10 initialSpringVelocity:1 options:UIViewAnimationOptionLayoutSubviews animations:^{
-            self.currentWeatherView.frame = self.oldframe;
-
-        } completion:nil];
-
-        
-    
-}
-
--(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
-    NSLog(@"Dragged");
-//    [UIView animateWithDuration:0.5 delay:0 usingSpringWithDamping:50 initialSpringVelocity:1 options:UIViewAnimationOptionLayoutSubviews animations:^{
-//        CGRect newframe = CGRectMake(0, 0, self.currentWeatherView.frame.size.width,0);;
-//        self.currentWeatherView.frame = newframe;
-//
-//    } completion:nil];
-}
-
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
     CGFloat TableViewHeight = self.DailytableView.frame.size.height;
     CGFloat TableViewContentHeight = self.DailytableView.contentSize.height;
