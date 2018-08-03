@@ -246,10 +246,12 @@ BOOL saving = NO;
     if(!self.startSwitch.isOn) startDate = nil;
     if(!self.endSwitch.isOn) endDate = nil;
     
-    if (startDate && endDate && [[startDate earlierDate:endDate] isEqualToDate:endDate]) {
+    
+    
+    if (startDate && endDate && [NSCalendar.currentCalendar compareDate:startDate toDate:endDate toUnitGranularity:NSCalendarUnitDay] == NSOrderedDescending) {
         [self presentAlertWithMessage:@"Start date cannot be later than end date."];
     }
-    else if (self.saveNewLocation && endDate && [[[NSDate dateWithTimeIntervalSinceNow:-60*60*24] earlierDate:endDate] isEqualToDate:endDate]) {
+    else if (self.saveNewLocation && endDate && [NSCalendar.currentCalendar compareDate:[NSDate dateWithTimeIntervalSinceNow:-60*60*24] toDate:endDate toUnitGranularity:NSCalendarUnitDay] != NSOrderedAscending) {
         [self presentAlertWithMessage:@"Cannot create new location with expired end date."];
     }
     else {

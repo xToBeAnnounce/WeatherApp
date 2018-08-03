@@ -165,20 +165,15 @@ static NSString *locationCellID = @"LocationTableViewCell";
 }
 
 - (void) setNavigationUI {
-    // Sets navigation bar titlte and buttons
+    // Sets navigation bar title and buttons
     self.navigationController.navigationBar.topItem.titleView = nil;
+    self.navigationController.navigationBar.topItem.title = @"Settings";
     self.navigationController.navigationBar.topItem.rightBarButtonItem = self.saveButton;
 }
 
 - (void) setUI {
     self.view.backgroundColor = [UIColor whiteColor];
     
-    // Sets navigation bar title and buttons
-    self.navigationController.navigationBar.topItem.titleView = nil;
-    self.navigationController.navigationBar.topItem.title = @"Settings";
-    self.navigationController.navigationBar.topItem.rightBarButtonItem = self.saveButton;
-
-
     // Sets up table view
     self.tableView = [[UITableView alloc] initWithFrame: CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
     self.tableView.dataSource = self;
@@ -203,12 +198,6 @@ static NSString *locationCellID = @"LocationTableViewCell";
     [self.user updatePreferencesWithDictionary:[NSDictionary dictionaryWithDictionary:self.updatePrefDict] withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
         if (succeeded) {
             NSLog(@"Saved preferences!");
-//            SWRevealViewController *revealController = [self.navDelegate getRevealViewController];
-//
-//            [revealController panGestureRecognizer];
-//            [revealController tapGestureRecognizer];
-//
-//            [revealController revealToggle:sender];
         }
         else {
             NSLog(@"Unsuccessful");
