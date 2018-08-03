@@ -31,6 +31,18 @@ static BOOL showBanner;
 // An empty implementation adversely affects performance during animation.
 - (void)drawRect:(CGRect)rect {
     [super drawRect:rect];
+    [self setWeeklyUI];
+    [self setLocationName];
+    
+    [self.location fetchDataType:@"weekly" WithCompletion:^(NSDictionary * data, NSError * error) {
+        if(error == nil){
+            [self.WeeklytableView reloadData];
+        }
+        else NSLog(@"%@", error.localizedDescription);
+    }];
+    
+    self.WeeklytableView.delegate = self;
+    self.WeeklytableView.dataSource = self;
 }
 
 - (void) updateDataIfNeeded {
@@ -44,8 +56,22 @@ static BOOL showBanner;
     }
 }
 
+-(void)setLocationName{
+    if ([self.location.placeName isEqualToString:self.location.customName]) {
+        self.customNameLabel.font = [UIFont systemFontOfSize:45];
+        self.locationLabel.hidden = YES;
+    }
+    else {
+        self.locationLabel.hidden = NO;
+        self.customNameLabel.font = [UIFont systemFontOfSize:35];
+        self.locationLabel.text = self.location.placeName;
+        [self.locationLabel sizeToFit];
+    }
+}
+
 - (void) setLocation:(Location *)location {
     _location = location;
+    self.customNameLabel.text = self.location.customName;
     [self updateDataIfNeeded];
     [self refreshView];
 }
@@ -57,26 +83,73 @@ static BOOL showBanner;
 
 /*-----------------------------SETS WEEKLY UI-----------------------------------------*/
 -(void)setWeeklyUI{
+    self.weatherBanner = [[BannerView alloc] initWithMessage:@""];
+    self.weatherBanner.backgroundColor = [UIColor redColor];
+    [self addSubview:self.weatherBanner];
+
     self.WeeklytableView = [[UITableView alloc] initWithFrame: CGRectMake(0, 0, self.frame.size.width,self.frame.size.height)];
     self.WeeklytableView.estimatedRowHeight = 50;
     self.WeeklytableView.rowHeight = UITableViewAutomaticDimension;
     self.WeeklytableView.translatesAutoresizingMaskIntoConstraints = NO;
     [self addSubview:self.WeeklytableView];
     [self.WeeklytableView registerClass: WeeklyCell.class forCellReuseIdentifier:@"WeeklyCell"];
-    
     self.WeeklytableView.delegate = self;
     self.WeeklytableView.dataSource = self;
     
-    self.weatherBanner = [[BannerView alloc] initWithMessage:@""];
-    self.weatherBanner.backgroundColor = [UIColor redColor];
-    [self addSubview:self.weatherBanner];
+    [self setLocationDisplay];
+    [self setWeeklyConstraints];
+}
+
+-(void)setLocationDisplay{
+    self.locationView = [[UIView alloc] init];
+    [self addSubview:self.locationView];
+    self.locationView.translatesAutoresizingMaskIntoConstraints = NO;
+    //    [self.locationView.topAnchor constraintEqualToAnchor:self.topAnchor].active = YES;
+    [self.locationView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor].active = YES;
+    [self.locationView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor].active = YES;
+    [self.locationView.heightAnchor constraintEqualToConstant:self.frame.size.height/8].active = YES;
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[locationView]-0-[tableView]-0-|" options:NSLayoutFormatAlignAllCenterX metrics:nil views:@{@"locationView": self.locationView, @"tableView": self.WeeklytableView}]];
+
+    self.backgroundImageView = [[UIImageView alloc]initWithFrame:self.locationView.frame];
+    self.backgroundImageView.contentMode = UIViewContentModeScaleAspectFill;
+    self.backgroundImageView.clipsToBounds = YES;
+    
+    self.backgroundImageView.image = [UIImage imageNamed:@"sunnybackground"];
+    self.backgroundImageView.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.locationView addSubview:self.backgroundImageView];
+    
+    //setting up customNameLabel
+    self.customNameLabel = [[UILabel alloc]init];
+    self.customNameLabel.font = [UIFont systemFontOfSize:35];
+    self.customNameLabel.text = self.location.customName;
+    
+    //setting up locationLabel
+    self.locationLabel = [[UILabel alloc]init];
+    self.locationLabel.font = [UIFont systemFontOfSize:17];
+    self.locationLabel.text = @"---";
+    
+    NSArray *locationDisplay = @[self.customNameLabel,self.locationLabel];
+    self.locationStackView = [[UIStackView alloc] initWithArrangedSubviews:locationDisplay];
+    self.locationStackView.axis = UILayoutConstraintAxisVertical;
+    self.locationStackView.distribution = UIStackViewDistributionEqualSpacing;
+    self.locationStackView.alignment = UIStackViewAlignmentCenter;
+    self.locationStackView.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.locationView addSubview:self.locationStackView];
 }
 
 - (void) setWeeklyConstraints {
-    [self.WeeklytableView.topAnchor constraintEqualToAnchor:self.safeAreaLayoutGuide.topAnchor].active = YES;
     [self.WeeklytableView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor].active = YES;
     [self.WeeklytableView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor].active = YES;
-    [self.WeeklytableView.bottomAnchor constraintEqualToAnchor:self.safeAreaLayoutGuide.bottomAnchor].active = YES;
+  
+    [self.backgroundImageView.topAnchor constraintEqualToAnchor:self.locationView.topAnchor].active = YES;
+    [self.backgroundImageView.bottomAnchor constraintEqualToAnchor:self.locationView.bottomAnchor].active = YES;
+    [self.backgroundImageView.leadingAnchor constraintEqualToAnchor:self.locationView.leadingAnchor].active = YES;
+    [self.backgroundImageView.trailingAnchor constraintEqualToAnchor:self.locationView.trailingAnchor].active = YES;
+    
+    // stack view constraints
+    [self.locationStackView.centerXAnchor constraintEqualToAnchor:self.locationView.centerXAnchor].active = YES;
+    [self.locationStackView.topAnchor constraintEqualToAnchor:self.safeAreaLayoutGuide.topAnchor].active = YES;
+    [self.locationStackView.bottomAnchor constraintEqualToAnchor:self.locationView.bottomAnchor constant:-8].active = YES;
     
     [self.weatherBanner setDefaultSuperviewConstraints];
 }

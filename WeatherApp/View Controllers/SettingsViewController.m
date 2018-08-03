@@ -213,7 +213,6 @@ static NSString *locationCellID = @"LocationTableViewCell";
         if ([tempType isEqualToString:@"C"]) temp = [self convertTemp:temp toType:@"F"];
         
         [self.updatePrefDict setObject:[NSNumber numberWithInt:temp] forKey:@"tooHotTemp"];
-        NSLog(@"Too Hot Temperature: %@", self.tooHotTextField.text);
     }
     else {
         [self.updatePrefDict removeObjectForKey:@"tooHotTemp"];
@@ -227,8 +226,6 @@ static NSString *locationCellID = @"LocationTableViewCell";
         int temp = [self.tooColdTextField.text intValue];
         if ([tempType isEqualToString:@"C"]) temp = [self convertTemp:temp toType:@"F"];
         [self.updatePrefDict setObject:[NSNumber numberWithInt:temp] forKey:@"tooColdTemp"];
-        
-        NSLog(@"Too Cold Temperature: %@", self.tooColdTextField.text);
     }
     else {
         [self.updatePrefDict removeObjectForKey:@"tooColdTemp"];
