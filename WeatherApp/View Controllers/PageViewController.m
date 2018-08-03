@@ -8,6 +8,7 @@
 
 #import "PageViewController.h"
 #import "User.h"
+#import "Weather.h"
 #import "NavigationController.h"
 #import "LocationWeatherViewController.h"
 #import "LocationPickerViewController.h"
@@ -16,6 +17,8 @@
 #import "SWRevealViewController.h"
 
 @interface PageViewController ()<UIPageViewControllerDataSource,UIPageViewControllerDelegate>
+
+@property (strong,nonatomic) UNUserNotificationCenter *notificationCenter;
 
 @property (strong,nonatomic) NSArray *viewControllerArrary;
 @property (strong,nonatomic) UIPageControl *pageControl;
@@ -44,7 +47,7 @@ bool isgranted;
     [super viewDidLoad];
     self.dataSource = self;
     self.delegate = self;
-    isgranted = false;
+    isgranted = NO;
     
     self.locViewArrary = [[NSMutableArray alloc] init];
     currentLocation = NO;
@@ -54,32 +57,63 @@ bool isgranted;
     [self.navDelegate setLeftBarItem:revealButtonItem WithNVC:self.navigationController];
     
     [self setUI];
-    //[self Notification];
-    
-    
-    //Notification Set UP
-    UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
-    UNAuthorizationOptions options = UNAuthorizationOptionAlert+UNAuthorizationOptionSound;
-    [center requestAuthorizationWithOptions:options completionHandler:^(BOOL granted, NSError * _Nullable error) {
-        isgranted = granted;
-    }];
-    
+    [self notificationSetUp];
 }
 
--(void)Notification{
+- (void) notificationSetUp {
+    //Notification Set UP
+    self.notificationCenter = [UNUserNotificationCenter currentNotificationCenter];
+    UNAuthorizationOptions options = UNAuthorizationOptionAlert+UNAuthorizationOptionSound;
+    [self.notificationCenter requestAuthorizationWithOptions:options completionHandler:^(BOOL granted, NSError * _Nullable error) {
+        isgranted = granted;
+    }];
+}
+
+-(void) notification{
     if(isgranted){
-         UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
         UNMutableNotificationContent *content = [[UNMutableNotificationContent alloc]init];
         content.title = @"title";
         content.subtitle = @"subtitle";
         content.body = @"body";
         content.sound = [UNNotificationSound defaultSound];
         
-        UNTimeIntervalNotificationTrigger *trigger = [UNTimeIntervalNotificationTrigger triggerWithTimeInterval:5 repeats:NO];
+        UNTimeIntervalNotificationTrigger *trigger = [UNTimeIntervalNotificationTrigger triggerWithTimeInterval:1 repeats:NO];
         
         UNNotificationRequest *request = [UNNotificationRequest requestWithIdentifier:@"UNrequest" content:content trigger:trigger];
         
-        [center addNotificationRequest:request withCompletionHandler:nil];
+        [self.notificationCenter addNotificationRequest:request withCompletionHandler:nil];
+    }
+}
+
+- (void) notificationWithPreferences:(Preferences *)pref {
+    if(isgranted){
+        LocationWeatherViewController *locWVC = [self currentWeatherVC];
+        Weather *weather = [locWVC.location.dailyData firstObject];
+        
+        if (locWVC.location && weather) {
+            UNMutableNotificationContent *content = [[UNMutableNotificationContent alloc]init];
+            content.title = @"Good Morning";
+            NSString *bodyText = [NSString stringWithFormat:@"%@ is ", locWVC.location.placeName];
+            
+            if (weather.temperature > [pref.tooHotTemp intValue]) {
+                bodyText = [bodyText stringByAppendingString:@"hot today. Wear some shorts!"];
+            }
+            else if (weather.temperature < [pref.tooColdTemp intValue]) {
+                bodyText = [bodyText stringByAppendingString:@"cold today. Grab a jacket!"];
+            }
+            else {
+                bodyText = [bodyText stringByAppendingString:[NSString stringWithFormat:@"a nice %@. Enjoy the weather!",[weather getTempInString:weather.temperature withType:pref.tempTypeString]]];
+            }
+            
+            content.body = bodyText;
+            content.sound = [UNNotificationSound defaultSound];
+            
+            UNTimeIntervalNotificationTrigger *trigger = [UNTimeIntervalNotificationTrigger triggerWithTimeInterval:1 repeats:NO];
+            
+            UNNotificationRequest *request = [UNNotificationRequest requestWithIdentifier:@"UNrequest" content:content trigger:trigger];
+            
+            [self.notificationCenter addNotificationRequest:request withCompletionHandler:nil];
+        }
     }
 }
 
@@ -87,6 +121,7 @@ bool isgranted;
     [super viewWillAppear:animated];
     [self setNavigationBarUI];
     [self refreshView];
+//    [self notification];
 }
 
 - (void) viewDidAppear:(BOOL)animated {
@@ -234,9 +269,8 @@ bool isgranted;
 }
 
 - (void) removeExpiredLocScreen:(LocationWeatherViewController *)locWVC {
-    if (settingUpLocations) {
-        [self alertControllerWithTitle:@"Expired Location" message:[NSString stringWithFormat:@"%@ has expired and will be deleted", locWVC.location.customName] btnText:@"OK"];
-    }
+    [self alertControllerWithTitle:@"Expired Location" message:[NSString stringWithFormat:@"%@ has expired and was deleted.", locWVC.location.customName] btnText:@"OK"];
+    
     [User.currentUser deleteLocationWithID:locWVC.location.objectId withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
         if (succeeded ){
             [self.locViewArrary removeObject:locWVC];
@@ -252,17 +286,13 @@ bool isgranted;
     if (self.locViewArrary.count == 0) {
         self.locationDetailsButton.hidden = YES;
         self.placeholderButton.hidden = NO;
-        
-//        self.placeholderLabel.text = @"Add some locations!";
-//        self.placeholderLabel.font = [UIFont systemFontOfSize:20 weight:UIFontWeightThin];
-//        [self.placeholderLabel sizeToFit];
         [self.locViewArrary addObject:self.placeholderScreen];
     }
 }
 
 - (IBAction)didTapBottomButton:(id)sender {
-    if ([self.viewControllers[0] isKindOfClass:LocationWeatherViewController.class]) {
-        LocationWeatherViewController *locWeatherVC = self.viewControllers[0];
+    LocationWeatherViewController *locWeatherVC = [self currentWeatherVC];
+    if (locWeatherVC.location) {
         if ([sender isEqual:self.locationDetailsButton]) {
             LocationDetailsViewController *locDetailsVC = [[LocationDetailsViewController alloc] init];
             locDetailsVC.location = locWeatherVC.location;
@@ -304,6 +334,13 @@ bool isgranted;
     else {
         return 0;
     }
+}
+
+- (LocationWeatherViewController *)currentWeatherVC {
+    if ([self.viewControllers[0] isKindOfClass:LocationWeatherViewController.class]) {
+        return self.viewControllers[0];
+    }
+    else return LocationWeatherViewController.new;
 }
 
 - (void) updateLocations {
@@ -367,6 +404,7 @@ bool isgranted;
 - (void) updateUserPreferences {
     [User.currentUser getUserPreferencesWithBlock:^(Preferences *pref, NSError *error) {
         if (pref) {
+            if (pref.notificationsOn) [self notificationWithPreferences:pref];
             // current location is on (updates current loc every time returns to page)
             if (pref.locationOn && !currentLocation) {
                 // Remove current location screen if it exists
@@ -422,8 +460,8 @@ bool isgranted;
 
 - (void) onToggleDailyWeekly {
     if (self.DailyWeeklySC.selectedSegmentIndex == 1) {
-        if ([self.viewControllers[0] isKindOfClass: LocationWeatherViewController.class]) {
-            LocationWeatherViewController *locWVC = self.viewControllers[0];
+        LocationWeatherViewController *locWVC = [self currentWeatherVC];
+        if (locWVC.location) {
             [locWVC showBannerIfNeededWithCompletion:nil];
         }
     }
