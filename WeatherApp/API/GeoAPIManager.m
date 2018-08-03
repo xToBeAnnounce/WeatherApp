@@ -45,7 +45,7 @@ static NSString * urlString;
 }
 
 - (void) searchForLocationByName:(NSString *)searchString withOffset:(int)offset withCompletion:(void(^)(NSDictionary *data, NSError *error))completion{
-    NSString *callParameters = [NSString stringWithFormat:@"searchJSON?q=%@&featureClass=P&orderBy=relevence&maxRows=20&startRow=%d", searchString, offset];
+    NSString *callParameters = [NSString stringWithFormat:@"searchJSON?q=%@&featureClass=P&orderBy=relevance&maxRows=20&startRow=%d", searchString, offset];
     urlString = [baseURLString stringByAppendingString:[callParameters stringByAppendingString:usernameKey]];
     urlString = [urlString stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
 

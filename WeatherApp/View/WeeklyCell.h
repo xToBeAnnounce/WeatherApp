@@ -19,11 +19,12 @@
 @property (strong, nonatomic) UILabel *lowTempLabel;
 @property (strong, nonatomic) UILabel *highTempLabel;
 @property (strong, nonatomic) UIStackView *tempStackView;
-
+@property (strong,nonatomic) UILabel *summaryLabel;
 @property (strong, nonatomic) UIStackView *activityStack;
 @property (strong, nonatomic) UIButton *sunnyActivity;
 @property (strong, nonatomic) NSLayoutConstraint *bottomConstraint;
-
+@property (strong,nonatomic) UILabel *humidityLabel;
+@property (strong,nonatomic) UILabel *windspeedLabel;
 /* Weather Information */
 @property (strong, nonatomic) Weather *dayWeather;
 @property (strong, nonatomic) NSString *tempType; //C or F

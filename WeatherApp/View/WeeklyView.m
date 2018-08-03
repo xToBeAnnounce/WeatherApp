@@ -30,6 +30,7 @@ static NSIndexPath *selectedCell;
     
     self.WeeklytableView.delegate = self;
     self.WeeklytableView.dataSource = self;
+    self.WeeklytableView.backgroundColor = UIColor.clearColor;
 }
 
 - (void) setLocation:(Location *)location {
@@ -46,7 +47,7 @@ static NSIndexPath *selectedCell;
 -(void)setWeeklyUI{
     self.WeeklytableView = [[UITableView alloc] initWithFrame: CGRectMake(0, 0, self.frame.size.width,self.frame.size.height)];
     self.WeeklytableView.estimatedRowHeight = 50;
-    self.WeeklytableView.rowHeight = UITableViewAutomaticDimension;
+    self.WeeklytableView.rowHeight = 80;
     self.WeeklytableView.translatesAutoresizingMaskIntoConstraints = NO;
     [self addSubview:self.WeeklytableView];
     [self.WeeklytableView registerClass: WeeklyCell.class forCellReuseIdentifier:@"WeeklyCell"];
@@ -54,6 +55,20 @@ static NSIndexPath *selectedCell;
     
     self.WeeklytableView.delegate = self;
     self.WeeklytableView.dataSource = self;
+    
+    self.backgroundImage = [[UIImageView alloc]initWithFrame:UIScreen.mainScreen.bounds];
+    self.backgroundImage.image = [UIImage imageNamed:@"Sanfranciso"];
+    [self insertSubview:self.backgroundImage belowSubview:self.WeeklytableView];
+    
+    //Blur Effect
+    UIVisualEffect *blureffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+    self.BlurView = [[UIVisualEffectView alloc]initWithEffect:blureffect];
+    self.BlurView.frame = self.backgroundImage.frame;
+    self.BlurView.alpha = 0.4;
+    [self insertSubview:self.BlurView aboveSubview:self.backgroundImage];
+    
+    
+    
 }
 
 - (void) setWeeklyConstraints {
@@ -81,15 +96,21 @@ static NSIndexPath *selectedCell;
     weeklycell.location = @[@(self.location.lattitude), @(self.location.longitude)];
     weeklycell.rowNum = (int)indexPath.row;
     weeklycell.rowHeight = self.WeeklytableView.estimatedRowHeight;
+    weeklycell.contentView.backgroundColor = UIColor.clearColor;
+    weeklycell.backgroundColor = UIColor.clearColor;
+    if (indexPath.row == 0){
+        weeklycell.dateLabel.text = @"Today";
+    }
     if ([self shouldHighlightDate:cellDate]) {
-        weeklycell.backgroundColor = UIColor.greenColor;
+        weeklycell.backgroundColor = [UIColor.greenColor colorWithAlphaComponent:0.2];
     }
     
     return weeklycell;
 }
 
-- (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section { 
+- (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.location.weeklyData.count;
+    
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath {

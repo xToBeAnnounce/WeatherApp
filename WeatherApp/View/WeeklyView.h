@@ -15,4 +15,6 @@
 @property (strong,nonatomic) Location *location;
 @property (strong, nonatomic) NSString *tempType;
 @property (strong, nonatomic) LocationWeatherViewController *sourceVC;
+@property (strong,nonatomic) UIImageView *backgroundImage;
+@property (strong,nonatomic) UIVisualEffectView *BlurView;
 @end
