@@ -26,5 +26,7 @@
 @property (strong, nonatomic) BannerView *weatherBanner;
 @property (strong, nonatomic) NSString *bannerMessage;
 
+@property (strong, nonatomic) NSIndexPath *selectedCell;
+
 - (void) showBannerIfNeededWithCompletion:(void(^)(BOOL finished))completion;
 @end

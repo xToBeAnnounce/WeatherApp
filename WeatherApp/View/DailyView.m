@@ -56,7 +56,7 @@ static int currentWeatherViewHeight;
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
     CGFloat TableViewOffset = self.DailytableView.contentOffset.y;
-    if(TableViewOffset > 0 && self.oldframe.size.height-TableViewOffset > currentWeatherViewHeight){
+    if(self.oldframe.size.height-TableViewOffset > currentWeatherViewHeight){
         [UIView animateWithDuration:0.1 delay:0 usingSpringWithDamping:50 initialSpringVelocity:1 options:UIViewAnimationOptionCurveEaseIn animations:^{
             CGRect newFrame = CGRectMake(self.oldframe.origin.x, self.oldframe.origin.y, self.oldframe.size.width, self.oldframe.size.height-TableViewOffset);
             self.currentWeatherView.frame = newFrame;
