@@ -17,8 +17,6 @@
 
 @implementation AppDelegate
 
-
-
 -(void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler{
     UNNotificationPresentationOptions presentation = UNNotificationPresentationOptionAlert+UNNotificationPresentationOptionSound;
     completionHandler(presentation);

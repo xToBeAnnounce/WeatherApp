@@ -19,9 +19,13 @@
 
 @property (strong, nonatomic) User *user;
 @property (strong, nonatomic) NSMutableDictionary *updatePrefDict;
+
+@property (strong, nonatomic) UITextField *tooHotTextField;
+@property (strong, nonatomic) UITextField *tooColdTextField;
 @property (strong, nonatomic) UISegmentedControl *tempTypeSegementedControl;
 @property (strong, nonatomic) UISwitch *locationOnSwitch;
 @property (strong, nonatomic) UISwitch *notificationsOnSwitch;
+@property (strong, nonatomic) UISwitch *learningOnSwitch;
 @property (strong, nonatomic) UIButton *resetButton;
 @property (strong, nonatomic) UITapGestureRecognizer *screenTap;
 
@@ -54,8 +58,9 @@ static NSString *locationCellID = @"LocationTableViewCell";
             @[@"Hot Temperature", self.tooHotTextField],
             @[@"Cold Temperature", self.tooColdTextField],
             @[@"Temperature Type", self.tempTypeSegementedControl],
-            @[@"Current Location", self.locationOnSwitch],
+            @[@"Display Current Location", self.locationOnSwitch],
             @[@"Notifications", self.notificationsOnSwitch],
+            @[@"Learn From Me", self.learningOnSwitch],
             @[@"", self.resetButton]
     ],
         @"Locations":@[],
@@ -68,7 +73,6 @@ static NSString *locationCellID = @"LocationTableViewCell";
     [self setNavigationUI];
     [self.user getLocationsArrayInBackgroundWithBlock:^(NSMutableArray *locations, NSError *error) {
         if (locations) {
-            
             [sectionsDict setValue:locations forKey:@"Locations"];
             [self.tableView reloadData];
         }
@@ -132,6 +136,10 @@ static NSString *locationCellID = @"LocationTableViewCell";
     self.notificationsOnSwitch = [[UISwitch alloc] init];
     [self.notificationsOnSwitch addTarget: self action: @selector(onToggleNotifications:) forControlEvents: UIControlEventValueChanged];
     
+    // Learning on switch
+    self.learningOnSwitch = [[UISwitch alloc] init];
+    [self.learningOnSwitch addTarget: self action: @selector(onToggleLearning:) forControlEvents: UIControlEventValueChanged];
+    
     // Reset to Default Button
     self.resetButton = [[UIButton alloc] init];
     [self.resetButton setTitle:@"Reset to Default Preferences" forState:UIControlStateNormal];
@@ -157,6 +165,7 @@ static NSString *locationCellID = @"LocationTableViewCell";
             self.tempTypeSegementedControl.selectedSegmentIndex = [pref.tempTypeString isEqualToString:@"F"];
             self.locationOnSwitch.on = pref.locationOn;
             self.notificationsOnSwitch.on = pref.notificationsOn;
+            self.learningOnSwitch.on = pref.learningOn;
         }
         else {
             NSLog(@"Error: %@", error.localizedDescription);
@@ -241,17 +250,18 @@ static NSString *locationCellID = @"LocationTableViewCell";
     NSString *tempType = [self.tempTypeSegementedControl titleForSegmentAtIndex:self.tempTypeSegementedControl.selectedSegmentIndex];
     [self updateFieldsToTempType:tempType];
     [self.updatePrefDict setObject:tempType forKey:@"tempTypeString"];
-//    NSLog(@"Prefered Temp Type: %@", tempType);
 }
 
 - (IBAction)onToggleLocation:(id)sender {
     [self.updatePrefDict setObject:[NSNumber numberWithBool:[self.locationOnSwitch isOn]] forKey:@"locationOn"];
-//    NSLog(@"Location On: %d", self.user.preferences.locationOn);
 }
 
 - (IBAction)onToggleNotifications:(id)sender {
     [self.updatePrefDict setObject:[NSNumber numberWithBool:[self.notificationsOnSwitch isOn]] forKey:@"notificationsOn"];
-//    NSLog(@"Notifications on: %d", self.user.preferences.notificationsOn);
+}
+
+- (IBAction)onToggleLearning:(id)sender {
+    [self.updatePrefDict setObject:[NSNumber numberWithBool:[self.learningOnSwitch isOn]] forKey:@"learningOn"];
 }
 
 - (IBAction)onTapReset:(id)sender {
@@ -280,12 +290,6 @@ static NSString *locationCellID = @"LocationTableViewCell";
 - (void)textFieldDidEndEditing:(UITextField *)textField {
     self.screenTap.enabled = NO;
 }
-
-
--(void)setCancelButton{
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
-
 
 - (void) presentConfirmActionAlertWithTitle:(NSString *)title message:(NSString *)message yesHandler:(void(^)(UIAlertAction * _Nonnull action))yesHandler completion:(void(^)(void))completion{
     

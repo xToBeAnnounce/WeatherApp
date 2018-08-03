@@ -9,7 +9,7 @@
 #import "Preferences.h"
 
 @implementation Preferences
-@dynamic tooHotTemp, tooColdTemp, tempTypeString, defaultLocationKey, notificationsOn, locationOn;
+@dynamic tooHotTemp, tooColdTemp, tempTypeString, defaultLocationKey, notificationsOn, locationOn, learningOn;
 
 + (nonnull NSString *)parseClassName {
     return @"Preferences";
@@ -22,8 +22,9 @@
     newPreferences.tooColdTemp = @40;
     newPreferences.tempTypeString = @"F";
     newPreferences.defaultLocationKey = @"current";
-    newPreferences.notificationsOn = YES;
     newPreferences.locationOn = YES;
+    newPreferences.notificationsOn = YES;
+    newPreferences.learningOn = NO;
     
     return newPreferences;
 }

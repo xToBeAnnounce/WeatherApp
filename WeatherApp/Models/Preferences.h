@@ -14,8 +14,9 @@
 @property (strong, nonatomic) NSNumber *tooColdTemp;
 @property (strong, nonatomic) NSString *tempTypeString;   //c or f
 @property (strong, nonatomic) NSString *defaultLocationKey;
-@property (nonatomic) BOOL notificationsOn;
 @property (nonatomic) BOOL locationOn; //Access to user location
+@property (nonatomic) BOOL notificationsOn;
+@property (nonatomic) BOOL learningOn;
 
 + (instancetype) defaultPreferences;
 @end
