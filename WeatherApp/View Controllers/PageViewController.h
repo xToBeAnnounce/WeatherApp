@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "NavigationController.h"
 #import <UserNotifications/UserNotifications.h>
+#import "SettingsViewController.h"
 
-@interface PageViewController : UIPageViewController
+@interface PageViewController : UIPageViewController <SettingsDelegate>
 
 @property (strong, nonatomic) id<NavigationDelegate> navDelegate;
 

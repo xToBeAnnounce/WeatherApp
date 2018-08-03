@@ -39,11 +39,9 @@
     return self;
 }
 
-- (void)presentViewController:(NSString*)name{
-    if([name isEqualToString:@"pageVC"]){
-        UINavigationController *revealNVC = [[UINavigationController alloc] initWithRootViewController:self.revealVC];
-        [self.navStack presentViewController:revealNVC animated:YES completion:nil];
-    }
+- (void) presentRevealViewController {
+    UINavigationController *revealNVC = [[UINavigationController alloc] initWithRootViewController:self.revealVC];
+    [self.navStack presentViewController:revealNVC animated:YES completion:nil];
 }
 
 - (void)pushViewController:(UIViewController *)viewController{
@@ -63,18 +61,13 @@
     self.hamburgerVC.pageVC.navDelegate = self;
     self.hamburgerVC.mapWVC = WebViewViewController.new;
     self.hamburgerVC.settingsVC = SettingsViewController.new;
+    self.hamburgerVC.settingsVC.settingDelegate = self.hamburgerVC.pageVC;
     
     self.revealVC = [[SWRevealViewController alloc]initWithRearViewController:self.hamburgerVC frontViewController:self.hamburgerVC.pageVC];
     self.revealVC.rearViewRevealWidth = UIScreen.mainScreen.bounds.size.width - 225;
     self.revealVC.toggleAnimationDuration = 0.5;
-}
-
--(void)setLeftBarItem:(UIBarButtonItem *)button WithNVC:(UINavigationController*)navController{
-    navController.navigationBar.topItem.leftBarButtonItem = button;
-}
-
--(SWRevealViewController*)getRevealViewController{
-    return self.revealVC;
+    self.revealVC.navigationItem.leftBarButtonItem =
+    [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"hamburger"] style:UIBarButtonItemStylePlain target:self.revealVC action:@selector(revealToggle:)];
 }
 @end
 

@@ -9,7 +9,6 @@
 #import "PageViewController.h"
 #import "User.h"
 #import "Weather.h"
-#import "NavigationController.h"
 #import "LocationWeatherViewController.h"
 #import "LocationPickerViewController.h"
 #import "LocationDetailsViewController.h"
@@ -52,9 +51,6 @@ bool isgranted;
     self.locViewArrary = [[NSMutableArray alloc] init];
     currentLocation = NO;
     settingUpLocations = YES;
-    
-    UIBarButtonItem *revealButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"hamburger"] style:UIBarButtonItemStylePlain target:self action:@selector(toggleScreens:)];
-    [self.navDelegate setLeftBarItem:revealButtonItem WithNVC:self.navigationController];
     
     [self setUI];
     [self notificationSetUp];
@@ -120,8 +116,16 @@ bool isgranted;
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self setNavigationBarUI];
-    [self refreshView];
-//    [self notification];
+    
+    [self updateLocations];
+    [User.currentUser getUserPreferencesWithBlock:^(Preferences *pref, NSError *error) {
+        if (pref) {
+            [self updatePreferences:pref];
+        }
+        else {
+            [self alertControllerWithTitle:@"Error" message:error.localizedDescription btnText:@"OK"];
+        }
+    }];
 }
 
 - (void) viewDidAppear:(BOOL)animated {
@@ -292,30 +296,23 @@ bool isgranted;
 
 - (IBAction)didTapBottomButton:(id)sender {
     LocationWeatherViewController *locWeatherVC = [self currentWeatherVC];
+    
     if (locWeatherVC.location) {
+        UIViewController *segueVC = [[UIViewController alloc] init];
+        
         if ([sender isEqual:self.locationDetailsButton]) {
             LocationDetailsViewController *locDetailsVC = [[LocationDetailsViewController alloc] init];
             locDetailsVC.location = locWeatherVC.location;
             locDetailsVC.saveNewLocation = NO;
-            [self presentViewController:[[UINavigationController alloc] initWithRootViewController:locDetailsVC] animated:YES completion:nil];
+            segueVC = locDetailsVC;
         }
         else if ([sender isEqual:self.mapButton]) {
             WebViewViewController *mapWVC = [[WebViewViewController alloc] initWithLocation:locWeatherVC.location];
-            [self presentViewController:[[UINavigationController alloc] initWithRootViewController:mapWVC] animated:YES completion:nil];
+            segueVC = mapWVC;
         }
+        
+        [self presentViewController:[[UINavigationController alloc] initWithRootViewController:segueVC] animated:YES completion:nil];
     }
-}
-
-- (void) refreshPageViewWithStartIndex:(int) index {
-    [self addPlaceholderIfNeeded];
-    
-    __weak typeof(self) weakSelf = self;
-    [self setViewControllers:@[self.locViewArrary[index]] direction:UIPageViewControllerNavigationDirectionReverse animated:NO completion:^(BOOL finished) {
-        if (finished) {
-            [weakSelf.view bringSubviewToFront:weakSelf.locationDetailsButton];
-            [weakSelf.view bringSubviewToFront:weakSelf.mapButton];
-        }
-    }];
 }
 
 -(void)alertControllerWithTitle:(NSString *)title message:(NSString *)message btnText:(NSString *)btnText{
@@ -323,24 +320,6 @@ bool isgranted;
     UIAlertAction *button = [UIAlertAction actionWithTitle:btnText style:UIAlertActionStyleCancel handler:nil];
     [alert addAction:button];
     [self presentViewController:alert animated:YES completion:nil];
-}
-
-- (int)currentPageIndex {
-    if (self.viewControllers.count > 0) {
-        int index = (int)[self.locViewArrary indexOfObject:self.viewControllers[0]];
-        if (index != -1) return index;
-        else return 0;
-    }
-    else {
-        return 0;
-    }
-}
-
-- (LocationWeatherViewController *)currentWeatherVC {
-    if ([self.viewControllers[0] isKindOfClass:LocationWeatherViewController.class]) {
-        return self.viewControllers[0];
-    }
-    else return LocationWeatherViewController.new;
 }
 
 - (void) updateLocations {
@@ -401,61 +380,36 @@ bool isgranted;
     self.view.userInteractionEnabled = YES;
 }
 
-- (void) updateUserPreferences {
-    [User.currentUser getUserPreferencesWithBlock:^(Preferences *pref, NSError *error) {
-        if (pref) {
-            if (pref.notificationsOn) [self notificationWithPreferences:pref];
-            // current location is on (updates current loc every time returns to page)
-            if (pref.locationOn && !currentLocation) {
-                // Remove current location screen if it exists
-                [self removeCurrentLocationScreen];
-                [self.loadingActivityIndicator stopAnimating];
-                [self.locViewArrary removeObject:self.placeholderScreen];
-                
-                // Add new current location screen
-                LocationWeatherViewController *currentLocVC = [[LocationWeatherViewController alloc] initWithLocation:Location.currentLocation segmentedControl:self.DailyWeeklySC  locDetailsButton:self.locationDetailsButton];
-                [self.locViewArrary insertObject:currentLocVC atIndex:0];
-            }
-            // current location switched from on to off
-            else if (!pref.locationOn && currentLocation){
-                [self removeCurrentLocationScreen];
-            }
-            currentLocation = pref.locationOn;
-            [self refreshPageViewWithStartIndex:[self currentPageIndex]];
-            settingUpLocations = NO;
-            
-            for (LocationWeatherViewController *locWVC in [self.locViewArrary filteredArrayUsingPredicate:[NSPredicate predicateWithFormat: @"self isKindOfClass: %@", LocationWeatherViewController.class]]) {
-                locWVC.tempTypeString = pref.tempTypeString;
-            }
-        }
-        else {
-            [self alertControllerWithTitle:@"Error" message:error.localizedDescription btnText:@"OK"];
-        }
-    }];
-}
-
-- (void) reorderLocations {
+- (void) updatePreferences:(Preferences *)pref {
+    if (pref.notificationsOn) [self notificationWithPreferences:pref];
+    // current location is on (updates current loc every time returns to page)
+    if (pref.locationOn && !currentLocation) {
+        // Remove current location screen if it exists
+        [self removeCurrentLocationScreen];
+        [self.loadingActivityIndicator stopAnimating];
+        [self.locViewArrary removeObject:self.placeholderScreen];
+        
+        // Add new current location screen
+        LocationWeatherViewController *currentLocVC = [[LocationWeatherViewController alloc] initWithLocation:Location.currentLocation segmentedControl:self.DailyWeeklySC  locDetailsButton:self.locationDetailsButton];
+        [self.locViewArrary insertObject:currentLocVC atIndex:0];
+    }
+    // current location switched from on to off
+    else if (!pref.locationOn && currentLocation){
+        [self removeCurrentLocationScreen];
+    }
+    currentLocation = pref.locationOn;
+    [self refreshPageViewWithStartIndex:[self currentPageIndex]];
+    settingUpLocations = NO;
     
-}
-
-- (IBAction)toggleScreens:(id)sender{
-    SWRevealViewController *revealController = [self.navDelegate getRevealViewController];
-    
-    [revealController panGestureRecognizer];
-    [revealController tapGestureRecognizer];
-    
-    [revealController revealToggle:sender];
+    for (LocationWeatherViewController *locWVC in [self.locViewArrary filteredArrayUsingPredicate:[NSPredicate predicateWithFormat: @"self isKindOfClass: %@", LocationWeatherViewController.class]]) {
+        locWVC.tempTypeString = pref.tempTypeString;
+    }
 }
 
 -(void)segueToAddLocation{
     LocationPickerViewController *locationVC = LocationPickerViewController.new;
     UINavigationController *locationNavVC = [[UINavigationController alloc] initWithRootViewController:locationVC];
     [self.navigationController presentViewController:locationNavVC animated:YES completion:nil];
-}
-
-- (void) refreshView {
-    [self updateLocations];
-    [self updateUserPreferences];
 }
 
 - (void) onToggleDailyWeekly {
@@ -465,6 +419,36 @@ bool isgranted;
             [locWVC showBannerIfNeededWithCompletion:nil];
         }
     }
+}
+
+- (int)currentPageIndex {
+    if (self.viewControllers.count > 0) {
+        int index = (int)[self.locViewArrary indexOfObject:self.viewControllers[0]];
+        if (index != -1) return index;
+        else return 0;
+    }
+    else {
+        return 0;
+    }
+}
+
+- (LocationWeatherViewController *)currentWeatherVC {
+    if ([self.viewControllers[0] isKindOfClass:LocationWeatherViewController.class]) {
+        return self.viewControllers[0];
+    }
+    else return LocationWeatherViewController.new;
+}
+
+- (void) refreshPageViewWithStartIndex:(int) index {
+    [self addPlaceholderIfNeeded];
+    
+    __weak typeof(self) weakSelf = self;
+    [self setViewControllers:@[self.locViewArrary[index]] direction:UIPageViewControllerNavigationDirectionReverse animated:NO completion:^(BOOL finished) {
+        if (finished) {
+            [weakSelf.view bringSubviewToFront:weakSelf.locationDetailsButton];
+            [weakSelf.view bringSubviewToFront:weakSelf.mapButton];
+        }
+    }];
 }
     
 @end

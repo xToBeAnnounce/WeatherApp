@@ -199,6 +199,7 @@ static NSString *locationCellID = @"LocationTableViewCell";
         if (succeeded) {
             NSLog(@"Saved preferences!");
             [self loadPreferences];
+            [self.settingDelegate updatePreferences:self.user.preferences];
         }
         else {
             NSLog(@"Unsuccessful");

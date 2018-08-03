@@ -11,11 +11,9 @@
 #import "SWRevealViewController.h"
 
 @protocol NavigationDelegate
--(void)presentViewController:(NSString*)name;
--(void)pushViewController:(UIViewController*)viewController;
--(void)dismissViewController;
--(void)setLeftBarItem:(UIBarButtonItem *)button WithNVC:(UINavigationController*)navController;
--(SWRevealViewController*)getRevealViewController;
+-(void) presentRevealViewController;
+-(void) pushViewController:(UIViewController*)viewController;
+-(void) dismissViewController;
 @end
 
 @interface NavigationController : NSObject <NavigationDelegate>
