@@ -12,14 +12,13 @@
 @implementation WeeklyView
 
 static NSString *WeeklycellIdentifier = @"WeeklyCell";
-static NSIndexPath *selectedCell;
 static BOOL showBanner;
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
-        selectedCell = nil;
+        self.selectedCell = nil;
         showBanner = NO;
         [self setWeeklyUI];
         [self setWeeklyConstraints];
@@ -73,6 +72,7 @@ static BOOL showBanner;
     _location = location;
     self.customNameLabel.text = self.location.customName;
     [self updateDataIfNeeded];
+    self.selectedCell = nil;
     [self refreshView];
 }
 
@@ -164,8 +164,8 @@ static BOOL showBanner;
     
     weeklycell.tempType = self.tempType;
     Weather *dayWeather = self.location.weeklyData[indexPath.row];
-    if(selectedCell == indexPath) weeklycell.displayActivity = YES;
-    else weeklycell.displayActivity = NO;
+    if(self.selectedCell == nil) weeklycell.displayActivity = NO;
+    if(self.selectedCell == indexPath) weeklycell.displayActivity = !weeklycell.displayActivity;
     
     weeklycell.dayWeather = dayWeather;
     weeklycell.delegate = self.sourceVC;
@@ -191,10 +191,9 @@ static BOOL showBanner;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
-    if(selectedCell == nil){
-        selectedCell = indexPath;
-    }
-    else selectedCell = nil;
+    if(self.selectedCell == nil) self.selectedCell = indexPath;
+    else self.selectedCell = nil;
+
     [self.WeeklytableView reloadData];
 }
 

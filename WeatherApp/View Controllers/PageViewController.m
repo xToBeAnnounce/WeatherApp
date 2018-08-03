@@ -187,7 +187,7 @@ bool isgranted;
 /*------------------PAGE VIEW CONTROLLER DELEGATE METHODS------------------*/
 - (void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray<UIViewController *> *)previousViewControllers transitionCompleted:(BOOL)completed {
     
-    UIPageViewController *pagecontentVC = pageViewController.viewControllers[0];
+    UIViewController *pagecontentVC = pageViewController.viewControllers[0];
     self.pageControl.currentPage = [self.locViewArrary indexOfObject:pagecontentVC];
 }
 
