@@ -95,7 +95,7 @@ double readingTime;
     [self.bannerLabel sizeToFit];
     
     readingTime = self.bannerLabel.frame.size.width/250;
-    if (readingTime < 1.5) readingTime = 1.5;
+    if (readingTime < 1.2) readingTime = 1.2;
     
     [self adjustLabelBasedConstraints];
 }
@@ -131,21 +131,17 @@ double readingTime;
                 self->_labelEndConstraint.active = YES;
                 [self.superview layoutIfNeeded];
                 
+            } completion:nil];
+            [UIView animateWithDuration:0.5 delay:0.6+readingTime options:UIViewAnimationOptionCurveEaseIn animations:^{
+                
+                [self showAlert:NO];
+                
             } completion:^(BOOL finished) {
                 if (finished) {
-                    // After label has finished
-                    [UIView animateWithDuration:0.5 delay:0.3 options:UIViewAnimationOptionCurveEaseIn animations:^{
-                        
-                        [self showAlert:NO];
-                        
-                    } completion:^(BOOL finished) {
-                        if (finished) {
-                            self->_labelEndConstraint.active = NO;
-                            self->_labelStartConstraint.active = YES;
-                        }
-                        if (completion) completion(finished);
-                    }];
+                    self->_labelEndConstraint.active = NO;
+                    self->_labelStartConstraint.active = YES;
                 }
+                if (completion) completion(finished);
             }];
         }
     }];

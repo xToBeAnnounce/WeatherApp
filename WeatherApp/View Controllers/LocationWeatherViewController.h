@@ -9,8 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "Location.h"
 #import "Activity.h"
-#import "BannerView.h"
 #import "NavigationController.h"
+#import "BannerView.h"
 
 @interface LocationWeatherViewController : UIViewController <ActivityDelegate>
 
