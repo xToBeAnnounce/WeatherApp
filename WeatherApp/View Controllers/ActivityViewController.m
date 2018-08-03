@@ -38,7 +38,6 @@
                 [self.activities addObject:[[Activity alloc] initWithDictionary:dict]];
             }
             [self.tableView reloadData];
-            //NSLog(@"%@", data);
         }
         else NSLog(@"%@", error.localizedDescription);
     }];
@@ -65,7 +64,6 @@
         NSString *activityName = [activity.name stringByReplacingOccurrencesOfString:@" " withString:@"+"];
         NSString *url = [NSString stringWithFormat:@"%@?q=%@&center=%@,%@", baseURL,activityName, activity.location[0], activity.location[1]];
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url] options:@{} completionHandler:nil];
-        NSLog(@"%@", url);
     }
     else{
         NSLog(@"Unable to open Google Maps");
