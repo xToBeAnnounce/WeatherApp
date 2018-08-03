@@ -207,14 +207,14 @@ BOOL saving = NO;
 }
 
 -(IBAction)onToggleDate:(id)sender{
-    if([sender isEqual:self.startSwitch]) {
-        if (self.startSwitch.isOn)   self.startDatePicker.hidden = NO;
-        else    self.startDatePicker.hidden = YES;
-    }
-    else if ([sender isEqual:self.endSwitch]){
-        if (self.endSwitch.isOn) self.endDatePicker.hidden = NO;
-        else    self.endDatePicker.hidden = YES;
-    }
+    [UIView animateWithDuration:0.2 animations:^{
+        if([sender isEqual:self.startSwitch]) {
+            self.startDatePicker.hidden = !self.startSwitch.isOn;
+        }
+        else if ([sender isEqual:self.endSwitch]){
+            self.endDatePicker.hidden = !self.endSwitch.isOn;
+        }
+    }];
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField{

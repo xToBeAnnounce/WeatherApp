@@ -198,6 +198,8 @@ static NSString *locationCellID = @"LocationTableViewCell";
     [self.user updatePreferencesWithDictionary:[NSDictionary dictionaryWithDictionary:self.updatePrefDict] withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
         if (succeeded) {
             NSLog(@"Saved preferences!");
+            [self loadPreferences];
+            [self.settingDelegate updatePreferences:self.user.preferences];
         }
         else {
             NSLog(@"Unsuccessful");
@@ -402,49 +404,5 @@ static NSString *locationCellID = @"LocationTableViewCell";
     }
     return INFINITY;
 }
-
-/*-----------------------PANTRY-----------------------*/
-//// Creating and Filling main stack view
-//- (void) buildSettingsStackView {
-//    UIStackView *settingsStackView = [[UIStackView alloc] init];
-//
-//    settingsStackView.axis = UILayoutConstraintAxisVertical;
-//    settingsStackView.distribution = UIStackViewDistributionFill;
-//    settingsStackView.alignment = UIStackViewAlignmentCenter;
-//    settingsStackView.spacing = 8;
-//
-//
-//    [settingsStackView addArrangedSubview:[self makeHStackViewFor:self.tooHotTextField withLabel:@"Hot Temperature"]];
-//    [settingsStackView addArrangedSubview:[self makeHStackViewFor:self.tooColdTextField withLabel:@"Cold Temperature"]];
-//    [settingsStackView addArrangedSubview:[self makeHStackViewFor:self.tempTypeSegementedControl withLabel:@"Temperature Type"]];
-//    [settingsStackView addArrangedSubview:[self makeHStackViewFor:self.locationOnSwitch withLabel:@"Location"]];
-//    [settingsStackView addArrangedSubview:[self makeHStackViewFor:self.notificationsOnSwitch withLabel:@"Notifications"]];
-//    [settingsStackView addArrangedSubview:self.resetButton];
-//
-//    settingsStackView.translatesAutoresizingMaskIntoConstraints = NO;
-//    [settingsStackView.topAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.topAnchor constant:8].active = YES;
-//    [settingsStackView.leadingAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.leadingAnchor constant:8].active = YES;
-//    [settingsStackView.trailingAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.trailingAnchor constant:8].active = YES;
-//    [settingsStackView.centerXAnchor constraintEqualToAnchor:self.view.centerXAnchor].active = YES;
-//    [settingsStackView.centerYAnchor constraintEqualToAnchor:self.view.centerYAnchor].active = YES;
-//
-//    [self.view addSubview:settingsStackView];
-//}
-//
-//- (UIStackView *) makeHStackViewFor:(id)labeledTool withLabel:(NSString *)labelText{
-//    UIStackView *stackView = [[UIStackView alloc] init];
-//    stackView.axis = UILayoutConstraintAxisHorizontal;
-//    stackView.distribution = UIStackViewDistributionFill;
-//    stackView.alignment = UIStackViewAlignmentCenter;
-//    stackView.spacing = 8;
-//
-//
-//    UILabel *label = [[UILabel alloc] init];
-//    label.text = labelText;
-//    [stackView addArrangedSubview:label];
-//    [stackView addArrangedSubview:labeledTool];
-//
-//    return stackView;
-//}
 
 @end

@@ -11,7 +11,7 @@
 #import <Parse/Parse.h>
 #import "User.h"
 
-@interface LoginViewController ()
+@interface LoginViewController () <UITextFieldDelegate>
 @property (strong,nonatomic) UITextField *usernameField;
 @property (strong,nonatomic) UITextField *passwordField;
 @property (strong,nonatomic) UIButton *loginButton;
@@ -30,14 +30,17 @@
     self.view.backgroundColor = UIColor.whiteColor;
 
     self.usernameField = [[UITextField alloc] initWithFrame:CGRectMake(35, 258, 305, 45)];
-    self.usernameField.placeholder = @"username";
+    self.usernameField.placeholder = @"Username";
     self.usernameField.borderStyle = UITextBorderStyleRoundedRect;
+    self.usernameField.autocapitalizationType = UITextAutocapitalizationTypeNone;
+    self.usernameField.delegate = self;
 
     //setting password textfield
     self.passwordField = [[UITextField alloc] initWithFrame:CGRectMake(35, 325, 305, 45)];
-    self.passwordField.placeholder = @"password";
+    self.passwordField.placeholder = @"Password";
     self.passwordField.borderStyle = UITextBorderStyleRoundedRect;
     self.passwordField.secureTextEntry = YES;
+    self.passwordField.delegate = self;
     
     self.loginButton = [[UIButton alloc] initWithFrame:CGRectMake(221, 380, 55, 30)];
     [self.loginButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
@@ -68,11 +71,10 @@
     NSString *password = self.passwordField.text;
     [PFUser logInWithUsernameInBackground:username password:password block:^(PFUser * user, NSError *  error) {
         if (error) {
-            NSLog(@"User log in failed: %@", error.localizedDescription);
-            [self AlertController:error.localizedDescription];
+            [self alertController:error.localizedDescription];
         } else {
             NSLog(@"User logged in successfully");
-            [self.navDelegate presentViewController:@"pageVC"];
+            [self.navDelegate presentRevealViewController];
         }
     }];
 }
@@ -83,23 +85,32 @@
     newUser.password = self.passwordField.text;
     [newUser signUpInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
         if (error != nil) {
-            NSLog(@"Error: %@", error.localizedDescription);
-            [self AlertController:error.localizedDescription];
+            [self alertController:error.localizedDescription];
         } else {
             NSLog(@"User registered successfully");
-            [self.navDelegate presentViewController:@"pageVC"];
+            [self.navDelegate presentRevealViewController];
         }
     }];
 }
 
--(void)AlertController:(NSString *)Message{
-    NSString *title = @"Error!";
-    NSString *message = Message;
+-(void)alertController:(NSString *)message{
+    NSString *title = @"Error";
     NSString *text = @"OK";
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *button = [UIAlertAction actionWithTitle:text style:UIAlertActionStyleCancel handler:nil];
     [alert addAction:button];
     [self presentViewController:alert animated:YES completion:nil];
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    if ([textField isEqual:self.usernameField]) {
+        [self.passwordField becomeFirstResponder];
+    }
+    else if ([textField isEqual:self.passwordField]) {
+        [textField resignFirstResponder];
+        [self loginButtonTapped:textField];
+    }
+    return YES;
 }
 
 @end

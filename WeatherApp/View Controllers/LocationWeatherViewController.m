@@ -10,7 +10,6 @@
 #import "APIManager.h"
 #import "NavigationController.h"
 #import "User.h"
-#import "Activity.h"
 #import "ActivityViewController.h"
 #import "DailyView.h"
 #import "WeeklyView.h"
