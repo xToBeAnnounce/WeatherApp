@@ -7,7 +7,6 @@
 //
 
 #import "LocationWeatherViewController.h"
-#import "APIManager.h"
 #import "NavigationController.h"
 #import "User.h"
 #import "ActivityViewController.h"

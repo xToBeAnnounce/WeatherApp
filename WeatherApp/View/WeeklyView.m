@@ -33,13 +33,6 @@ static BOOL showBanner;
     [self setWeeklyUI];
     [self setLocationName];
     
-    [self.location fetchDataType:@"weekly" WithCompletion:^(NSDictionary * data, NSError * error) {
-        if(error == nil){
-            [self.WeeklytableView reloadData];
-        }
-        else NSLog(@"%@", error.localizedDescription);
-    }];
-    
     self.WeeklytableView.delegate = self;
     self.WeeklytableView.dataSource = self;
 }
@@ -69,6 +62,8 @@ static BOOL showBanner;
 }
 
 - (void) setLocation:(Location *)location {
+    if (_location.weeklyData) location.weeklyData = _location.weeklyData;
+    
     _location = location;
     self.customNameLabel.text = self.location.customName;
     [self updateDataIfNeeded];

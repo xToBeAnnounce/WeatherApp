@@ -13,8 +13,6 @@
 
 @interface LocationPickerViewController () <UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource>
 
-@property (strong, nonatomic) CLLocationManager *locationManager;
-@property (strong, nonatomic) UITextField *searchTextField;
 @property (strong, nonatomic) NSMutableArray *searchLocationArray;
 @property (strong, nonatomic) UISearchBar *searchBar;
 @property (strong, nonatomic) UITableView *tableView;
@@ -117,7 +115,6 @@ static BOOL loadingData; //Is it currently loading data in the background
         LocationDetailsViewController *locDetailVC = [[LocationDetailsViewController alloc] init];
         locDetailVC.location = self.searchLocationArray[indexPath.row];
         locDetailVC.saveNewLocation = YES;
-        locDetailVC.delegate = self.delegate;
         [self.navigationController pushViewController:locDetailVC animated:YES];
     }
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
