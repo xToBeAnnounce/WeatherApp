@@ -151,6 +151,7 @@ static int const numHoursInDay = 24;
         [self getDataWithLong:self.longitude Lat:self.lattitude Type:dataType Completion:^(NSDictionary *data, NSError *error) {
             if (data) {
                 [self setDailyDataWithDictionary:data];
+                NSLog(@"%@",data);
                 completion(data, nil);
             }
             else {
@@ -163,6 +164,7 @@ static int const numHoursInDay = 24;
         [self getDataWithLong:(int)self.longitude Lat:(int)self.lattitude Type:dataType Completion:^(NSDictionary *data, NSError *error) {
             if (data) {
                 [self setWeeklyDataWithDictionary:data];
+                NSLog(@"%@", data);
                 completion(data, nil);
             }
             else {

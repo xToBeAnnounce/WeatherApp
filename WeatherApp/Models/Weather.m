@@ -20,8 +20,9 @@
     NSDate *time = [NSDate dateWithTimeIntervalSince1970:timeInSeconds];
     self.time = [calendar dateByAddingComponents:components toDate:time options:0];
     
-    self.summary = data[@"summary"];
     self.icon = data[@"icon"];
+    self.windSpeed = [data[@"windSpeed"] floatValue];
+    self.humidity = [data[@"humidity"]floatValue];
     
     if(data[@"temperatureHigh"]){
         self.temperatureHigh = (int)[data[@"temperatureHigh"] doubleValue];
@@ -76,5 +77,26 @@
     }
     return [NSString stringWithFormat:@"%d°", temp];
 }
+
+-(NSString*)getHumidityInString:(float)humidity{
+    NSString* string = [NSString stringWithFormat:@"%.0f",humidity*100];
+    string = [string stringByAppendingString:@"%"];
+    return string;
+}
+
+-(NSString*)getWindSpeedInString:(float)windspeed{
+    NSString* string = [NSString stringWithFormat:@"%.02f ",windspeed];
+    string = [string stringByAppendingString:@"mph"];
+    return string;
+}
+
+-(NSString*)formatSummary:(NSString*)summary{
+    summary = [summary stringByReplacingOccurrencesOfString:@"-" withString:@" "];
+    summary = [summary stringByReplacingOccurrencesOfString:@"day" withString:@" "];
+    summary = [summary stringByReplacingOccurrencesOfString:@"night" withString:@" "];
+    return summary;
+}
+
+
 
 @end
