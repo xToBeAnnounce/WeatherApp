@@ -7,10 +7,12 @@
 //
 
 #import "LocationWeatherViewController.h"
-#import "DailyView.h"
-#import "WeeklyView.h"
+#import "APIManager.h"
+#import "NavigationController.h"
 #import "User.h"
 #import "ActivityViewController.h"
+#import "DailyView.h"
+#import "WeeklyView.h"
 
 @interface LocationWeatherViewController () <UIPopoverPresentationControllerDelegate>
 @property (strong,nonatomic) UISegmentedControl *DailyWeeklySC;
@@ -22,7 +24,7 @@
 @implementation LocationWeatherViewController
 
 - (instancetype) initWithLocation:(Location *)location segmentedControl:(UISegmentedControl *)DailyWeeklySC locDetailsButton:(UIButton *)locationsDetailsButton{
-    [self setUI];
+    [self setSubviews];
     self.location = location;
     
     self.DailyWeeklySC = DailyWeeklySC;
@@ -39,6 +41,7 @@
 
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    self.weeklyView.selectedCell = nil;
     [User.currentUser getUserPreferencesWithBlock:^(Preferences *pref, NSError *error) {
         if (pref) {
             self.tempTypeString = pref.tempTypeString;
@@ -64,7 +67,7 @@
     self.weeklyView.tempType = tempTypeString;
 }
 
-- (void) setUI {
+- (void) setSubviews {
     self.view.backgroundColor = [[UIColor alloc]initWithPatternImage:[UIImage imageNamed:@"grad"]];
 
     self.dailyView = [[DailyView alloc]initWithFrame:self.view.frame];

@@ -214,7 +214,6 @@ BOOL isgranted;
 }
 
 /*------------------PAGE VIEW CONTROLLER DELEGATE METHODS------------------*/
-
 -(UIViewController *)viewControllerAtIndex:(NSUInteger)index {
     UIViewController *vc = self.locViewArrary[index];
     return vc;

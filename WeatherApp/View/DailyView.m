@@ -19,6 +19,7 @@
 @implementation DailyView
 static bool loadDailyData = NO;
 static NSString *DailycellIdentifier = @"DailyTableViewCell";
+static int currentWeatherViewHeight;
 
 
 // Only override drawRect: if you perform custom drawing.
@@ -27,6 +28,17 @@ static NSString *DailycellIdentifier = @"DailyTableViewCell";
     [super drawRect:rect];
     [self setDailyUI];
     [self displayCurrentWeather];
+    self.DailytableView.dataSource = self;
+    self.DailytableView.delegate = self;
+    
+    [self.location fetchDataType:@"daily" WithCompletion:^(NSDictionary * data, NSError * error) {
+        if(error == nil){
+            loadDailyData = YES;
+            [self displayCurrentWeather];
+            [self.DailytableView reloadData];
+        }
+        else NSLog(@"%@", error.localizedDescription);
+    }];
 }
 
 - (void) updateDataIfNeeded {
@@ -43,24 +55,22 @@ static NSString *DailycellIdentifier = @"DailyTableViewCell";
 }
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
-    CGFloat TableViewHeight = self.DailytableView.frame.size.height;
-    CGFloat TableViewContentHeight = self.DailytableView.contentSize.height;
     CGFloat TableViewOffset = self.DailytableView.contentOffset.y;
-    
-    if(TableViewOffset == 0){
-        [UIView animateWithDuration:0.3 delay:0 usingSpringWithDamping:50 initialSpringVelocity:1 options:UIViewAnimationOptionCurveEaseIn animations:^{
-            self.currentWeatherView.frame = self.oldframe;
+    if(self.oldframe.size.height-TableViewOffset > currentWeatherViewHeight){
+        [UIView animateWithDuration:0.1 delay:0 usingSpringWithDamping:50 initialSpringVelocity:1 options:UIViewAnimationOptionCurveEaseIn animations:^{
+            CGRect newFrame = CGRectMake(self.oldframe.origin.x, self.oldframe.origin.y, self.oldframe.size.width, self.oldframe.size.height-TableViewOffset);
+            self.currentWeatherView.frame = newFrame;
+            if(fabs(self.oldframe.size.height - self.currentWeatherView.frame.size.height) <= 10){
+                self.temperatureLabel.alpha = 1;
+            }
+            else if (TableViewOffset > currentWeatherViewHeight){
+                self.temperatureLabel.alpha = 0;
+            }
+            else{
+                self.temperatureLabel.alpha = 1 - (currentWeatherViewHeight / (self.oldframe.size.height-TableViewOffset));
+            }
             [self layoutIfNeeded];
-            
         } completion:nil];
-    }
-    else if(TableViewOffset + TableViewHeight == TableViewContentHeight){
-         [UIView animateWithDuration:0.5 delay:0 usingSpringWithDamping:50 initialSpringVelocity:1 options:UIViewAnimationOptionCurveEaseOut animations:^{
-             CGRect newframe = CGRectMake(0, 0, self.currentWeatherView.frame.size.width,0);;
-             self.currentWeatherView.frame = newframe;
-             [self layoutIfNeeded];
-             
-         } completion:nil];
     }
 }
 
@@ -137,6 +147,7 @@ static NSString *DailycellIdentifier = @"DailyTableViewCell";
     self.weatherDisplayStackView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.currentWeatherView addSubview:self.weatherDisplayStackView];
     self.oldframe = self.currentWeatherView.frame;
+    currentWeatherViewHeight = self.oldframe.size.height / 2;
     
     [self setConstraints];
 }

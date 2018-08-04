@@ -16,8 +16,17 @@
 @property (strong,nonatomic) Location *location;
 @property (strong, nonatomic) NSString *tempType;
 @property (strong, nonatomic) LocationWeatherViewController *sourceVC;
+
+/* Location View */
+@property (strong, nonatomic) UIView *locationView;
+@property (strong, nonatomic) UIImageView *backgroundImageView;
+@property (strong, nonatomic) UILabel *locationLabel;
+@property (strong, nonatomic) UILabel *customNameLabel;
+@property (strong, nonatomic) UIStackView *locationStackView;
 @property (strong, nonatomic) BannerView *weatherBanner;
 @property (strong, nonatomic) NSString *bannerMessage;
+
+@property (strong, nonatomic) NSIndexPath *selectedCell;
 
 - (void) showBannerIfNeededWithCompletion:(void(^)(BOOL finished))completion;
 @end

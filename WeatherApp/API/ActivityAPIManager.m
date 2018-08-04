@@ -31,7 +31,6 @@ static NSString * urlString = @"";
     urlString = [baseURL stringByAppendingString:parameters];
     
     NSURL *url = [NSURL URLWithString:urlString];
-    NSLog(@"%@", url);
     
     NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10.0];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
