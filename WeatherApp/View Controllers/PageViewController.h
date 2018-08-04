@@ -10,6 +10,7 @@
 #import "NavigationController.h"
 #import <UserNotifications/UserNotifications.h>
 #import "SettingsViewController.h"
+#import "User.h"
 
 @interface PageViewController : UIPageViewController <SettingsDelegate>
 

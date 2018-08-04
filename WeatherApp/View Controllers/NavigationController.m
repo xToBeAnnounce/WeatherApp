@@ -57,15 +57,23 @@
     self.hamburgerVC = [[HamburgerViewController alloc] init];
     self.hamburgerVC.navDelegate = self;
     
+    // Creates page view controller page
     self.hamburgerVC.pageVC = [[PageViewController alloc] initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:nil];
     self.hamburgerVC.pageVC.navDelegate = self;
+    
+    // Creates map view controller
     self.hamburgerVC.mapWVC = WebViewViewController.new;
+    
+    // Creates settings view controller
     self.hamburgerVC.settingsVC = SettingsViewController.new;
     self.hamburgerVC.settingsVC.settingDelegate = self.hamburgerVC.pageVC;
     
+    // Main reveal controller
     self.revealVC = [[SWRevealViewController alloc]initWithRearViewController:self.hamburgerVC frontViewController:self.hamburgerVC.pageVC];
     self.revealVC.rearViewRevealWidth = UIScreen.mainScreen.bounds.size.width - 225;
     self.revealVC.toggleAnimationDuration = 0.5;
+    
+    // Hamburger button
     self.revealVC.navigationItem.leftBarButtonItem =
     [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"hamburger"] style:UIBarButtonItemStylePlain target:self.revealVC action:@selector(revealToggle:)];
 }
