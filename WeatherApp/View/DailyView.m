@@ -114,7 +114,7 @@ static int currentWeatherViewHeight;
     self.backgroundImageView.contentMode = UIViewContentModeScaleAspectFill;
     self.backgroundImageView.clipsToBounds = YES;
     
-    self.backgroundImageView.image = [UIImage imageNamed:@"sunnybackground"];
+    self.backgroundImageView.image = [UIImage imageNamed:@"Sanfranciso"];
     self.backgroundImageView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.currentWeatherView addSubview:self.backgroundImageView];
     

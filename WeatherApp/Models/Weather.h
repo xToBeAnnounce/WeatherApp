@@ -18,6 +18,9 @@
 @property (nonatomic) int temperature;
 @property (nonatomic) int temperatureHigh;
 @property (nonatomic) int temperatureLow;
+@property (nonatomic) float humidity;
+@property (nonatomic) float windSpeed;
+
 
 //Formatting functions for display in string
 - (NSString*)getHourInDayWithTime:(NSDate*)date;
@@ -25,6 +28,10 @@
 - (NSString*)getDateInString:(NSDate*)date;
 - (NSString*)getTempInString:(int)temp;
 - (NSString*)getTempInString:(int)temp withType:(NSString *)type;
+-(NSString*)getHumidityInString:(int)humidity;
+-(NSString*)getWindSpeedInString:(int)windspeed;
+-(NSString*)formatSummary:(NSString*)summary;
+
 
 - (instancetype)initWithData:(NSDictionary*)data;
 @end
