@@ -7,15 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "AppDelegate.h"
+#import "NavigationController.h"
+#import "Preferences.h"
 
-//@protocol SettingsDelegate
-//- (void)refreshView;
-//@end
+@protocol SettingsDelegate
+- (void) updatePreferences:(Preferences *)pref;
+@end
 
 @interface SettingsViewController : UIViewController
 @property (strong, nonatomic) id<NavigationDelegate> navDelegate;
-//@property (strong, nonatomic) id<SettingsDelegate>settingDelegate;
+@property (strong, nonatomic) id<SettingsDelegate>settingDelegate;
 @property (strong, nonatomic) UITextField *tooHotTextField;
 @property (strong, nonatomic) UITextField *tooColdTextField;
 

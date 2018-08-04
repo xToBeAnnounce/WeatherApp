@@ -7,17 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "SWRevealViewController.h"
+#import "NavigationController.h"
 #import <UserNotifications/UserNotifications.h>
-
-
-@protocol NavigationDelegate
--(void)presentViewController:(NSString*)name;
--(void)pushViewController:(UIViewController*)viewController;
--(void)dismissViewController;
--(void)setLeftBarItem:(UIBarButtonItem *)button WithNVC:(UINavigationController*)navController;
--(SWRevealViewController*)getRevealViewController;
-@end
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate,UNUserNotificationCenterDelegate>
 @property (strong, nonatomic) UIWindow *window;

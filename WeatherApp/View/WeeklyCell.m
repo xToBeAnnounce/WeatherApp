@@ -100,7 +100,6 @@ static NSArray *activityNames;
 
 - (void)setDayWeather:(Weather *)dayWeather {
     _dayWeather = dayWeather;
-    NSLog(@"%@", dayWeather.icon);
     // Day of Week Label
     self.dateLabel.text = [dayWeather getDayOfWeekWithTime:dayWeather.time];
     [self.dateLabel sizeToFit];

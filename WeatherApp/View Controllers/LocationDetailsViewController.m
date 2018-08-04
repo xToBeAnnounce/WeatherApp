@@ -207,14 +207,14 @@ BOOL saving = NO;
 }
 
 -(IBAction)onToggleDate:(id)sender{
-    if([sender isEqual:self.startSwitch]) {
-        if (self.startSwitch.isOn)   self.startDatePicker.hidden = NO;
-        else    self.startDatePicker.hidden = YES;
-    }
-    else if ([sender isEqual:self.endSwitch]){
-        if (self.endSwitch.isOn) self.endDatePicker.hidden = NO;
-        else    self.endDatePicker.hidden = YES;
-    }
+    [UIView animateWithDuration:0.2 animations:^{
+        if([sender isEqual:self.startSwitch]) {
+            self.startDatePicker.hidden = !self.startSwitch.isOn;
+        }
+        else if ([sender isEqual:self.endSwitch]){
+            self.endDatePicker.hidden = !self.endSwitch.isOn;
+        }
+    }];
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField{
@@ -246,10 +246,12 @@ BOOL saving = NO;
     if(!self.startSwitch.isOn) startDate = nil;
     if(!self.endSwitch.isOn) endDate = nil;
     
-    if (startDate && endDate && [[startDate earlierDate:endDate] isEqualToDate:endDate]) {
+    
+    
+    if (startDate && endDate && [NSCalendar.currentCalendar compareDate:startDate toDate:endDate toUnitGranularity:NSCalendarUnitDay] == NSOrderedDescending) {
         [self presentAlertWithMessage:@"Start date cannot be later than end date."];
     }
-    else if (self.saveNewLocation && endDate && [[[NSDate dateWithTimeIntervalSinceNow:-60*60*24] earlierDate:endDate] isEqualToDate:endDate]) {
+    else if (self.saveNewLocation && endDate && [NSCalendar.currentCalendar compareDate:[NSDate dateWithTimeIntervalSinceNow:-60*60*24] toDate:endDate toUnitGranularity:NSCalendarUnitDay] != NSOrderedAscending) {
         [self presentAlertWithMessage:@"Cannot create new location with expired end date."];
     }
     else {

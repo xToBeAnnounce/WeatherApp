@@ -8,8 +8,13 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-#import "AppDelegate.h"
-#import "PageViewController.h"
+#import "SWRevealViewController.h"
+
+@protocol NavigationDelegate
+-(void) presentRevealViewController;
+-(void) pushViewController:(UIViewController*)viewController;
+-(void) dismissViewController;
+@end
 
 @interface NavigationController : NSObject <NavigationDelegate>
 @property (strong, nonatomic) UINavigationController *navStack;

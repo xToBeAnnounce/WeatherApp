@@ -8,13 +8,11 @@
 
 #import "LocationWeatherViewController.h"
 #import "APIManager.h"
-#import "DailyView.h"
-#import "WeeklyView.h"
 #import "NavigationController.h"
 #import "User.h"
-#import "Activity.h"
 #import "ActivityViewController.h"
-#import "User.h"
+#import "DailyView.h"
+#import "WeeklyView.h"
 
 @interface LocationWeatherViewController () <UIPopoverPresentationControllerDelegate>
 @property (strong,nonatomic) UISegmentedControl *DailyWeeklySC;
@@ -26,11 +24,10 @@
 @implementation LocationWeatherViewController
 
 - (instancetype) initWithLocation:(Location *)location segmentedControl:(UISegmentedControl *)DailyWeeklySC locDetailsButton:(UIButton *)locationsDetailsButton{
-    [self setUI];
+    [self setSubviews];
     self.location = location;
     
     self.DailyWeeklySC = DailyWeeklySC;
-    self.DailyWeeklySC.selectedSegmentIndex = 0;
     [self.DailyWeeklySC addTarget:self action:@selector(selectedIndex) forControlEvents:UIControlEventValueChanged];
     [self selectedIndex];
     
@@ -40,12 +37,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [[UIColor alloc]initWithPatternImage:[UIImage imageNamed:@"grad"]];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
+    self.weeklyView.selectedCell = nil;
     [User.currentUser getUserPreferencesWithBlock:^(Preferences *pref, NSError *error) {
         if (pref) {
             self.tempTypeString = pref.tempTypeString;
@@ -59,14 +55,19 @@
 - (void) viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     self.locationDetailsButton.hidden = !self.location.objectId;
+    
+    if (!self.weeklyView.hidden) {
+        [self showBannerIfNeededWithCompletion:nil];
+    }
 }
 
 - (void)setTempTypeString:(NSString *)tempTypeString {
+    _tempTypeString = tempTypeString;
     self.dailyView.tempType = tempTypeString;
     self.weeklyView.tempType = tempTypeString;
 }
 
-- (void) setUI {
+- (void) setSubviews {
     self.view.backgroundColor = [[UIColor alloc]initWithPatternImage:[UIImage imageNamed:@"grad"]];
 
     self.dailyView = [[DailyView alloc]initWithFrame:self.view.frame];
@@ -105,7 +106,7 @@
     return UIModalPresentationNone;
 }
 
--(void)selectedIndex{
+-(void)selectedIndex {
     self.dailyView.hidden = self.DailyWeeklySC.selectedSegmentIndex;
     self.weeklyView.hidden = !self.dailyView.hidden;
 }
@@ -115,5 +116,9 @@
     [view.bottomAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.bottomAnchor].active = YES;
     [view.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor].active = YES;
     [view.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor].active = YES;
+}
+
+- (void) showBannerIfNeededWithCompletion:(void(^)(BOOL finished))completion{
+    [self.weeklyView showBannerIfNeededWithCompletion:completion];
 }
 @end

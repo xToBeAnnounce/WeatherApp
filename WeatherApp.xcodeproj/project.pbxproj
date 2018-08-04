@@ -23,6 +23,7 @@
 		3330AEA2210BF9F300B37975 /* APIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9203E63120FD47DD00F8C858 /* APIManager.m */; };
 		3330AEA3210BF9FB00B37975 /* GeoAPIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3330AE202101363B00B37975 /* GeoAPIManager.m */; };
 		33662163210EB9B0005CB1D3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CC7D392420FD053D00913023 /* Assets.xcassets */; };
+		336621A42112D03B005CB1D3 /* BannerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 336621A32112D03B005CB1D3 /* BannerView.m */; };
 		33F00C0C20FD116C008F56CE /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 33F00C0B20FD116C008F56CE /* User.m */; };
 		33F00C0F20FD1215008F56CE /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = 33F00C0E20FD1215008F56CE /* Location.m */; };
 		33F00C1220FD1244008F56CE /* Preferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 33F00C1120FD1244008F56CE /* Preferences.m */; };
@@ -123,6 +124,8 @@
 		3330AE99210BF68000B37975 /* libParse.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libParse.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		3330AE9C210BF78700B37975 /* libPods-WeatherApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "libPods-WeatherApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3330AE9E210BF7F500B37975 /* libParse.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libParse.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		336621A22112D03B005CB1D3 /* BannerView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BannerView.h; sourceTree = "<group>"; };
+		336621A32112D03B005CB1D3 /* BannerView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BannerView.m; sourceTree = "<group>"; };
 		33F00C0A20FD116C008F56CE /* User.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
 		33F00C0B20FD116C008F56CE /* User.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		33F00C0D20FD1215008F56CE /* Location.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Location.h; sourceTree = "<group>"; };
@@ -351,6 +354,8 @@
 				CCE855B72109C3090035230F /* WeeklyView.m */,
 				CCE85682210F7F8B0035230F /* HamburgerTableViewCell.h */,
 				CCE85683210F7F8B0035230F /* HamburgerTableViewCell.m */,
+				336621A22112D03B005CB1D3 /* BannerView.h */,
+				336621A32112D03B005CB1D3 /* BannerView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -724,6 +729,7 @@
 				9262591621067E7500BEF660 /* LocationDetailsViewController.m in Sources */,
 				9283A3F121091BF500F4858F /* NavigationController.m in Sources */,
 				3330AE2B2107EE2B00B37975 /* LocationWeatherViewController.m in Sources */,
+				336621A42112D03B005CB1D3 /* BannerView.m in Sources */,
 				92499B2F210B9C65005874C8 /* ActivityViewController.m in Sources */,
 				92499B29210A5C73005874C8 /* Activity.m in Sources */,
 				3330AE1C2101112000B37975 /* LocationPickerViewController.m in Sources */,
