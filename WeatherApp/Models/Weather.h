@@ -28,8 +28,8 @@
 - (NSString*)getDateInString:(NSDate*)date;
 - (NSString*)getTempInString:(int)temp;
 - (NSString*)getTempInString:(int)temp withType:(NSString *)type;
--(NSString*)getHumidityInString:(int)humidity;
--(NSString*)getWindSpeedInString:(int)windspeed;
+-(NSString*)getHumidityInString:(float)humidity;
+-(NSString*)getWindSpeedInString:(float)windspeed;
 -(NSString*)formatSummary:(NSString*)summary;
 
 

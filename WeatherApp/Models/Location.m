@@ -208,6 +208,7 @@ static int const numHoursInDay = 24;
 }
 
 -(void)setWeeklyDataWithDictionary:(NSDictionary*)data{
+    [self.weeklyData removeAllObjects];
     NSArray *dailyArray = data[@"daily"][@"data"];
     for(int i=0; i<numDaysInWeek; i++){
         [self.weeklyData addObject:[[Weather alloc]initWithData:dailyArray[i]]];
@@ -215,6 +216,7 @@ static int const numHoursInDay = 24;
 }
 
 -(void)setDailyDataWithDictionary:(NSDictionary*)data{
+    [self.dailyData removeAllObjects];
     NSArray *hourlyArray = data[@"hourly"][@"data"];
     for(int i=0; i<numHoursInDay; i++){
         [self.dailyData addObject:[[Weather alloc]initWithData:hourlyArray[i]]];
