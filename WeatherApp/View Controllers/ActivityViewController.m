@@ -47,11 +47,11 @@
 
 -(void)setActivityCategoryWithWeatherType:(NSString*)weatherCondition{
     if([weatherCondition rangeOfString:@"clear"].location != NSNotFound){
-        self.category = @[@"park", @"resturant", @"cafe"];
+        self.category = @[@"attractions", @"park", @"trails", @"resturant", @"cafe"];
     }
     else if([weatherCondition rangeOfString:@"cloud"].location != NSNotFound ||
             [weatherCondition rangeOfString:@"rain"].location != NSNotFound){
-        self.category = @[@"cafe", @"resturant", @"bowling_alley", @"clothing_store", @"library", @"movie_theater", @"shopping_mall"];
+        self.category = @[@"clothing_store", @"library", @"movie_theater", @"shopping_mall", @"cafe", @"resturant"];
     }
 }
 
@@ -70,12 +70,12 @@
 }
 
 -(void)initActivityButtons{
-    int rowCount = 6;
+    int rowCount = 8;
     self.activityStack = [[UIStackView alloc] init];
     self.activityStack.axis = UILayoutConstraintAxisVertical;
     self.activityStack.distribution = UIStackViewDistributionFill;
     self.activityStack.alignment = UIStackViewAlignmentCenter;
-    self.activityStack.spacing = 5;
+    self.activityStack.spacing = 8;
     
     for(int i=0; i<((self.category.count + rowCount-1) / rowCount); i++){
         UIStackView *rowStack = [[UIStackView alloc] init];
@@ -151,7 +151,7 @@
     [self.activityStack.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor].active = YES;
     [self.activityStack.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor].active = YES;
     
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[activityView]-0-[tableView]-0-|" options:NSLayoutFormatAlignAllCenterX metrics:nil views:@{@"activityView":self.activityStack, @"tableView": self.tableView}]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[activityView]-[tableView]-0-|" options:NSLayoutFormatAlignAllCenterX metrics:nil views:@{@"activityView":self.activityStack, @"tableView": self.tableView}]];
 }
 
 - (void)didReceiveMemoryWarning {

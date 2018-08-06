@@ -204,6 +204,7 @@ static BOOL showBanner;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
     Weather *weatherOfDay = self.location.weeklyData[indexPath.row];
     [self.delegate displayPopoverWithLocation:self.location Weather:weatherOfDay];
+    [self.WeeklytableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 - (void) refreshView {

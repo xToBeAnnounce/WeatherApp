@@ -21,6 +21,9 @@
 @end
 
 @implementation LocationWeatherViewController
+{
+    UIVisualEffectView *_blurEffectView;
+}
 
 - (instancetype) initWithLocation:(Location *)location segmentedControl:(UISegmentedControl *)DailyWeeklySC locDetailsButton:(UIButton *)locationsDetailsButton{
     [self setSubviews];
@@ -31,6 +34,12 @@
     [self selectedIndex];
     
     self.locationDetailsButton = locationsDetailsButton;
+    
+    UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+    _blurEffectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
+    _blurEffectView.frame = self.view.bounds;
+    _blurEffectView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    
     return self;
 }
 
@@ -98,7 +107,13 @@
     popController.sourceView = (UIView*)self.weeklyView;
     popController.sourceRect = CGRectMake(self.weeklyView.bounds.size.width/2, self.weeklyView.bounds.size.height/2, 1, 1);
     popController.permittedArrowDirections = 0;
+    
+    [self.view addSubview:_blurEffectView];
     [self presentViewController:popoverView animated:YES completion:nil];
+}
+
+- (void)popoverPresentationControllerDidDismissPopover:(UIPopoverPresentationController *)popoverPresentationController{
+    [_blurEffectView removeFromSuperview];
 }
 
 - (UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:(UIPresentationController *)controller{

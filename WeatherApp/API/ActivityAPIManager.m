@@ -27,7 +27,8 @@ static NSString * urlString = @"";
 
 -(void)getActivityDataWithLocation:(NSArray*)location Type:(NSString*)type WithCompletion:(void(^)(NSDictionary *data, NSError *error))completion{
     urlString = @"";
-    NSString *parameters = [NSString stringWithFormat:@"location=%@,%@&radius=%ld&type=%@&key=%@", location[0], location[1], (long)radius, type, APIKey];
+    NSString *activityName = [type stringByReplacingOccurrencesOfString:@"_" withString:@"+"];
+    NSString *parameters = [NSString stringWithFormat:@"location=%@,%@&radius=%ld&keyword=%@&key=%@", location[0], location[1], (long)radius, activityName, APIKey];
     urlString = [baseURL stringByAppendingString:parameters];
     
     NSURL *url = [NSURL URLWithString:urlString];
