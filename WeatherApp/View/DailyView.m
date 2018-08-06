@@ -75,6 +75,7 @@ static int currentWeatherViewHeight;
 }
 
 - (void) setLocation:(Location *)location {
+    if (_location.dailyData) location.dailyData = _location.dailyData;
     _location = location;
     if ([self.location.placeName isEqualToString:self.location.customName]) {
         self.customNameLabel.font = [UIFont systemFontOfSize:45];
