@@ -66,7 +66,7 @@
     
     // Creates settings view controller
     self.hamburgerVC.settingsVC = SettingsViewController.new;
-    self.hamburgerVC.settingsVC.settingDelegate = self.hamburgerVC.pageVC;
+    self.hamburgerVC.settingsVC.settingsDelegate = self.hamburgerVC.pageVC;
     
     // Main reveal controller
     self.revealVC = [[SWRevealViewController alloc]initWithRearViewController:self.hamburgerVC frontViewController:self.hamburgerVC.pageVC];

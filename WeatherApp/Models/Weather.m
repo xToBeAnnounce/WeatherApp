@@ -24,6 +24,8 @@
     self.windSpeed = [data[@"windSpeed"] floatValue];
     self.humidity = [data[@"humidity"]floatValue];
     
+    self.summary = data[@"summary"];
+    
     if(data[@"temperatureHigh"]){
         self.temperatureHigh = (int)[data[@"temperatureHigh"] doubleValue];
         self.temperatureLow = (int)[data[@"temperatureLow"] doubleValue];
