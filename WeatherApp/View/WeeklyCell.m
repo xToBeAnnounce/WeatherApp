@@ -21,6 +21,7 @@ static NSArray *activityNames;
     [super setSelected:selected animated:animated];
 }
 
+
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     self.displayActivity = NO;
@@ -80,12 +81,6 @@ static NSArray *activityNames;
     self.windspeedLabel.textColor = UIColor.whiteColor;
     self.windspeedLabel.font = [UIFont systemFontOfSize:15];
     [self.contentView addSubview:self.windspeedLabel];
-    
-    
-    
-                                                                  
-
-
     
     [self setConstraints];
     return self;

@@ -9,9 +9,9 @@
 #import "APIManager.h"
 
 static NSString * const baseURLString = @"https://api.darksky.net/forecast/";
-static NSString * const consumerSecret = @"41cbd5a478f0e0165572447fdb67d4db/";
+//static NSString * const consumerSecret = @"41cbd5a478f0e0165572447fdb67d4db/";
 //static NSString * const consumerSecret = @"d54d5c8906cd432065ed86b50f25049b/";
-
+static NSString * const consumerSecret = @"bc3c4e45aa60ac2223c847786e4754dd/";
 static NSString * urlString;
 
 @implementation APIManager

@@ -11,14 +11,16 @@
 #import "LocationWeatherViewController.h"
 #import "BannerView.h"
 
-@interface WeeklyView : UIView <UITableViewDelegate, UITableViewDataSource>
+@interface WeeklyView : UIView <UITableViewDelegate, UITableViewDataSource,UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout>
 @property (strong, nonatomic) UITableView *WeeklytableView;
 @property (strong,nonatomic) Location *location;
 @property (strong, nonatomic) NSString *tempType;
 @property (strong, nonatomic) LocationWeatherViewController *sourceVC;
-
 @property (strong,nonatomic) UIImageView *backgroundImage;
 @property (strong,nonatomic) UIVisualEffectView *BlurView;
+@property (strong,nonatomic) UICollectionView *WeeklyCollectionView;
+
+
 
 
 /* Location View */

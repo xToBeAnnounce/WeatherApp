@@ -30,6 +30,7 @@ static int currentWeatherViewHeight;
     [self displayCurrentWeather];
     self.DailytableView.dataSource = self;
     self.DailytableView.delegate = self;
+
     
     [self.location fetchDataType:@"daily" WithCompletion:^(NSDictionary * data, NSError * error) {
         if(error == nil){
@@ -75,6 +76,7 @@ static int currentWeatherViewHeight;
 }
 
 - (void) setLocation:(Location *)location {
+    if(_location.dailyData) location.dailyData = _location.dailyData;
     _location = location;
     if ([self.location.placeName isEqualToString:self.location.customName]) {
         self.customNameLabel.font = [UIFont systemFontOfSize:45];
@@ -105,15 +107,15 @@ static int currentWeatherViewHeight;
     self.DailytableView.translatesAutoresizingMaskIntoConstraints = NO;
     self.DailytableView.dataSource = self;
     self.DailytableView.delegate = self;
+    self.DailytableView.backgroundColor = UIColor.clearColor;
     [self addSubview:self.DailytableView];
     
     self.currentWeatherView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height/2)];
     [self addSubview:self.currentWeatherView];
     
-    self.backgroundImageView = [[UIImageView alloc]initWithFrame:self.currentWeatherView.frame];
+    self.backgroundImageView = [[UIImageView alloc]initWithFrame:UIScreen.mainScreen.bounds];
     self.backgroundImageView.contentMode = UIViewContentModeScaleAspectFill;
     self.backgroundImageView.clipsToBounds = YES;
-    
     self.backgroundImageView.image = [UIImage imageNamed:@"Sanfranciso"];
     self.backgroundImageView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.currentWeatherView addSubview:self.backgroundImageView];
@@ -219,6 +221,8 @@ static int currentWeatherViewHeight;
         cell.tempType = self.tempType;
         Weather *hourlyWeather = self.location.dailyData[indexPath.row];
         cell.hourWeather = hourlyWeather;
+        cell.backgroundColor = UIColor.clearColor;
+        cell.contentView.backgroundColor = UIColor.clearColor;
     }
     return cell;
 }
