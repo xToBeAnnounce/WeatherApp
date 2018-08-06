@@ -75,7 +75,7 @@
     
     self.weeklyView = [[WeeklyView alloc]initWithFrame:self.view.frame];
     self.weeklyView.translatesAutoresizingMaskIntoConstraints = NO;
-    self.weeklyView.sourceVC = self;
+    self.weeklyView.delegate = self;
     [self.view addSubview:self.weeklyView];
     
     [self setConstraintsForView:self.dailyView];
@@ -88,8 +88,8 @@
     self.weeklyView.location = location;
 }
 
--(void)displayPopoverWithType:(NSString*)type Location:(NSArray*)loc{
-    ActivityViewController *popoverView = [[ActivityViewController alloc] initWithLocation:loc Type:type];
+-(void)displayPopoverWithLocation:(Location*)loc Weather:(Weather*)weather{
+    ActivityViewController *popoverView = [[ActivityViewController alloc] initWithLocation:loc Weather:weather];
     popoverView.modalPresentationStyle = UIModalPresentationPopover;
     popoverView.preferredContentSize = CGSizeMake(self.weeklyView.bounds.size.width-50, self.weeklyView.bounds.size.height-150);
     

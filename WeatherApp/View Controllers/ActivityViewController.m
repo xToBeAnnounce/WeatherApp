@@ -12,30 +12,56 @@
 
 @interface ActivityViewController () <UITableViewDelegate, UITableViewDataSource>
 @property (strong, nonatomic) UITableView *tableView;
-@property (strong, nonatomic) NSMutableArray *activities;
+@property (strong, nonatomic) NSMutableArray *currentActivityList;
+@property (strong, nonatomic) NSArray *category;
+@property (nonatomic) double lat;
+@property (nonatomic) double lng;
+
+@property (strong, nonatomic) Weather *weather;
+@property (strong, nonatomic) UIStackView *activityStack;
 @end
 
 @implementation ActivityViewController
 
--(instancetype)initWithLocation:(NSArray*)loc Type:(NSString*)type{
-    self.activities = [[NSMutableArray alloc] init];
-    [self getActivityDataWithLocation:loc Type:type];
-    
+-(instancetype)initWithLocation:(Location*)loc Weather:(Weather*)weather{
     self.tableView = [[UITableView alloc] initWithFrame: CGRectMake(0, 0, self.view.frame.size.width,self.view.frame.size.height)];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     [self.view addSubview:self.tableView];
+    
+    self.lat = loc.lattitude;
+    self.lng = loc.longitude;
+    self.weather = weather;
+    self.category = [[NSArray alloc] init];
+    self.currentActivityList = [[NSMutableArray alloc] init];
+    
+    [self setActivityCategoryWithWeatherType:weather.icon];
+    [self getActivityDataType:self.category[0]];
+    
+    [self initActivityButtons];
     [self setTableViewConstraint];
+    [self setStackViewConstraint];
+    
     return self;
 }
 
--(void)getActivityDataWithLocation:(NSArray*)loc Type:(NSString*)type{
-    //Parameters not placed in use yet
+-(void)setActivityCategoryWithWeatherType:(NSString*)weatherCondition{
+    if([weatherCondition rangeOfString:@"clear"].location != NSNotFound){
+        self.category = @[@"park", @"resturant", @"cafe"];
+    }
+    else if([weatherCondition rangeOfString:@"cloud"].location != NSNotFound ||
+            [weatherCondition rangeOfString:@"rain"].location != NSNotFound){
+        self.category = @[@"cafe", @"resturant", @"bowling_alley", @"clothing_store", @"library", @"movie_theater", @"shopping_mall"];
+    }
+}
+
+-(void)getActivityDataType:(NSString*)type{
+    [self.currentActivityList removeAllObjects];
     ActivityAPIManager *activityAPI = [ActivityAPIManager shared];
-    [activityAPI getActivityDataWithLocation:loc Type:type WithCompletion:^(NSDictionary *data, NSError *error) {
+    [activityAPI getActivityDataWithLocation:@[@(self.lat), @(self.lng)] Type:type WithCompletion:^(NSDictionary *data, NSError *error) {
         if(error == nil){
             for(NSMutableDictionary *dict in data){
-                [self.activities addObject:[[Activity alloc] initWithDictionary:dict]];
+                [self.currentActivityList addObject:[[Activity alloc] initWithDictionary:dict]];
             }
             [self.tableView reloadData];
         }
@@ -43,8 +69,46 @@
     }];
 }
 
+-(void)initActivityButtons{
+    int rowCount = 6;
+    self.activityStack = [[UIStackView alloc] init];
+    self.activityStack.axis = UILayoutConstraintAxisVertical;
+    self.activityStack.distribution = UIStackViewDistributionFill;
+    self.activityStack.alignment = UIStackViewAlignmentCenter;
+    self.activityStack.spacing = 5;
+    
+    for(int i=0; i<((self.category.count + rowCount-1) / rowCount); i++){
+        UIStackView *rowStack = [[UIStackView alloc] init];
+        rowStack.axis = UILayoutConstraintAxisHorizontal;
+        rowStack.distribution = UIStackViewDistributionFill;
+        rowStack.alignment = UIStackViewAlignmentCenter;
+        rowStack.spacing = 5;
+        rowStack.translatesAutoresizingMaskIntoConstraints = NO;
+        
+        for(int j=0; j<rowCount; j++){
+            if(rowCount*i + j == self.category.count) break;
+            NSString *title = self.category[rowCount*i + j];
+            UIButton *activity = [[UIButton alloc] init];
+            [activity setTitle:title forState:UIControlStateNormal];
+            [activity setImage:[UIImage imageNamed:title] forState:UIControlStateNormal];
+            [activity.heightAnchor constraintEqualToConstant:30].active = YES;
+            [activity.widthAnchor constraintEqualToConstant:30].active = YES;
+            activity.translatesAutoresizingMaskIntoConstraints = NO;
+            [activity addTarget:self action:@selector(onSelectActivity:) forControlEvents:UIControlEventTouchUpInside];
+            [rowStack addArrangedSubview:activity];
+        }
+        [self.activityStack addArrangedSubview:rowStack];
+    }
+    [self.view addSubview:self.activityStack];
+}
+
+-(IBAction)onSelectActivity:(id)sender{
+    UIButton *selectedActivity = (UIButton*)sender;
+    [self getActivityDataType:selectedActivity.titleLabel.text];
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return self.activities.count;
+    return self.currentActivityList.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -52,13 +116,13 @@
     if(cell == nil){
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"activityCell"];
     }
-    Activity *activity = self.activities[indexPath.row];
+    Activity *activity = self.currentActivityList[indexPath.row];
     cell.textLabel.text = activity.name;
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    Activity *activity = self.activities[indexPath.row];
+    Activity *activity = self.currentActivityList[indexPath.row];
     if([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"comgooglemaps://"]]){
         NSString *baseURL = @"comgooglemaps://";
         NSString *activityName = [activity.name stringByReplacingOccurrencesOfString:@" " withString:@"+"];
@@ -76,10 +140,18 @@
 
 -(void)setTableViewConstraint{
     self.tableView.translatesAutoresizingMaskIntoConstraints = NO;
-    [self.tableView.topAnchor constraintEqualToAnchor:self.view.topAnchor].active = YES;
+    //[self.tableView.topAnchor constraintEqualToAnchor:self.view.topAnchor].active = YES;
     [self.tableView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor].active = YES;
-    [self.tableView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor].active = YES;
+//    [self.tableView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor].active = YES;
     [self.tableView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor].active = YES;
+}
+
+-(void)setStackViewConstraint{
+    self.activityStack.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.activityStack.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor].active = YES;
+    [self.activityStack.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor].active = YES;
+    
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[activityView]-0-[tableView]-0-|" options:NSLayoutFormatAlignAllCenterX metrics:nil views:@{@"activityView":self.activityStack, @"tableView": self.tableView}]];
 }
 
 - (void)didReceiveMemoryWarning {

@@ -29,11 +29,4 @@
 @property (strong, nonatomic) Weather *dayWeather;
 @property (strong, nonatomic) NSString *tempType; //C or F
 
-/* Activity Information */
-@property bool displayActivity;
-@property (strong, nonatomic) id<ActivityDelegate>delegate;
-@property (strong, nonatomic) NSArray *location;
-@property int rowNum;
-@property int rowHeight;
-
 @end
