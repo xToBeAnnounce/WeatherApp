@@ -11,9 +11,7 @@
 
 @implementation WeeklyCollectionViewCell
 
-
 -(void)setWeeklyCVC{
-    
     UIVisualEffect *blureffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
     UIVisualEffectView *blureffectView = [[UIVisualEffectView alloc]initWithEffect:blureffect];
     blureffectView.alpha = 0.4;
@@ -52,7 +50,6 @@
     self.lowTempLabel.textColor = [UIColor blueColor];
     self.lowTempLabel.font = [UIFont systemFontOfSize:25];
     [self.contentView addSubview:self.lowTempLabel];
-    
 }
 
 - (void)setDayWeather:(Weather *)dayWeather {

@@ -73,6 +73,7 @@ UICollectionViewFlowLayout *layout;
         [self.location fetchDataType:@"weekly" WithCompletion:^(NSDictionary * data, NSError * error) {
             if(error == nil){
                 [self.WeeklytableView reloadData];
+                [self.WeeklyCollectionView reloadData];
             }
             else NSLog(@"%@", error.localizedDescription);
         }];
@@ -104,6 +105,7 @@ UICollectionViewFlowLayout *layout;
 - (void) setTempType:(NSString *)tempType {
     _tempType = tempType;
     [self.WeeklytableView reloadData];
+    [self.WeeklyCollectionView reloadData];
 }
 
 /*-----------------------------SETS WEEKLY UI-----------------------------------------*/
@@ -268,25 +270,22 @@ UICollectionViewFlowLayout *layout;
     layout = [[UICollectionViewFlowLayout alloc]init];
     self.WeeklyCollectionView = [[UICollectionView alloc]initWithFrame:self.frame collectionViewLayout:layout];
     [self.WeeklyCollectionView registerClass:WeeklyCollectionViewCell.class forCellWithReuseIdentifier:WeeklyCollectioncellIdentifier];
-    self.WeeklyCollectionView.backgroundColor = UIColor.whiteColor;
+    self.WeeklyCollectionView.backgroundColor = UIColor.clearColor;
     [self addSubview:self.WeeklyCollectionView];
     
     self.WeeklyCollectionView.translatesAutoresizingMaskIntoConstraints = NO;
 }
 
 - (nonnull __kindof UICollectionViewCell *)collectionView:(nonnull UICollectionView *)collectionView cellForItemAtIndexPath:(nonnull NSIndexPath *)indexPath {
-    
     WeeklyCollectionViewCell *cell = [self.WeeklyCollectionView dequeueReusableCellWithReuseIdentifier:WeeklyCollectioncellIdentifier forIndexPath:indexPath];
     
-    if(cell == nil){
-        cell = [self.WeeklyCollectionView dequeueReusableCellWithReuseIdentifier:WeeklyCollectioncellIdentifier forIndexPath:indexPath];
+    if(cell.lowTempLabel == nil){
+        [cell setWeeklyCVC];
     }
+    
     Weather *dayWeather = self.location.weeklyData[indexPath.row];
     
-    
-    [cell setWeeklyCVC];
     [cell setDayWeather:dayWeather];
-   // [cell setBackIV:cell.iconImageView];
     cell.backgroundColor = UIColor.clearColor;
     return cell;
     

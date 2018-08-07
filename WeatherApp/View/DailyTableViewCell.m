@@ -18,9 +18,15 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     
+//    UIVisualEffect *blureffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+//    UIVisualEffectView *blureffectView = [[UIVisualEffectView alloc]initWithEffect:blureffect];
+//    blureffectView.alpha = 0.3;
+//    blureffectView.frame = self.contentView.frame;
+//    [self.contentView addSubview:blureffectView];
+    
     // initalizing time label
     self.timeLabel = [[UILabel alloc] init];
-    self.timeLabel.textColor = [UIColor blackColor];
+    self.timeLabel.textColor = [UIColor whiteColor];
     self.timeLabel.font = [UIFont systemFontOfSize:20];
     self.timeLabel.translatesAutoresizingMaskIntoConstraints = NO;
     [self.contentView addSubview:self.timeLabel];
@@ -34,7 +40,7 @@
     
     // initalizing temperature label
     self.temperateLabel = [[UILabel alloc] init];
-    self.temperateLabel.textColor = [UIColor blackColor];
+    self.temperateLabel.textColor = [UIColor whiteColor];
     self.temperateLabel.font = [UIFont systemFontOfSize:20];
     self.temperateLabel.translatesAutoresizingMaskIntoConstraints = NO;
     [self.contentView addSubview:self.temperateLabel];
