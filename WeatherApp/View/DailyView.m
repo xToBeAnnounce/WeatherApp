@@ -30,15 +30,6 @@ static int currentWeatherViewHeight;
     [self displayCurrentWeather];
     self.DailytableView.dataSource = self;
     self.DailytableView.delegate = self;
-    
-    [self.location fetchDataType:@"daily" WithCompletion:^(NSDictionary * data, NSError * error) {
-        if(error == nil){
-            loadDailyData = YES;
-            [self displayCurrentWeather];
-            [self.DailytableView reloadData];
-        }
-        else NSLog(@"%@", error.localizedDescription);
-    }];
 }
 
 - (void) updateDataIfNeeded {

@@ -12,6 +12,7 @@
 
 @protocol NavigationDelegate
 -(void) presentRevealViewController;
+-(void) revealHamburger;
 -(void) pushViewController:(UIViewController*)viewController;
 -(void) dismissViewController;
 @end

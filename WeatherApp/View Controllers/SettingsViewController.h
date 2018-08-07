@@ -12,9 +12,10 @@
 
 @protocol SettingsDelegate
 -(void) setPreferences:(Preferences *)pref;
+-(void) updatePreferences:(Preferences *)pref;
 @end
 
 @interface SettingsViewController : UIViewController
-@property (strong, nonatomic) id<SettingsDelegate>settingsDelegate;
-
+@property (strong, nonatomic) id<NavigationDelegate> navigationDelegate;
+@property (strong, nonatomic) id<SettingsDelegate> settingsDelegate;
 @end

@@ -36,6 +36,7 @@
 
 @implementation PageViewController
 BOOL settingUpLocations;
+BOOL currentLocation;
 BOOL alertShown;
 BOOL isgranted;
 
@@ -45,6 +46,7 @@ BOOL isgranted;
     
     self.locViewArray = [[NSMutableArray alloc] init];
     settingUpLocations = YES;
+    currentLocation = NO;
     
     [User.currentUser getUserPreferencesWithBlock:^(Preferences *pref, NSError *error) {
         if (pref) {
@@ -308,7 +310,7 @@ BOOL isgranted;
 // Updates view whenever self.preferences is set
 -(void) setPreferences:(Preferences *)pref {
     // current location is on (updates current loc every time returns to page)
-    if (pref.locationOn && !_preferences.locationOn) {
+    if (pref.locationOn && !currentLocation) {
         // Remove current location screen if it exists
         [self.loadingActivityIndicator stopAnimating];
         [self removeCurrentLocationScreen];
@@ -319,9 +321,10 @@ BOOL isgranted;
         [self.locViewArray insertObject:currentLocVC atIndex:0];
     }
     // current location switched from on to off
-    else if (!pref.locationOn && _preferences.locationOn){
+    else if (!pref.locationOn && currentLocation){
         [self removeCurrentLocationScreen];
     }
+    currentLocation = pref.locationOn;
     
     // updating tempterature type
     for (LocationWeatherViewController *locWVC in [self.locViewArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat: @"self isKindOfClass: %@", LocationWeatherViewController.class]]) {
@@ -338,12 +341,15 @@ BOOL isgranted;
     
 }
 
+-(void) updatePreferences:(Preferences *)pref {
+    self.preferences = pref;
+}
+
 // Updates locations displayed on screen
 - (void) updateLocations {
     self.view.userInteractionEnabled = NO;
     
     // Makes userLocsArray - array of just the user's stored locations (excludes current location and placeholder screen)
-    BOOL currentLocation = self.preferences.locationOn;
     NSRange locRange = NSMakeRange(currentLocation, self.locViewArray.count - currentLocation);
     NSArray *userLocsArray = [self.locViewArray subarrayWithRange:locRange];
     NSPredicate *predicate = [NSPredicate predicateWithFormat: @"self isKindOfClass: %@", LocationWeatherViewController.class];
