@@ -9,11 +9,13 @@
 #import "ActivityViewController.h"
 #import "Activity.h"
 #import "ActivityAPIManager.h"
+#import <QuartzCore/QuartzCore.h>
 
 @interface ActivityViewController () <UITableViewDelegate, UITableViewDataSource>
 @property (strong, nonatomic) UITableView *tableView;
 @property (strong, nonatomic) NSMutableArray *currentActivityList;
 @property (strong, nonatomic) NSArray *category;
+@property (strong, nonatomic) NSMutableArray *activityButtons;
 @property (nonatomic) double lat;
 @property (nonatomic) double lng;
 
@@ -22,6 +24,8 @@
 @end
 
 @implementation ActivityViewController
+
+int buttonHeight = 45;
 
 -(instancetype)initWithLocation:(Location*)loc Weather:(Weather*)weather{
     self.tableView = [[UITableView alloc] initWithFrame: CGRectMake(0, 0, self.view.frame.size.width,self.view.frame.size.height)];
@@ -70,32 +74,45 @@
 }
 
 -(void)initActivityButtons{
-    int rowCount = 8;
+    int rowCount = 5;
     self.activityStack = [[UIStackView alloc] init];
     self.activityStack.axis = UILayoutConstraintAxisVertical;
     self.activityStack.distribution = UIStackViewDistributionFill;
     self.activityStack.alignment = UIStackViewAlignmentCenter;
-    self.activityStack.spacing = 8;
+    self.activityStack.spacing = 5;
+    self.activityButtons = [[NSMutableArray alloc] init];
     
     for(int i=0; i<((self.category.count + rowCount-1) / rowCount); i++){
         UIStackView *rowStack = [[UIStackView alloc] init];
-        rowStack.axis = UILayoutConstraintAxisHorizontal;
-        rowStack.distribution = UIStackViewDistributionFill;
-        rowStack.alignment = UIStackViewAlignmentCenter;
-        rowStack.spacing = 5;
         rowStack.translatesAutoresizingMaskIntoConstraints = NO;
+        rowStack.axis = UILayoutConstraintAxisHorizontal;
+        rowStack.distribution = UIStackViewDistributionEqualSpacing;
+        rowStack.alignment = UIStackViewAlignmentCenter;
+        rowStack.spacing = 15;
         
         for(int j=0; j<rowCount; j++){
             if(rowCount*i + j == self.category.count) break;
             NSString *title = self.category[rowCount*i + j];
             UIButton *activity = [[UIButton alloc] init];
+            
             [activity setTitle:title forState:UIControlStateNormal];
-            [activity setImage:[UIImage imageNamed:title] forState:UIControlStateNormal];
-            [activity.heightAnchor constraintEqualToConstant:30].active = YES;
-            [activity.widthAnchor constraintEqualToConstant:30].active = YES;
             activity.translatesAutoresizingMaskIntoConstraints = NO;
+            [activity.heightAnchor constraintEqualToConstant:buttonHeight].active = YES;
+            [activity.widthAnchor constraintEqualToConstant:buttonHeight].active = YES;
+            
+            [activity setImage:[UIImage imageNamed:title] forState:UIControlStateNormal];
+            activity.layer.borderWidth = 2.0f;
+            activity.layer.borderColor = UIColor.whiteColor.CGColor;
+            activity.layer.cornerRadius = buttonHeight/2;
+            
+            activity.clipsToBounds = YES;
+            activity.contentMode = UIViewContentModeScaleAspectFit;
+            float edgeInsets = activity.layer.cornerRadius / 3;
+            activity.imageEdgeInsets = UIEdgeInsetsMake(edgeInsets, edgeInsets, edgeInsets, edgeInsets);
+            
             [activity addTarget:self action:@selector(onSelectActivity:) forControlEvents:UIControlEventTouchUpInside];
             [rowStack addArrangedSubview:activity];
+            [self.activityButtons addObject:activity];
         }
         [self.activityStack addArrangedSubview:rowStack];
     }
@@ -104,6 +121,12 @@
 
 -(IBAction)onSelectActivity:(id)sender{
     UIButton *selectedActivity = (UIButton*)sender;
+    for(UIButton *activity in self.activityButtons){
+        if(![activity isEqual:selectedActivity])
+            [activity setBackgroundColor:UIColor.clearColor];
+        else
+            [activity setBackgroundColor:UIColor.blueColor];
+    }
     [self getActivityDataType:selectedActivity.titleLabel.text];
 }
 
@@ -140,9 +163,7 @@
 
 -(void)setTableViewConstraint{
     self.tableView.translatesAutoresizingMaskIntoConstraints = NO;
-    //[self.tableView.topAnchor constraintEqualToAnchor:self.view.topAnchor].active = YES;
     [self.tableView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor].active = YES;
-//    [self.tableView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor].active = YES;
     [self.tableView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor].active = YES;
 }
 
@@ -151,7 +172,7 @@
     [self.activityStack.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor].active = YES;
     [self.activityStack.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor].active = YES;
     
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[activityView]-[tableView]-0-|" options:NSLayoutFormatAlignAllCenterX metrics:nil views:@{@"activityView":self.activityStack, @"tableView": self.tableView}]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-10-[activityView]-10-[tableView]-0-|" options:NSLayoutFormatAlignAllCenterX metrics:nil views:@{@"activityView":self.activityStack, @"tableView": self.tableView}]];
 }
 
 - (void)didReceiveMemoryWarning {
