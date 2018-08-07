@@ -50,10 +50,10 @@ int buttonHeight = 45;
 }
 
 -(void)setActivityCategoryWithWeatherType:(NSString*)weatherCondition{
-    if([weatherCondition rangeOfString:@"clear"].location != NSNotFound){
+    if([weatherCondition rangeOfString:@"clear"].location != NSNotFound || [weatherCondition rangeOfString:@"cloud"].location != NSNotFound){
         self.category = @[@"attractions", @"park", @"trails", @"resturant", @"cafe"];
     }
-    else if([weatherCondition rangeOfString:@"cloud"].location != NSNotFound ||
+    else if([weatherCondition rangeOfString:@"wind"].location != NSNotFound ||
             [weatherCondition rangeOfString:@"rain"].location != NSNotFound){
         self.category = @[@"clothing_store", @"library", @"movie_theater", @"shopping_mall", @"cafe", @"resturant"];
     }
