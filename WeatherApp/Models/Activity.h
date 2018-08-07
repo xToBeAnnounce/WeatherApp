@@ -8,9 +8,11 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Location.h"
+#import "Weather.h"
 
 @protocol ActivityDelegate
--(void)displayPopoverWithType:(NSString*)type Location:(NSArray*)loc;
+-(void)displayPopoverWithLocation:(Location*)loc Weather:(Weather*)weather;
 @end
 
 @interface Activity : NSObject

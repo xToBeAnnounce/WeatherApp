@@ -7,7 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Location.h"
+#import "Weather.h"
 
 @interface ActivityViewController : UIViewController
--(instancetype)initWithLocation:(NSArray*)loc Type:(NSString*)type;
+-(instancetype)initWithLocation:(Location*)loc Weather:(Weather*)weather;
 @end

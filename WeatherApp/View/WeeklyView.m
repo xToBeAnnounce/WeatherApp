@@ -142,7 +142,6 @@ static BOOL showBanner;
     self.locationStackView.alignment = UIStackViewAlignmentCenter;
     self.locationStackView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.locationView addSubview:self.locationStackView];
-
 }
 
 - (void) setWeeklyConstraints {
@@ -172,16 +171,11 @@ static BOOL showBanner;
     
     weeklycell.tempType = self.tempType;
     Weather *dayWeather = self.location.weeklyData[indexPath.row];
-    if(self.selectedCell == nil) weeklycell.displayActivity = NO;
-    if(self.selectedCell == indexPath) weeklycell.displayActivity = !weeklycell.displayActivity;
-    
+
     weeklycell.dayWeather = dayWeather;
-    weeklycell.delegate = self.sourceVC;
-    weeklycell.location = @[@(self.location.lattitude), @(self.location.longitude)];
-    weeklycell.rowNum = (int)indexPath.row;
-    weeklycell.rowHeight = self.WeeklytableView.estimatedRowHeight;
     weeklycell.contentView.backgroundColor = UIColor.clearColor;
     weeklycell.backgroundColor = UIColor.clearColor;
+    
     if (indexPath.row == 0){
         weeklycell.dateLabel.text = @"Today";
     }
@@ -203,14 +197,12 @@ static BOOL showBanner;
 
 - (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.location.weeklyData.count;
-    
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
-    if(self.selectedCell == nil) self.selectedCell = indexPath;
-    else self.selectedCell = nil;
-
-    [self.WeeklytableView reloadData];
+    Weather *weatherOfDay = self.location.weeklyData[indexPath.row];
+    [self.delegate displayPopoverWithLocation:self.location Weather:weatherOfDay];
+    [self.WeeklytableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 - (void) refreshView {
