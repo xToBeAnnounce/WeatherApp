@@ -7,9 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Location.h"
 
 @interface WeatherView : UIView <UITableViewDataSource,UITableViewDelegate>
 @property (strong,nonatomic) UITableView *maintableView;
-
-
+@property (strong, nonatomic) Location *location;
 @end
