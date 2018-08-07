@@ -44,6 +44,10 @@
     [self.navStack presentViewController:revealNVC animated:YES completion:nil];
 }
 
+- (void) revealHamburger {
+    [self.revealVC revealToggle:self.revealVC.navigationItem.leftBarButtonItem];
+}
+
 - (void)pushViewController:(UIViewController *)viewController{
     [self.navStack pushViewController:viewController animated:YES];
 }
@@ -66,6 +70,7 @@
     
     // Creates settings view controller
     self.hamburgerVC.settingsVC = SettingsViewController.new;
+    self.hamburgerVC.settingsVC.navigationDelegate = self;
     self.hamburgerVC.settingsVC.settingsDelegate = self.hamburgerVC.pageVC;
     
     // Main reveal controller

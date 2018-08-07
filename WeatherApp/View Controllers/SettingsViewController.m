@@ -209,6 +209,7 @@ static NSString *locationCellID = @"LocationTableViewCell";
             NSLog(@"Saved preferences!");
             [self loadPreferences];
             [self.settingsDelegate updatePreferences:self.user.preferences];
+            [self.navigationDelegate revealHamburger];
         }
         else {
             NSLog(@"Unsuccessful");

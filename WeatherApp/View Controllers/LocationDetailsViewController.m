@@ -28,6 +28,7 @@
 @property (strong, nonatomic) UIDatePicker *endDatePicker;
 
 /* Buttons */
+@property (strong, nonatomic) UIButton *clearPhotoButton;
 @property (strong, nonatomic) UIButton *photoLibraryButton;
 @property (strong, nonatomic) UIButton *deleteLocationButton;
 
@@ -128,6 +129,15 @@ BOOL saving = NO;
     [self.photoLibraryButton setTintColor:[[UIColor alloc] initWithWhite:1.0 alpha:0.7]];
     self.photoLibraryButton.translatesAutoresizingMaskIntoConstraints = NO;
     [self.photoLibraryButton addTarget:self action:@selector(onTapChooseLibrary:) forControlEvents:UIControlEventTouchUpInside];
+
+    // Clear photo button
+    self.clearPhotoButton = [[UIButton alloc] init];
+    UIImage *clearPhotoIcon = [[UIImage imageNamed:@"close"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    [self.clearPhotoButton setImage:clearPhotoIcon forState:UIControlStateNormal];
+    [self.clearPhotoButton setTintColor:[[UIColor alloc] initWithWhite:1.0 alpha:0.7]];
+    self.clearPhotoButton.hidden = !(BOOL)self.location.backdropImage;
+    self.clearPhotoButton.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.clearPhotoButton addTarget:self action:@selector(clearImage) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void) initalizeImagePicker {
@@ -172,6 +182,7 @@ BOOL saving = NO;
     [self.placeImageView addGestureRecognizer:imageTapGesture];
     
     [self.placeView addSubview:self.placeImageView];
+    [self.placeView addSubview:self.clearPhotoButton];
     [self.placeView addSubview:self.photoLibraryButton];
     [self.placeView addSubview:self.placeNameLabel];
     
@@ -236,6 +247,12 @@ BOOL saving = NO;
     [self.photoLibraryButton.trailingAnchor constraintEqualToAnchor:self.placeView.trailingAnchor constant:-8].active = YES;
     [self.photoLibraryButton.heightAnchor constraintEqualToConstant:35].active = YES;
     [self.photoLibraryButton.widthAnchor constraintEqualToAnchor:self.photoLibraryButton.heightAnchor].active = YES;
+    
+    // Clear photo button constraints
+    [self.clearPhotoButton.topAnchor constraintEqualToAnchor:self.placeView.topAnchor constant:8].active = YES;
+    [self.clearPhotoButton.leadingAnchor constraintEqualToAnchor:self.placeView.leadingAnchor constant:8].active = YES;
+    [self.clearPhotoButton.heightAnchor constraintEqualToConstant:35].active = YES;
+    [self.clearPhotoButton.widthAnchor constraintEqualToAnchor:self.clearPhotoButton.heightAnchor].active = YES;
     
     // Place name label constraints
     [self.placeNameLabel.centerYAnchor constraintEqualToAnchor:self.placeView.centerYAnchor].active = YES;
@@ -429,12 +446,14 @@ BOOL saving = NO;
 - (void) setImage:(UIImage *)locImage{
     self.placeImageView.image = locImage;
     [locationAttributeDict setValue:[Location getPFFileFromImage:locImage] forKey:@"backdropImage"];
+    self.clearPhotoButton.hidden = NO;
 }
 
 - (void) clearImage{
     self.placeImageView.image = [UIImage imageNamed:@"grad"];
     self.location.backdropImage = nil;
     [locationAttributeDict removeObjectForKey:@"backdropImage"];
+    self.clearPhotoButton.hidden = YES;
 }
 
 - (UIImage *)resizeImage:(UIImage *)image withSize:(CGSize)size {
