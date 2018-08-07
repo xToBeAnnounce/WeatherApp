@@ -1,5 +1,5 @@
 //
-//  HourlyForecast.h
+//  HourlyForecastCell.h
 //  WeatherApp
 //
 //  Created by Tiffany Ma on 8/7/18.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface HourlyForecast : UITableViewCell
+@interface HourlyForecastCell : UITableViewCell
 
 @end

@@ -65,6 +65,7 @@
 - (void) viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     self.locationDetailsButton.hidden = !self.location.objectId;
+    [self setNavBarTitle:self.location.customName withSubtitle:self.location.placeName];
     
     if (!self.weeklyView.hidden) {
         [self showBannerIfNeededWithCompletion:nil];
@@ -134,7 +135,7 @@
 }
 
 - (void) setConstraintsForView:(UIView *)view{
-    [view.topAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.topAnchor].active = YES;
+    [view.topAnchor constraintEqualToAnchor:self.view.topAnchor].active = YES;
     [view.bottomAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.bottomAnchor].active = YES;
     [view.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor].active = YES;
     [view.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor].active = YES;
@@ -142,5 +143,37 @@
 
 - (void) showBannerIfNeededWithCompletion:(void(^)(BOOL finished))completion{
     [self.weeklyView showBannerIfNeededWithCompletion:completion];
+}
+
+// Sets Nav Bar title
+- (void) setNavBarTitle:(NSString *)title withSubtitle:(NSString *)subtitle {
+    UILabel *titleLabel = [[UILabel alloc]init];
+    UILabel *subtitleLabel = [[UILabel alloc]init];
+    
+    titleLabel.text = title;
+    subtitleLabel.text = subtitle;
+    
+    [self configureLabelProperties:titleLabel withFontSize:17];
+    [self configureLabelProperties:subtitleLabel withFontSize:13];
+    
+    UIStackView *stackView = [[UIStackView alloc]initWithArrangedSubviews:@[titleLabel,subtitleLabel]];
+    stackView.distribution = UIStackViewDistributionEqualCentering;
+    stackView.axis = UILayoutConstraintAxisVertical;
+    stackView.alignment =UIStackViewAlignmentCenter;
+    
+    [stackView setFrame:CGRectMake(0, 0, MAX(titleLabel.frame.size.width, subtitleLabel.frame.size.width), 35)];
+    self.navigationController.navigationBar.topItem.titleView = stackView;
+}
+
+// Gives label white text color and black shadow
+- (void) configureLabelProperties:(UILabel *)label withFontSize:(CGFloat)size{
+    label.textColor = [UIColor whiteColor];
+    label.font = [UIFont systemFontOfSize:size];
+    [label setTextAlignment:NSTextAlignmentCenter];
+    [label sizeToFit];
+    label.layer.shadowColor = [UIColor.blackColor CGColor];
+    label.layer.shadowOpacity = 1.0;
+    label.layer.shadowRadius = 2;
+    label.layer.shadowOffset = CGSizeMake(0.5, 1.0);
 }
 @end
