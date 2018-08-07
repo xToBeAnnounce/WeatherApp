@@ -1,14 +1,14 @@
 //
-//  HourlyForecast.m
+//  HourlyForecastCell.m
 //  WeatherApp
 //
 //  Created by Tiffany Ma on 8/7/18.
 //  Copyright © 2018 xToBeAnnounce. All rights reserved.
 //
 
-#import "HourlyForecast.h"
+#import "HourlyForecastCell.h"
 
-@implementation HourlyForecast
+@implementation HourlyForecastCell
 {
     
 }

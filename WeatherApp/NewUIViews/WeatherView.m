@@ -7,7 +7,7 @@
 //
 
 #import "WeatherView.h"
-#import "HourlyForecast.h"
+#import "HourlyForecastCell.h"
 
 @implementation WeatherView
 
@@ -32,8 +32,12 @@
     return nil;
 }
 
-- (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 5;
+}
+
+- (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return 0;
 }
 
 

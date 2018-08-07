@@ -196,13 +196,6 @@ BOOL isgranted;
     [gradView.layer addSublayer:gradient];
 }
 
-- (void) addShadowToView:(UIView *)view {
-    view.layer.shadowColor = [UIColor.blackColor CGColor];
-    view.layer.shadowOpacity = 1.0;
-    view.layer.shadowRadius = 2;
-    view.layer.shadowOffset = CGSizeMake(0.5, 1.0);
-}
-
 // Initalizes controls and placeholder screen and gradient, sets view background color
 - (void) setUI {
     CGFloat gradheight = [UIApplication sharedApplication].statusBarFrame.size.height + self.navigationController.navigationBar.frame.size.height;
