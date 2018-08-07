@@ -12,14 +12,14 @@
 #import "LocationPickerViewController.h"
 #import "LocationDetailsViewController.h"
 #import "WebViewViewController.h"
-#import "SWRevealViewController.h"
 
 @interface PageViewController ()<UIPageViewControllerDataSource,UIPageViewControllerDelegate>
+
 @property (strong, nonatomic) Preferences *preferences;
 
 @property (strong,nonatomic) UNUserNotificationCenter *notificationCenter;
 
-@property (strong, nonatomic) NSMutableArray *locViewArrary;
+@property (strong, nonatomic) NSMutableArray *locViewArray;
 
 @property (strong, nonatomic) UIViewController *placeholderScreen;
 @property (strong, nonatomic) UILabel *placeholderLabel;
@@ -35,50 +35,45 @@
 @end
 
 @implementation PageViewController
-
-BOOL currentLocation;
 BOOL settingUpLocations;
+BOOL currentLocation;
 BOOL alertShown;
-BOOL shouldShowAlert;
 BOOL isgranted;
 
 - (void)viewDidLoad {
     self.dataSource = self;
     self.delegate = self;
-    isgranted = NO;
-    alertShown = NO;
-    shouldShowAlert = NO;
     
-    self.locViewArrary = [[NSMutableArray alloc] init];
-    currentLocation = NO;
+    self.locViewArray = [[NSMutableArray alloc] init];
     settingUpLocations = YES;
+    currentLocation = NO;
     
-    [self setUI];
+    [User.currentUser getUserPreferencesWithBlock:^(Preferences *pref, NSError *error) {
+        if (pref) {
+            self.preferences = pref;
+        }
+        else {
+            [self alertControllerWithTitle:@"Error" message:error.localizedDescription btnText:@"OK"];
+        }
+    }];
+    
     [self notificationSetUp];
+    [self setUI];
     [super viewDidLoad];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self setNavigationBarUI];
-    if (settingUpLocations) {
-        [User.currentUser getUserPreferencesWithBlock:^(Preferences *pref, NSError *error) {
-            if (pref) {
-                [self updatePreferences:pref];
-            }
-            else {
-                [self alertControllerWithTitle:@"Error" message:error.localizedDescription btnText:@"OK"];
-            }
-        }];
-    }
     [self updateLocations];
-    if (shouldShowAlert && !alertShown) [self presentLearnAlertWithCompletion:nil];
+    if (self.preferences.learningOn && !alertShown) [self presentLearnAlertWithCompletion: nil];
 }
 
 - (void) viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
 }
 
+/*----------------NOTIFICATION METHODS----------------*/
 - (void) notificationSetUp {
     //Notification Set UP
     self.notificationCenter = [UNUserNotificationCenter currentNotificationCenter];
@@ -88,8 +83,8 @@ BOOL isgranted;
     }];
 }
 
-- (void) notificationWithPreferences:(Preferences *)pref {
-    if(isgranted){
+- (void) presentPreferenceNotification{
+    if(self.preferences.notificationsOn && isgranted){
         LocationWeatherViewController *locWVC = [self currentWeatherVC];
         Weather *weather = [locWVC.location.dailyData firstObject];
         
@@ -98,14 +93,14 @@ BOOL isgranted;
             content.title = @"Good Morning";
             NSString *bodyText = [NSString stringWithFormat:@"%@ is ", locWVC.location.placeName];
             
-            if (weather.temperature > [pref.tooHotTemp intValue]) {
+            if (weather.temperature > [self.preferences.tooHotTemp intValue]) {
                 bodyText = [bodyText stringByAppendingString:@"hot today. Wear some shorts!"];
             }
-            else if (weather.temperature < [pref.tooColdTemp intValue]) {
+            else if (weather.temperature < [self.preferences.tooColdTemp intValue]) {
                 bodyText = [bodyText stringByAppendingString:@"cold today. Grab a jacket!"];
             }
             else {
-                bodyText = [bodyText stringByAppendingString:[NSString stringWithFormat:@"a nice %@. Enjoy the weather!",[weather getTempInString:weather.temperature withType:pref.tempTypeString]]];
+                bodyText = [bodyText stringByAppendingString:[NSString stringWithFormat:@"a nice %@. Enjoy the weather!",[weather getTempInString:weather.temperature withType:self.preferences.tempTypeString]]];
             }
             
             content.body = bodyText;
@@ -127,7 +122,6 @@ BOOL isgranted;
     self.placeholderScreen = [[UIViewController alloc] init];
     
     self.placeholderLabel = [[UILabel alloc] init];
-//    self.placeholderLabel.text = @"Please wait while your locations are loading";
     [self.placeholderLabel sizeToFit];
     self.placeholderLabel.translatesAutoresizingMaskIntoConstraints = NO;
     [self.placeholderScreen.view addSubview:self.placeholderLabel];
@@ -149,11 +143,15 @@ BOOL isgranted;
     [self.placeholderButton addTarget:self action:@selector(segueToAddLocation) forControlEvents:UIControlEventTouchUpInside];
     [self.placeholderScreen.view addSubview:self.placeholderButton];
     
-    [self.locViewArrary addObject:self.placeholderScreen];
-  
-    currentLocation = NO;
+    [self.locViewArray addObject:self.placeholderScreen];
     
     [self refreshPageViewWithStartIndex:0];
+}
+
+- (void) setNavigationBarUI {
+    self.navigationController.navigationBar.topItem.rightBarButtonItem = self.addLocationButton;
+    self.navigationController.navigationBar.topItem.titleView = self.DailyWeeklySC;
+    [self.DailyWeeklySC addTarget:self action:@selector(onToggleDailyWeekly) forControlEvents:UIControlEventValueChanged];
 }
 
 - (void) setConstraints {
@@ -175,12 +173,6 @@ BOOL isgranted;
     [self.mapButton.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor constant:2].active = YES;
     [self.mapButton.heightAnchor constraintEqualToConstant:30].active = YES;
     [self.mapButton.widthAnchor constraintEqualToAnchor:self.mapButton.heightAnchor].active = YES;
-}
-
-- (void) setNavigationBarUI {
-    self.navigationController.navigationBar.topItem.rightBarButtonItem = self.addLocationButton;
-    self.navigationController.navigationBar.topItem.titleView = self.DailyWeeklySC;
-    [self.DailyWeeklySC addTarget:self action:@selector(onToggleDailyWeekly) forControlEvents:UIControlEventValueChanged];
 }
 
 // Initalizes controls and placeholder screen, sets view background color
@@ -215,14 +207,14 @@ BOOL isgranted;
 
 /*------------------PAGE VIEW CONTROLLER DELEGATE METHODS------------------*/
 -(UIViewController *)viewControllerAtIndex:(NSUInteger)index {
-    UIViewController *vc = self.locViewArrary[index];
+    UIViewController *vc = self.locViewArray[index];
     return vc;
 }
 
 - (nullable UIViewController *)pageViewController:(nonnull UIPageViewController *)pageViewController viewControllerAfterViewController:(nonnull UIViewController *)viewController {
     
-    NSUInteger index = [self.locViewArrary indexOfObject:viewController];
-    if (index < self.locViewArrary.count - 1) {
+    NSUInteger index = [self.locViewArray indexOfObject:viewController];
+    if (index < self.locViewArray.count - 1) {
         return [self viewControllerAtIndex:index+1];
     }
     return nil;
@@ -230,7 +222,7 @@ BOOL isgranted;
 
 - (nullable UIViewController *)pageViewController:(nonnull UIPageViewController *)pageViewController viewControllerBeforeViewController:(nonnull UIViewController *)viewController {
     
-    NSUInteger index = [self.locViewArrary indexOfObject:viewController];
+    NSUInteger index = [self.locViewArray indexOfObject:viewController];
     if (index  > 0   ) {
         return [self viewControllerAtIndex:index-1];
     }
@@ -238,30 +230,65 @@ BOOL isgranted;
 }
 
 - (NSInteger)presentationCountForPageViewController:(UIPageViewController *)pageViewController{
-    return self.locViewArrary.count;
+    return self.locViewArray.count;
 }
 
 - (NSInteger)presentationIndexForPageViewController:(UIPageViewController *)pageViewController {
     return [self currentPageIndex];
 }
 
+
+/*------------------PAGEVC NAVIGATION METHODS------------------*/
+// gets index of current page in self.locviewarray
+- (int)currentPageIndex {
+    if (self.viewControllers.count > 0) {
+        int index = (int)[self.locViewArray indexOfObject:self.viewControllers[0]];
+        if (index != -1) return index;
+        else return 0;
+    }
+    else {
+        return 0;
+    }
+}
+
+- (LocationWeatherViewController *)currentWeatherVC {
+    if ([self.viewControllers[0] isKindOfClass:LocationWeatherViewController.class]) {
+        return self.viewControllers[0];
+    }
+    else return LocationWeatherViewController.new;
+}
+
+- (void) refreshPageViewWithStartIndex:(int) index {
+    [self addPlaceholderIfNeeded];
+    
+    __weak typeof(self) weakSelf = self;
+    [self setViewControllers:@[self.locViewArray[index]] direction:UIPageViewControllerNavigationDirectionReverse animated:NO completion:^(BOOL finished) {
+        if (finished) {
+            [weakSelf.view bringSubviewToFront:weakSelf.locationDetailsButton];
+            [weakSelf.view bringSubviewToFront:weakSelf.mapButton];
+        }
+    }];
+}
+
 /*-----------------REMOVING/ADDING SCREENS-----------------*/
+// removes current location weather screen if one exists
 - (void) removeCurrentLocationScreen {
-    UIViewController *startingVC = self.locViewArrary[0];
+    UIViewController *startingVC = self.locViewArray[0];
     if ([startingVC.class isEqual:LocationWeatherViewController.class]) {
         LocationWeatherViewController *locVC = (LocationWeatherViewController *)startingVC;
         if (!locVC.location.objectId) {
-            [self.locViewArrary removeObject:locVC];
+            [self.locViewArray removeObject:locVC];
         }
     }
 }
 
+// removes location weather screen that has expired and shows an alert to the user
 - (void) removeExpiredLocScreen:(LocationWeatherViewController *)locWVC {
     [self alertControllerWithTitle:@"Expired Location" message:[NSString stringWithFormat:@"%@ has expired and was deleted.", locWVC.location.customName] btnText:@"OK"];
     
     [User.currentUser deleteLocationWithID:locWVC.location.objectId withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
         if (succeeded ){
-            [self.locViewArrary removeObject:locWVC];
+            [self.locViewArray removeObject:locWVC];
             [self refreshPageViewWithStartIndex:[self currentPageIndex]];
         }
         else {
@@ -270,14 +297,121 @@ BOOL isgranted;
     }];
 }
 
+// adds placeholder screen if no locations
 - (void) addPlaceholderIfNeeded {
-    if (self.locViewArrary.count == 0) {
+    if (self.locViewArray.count == 0) {
         self.locationDetailsButton.hidden = YES;
         self.placeholderButton.hidden = NO;
-        [self.locViewArrary addObject:self.placeholderScreen];
+        [self.locViewArray addObject:self.placeholderScreen];
     }
 }
 
+/*-----------------UPDATE VIEW METHODS-----------------*/
+// Updates view whenever self.preferences is set
+-(void) setPreferences:(Preferences *)pref {
+    // current location is on (updates current loc every time returns to page)
+    if (pref.locationOn && !currentLocation) {
+        // Remove current location screen if it exists
+        [self.loadingActivityIndicator stopAnimating];
+        [self removeCurrentLocationScreen];
+        [self.locViewArray removeObject:self.placeholderScreen];
+        
+        // Add new current location screen
+        LocationWeatherViewController *currentLocVC = [[LocationWeatherViewController alloc] initWithLocation:Location.currentLocation segmentedControl:self.DailyWeeklySC  locDetailsButton:self.locationDetailsButton];
+        [self.locViewArray insertObject:currentLocVC atIndex:0];
+    }
+    // current location switched from on to off
+    else if (!pref.locationOn && currentLocation){
+        [self removeCurrentLocationScreen];
+    }
+    currentLocation = pref.locationOn;
+    
+    // updating tempterature type
+    for (LocationWeatherViewController *locWVC in [self.locViewArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat: @"self isKindOfClass: %@", LocationWeatherViewController.class]]) {
+        locWVC.tempTypeString = pref.tempTypeString;
+    }
+    
+    // If learning was switched from off to on
+    if (_preferences.learningOn && pref.learningOn) alertShown = NO;
+    
+    _preferences = pref;
+    [self presentPreferenceNotification];
+    [self refreshPageViewWithStartIndex:[self currentPageIndex]];
+    settingUpLocations = NO;
+    
+}
+
+-(void) updatePreferences:(Preferences *)pref {
+    self.preferences = pref;
+}
+
+// Updates locations displayed on screen
+- (void) updateLocations {
+    self.view.userInteractionEnabled = NO;
+    
+    // Makes userLocsArray - array of just the user's stored locations (excludes current location and placeholder screen)
+    NSRange locRange = NSMakeRange(currentLocation, self.locViewArray.count - currentLocation);
+    NSArray *userLocsArray = [self.locViewArray subarrayWithRange:locRange];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat: @"self isKindOfClass: %@", LocationWeatherViewController.class];
+    userLocsArray = [userLocsArray filteredArrayUsingPredicate:predicate];
+    
+    // holds ids of added locations not displayed on screen
+    NSMutableArray *newLocationIds = [User.currentUser.locationsIDArray mutableCopy];
+    
+    // removes locations no longer found in User location ID array
+    for (LocationWeatherViewController *locWVC in userLocsArray) {
+        if (![User.currentUser.locationsIDArray containsObject:locWVC.location.objectId]) {
+            [self.locViewArray removeObject:locWVC];
+        }
+        else {
+            [newLocationIds removeObject:locWVC.location.objectId];
+        }
+    }
+    
+    // Gets array of user's saved locations from backend
+    [User.currentUser getLocationsArrayInBackgroundWithBlock:^(NSMutableArray *locations, NSError *error) {
+        if (locations) {
+            [self.loadingActivityIndicator stopAnimating];
+            [self.locViewArray removeObject:self.placeholderScreen];
+            // Stores location screen currently on display that have expired
+            NSMutableArray *expiredLocationScreens = [[NSMutableArray alloc] init];
+            
+            for (int i=0; i<locations.count; i++) {
+                Location *loc = locations[i];
+                int viewIndex = i + self.preferences.locationOn; // corresponding view
+                
+                // if this location has been added since the last time user saw page view controller
+                if ([newLocationIds containsObject:loc.objectId]) {
+                    LocationWeatherViewController *newLocationWVC = [[LocationWeatherViewController alloc] initWithLocation:loc segmentedControl:self.DailyWeeklySC locDetailsButton:self.locationDetailsButton];
+                    [self.locViewArray insertObject:newLocationWVC atIndex:viewIndex];
+                }
+                else {
+                    LocationWeatherViewController *locWVC = self.locViewArray[viewIndex];
+                    
+                    // check if expired location
+                    NSComparisonResult endDateCompare = [NSCalendar.currentCalendar compareDate:[NSDate dateWithTimeIntervalSinceNow:-60*60*24] toDate:loc.endDate toUnitGranularity:NSCalendarUnitDay];
+                    if (loc.endDate && endDateCompare != NSOrderedAscending) {
+                        [expiredLocationScreens addObject:locWVC];
+                    }
+                    locWVC.location = loc;
+                }
+            }
+            
+            // removes expired screens
+            for (LocationWeatherViewController *locWVC in expiredLocationScreens) {
+                [self removeExpiredLocScreen:locWVC];
+            }
+            settingUpLocations = NO;
+            [self refreshPageViewWithStartIndex:[self currentPageIndex]];
+            self.view.userInteractionEnabled = YES;
+        }
+        else {
+            [self alertControllerWithTitle:@"Error" message:error.localizedDescription btnText:@"OK"];
+        }
+    }];
+}
+
+/*-------------------CONTROL SELECTORS-------------------*/
 // controls behavior for location detail button and map button
 - (IBAction)didTapBottomButton:(id)sender {
     LocationWeatherViewController *locWeatherVC = [self currentWeatherVC];
@@ -300,117 +434,14 @@ BOOL isgranted;
     }
 }
 
--(void)alertControllerWithTitle:(NSString *)title message:(NSString *)message btnText:(NSString *)btnText{
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *button = [UIAlertAction actionWithTitle:btnText style:UIAlertActionStyleCancel handler:nil];
-    [alert addAction:button];
-    [self presentViewController:alert animated:YES completion:nil];
-}
-
-// Updates locations displayed on screen
-- (void) updateLocations {
-    self.view.userInteractionEnabled = NO;
-    
-    // Makes userLocsArray - array of just the user's stored locations (excludes current location and placeholder screen)
-    NSRange locRange = NSMakeRange(currentLocation, self.locViewArrary.count - currentLocation);
-    NSArray *userLocsArray = [self.locViewArrary subarrayWithRange:locRange];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat: @"self isKindOfClass: %@", LocationWeatherViewController.class];
-    userLocsArray = [userLocsArray filteredArrayUsingPredicate:predicate];
-    
-    // holds ids of added locations not displayed on screen
-    NSMutableArray *newLocationIds = [User.currentUser.locationsIDArray mutableCopy];
-    
-    // removes locations no longer found in User location ID array
-    for (LocationWeatherViewController *locWVC in userLocsArray) {
-        if (![User.currentUser.locationsIDArray containsObject:locWVC.location.objectId]) {
-            [self.locViewArrary removeObject:locWVC];
-        }
-        else {
-            [newLocationIds removeObject:locWVC.location.objectId];
-        }
-    }
-    
-    // Gets array of user's saved locations from backend
-    [User.currentUser getLocationsArrayInBackgroundWithBlock:^(NSMutableArray *locations, NSError *error) {
-        if (locations) {
-            [self.loadingActivityIndicator stopAnimating];
-            [self.locViewArrary removeObject:self.placeholderScreen];
-            // Stores location screen currently on display that have expired
-            NSMutableArray *expiredLocationScreens = [[NSMutableArray alloc] init];
-            
-            for (int i=0; i<locations.count; i++) {
-                Location *loc = locations[i];
-                int viewIndex = i + currentLocation; // corresponding view
-                
-                // if this location has been added since the last time user saw page view controller
-                if ([newLocationIds containsObject:loc.objectId]) {
-                    LocationWeatherViewController *newLocationWVC = [[LocationWeatherViewController alloc] initWithLocation:loc segmentedControl:self.DailyWeeklySC locDetailsButton:self.locationDetailsButton];
-                    [self.locViewArrary insertObject:newLocationWVC atIndex:viewIndex];
-                }
-                else {
-                    LocationWeatherViewController *locWVC = self.locViewArrary[viewIndex];
-                    
-                    // check if expired location
-                    NSComparisonResult endDateCompare = [NSCalendar.currentCalendar compareDate:[NSDate dateWithTimeIntervalSinceNow:-60*60*24] toDate:loc.endDate toUnitGranularity:NSCalendarUnitDay];
-                    if (loc.endDate && endDateCompare != NSOrderedAscending) {
-                        [expiredLocationScreens addObject:locWVC];
-                    }
-                    locWVC.location = loc;
-                }
-            }
-            
-            for (LocationWeatherViewController *locWVC in expiredLocationScreens) {
-                [self removeExpiredLocScreen:locWVC];
-            }
-            settingUpLocations = NO;
-            [self refreshPageViewWithStartIndex:[self currentPageIndex]];
-            self.view.userInteractionEnabled = YES;
-        }
-        else {
-            [self alertControllerWithTitle:@"Error" message:error.localizedDescription btnText:@"OK"];
-        }
-    }];
-}
-
-- (void) updatePreferences:(Preferences *)pref {
-    if (pref.notificationsOn) [self notificationWithPreferences:pref];
-    
-    // current location is on (updates current loc every time returns to page)
-    if (pref.locationOn && !currentLocation) {
-        // Remove current location screen if it exists
-        [self removeCurrentLocationScreen];
-        [self.loadingActivityIndicator stopAnimating];
-        [self.locViewArrary removeObject:self.placeholderScreen];
-        
-        // Add new current location screen
-        LocationWeatherViewController *currentLocVC = [[LocationWeatherViewController alloc] initWithLocation:Location.currentLocation segmentedControl:self.DailyWeeklySC  locDetailsButton:self.locationDetailsButton];
-        [self.locViewArrary insertObject:currentLocVC atIndex:0];
-    }
-    // current location switched from on to off
-    else if (!pref.locationOn && currentLocation){
-        [self removeCurrentLocationScreen];
-    }
-    currentLocation = pref.locationOn;
-    
-    // updating tempterature type
-    for (LocationWeatherViewController *locWVC in [self.locViewArrary filteredArrayUsingPredicate:[NSPredicate predicateWithFormat: @"self isKindOfClass: %@", LocationWeatherViewController.class]]) {
-        locWVC.tempTypeString = pref.tempTypeString;
-    }
-    if (!shouldShowAlert && pref.learningOn) alertShown = NO;
-    
-    // learning
-    shouldShowAlert = pref.learningOn;
-    
-    [self refreshPageViewWithStartIndex:[self currentPageIndex]];
-    settingUpLocations = NO;
-}
-
+// When location details button is tapped
 -(void)segueToAddLocation{
     LocationPickerViewController *locationVC = LocationPickerViewController.new;
     UINavigationController *locationNavVC = [[UINavigationController alloc] initWithRootViewController:locationVC];
     [self.navigationController presentViewController:locationNavVC animated:YES completion:nil];
 }
 
+// When segmented control is toggled
 - (void) onToggleDailyWeekly {
     if (self.DailyWeeklySC.selectedSegmentIndex == 1) {
         LocationWeatherViewController *locWVC = [self currentWeatherVC];
@@ -420,38 +451,18 @@ BOOL isgranted;
     }
 }
 
-- (int)currentPageIndex {
-    if (self.viewControllers.count > 0) {
-        int index = (int)[self.locViewArrary indexOfObject:self.viewControllers[0]];
-        if (index != -1) return index;
-        else return 0;
-    }
-    else {
-        return 0;
-    }
+/*-------------ALERT CONTROLLER METHODS----------------*/
+// alert controller with title, message, and one button
+-(void)alertControllerWithTitle:(NSString *)title message:(NSString *)message btnText:(NSString *)btnText{
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *button = [UIAlertAction actionWithTitle:btnText style:UIAlertActionStyleCancel handler:nil];
+    [alert addAction:button];
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
-- (LocationWeatherViewController *)currentWeatherVC {
-    if ([self.viewControllers[0] isKindOfClass:LocationWeatherViewController.class]) {
-        return self.viewControllers[0];
-    }
-    else return LocationWeatherViewController.new;
-}
-
-- (void) refreshPageViewWithStartIndex:(int) index {
-    [self addPlaceholderIfNeeded];
-    
-    __weak typeof(self) weakSelf = self;
-    [self setViewControllers:@[self.locViewArrary[index]] direction:UIPageViewControllerNavigationDirectionReverse animated:NO completion:^(BOOL finished) {
-        if (finished) {
-            [weakSelf.view bringSubviewToFront:weakSelf.locationDetailsButton];
-            [weakSelf.view bringSubviewToFront:weakSelf.mapButton];
-        }
-    }];
-}
-
+// Learn from me alert controller
 - (void) presentLearnAlertWithCompletion:(void(^)(void))completion{
-    LocationWeatherViewController *locWVC = self.locViewArrary[0];
+    LocationWeatherViewController *locWVC = self.locViewArray[0];
     
     if (![locWVC isEqual:self.placeholderScreen] && locWVC.location.placeName) {
         NSString *message = [NSString stringWithFormat:@"How did %@'s weather feel today?", locWVC.location.placeName];
@@ -467,9 +478,9 @@ BOOL isgranted;
         [alert addAction:perfectAction];
         
         [self presentViewController:alert animated:YES completion:completion];
-        alertShown = NO;
+        
+        alertShown = YES;
     }
-    
 }
 @end
 

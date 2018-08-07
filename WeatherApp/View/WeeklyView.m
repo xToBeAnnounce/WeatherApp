@@ -30,9 +30,7 @@ static BOOL showBanner;
 // An empty implementation adversely affects performance during animation.
 - (void)drawRect:(CGRect)rect {
     [super drawRect:rect];
-    [self setWeeklyUI];
     [self setLocationName];
-    
     self.WeeklytableView.delegate = self;
     self.WeeklytableView.dataSource = self;
     self.WeeklytableView.backgroundColor = UIColor.clearColor;
@@ -64,11 +62,11 @@ static BOOL showBanner;
 
 - (void) setLocation:(Location *)location {
     if (_location.weeklyData) location.weeklyData = _location.weeklyData;
-    
     _location = location;
     self.customNameLabel.text = self.location.customName;
-    [self updateDataIfNeeded];
     self.selectedCell = nil;
+    
+    [self updateDataIfNeeded];
     [self refreshView];
 }
 
@@ -77,11 +75,8 @@ static BOOL showBanner;
     [self.WeeklytableView reloadData];
 }
 
-/*-----------------------------SETS WEEKLY UI-----------------------------------------*/
+/*--------------------------SET UI METHODS------------------------------*/
 -(void)setWeeklyUI{
-    self.weatherBanner = [[BannerView alloc] initWithMessage:@""];
-    self.weatherBanner.backgroundColor = [UIColor redColor];
-    [self addSubview:self.weatherBanner];
 
     self.WeeklytableView = [[UITableView alloc] initWithFrame: CGRectMake(0, 0, self.frame.size.width,self.frame.size.height)];
     self.WeeklytableView.estimatedRowHeight = 50;
@@ -103,6 +98,10 @@ static BOOL showBanner;
     self.BlurView.frame = self.backgroundImage.frame;
     self.BlurView.alpha = 0.4;
     [self insertSubview:self.BlurView aboveSubview:self.backgroundImage];
+    
+    self.weatherBanner = [[BannerView alloc] initWithMessage:@""];
+    self.weatherBanner.backgroundColor = [UIColor redColor];
+    [self addSubview:self.weatherBanner];
 
     [self setLocationDisplay];
     [self setWeeklyConstraints];
@@ -238,6 +237,7 @@ static BOOL showBanner;
 - (void) showBannerIfNeededWithCompletion:(void(^)(BOOL finished))completion{
     if (showBanner && ![self.weatherBanner.bannerLabel.text isEqualToString:@""]) {
         showBanner = NO;
+        [self bringSubviewToFront:self.weatherBanner];
         [self.weatherBanner animateBannerWithCompletion:^(BOOL finished) {
             if (finished) {
                 [self.weatherBanner setBannerMessage:@""];

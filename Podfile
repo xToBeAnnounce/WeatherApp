@@ -7,6 +7,7 @@ target 'WeatherApp' do
 
   # Pods for WeatherApp
   pod 'Parse'
+  pod 'Parse/UI'
   pod 'MBProgressHUD'
 
   target 'WeatherAppTests' do
