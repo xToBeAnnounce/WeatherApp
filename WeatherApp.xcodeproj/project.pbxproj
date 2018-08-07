@@ -372,12 +372,19 @@
 				336621A32112D03B005CB1D3 /* BannerView.m */,
 				CC829DCA21153FCC00453152 /* WeeklyCollectionViewCell.h */,
 				CC829DCB21153FCC00453152 /* WeeklyCollectionViewCell.m */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		9207D7A0211A5A5F001E01CA /* NewUIViews */ = {
+			isa = PBXGroup;
+			children = (
 				CC829DCD211A51AD00453152 /* WeatherView.h */,
 				CC829DCE211A51AD00453152 /* WeatherView.m */,
 				9207D79D211A56D3001E01CA /* HourlyForecast.h */,
 				9207D79E211A56D3001E01CA /* HourlyForecast.m */,
 			);
-			path = View;
+			path = NewUIViews;
 			sourceTree = "<group>";
 		};
 		92EEBCFE210BEEE100D6721F /* SWRevealViewController */ = {
@@ -416,6 +423,7 @@
 		CC7D391A20FD053A00913023 /* WeatherApp */ = {
 			isa = PBXGroup;
 			children = (
+				9207D7A0211A5A5F001E01CA /* NewUIViews */,
 				92EEBCFE210BEEE100D6721F /* SWRevealViewController */,
 				9203E63720FD73B100F8C858 /* View */,
 				3330AE1620FE736900B37975 /* View Controllers */,
