@@ -24,6 +24,7 @@
 		3330AEA3210BF9FB00B37975 /* GeoAPIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3330AE202101363B00B37975 /* GeoAPIManager.m */; };
 		33662163210EB9B0005CB1D3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CC7D392420FD053D00913023 /* Assets.xcassets */; };
 		336621A42112D03B005CB1D3 /* BannerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 336621A32112D03B005CB1D3 /* BannerView.m */; };
+		33A2A5C12118CBC400AC2006 /* CustomCameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 33A2A5C02118CBC400AC2006 /* CustomCameraViewController.m */; };
 		33F00C0C20FD116C008F56CE /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 33F00C0B20FD116C008F56CE /* User.m */; };
 		33F00C0F20FD1215008F56CE /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = 33F00C0E20FD1215008F56CE /* Location.m */; };
 		33F00C1220FD1244008F56CE /* Preferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 33F00C1120FD1244008F56CE /* Preferences.m */; };
@@ -127,6 +128,8 @@
 		3330AE9E210BF7F500B37975 /* libParse.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libParse.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		336621A22112D03B005CB1D3 /* BannerView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BannerView.h; sourceTree = "<group>"; };
 		336621A32112D03B005CB1D3 /* BannerView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BannerView.m; sourceTree = "<group>"; };
+		33A2A5BF2118CBC400AC2006 /* CustomCameraViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomCameraViewController.h; sourceTree = "<group>"; };
+		33A2A5C02118CBC400AC2006 /* CustomCameraViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomCameraViewController.m; sourceTree = "<group>"; };
 		33F00C0A20FD116C008F56CE /* User.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
 		33F00C0B20FD116C008F56CE /* User.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		33F00C0D20FD1215008F56CE /* Location.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Location.h; sourceTree = "<group>"; };
@@ -275,6 +278,8 @@
 				92499B2E210B9C65005874C8 /* ActivityViewController.m */,
 				CCE856922110D93A0035230F /* WebViewViewController.h */,
 				CCE856932110D93A0035230F /* WebViewViewController.m */,
+				33A2A5BF2118CBC400AC2006 /* CustomCameraViewController.h */,
+				33A2A5C02118CBC400AC2006 /* CustomCameraViewController.m */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -623,10 +628,12 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-WeatherApp/Pods-WeatherApp-resources.sh",
 				"${PODS_CONFIGURATION_BUILD_DIR}/Parse/Parse.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/Parse/ParseUI.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Parse.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ParseUI.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -695,10 +702,12 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-WeatherApp-Current Weather/Pods-WeatherApp-Current Weather-resources.sh",
 				"${PODS_CONFIGURATION_BUILD_DIR}/Parse/Parse.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/Parse/ParseUI.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Parse.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ParseUI.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -745,6 +754,7 @@
 				3330AE252102842700B37975 /* PreferenceTableViewCell.m in Sources */,
 				33F00C1220FD1244008F56CE /* Preferences.m in Sources */,
 				CCE85681210F7C440035230F /* HamburgerViewController.m in Sources */,
+				33A2A5C12118CBC400AC2006 /* CustomCameraViewController.m in Sources */,
 				CC7D392B20FD053D00913023 /* main.m in Sources */,
 				CCE855B82109C3090035230F /* WeeklyView.m in Sources */,
 				CCC8951920FFCCBA00DEF6AD /* DailyTableViewCell.m in Sources */,

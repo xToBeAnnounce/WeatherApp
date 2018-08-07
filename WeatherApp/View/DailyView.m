@@ -31,16 +31,6 @@ UIVisualEffectView *blureffectView;
     [self displayCurrentWeather];
     self.DailytableView.dataSource = self;
     self.DailytableView.delegate = self;
-
-    
-    [self.location fetchDataType:@"daily" WithCompletion:^(NSDictionary * data, NSError * error) {
-        if(error == nil){
-            loadDailyData = YES;
-            [self displayCurrentWeather];
-            [self.DailytableView reloadData];
-        }
-        else NSLog(@"%@", error.localizedDescription);
-    }];
 }
 
 - (void) updateDataIfNeeded {
@@ -77,7 +67,9 @@ UIVisualEffectView *blureffectView;
 }
 
 - (void) setLocation:(Location *)location {
-    if(_location.dailyData) location.dailyData = _location.dailyData;
+
+    if (_location.dailyData) location.dailyData = _location.dailyData;
+
     _location = location;
     if ([self.location.placeName isEqualToString:self.location.customName]) {
         self.customNameLabel.font = [UIFont systemFontOfSize:45];

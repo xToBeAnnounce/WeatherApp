@@ -34,17 +34,10 @@ UICollectionViewFlowLayout *layout;
 - (void)drawRect:(CGRect)rect {
     [super drawRect:rect];
     [self setLocationName];
-    
+
     [self setCollectionView];
     
-    [self.location fetchDataType:@"weekly" WithCompletion:^(NSDictionary * data, NSError * error) {
-        if(error == nil){
-            [self.WeeklytableView reloadData];
-            [self.WeeklyCollectionView reloadData];
-        }
-        else NSLog(@"%@", error.localizedDescription);
-    }];
-    
+
     self.WeeklytableView.delegate = self;
     self.WeeklytableView.dataSource = self;
     self.WeeklytableView.backgroundColor = UIColor.clearColor;
@@ -96,11 +89,13 @@ UICollectionViewFlowLayout *layout;
 }
 
 - (void) setLocation:(Location *)location {
-    if(_location.weeklyData) location.weeklyData = _location.weeklyData;
+
+    if (_location.weeklyData) location.weeklyData = _location.weeklyData;
     _location = location;
     self.customNameLabel.text = self.location.customName;
-    [self updateDataIfNeeded];
     self.selectedCell = nil;
+    
+    [self updateDataIfNeeded];
     [self refreshView];
 }
 
@@ -110,11 +105,8 @@ UICollectionViewFlowLayout *layout;
     [self.WeeklyCollectionView reloadData];
 }
 
-/*-----------------------------SETS WEEKLY UI-----------------------------------------*/
+/*--------------------------SET UI METHODS------------------------------*/
 -(void)setWeeklyUI{
-    self.weatherBanner = [[BannerView alloc] initWithMessage:@""];
-    self.weatherBanner.backgroundColor = [UIColor redColor];
-    [self addSubview:self.weatherBanner];
 
     self.WeeklytableView = [[UITableView alloc] initWithFrame: CGRectMake(0, 0, self.frame.size.width,self.frame.size.height)];
     self.WeeklytableView.estimatedRowHeight = 50;
@@ -124,6 +116,24 @@ UICollectionViewFlowLayout *layout;
     [self.WeeklytableView registerClass: WeeklyCell.class forCellReuseIdentifier:@"WeeklyCell"];
     self.WeeklytableView.delegate = self;
     self.WeeklytableView.dataSource = self;
+
+    
+
+    self.backgroundImage = [[UIImageView alloc]initWithFrame:UIScreen.mainScreen.bounds];
+    self.backgroundImage.image = [UIImage imageNamed:@"Sanfranciso"];
+    [self insertSubview:self.backgroundImage belowSubview:self.WeeklytableView];
+    
+    //Blur Effect
+    UIVisualEffect *blureffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+    self.BlurView = [[UIVisualEffectView alloc]initWithEffect:blureffect];
+    self.BlurView.frame = self.backgroundImage.frame;
+    self.BlurView.alpha = 0.4;
+    [self insertSubview:self.BlurView aboveSubview:self.backgroundImage];
+    
+    self.weatherBanner = [[BannerView alloc] initWithMessage:@""];
+    self.weatherBanner.backgroundColor = [UIColor redColor];
+    [self addSubview:self.weatherBanner];
+  
     [self setLocationDisplay];
     //[self setWeeklyConstraints];
 }
@@ -156,7 +166,6 @@ UICollectionViewFlowLayout *layout;
     self.locationStackView.alignment = UIStackViewAlignmentCenter;
     self.locationStackView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.locationView addSubview:self.locationStackView];
-
 }
 
 - (void) setWeeklyConstraints {
@@ -182,16 +191,11 @@ UICollectionViewFlowLayout *layout;
     
     weeklycell.tempType = self.tempType;
     Weather *dayWeather = self.location.weeklyData[indexPath.row];
-    if(self.selectedCell == nil) weeklycell.displayActivity = NO;
-    if(self.selectedCell == indexPath) weeklycell.displayActivity = !weeklycell.displayActivity;
-    
+
     weeklycell.dayWeather = dayWeather;
-    weeklycell.delegate = self.sourceVC;
-    weeklycell.location = @[@(self.location.lattitude), @(self.location.longitude)];
-    weeklycell.rowNum = (int)indexPath.row;
-    weeklycell.rowHeight = self.WeeklytableView.estimatedRowHeight;
     weeklycell.contentView.backgroundColor = UIColor.clearColor;
     weeklycell.backgroundColor = UIColor.clearColor;
+    
     if (indexPath.row == 0){
         weeklycell.dateLabel.text = @"Today";
     }
@@ -213,14 +217,12 @@ UICollectionViewFlowLayout *layout;
 
 - (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.location.weeklyData.count;
-    
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
-    if(self.selectedCell == nil) self.selectedCell = indexPath;
-    else self.selectedCell = nil;
-
-    [self.WeeklytableView reloadData];
+    Weather *weatherOfDay = self.location.weeklyData[indexPath.row];
+    [self.delegate displayPopoverWithLocation:self.location Weather:weatherOfDay];
+    [self.WeeklytableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 - (void) refreshView {
@@ -256,6 +258,7 @@ UICollectionViewFlowLayout *layout;
 - (void) showBannerIfNeededWithCompletion:(void(^)(BOOL finished))completion{
     if (showBanner && ![self.weatherBanner.bannerLabel.text isEqualToString:@""]) {
         showBanner = NO;
+        [self bringSubviewToFront:self.weatherBanner];
         [self.weatherBanner animateBannerWithCompletion:^(BOOL finished) {
             if (finished) {
                 [self.weatherBanner setBannerMessage:@""];

@@ -11,10 +11,11 @@
 #import "Preferences.h"
 
 @protocol SettingsDelegate
-- (void) updatePreferences:(Preferences *)pref;
+-(void) setPreferences:(Preferences *)pref;
+-(void) updatePreferences:(Preferences *)pref;
 @end
 
 @interface SettingsViewController : UIViewController
-@property (strong, nonatomic) id<SettingsDelegate>settingDelegate;
-
+@property (strong, nonatomic) id<NavigationDelegate> navigationDelegate;
+@property (strong, nonatomic) id<SettingsDelegate> settingsDelegate;
 @end

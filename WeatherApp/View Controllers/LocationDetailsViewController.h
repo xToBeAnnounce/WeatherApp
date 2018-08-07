@@ -8,11 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "Location.h"
-#import "AppDelegate.h"
 
 @interface LocationDetailsViewController : UIViewController
 @property (strong, nonatomic) Location *location;
 @property (nonatomic) BOOL saveNewLocation;
-
-@property (strong, nonatomic) id<NavigationDelegate> delegate;
 @end

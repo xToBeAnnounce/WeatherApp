@@ -36,6 +36,7 @@
 - (void) addBackdropImage:(UIImage *)image withCompletion:(PFBooleanResultBlock)completion;
 - (void) updateTimeFrame:(NSDate *)startDate withEndDate:(NSDate *)endDate withCompletion:(PFBooleanResultBlock)completion;
 - (void) updatePlaceNameWithBlock:(void(^)(NSDictionary *data, NSError *error))block;
++ (PFFile *) getPFFileFromImage: (UIImage *) image;
 
 // Fetch Weather Data
 -(void)fetchDataType:(NSString*)dataType WithCompletion:(void(^)(NSDictionary*, NSError*))completion;

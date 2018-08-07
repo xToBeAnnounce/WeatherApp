@@ -7,11 +7,13 @@
 //
 
 #import "LocationDetailsViewController.h"
+#import "CustomCameraViewController.h"
+#import <Parse/PFImageView.h>
 #import "User.h"
 
 // TODO: ADD HUD WHEN CURRENTLY SAVING
 
-@interface LocationDetailsViewController () <UITextFieldDelegate>
+@interface LocationDetailsViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate, CustomCameraDelegate>
 /* Name Labels */
 @property (strong, nonatomic) UILabel *placeNameLabel;
 @property (strong, nonatomic) UITextField *customNameTextField;
@@ -25,13 +27,18 @@
 @property (strong, nonatomic) UIDatePicker *startDatePicker;
 @property (strong, nonatomic) UIDatePicker *endDatePicker;
 
-/* Delete Location Button */
+/* Buttons */
+@property (strong, nonatomic) UIButton *clearPhotoButton;
+@property (strong, nonatomic) UIButton *photoLibraryButton;
 @property (strong, nonatomic) UIButton *deleteLocationButton;
 
 /* View properties */
 @property (strong, nonatomic) UIScrollView *scrollView;
-@property (strong, nonatomic) UIView *placeNameView;
+@property (strong, nonatomic) UIView *placeView;
+@property (strong, nonatomic) PFImageView *placeImageView;
 @property (strong, nonatomic) UIStackView *mainStackView;
+
+@property (nonatomic, strong) UIImagePickerController *imagePickerVC;
 @end
 
 @implementation LocationDetailsViewController
@@ -43,6 +50,8 @@ BOOL saving = NO;
 - (void)viewDidLoad {
     [super viewDidLoad];
     locationAttributeDict = [[NSMutableDictionary alloc] init];
+    
+    [self initalizeImagePicker];
     [self setUI];
 }
 
@@ -112,13 +121,38 @@ BOOL saving = NO;
     [self.deleteLocationButton setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
     self.deleteLocationButton.hidden = self.saveNewLocation;
     [self.deleteLocationButton addTarget:self action:@selector(onTapDelete:) forControlEvents:UIControlEventTouchUpInside];
+    
+    // Photo Library button
+    self.photoLibraryButton = [[UIButton alloc] init];
+    UIImage *photoGalleryIcon = [[UIImage imageNamed:@"photo-gallery"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    [self.photoLibraryButton setImage:photoGalleryIcon forState:UIControlStateNormal];
+    [self.photoLibraryButton setTintColor:[[UIColor alloc] initWithWhite:1.0 alpha:0.7]];
+    self.photoLibraryButton.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.photoLibraryButton addTarget:self action:@selector(onTapChooseLibrary:) forControlEvents:UIControlEventTouchUpInside];
+
+    // Clear photo button
+    self.clearPhotoButton = [[UIButton alloc] init];
+    UIImage *clearPhotoIcon = [[UIImage imageNamed:@"close"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    [self.clearPhotoButton setImage:clearPhotoIcon forState:UIControlStateNormal];
+    [self.clearPhotoButton setTintColor:[[UIColor alloc] initWithWhite:1.0 alpha:0.7]];
+    self.clearPhotoButton.hidden = !(BOOL)self.location.backdropImage;
+    self.clearPhotoButton.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.clearPhotoButton addTarget:self action:@selector(clearImage) forControlEvents:UIControlEventTouchUpInside];
 }
 
+- (void) initalizeImagePicker {
+    self.imagePickerVC = [UIImagePickerController new];
+    self.imagePickerVC.delegate = self;
+//    self.imagePickerVC.allowsEditing = YES;
+}
+
+// sets up UI for views (scroll view, place view, image view)
 - (void) setUI {
     [self initalizeControlProperties];
     
     [self.view setBackgroundColor:[UIColor whiteColor]];
     UITapGestureRecognizer *screenTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onTap:)];
+    screenTapGesture.cancelsTouchesInView = NO;
     [self.view addGestureRecognizer:screenTapGesture];
     
     self.scrollView = [[UIScrollView alloc] initWithFrame:self.view.frame];
@@ -126,12 +160,34 @@ BOOL saving = NO;
     self.scrollView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.view addSubview:self.scrollView];
     
-    self.placeNameView = [[UIView alloc] init];
-    self.placeNameView.backgroundColor = [UIColor lightGrayColor];
-    self.placeNameView.translatesAutoresizingMaskIntoConstraints = NO;
-    [self.placeNameView addSubview:self.placeNameLabel];
+    self.placeView = [[UIView alloc] init];
+    self.placeView.backgroundColor = [UIColor lightGrayColor];
+    self.placeView.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.scrollView addSubview:self.placeView];
     
-    NSArray *stackSubViews = @[self.placeNameView,
+    self.placeImageView = [[PFImageView alloc] init];
+    self.placeImageView.contentMode = UIViewContentModeScaleAspectFill;
+    self.placeImageView.clipsToBounds = YES;
+    self.placeImageView.translatesAutoresizingMaskIntoConstraints = NO;
+    if (self.location.backdropImage) {
+        self.placeImageView.file = self.location.backdropImage;
+        [self.placeImageView loadInBackground];
+    }
+    else {
+        self.placeImageView.image = [UIImage imageNamed:@"grad"];
+    }
+    
+    // Tap gesture for placeImageView
+    self.placeImageView.userInteractionEnabled = YES;
+    UITapGestureRecognizer *imageTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onTapImage:)];
+    [self.placeImageView addGestureRecognizer:imageTapGesture];
+    
+    [self.placeView addSubview:self.placeImageView];
+    [self.placeView addSubview:self.clearPhotoButton];
+    [self.placeView addSubview:self.photoLibraryButton];
+    [self.placeView addSubview:self.placeNameLabel];
+    
+    NSArray *stackSubViews = @[
                                [self makeHStackViewFor:self.customNameTextField withLabel:@"Custom Name"],
                                [self makeHStackViewFor:self.startSwitch withLabel:@"Start Date"],
                                self.startDatePicker,
@@ -175,19 +231,40 @@ BOOL saving = NO;
 }
 
 - (void) setConstraints {
-    [self.scrollView.topAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.topAnchor constant:8].active = YES;
+    [self.scrollView.topAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.topAnchor].active = YES;
     [self.scrollView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor].active = YES;
     [self.scrollView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor].active = YES;
     [self.scrollView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor].active = YES;
     
-    [self.placeNameView.heightAnchor constraintEqualToConstant:self.view.frame.size.height/3].active = YES;
+    [self.placeView.heightAnchor constraintEqualToConstant:2*self.view.frame.size.height/5].active = YES;
+    [self.placeView.leadingAnchor constraintEqualToAnchor:self.scrollView.leadingAnchor].active = YES;
+    [self.placeView.trailingAnchor constraintEqualToAnchor:self.scrollView.trailingAnchor].active = YES;
+    [self.placeView.topAnchor constraintEqualToAnchor:self.scrollView.topAnchor].active = YES;
     
-    [self.placeNameLabel.centerYAnchor constraintEqualToAnchor:self.placeNameView.centerYAnchor].active = YES;
-    [self.placeNameLabel.centerXAnchor constraintEqualToAnchor:self.placeNameView.centerXAnchor].active = YES;
-    [self.placeNameLabel.leadingAnchor constraintGreaterThanOrEqualToAnchor:self.placeNameView.leadingAnchor constant:8].active = YES;
-    [self.placeNameLabel.trailingAnchor constraintGreaterThanOrEqualToAnchor:self.placeNameView.trailingAnchor constant:8].active = YES;
+    [self.placeImageView.topAnchor constraintEqualToAnchor:self.placeView.topAnchor].active = YES;
+    [self.placeImageView.bottomAnchor constraintEqualToAnchor:self.placeView.bottomAnchor].active = YES;
+    [self.placeImageView.leadingAnchor constraintEqualToAnchor:self.placeView.leadingAnchor].active = YES;
+    [self.placeImageView.trailingAnchor constraintEqualToAnchor:self.placeView.trailingAnchor].active = YES;
     
-    [self.mainStackView.topAnchor constraintEqualToAnchor:self.scrollView.topAnchor].active = YES;
+    // Photo library button constraints
+    [self.photoLibraryButton.bottomAnchor constraintEqualToAnchor:self.placeView.bottomAnchor constant:-8].active = YES;
+    [self.photoLibraryButton.trailingAnchor constraintEqualToAnchor:self.placeView.trailingAnchor constant:-8].active = YES;
+    [self.photoLibraryButton.heightAnchor constraintEqualToConstant:35].active = YES;
+    [self.photoLibraryButton.widthAnchor constraintEqualToAnchor:self.photoLibraryButton.heightAnchor].active = YES;
+    
+    // Clear photo button constraints
+    [self.clearPhotoButton.topAnchor constraintEqualToAnchor:self.placeView.topAnchor constant:8].active = YES;
+    [self.clearPhotoButton.leadingAnchor constraintEqualToAnchor:self.placeView.leadingAnchor constant:8].active = YES;
+    [self.clearPhotoButton.heightAnchor constraintEqualToConstant:35].active = YES;
+    [self.clearPhotoButton.widthAnchor constraintEqualToAnchor:self.clearPhotoButton.heightAnchor].active = YES;
+    
+    // Place name label constraints
+    [self.placeNameLabel.centerYAnchor constraintEqualToAnchor:self.placeView.centerYAnchor].active = YES;
+    [self.placeNameLabel.centerXAnchor constraintEqualToAnchor:self.placeView.centerXAnchor].active = YES;
+    [self.placeNameLabel.leadingAnchor constraintGreaterThanOrEqualToAnchor:self.placeView.leadingAnchor constant:8].active = YES;
+    [self.placeNameLabel.trailingAnchor constraintGreaterThanOrEqualToAnchor:self.placeView.trailingAnchor constant:8].active = YES;
+    
+//    [self.mainStackView.topAnchor constraintEqualToAnchor:self.scrollView.topAnchor].active = YES;
     [self.mainStackView.bottomAnchor constraintEqualToAnchor:self.scrollView.bottomAnchor constant:-8].active = YES;
     [self.mainStackView.centerXAnchor constraintEqualToAnchor:self.scrollView.centerXAnchor].active = YES;
     [self.mainStackView.leadingAnchor constraintEqualToAnchor:self.scrollView.leadingAnchor constant:8].active = YES;
@@ -204,6 +281,8 @@ BOOL saving = NO;
             [subview.centerXAnchor constraintEqualToAnchor:self.mainStackView.centerXAnchor].active = YES;
         }
     }
+    
+    [self.scrollView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[placeView]-[mainStackView]-0-|" options:NSLayoutFormatAlignAllCenterX metrics:nil views:@{@"placeView":self.placeView, @"mainStackView":self.mainStackView}]];
 }
 
 -(IBAction)onToggleDate:(id)sender{
@@ -276,7 +355,7 @@ BOOL saving = NO;
             [self.location saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
                 if (succeeded) {
                     saving = NO;
-                     [self navigateBackAppropriatelyAnimated:YES completion:nil];
+                    [self navigateBackAppropriatelyAnimated:YES completion:nil];
                 }
             }];
         }
@@ -285,6 +364,10 @@ BOOL saving = NO;
 
 - (IBAction)onTap:(id)sender {
     [self.view endEditing:YES];
+}
+
+- (IBAction)onTapImage:(id)sender {
+    [self getImageWithSource:@"customcamera"];
 }
 
 - (void) presentAlertWithMessage:(NSString *)message {
@@ -305,7 +388,7 @@ BOOL saving = NO;
     // create a cancel action
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {}];
     [alert addAction:cancelAction];
-
+    
     UIAlertAction *yesAction = [UIAlertAction actionWithTitle:@"Yes" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         [User.currentUser deleteLocationWithID:self.location.objectId withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
             if (succeeded) {
@@ -319,6 +402,10 @@ BOOL saving = NO;
     [alert addAction:yesAction];
     
     [self presentViewController:alert animated:YES completion:^{}];
+}
+
+- (IBAction)onTapChooseLibrary:(id)sender {
+    [self getImageWithSource:@"library"];
 }
 
 - (IBAction)didTapClose:(id)sender {
@@ -337,5 +424,58 @@ BOOL saving = NO;
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
+}
+
+- (void) getImageWithSource:(NSString *)source {
+    UIViewController *destinationVC = [[UIViewController alloc] init];
+    if ([source isEqualToString:@"library"]){
+        self.imagePickerVC.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+        destinationVC = self.imagePickerVC;
+    }
+    else if ([source isEqualToString:@"customcamera"]){
+        CustomCameraViewController *customCameraVC = [[CustomCameraViewController alloc] init];
+        customCameraVC.delegate = self;
+        destinationVC = [[UINavigationController alloc] initWithRootViewController:customCameraVC];
+        
+    }
+    [self presentViewController:destinationVC animated:YES completion:nil];
+}
+
+- (void) imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
+    UIImage *originalImage = info[UIImagePickerControllerOriginalImage];
+    CGSize size = CGSizeMake(82.6667*3, 147.333*3);
+    
+    [self setImage:[self resizeImage:originalImage withSize:size]];
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void) setImage:(UIImage *)locImage{
+    self.placeImageView.image = locImage;
+    [locationAttributeDict setValue:[Location getPFFileFromImage:locImage] forKey:@"backdropImage"];
+    self.clearPhotoButton.hidden = NO;
+}
+
+- (void) clearImage{
+    self.placeImageView.image = [UIImage imageNamed:@"grad"];
+    self.location.backdropImage = nil;
+    [locationAttributeDict removeObjectForKey:@"backdropImage"];
+    self.clearPhotoButton.hidden = YES;
+}
+
+- (UIImage *)resizeImage:(UIImage *)image withSize:(CGSize)size {
+    UIImageView *resizeImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, size.width, size.height)];
+    
+    resizeImageView.contentMode = UIViewContentModeScaleAspectFill;
+    resizeImageView.image = image;
+    
+    UIGraphicsBeginImageContext(size);
+    [resizeImageView.layer renderInContext:UIGraphicsGetCurrentContext()];
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return newImage;
+}
+- (void)didTakePhoto:(UIImage *)image {
+    [self setImage:image];
 }
 @end
