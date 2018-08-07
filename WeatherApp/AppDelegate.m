@@ -26,6 +26,7 @@
     [self parseBackendSetup];
     self.mainNavController = [[NavigationController alloc] init];
     
+    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.rootViewController = self.mainNavController.navStack;
     [self.window makeKeyAndVisible];

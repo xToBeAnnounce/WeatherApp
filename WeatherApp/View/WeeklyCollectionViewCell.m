@@ -14,7 +14,7 @@
 -(void)setWeeklyCVC{
     UIVisualEffect *blureffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
     UIVisualEffectView *blureffectView = [[UIVisualEffectView alloc]initWithEffect:blureffect];
-    blureffectView.alpha = 0.4;
+    blureffectView.alpha = 0.55;
     blureffectView.frame = self.contentView.frame;
     [self.contentView addSubview:blureffectView];
     
@@ -28,7 +28,7 @@
     self.summaryLabel = [[UILabel alloc]initWithFrame:CGRectMake(1, 23, 0, 0)];
     self.summaryLabel.textColor = UIColor.whiteColor;
     self.summaryLabel.font = [UIFont systemFontOfSize:16];
-    self.summaryLabel.numberOfLines = 2;
+    self.summaryLabel.numberOfLines = 1;
     [self.contentView addSubview:self.summaryLabel];
     
     //Weather icon image at center
@@ -47,7 +47,7 @@
     
     //Low temperature display at right
     self.lowTempLabel = [[UILabel alloc] initWithFrame:CGRectMake(135, 105, 0, 0)];
-    self.lowTempLabel.textColor = [UIColor blueColor];
+    self.lowTempLabel.textColor = [UIColor colorWithRed:45.0/255.0 green:150/255.0 blue:255/255.0 alpha:1];
     self.lowTempLabel.font = [UIFont systemFontOfSize:25];
     [self.contentView addSubview:self.lowTempLabel];
 }

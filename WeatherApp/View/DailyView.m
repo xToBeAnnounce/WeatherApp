@@ -20,6 +20,7 @@
 static bool loadDailyData = NO;
 static NSString *DailycellIdentifier = @"DailyTableViewCell";
 static int currentWeatherViewHeight;
+UIVisualEffectView *blureffectView;
 
 
 // Only override drawRect: if you perform custom drawing.
@@ -112,9 +113,8 @@ static int currentWeatherViewHeight;
     [self addSubview:self.DailytableView];
     
     UIVisualEffect *blureffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
-    UIVisualEffectView *blureffectView = [[UIVisualEffectView alloc]initWithEffect:blureffect];
+    blureffectView = [[UIVisualEffectView alloc]initWithEffect:blureffect];
     blureffectView.alpha = 0.3;
-    blureffectView.frame = UIScreen.mainScreen.bounds;
     [self insertSubview:blureffectView belowSubview:self.DailytableView];
     
     self.currentWeatherView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height/2)];
@@ -187,6 +187,9 @@ static int currentWeatherViewHeight;
     [self.DailytableView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor].active = YES;
     [self.DailytableView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor].active = YES;
     [self.DailytableView.bottomAnchor constraintEqualToAnchor:self.safeAreaLayoutGuide.bottomAnchor].active = YES;
+    
+  
+    
 }
 
 -(void)displayCurrentWeather{

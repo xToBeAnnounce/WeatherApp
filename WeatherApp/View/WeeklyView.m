@@ -56,15 +56,17 @@ UICollectionViewFlowLayout *layout;
    
     
     self.backgroundImage = [[UIImageView alloc]initWithFrame:UIScreen.mainScreen.bounds];
-    self.backgroundImage.image = [UIImage imageNamed:@"Sanfranciso"];
+    self.backgroundImage.image = [UIImage imageNamed:@"golden_san_fran"];
+    self.backgroundImage.clipsToBounds = YES;
+    self.backgroundImage.contentMode = UIViewContentModeScaleAspectFill;
     [self insertSubview:self.backgroundImage belowSubview:self.WeeklyCollectionView];
     
-    //Blur Effect
-    UIVisualEffect *blureffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
-    self.BlurView = [[UIVisualEffectView alloc]initWithEffect:blureffect];
-    self.BlurView.frame = self.backgroundImage.frame;
-    self.BlurView.alpha = 0.37;
-    [self insertSubview:self.BlurView aboveSubview:self.backgroundImage];
+//    //Blur Effect
+//    UIVisualEffect *blureffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+//    self.BlurView = [[UIVisualEffectView alloc]initWithEffect:blureffect];
+//    self.BlurView.frame = self.backgroundImage.frame;
+//    self.BlurView.alpha = 0.37;
+//    [self insertSubview:self.BlurView aboveSubview:self.backgroundImage];
 
 }
 
@@ -263,7 +265,6 @@ UICollectionViewFlowLayout *layout;
     }
 }
 
-
 /***********************COLLECTION VIEW********************/
 
 -(void)setCollectionView{
@@ -304,6 +305,10 @@ UICollectionViewFlowLayout *layout;
     CGFloat height = width -40 ;
     layout.itemSize = CGSizeMake(width, height);
     return layout.itemSize;
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+    
 }
 
 @end

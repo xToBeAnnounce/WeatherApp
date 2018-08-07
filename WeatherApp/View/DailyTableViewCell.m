@@ -15,14 +15,15 @@
     [super awakeFromNib];
 }
 
+
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     
-//    UIVisualEffect *blureffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
-//    UIVisualEffectView *blureffectView = [[UIVisualEffectView alloc]initWithEffect:blureffect];
-//    blureffectView.alpha = 0.3;
-//    blureffectView.frame = self.contentView.frame;
-//    [self.contentView addSubview:blureffectView];
+    UIVisualEffect *blureffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+    UIVisualEffectView *blureffectView = [[UIVisualEffectView alloc]initWithEffect:blureffect];
+    blureffectView.alpha = 0.3;
+    blureffectView.frame = CGRectMake(0, 0, 5000, self.contentView.frame.size.height);
+    [self.contentView addSubview:blureffectView];
     
     // initalizing time label
     self.timeLabel = [[UILabel alloc] init];
