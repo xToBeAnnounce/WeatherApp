@@ -163,6 +163,7 @@ BOOL saving = NO;
     self.placeView = [[UIView alloc] init];
     self.placeView.backgroundColor = [UIColor lightGrayColor];
     self.placeView.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.scrollView addSubview:self.placeView];
     
     self.placeImageView = [[PFImageView alloc] init];
     self.placeImageView.contentMode = UIViewContentModeScaleAspectFill;
@@ -186,7 +187,7 @@ BOOL saving = NO;
     [self.placeView addSubview:self.photoLibraryButton];
     [self.placeView addSubview:self.placeNameLabel];
     
-    NSArray *stackSubViews = @[self.placeView,
+    NSArray *stackSubViews = @[
                                [self makeHStackViewFor:self.customNameTextField withLabel:@"Custom Name"],
                                [self makeHStackViewFor:self.startSwitch withLabel:@"Start Date"],
                                self.startDatePicker,
@@ -230,12 +231,15 @@ BOOL saving = NO;
 }
 
 - (void) setConstraints {
-    [self.scrollView.topAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.topAnchor constant:8].active = YES;
+    [self.scrollView.topAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.topAnchor].active = YES;
     [self.scrollView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor].active = YES;
     [self.scrollView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor].active = YES;
     [self.scrollView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor].active = YES;
     
-    [self.placeView.heightAnchor constraintEqualToConstant:self.view.frame.size.height/3].active = YES;
+    [self.placeView.heightAnchor constraintEqualToConstant:2*self.view.frame.size.height/5].active = YES;
+    [self.placeView.leadingAnchor constraintEqualToAnchor:self.scrollView.leadingAnchor].active = YES;
+    [self.placeView.trailingAnchor constraintEqualToAnchor:self.scrollView.trailingAnchor].active = YES;
+    [self.placeView.topAnchor constraintEqualToAnchor:self.scrollView.topAnchor].active = YES;
     
     [self.placeImageView.topAnchor constraintEqualToAnchor:self.placeView.topAnchor].active = YES;
     [self.placeImageView.bottomAnchor constraintEqualToAnchor:self.placeView.bottomAnchor].active = YES;
@@ -260,7 +264,7 @@ BOOL saving = NO;
     [self.placeNameLabel.leadingAnchor constraintGreaterThanOrEqualToAnchor:self.placeView.leadingAnchor constant:8].active = YES;
     [self.placeNameLabel.trailingAnchor constraintGreaterThanOrEqualToAnchor:self.placeView.trailingAnchor constant:8].active = YES;
     
-    [self.mainStackView.topAnchor constraintEqualToAnchor:self.scrollView.topAnchor].active = YES;
+//    [self.mainStackView.topAnchor constraintEqualToAnchor:self.scrollView.topAnchor].active = YES;
     [self.mainStackView.bottomAnchor constraintEqualToAnchor:self.scrollView.bottomAnchor constant:-8].active = YES;
     [self.mainStackView.centerXAnchor constraintEqualToAnchor:self.scrollView.centerXAnchor].active = YES;
     [self.mainStackView.leadingAnchor constraintEqualToAnchor:self.scrollView.leadingAnchor constant:8].active = YES;
@@ -277,6 +281,8 @@ BOOL saving = NO;
             [subview.centerXAnchor constraintEqualToAnchor:self.mainStackView.centerXAnchor].active = YES;
         }
     }
+    
+    [self.scrollView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[placeView]-[mainStackView]-0-|" options:NSLayoutFormatAlignAllCenterX metrics:nil views:@{@"placeView":self.placeView, @"mainStackView":self.mainStackView}]];
 }
 
 -(IBAction)onToggleDate:(id)sender{
