@@ -100,8 +100,9 @@
 
 - (void)setLocation:(Location *)location {
     _location = location;
-    self.dailyView.location = location;
-    self.weeklyView.location = location;
+//    self.dailyView.location = location;
+//    self.weeklyView.location = location;
+    self.weatherView.location = location;
 }
 
 -(void)displayPopoverWithLocation:(Location*)loc Weather:(Weather*)weather{
