@@ -12,12 +12,14 @@
 #import "ActivityViewController.h"
 #import "DailyView.h"
 #import "WeeklyView.h"
+#import "WeatherView.h"
 
 @interface LocationWeatherViewController () <UIPopoverPresentationControllerDelegate>
 @property (strong,nonatomic) UISegmentedControl *DailyWeeklySC;
 @property (strong, nonatomic) UIButton *locationDetailsButton;
 @property (strong,nonatomic) DailyView *dailyView;
 @property (strong,nonatomic) WeeklyView *weeklyView;
+@property (strong,nonatomic) WeatherView *weatherView;
 @end
 
 @implementation LocationWeatherViewController
@@ -77,18 +79,23 @@
 
 - (void) setSubviews {
     self.view.backgroundColor = [[UIColor alloc]initWithPatternImage:[UIImage imageNamed:@"grad"]];
-
-    self.dailyView = [[DailyView alloc]initWithFrame:self.view.frame];
-    self.dailyView.translatesAutoresizingMaskIntoConstraints = NO;
-    [self.view addSubview:self.dailyView];
+//
+//    self.dailyView = [[DailyView alloc]initWithFrame:self.view.frame];
+//    self.dailyView.translatesAutoresizingMaskIntoConstraints = NO;
+//    [self.view addSubview:self.dailyView];
+//
+//    self.weeklyView = [[WeeklyView alloc]initWithFrame:self.view.frame];
+//    self.weeklyView.translatesAutoresizingMaskIntoConstraints = NO;
+//    self.weeklyView.delegate = self;
+//    [self.view addSubview:self.weeklyView];
+//
+//    [self setConstraintsForView:self.dailyView];
+//    [self setConstraintsForView:self.weeklyView];
     
-    self.weeklyView = [[WeeklyView alloc]initWithFrame:self.view.frame];
-    self.weeklyView.translatesAutoresizingMaskIntoConstraints = NO;
-    self.weeklyView.delegate = self;
-    [self.view addSubview:self.weeklyView];
+    self.weatherView = [[WeatherView alloc]initWithFrame:self.view.frame];
+    [self.view addSubview:self.weatherView];
     
-    [self setConstraintsForView:self.dailyView];
-    [self setConstraintsForView:self.weeklyView];
+    
 }
 
 - (void)setLocation:(Location *)location {
