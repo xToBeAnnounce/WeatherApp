@@ -60,6 +60,11 @@ BOOL isgranted;
     [self notificationSetUp];
     [self setUI];
     [super viewDidLoad];
+    
+    //Makes Navigation Controller translucent
+//    [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+//    [self.navigationController.navigationBar setShadowImage:[UIImage new]];
+//    [self.navigationController.navigationBar setTranslucent:YES];
 }
 
 - (void) viewWillAppear:(BOOL)animated {

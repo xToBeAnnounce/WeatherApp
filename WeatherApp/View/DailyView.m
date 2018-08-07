@@ -20,6 +20,7 @@
 static bool loadDailyData = NO;
 static NSString *DailycellIdentifier = @"DailyTableViewCell";
 static int currentWeatherViewHeight;
+UIVisualEffectView *blureffectView;
 
 
 // Only override drawRect: if you perform custom drawing.
@@ -66,7 +67,9 @@ static int currentWeatherViewHeight;
 }
 
 - (void) setLocation:(Location *)location {
+
     if (_location.dailyData) location.dailyData = _location.dailyData;
+
     _location = location;
     if ([self.location.placeName isEqualToString:self.location.customName]) {
         self.customNameLabel.font = [UIFont systemFontOfSize:45];
@@ -97,18 +100,30 @@ static int currentWeatherViewHeight;
     self.DailytableView.translatesAutoresizingMaskIntoConstraints = NO;
     self.DailytableView.dataSource = self;
     self.DailytableView.delegate = self;
+    self.DailytableView.backgroundColor = UIColor.clearColor;
+    self.DailytableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self addSubview:self.DailytableView];
+    
+    UIVisualEffect *blureffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+    blureffectView = [[UIVisualEffectView alloc]initWithEffect:blureffect];
+    blureffectView.alpha = 0.3;
+    [self insertSubview:blureffectView belowSubview:self.DailytableView];
     
     self.currentWeatherView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height/2)];
     [self addSubview:self.currentWeatherView];
     
-    self.backgroundImageView = [[UIImageView alloc]initWithFrame:self.currentWeatherView.frame];
+    self.backgroundImageView = [[UIImageView alloc]initWithFrame:UIScreen.mainScreen.bounds];
     self.backgroundImageView.contentMode = UIViewContentModeScaleAspectFill;
     self.backgroundImageView.clipsToBounds = YES;
-    
-    self.backgroundImageView.image = [UIImage imageNamed:@"Sanfranciso"];
+    //self.backgroundImageView.image = [UIImage imageNamed:@"Sanfranciso"];
     self.backgroundImageView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.currentWeatherView addSubview:self.backgroundImageView];
+    
+    UIImageView *backgroundIV = [[UIImageView alloc]initWithFrame:UIScreen.mainScreen.bounds];
+    backgroundIV.image = [UIImage imageNamed:@"golden_san_fran"];
+    backgroundIV.contentMode = UIViewContentModeScaleAspectFill;
+    backgroundIV.clipsToBounds = YES;
+    [self insertSubview:backgroundIV belowSubview:self.DailytableView];
     
     //setting up customNameLabel
     self.customNameLabel = [[UILabel alloc]init];
@@ -128,6 +143,7 @@ static int currentWeatherViewHeight;
     
     //setting up temperatureLabel
     self.temperatureLabel = [[UILabel alloc]init];
+    self.temperatureLabel.textColor = UIColor.whiteColor;
     self.temperatureLabel.font = [UIFont systemFontOfSize:60 weight:UIFontWeightThin];
     self.temperatureLabel.text = @"--°";
     
@@ -146,10 +162,6 @@ static int currentWeatherViewHeight;
 
 - (void) setConstraints {
     // background image constraints
-    [self.backgroundImageView.topAnchor constraintEqualToAnchor:self.currentWeatherView.topAnchor].active = YES;
-    [self.backgroundImageView.bottomAnchor constraintEqualToAnchor:self.currentWeatherView.bottomAnchor].active = YES;
-    [self.backgroundImageView.leadingAnchor constraintEqualToAnchor:self.currentWeatherView.leadingAnchor].active = YES;
-    [self.backgroundImageView.trailingAnchor constraintEqualToAnchor:self.currentWeatherView.trailingAnchor].active = YES;
     
     // stack view constraints
     [self.weatherDisplayStackView.centerXAnchor constraintEqualToAnchor:self.currentWeatherView.centerXAnchor].active = YES;
@@ -167,6 +179,9 @@ static int currentWeatherViewHeight;
     [self.DailytableView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor].active = YES;
     [self.DailytableView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor].active = YES;
     [self.DailytableView.bottomAnchor constraintEqualToAnchor:self.safeAreaLayoutGuide.bottomAnchor].active = YES;
+    
+  
+    
 }
 
 -(void)displayCurrentWeather{
@@ -211,6 +226,8 @@ static int currentWeatherViewHeight;
         cell.tempType = self.tempType;
         Weather *hourlyWeather = self.location.dailyData[indexPath.row];
         cell.hourWeather = hourlyWeather;
+        cell.backgroundColor = UIColor.clearColor;
+        cell.contentView.backgroundColor = UIColor.clearColor;
     }
     return cell;
 }

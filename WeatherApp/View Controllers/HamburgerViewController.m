@@ -23,14 +23,16 @@ static NSString *cellID = @"hamburgerMenu";
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setTableView];
-    cellImages = @[@"weatherIcon",@"user",@"activities",@"map",@"settings",@"logout"];
-    cellContent = @[@"Weather",@"Account",@"Activies",@"Map",@"Settings",@"Logout"];
+    cellImages = @[@"weatherIcon",@"activities",@"map",@"settings",@"logout"];
+    cellContent = @[@"Weather",@"Activies",@"Map",@"Settings",@"Logout"];
+    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"BlackG"]];
 }
 
 -(void)setTableView{
     self.hamburgerTableView = [[UITableView alloc]initWithFrame:UIScreen.mainScreen.bounds style:UITableViewStylePlain];
     self.hamburgerTableView.dataSource = self;
     self.hamburgerTableView.delegate = self;
+    self.hamburgerTableView.backgroundColor = UIColor.clearColor;
     [self.hamburgerTableView registerClass:HamburgerTableViewCell.class forCellReuseIdentifier:cellID];
     [self.view addSubview:self.hamburgerTableView];
 }
@@ -43,6 +45,8 @@ static NSString *cellID = @"hamburgerMenu";
     }
     
     cell.sectionLabel.text = cellContent[indexPath.row];
+    cell.sectionLabel.textColor = UIColor.whiteColor;
+    cell.backgroundColor = UIColor.clearColor;
     cell.icon.image = [UIImage imageNamed:cellImages[indexPath.row]];
     return cell;
 }
@@ -52,14 +56,14 @@ static NSString *cellID = @"hamburgerMenu";
     if (indexPath.row == 0){
         [revealController pushFrontViewController:self.pageVC animated:YES];
     }
-    if (indexPath.row == 3){
+    if (indexPath.row == 2){
         [revealController pushFrontViewController:self.mapWVC animated:YES];
     }
     
-    if (indexPath.row == 4){
+    if (indexPath.row == 3){
         [revealController pushFrontViewController:self.settingsVC animated:YES];
     }
-    if (indexPath.row == 5) {
+    if (indexPath.row == 4) {
         AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
         [User logOutInBackgroundWithBlock:^(NSError * _Nullable error) {
             if (!error) {

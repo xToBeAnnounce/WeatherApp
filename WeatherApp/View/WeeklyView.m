@@ -8,11 +8,14 @@
 
 #import "WeeklyView.h"
 #import "WeeklyCell.h"
+#import "WeeklyCollectionViewCell.h"
 
 @implementation WeeklyView
 
 static NSString *WeeklycellIdentifier = @"WeeklyCell";
+static NSString *WeeklyCollectioncellIdentifier = @"WeeklyCollectionCell";
 static BOOL showBanner;
+UICollectionViewFlowLayout *layout;
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
@@ -20,7 +23,7 @@ static BOOL showBanner;
     if (self) {
         self.selectedCell = nil;
         showBanner = NO;
-        [self setWeeklyUI];
+        //[self setWeeklyUI];
         [self setWeeklyConstraints];
     }
     return self;
@@ -31,9 +34,33 @@ static BOOL showBanner;
 - (void)drawRect:(CGRect)rect {
     [super drawRect:rect];
     [self setLocationName];
+
+    [self setCollectionView];
+    
+
     self.WeeklytableView.delegate = self;
     self.WeeklytableView.dataSource = self;
     self.WeeklytableView.backgroundColor = UIColor.clearColor;
+    
+    self.WeeklyCollectionView.dataSource = self;
+    self.WeeklyCollectionView.delegate = self;
+    self.WeeklyCollectionView.backgroundColor = UIColor.clearColor;
+    
+   
+    
+    self.backgroundImage = [[UIImageView alloc]initWithFrame:UIScreen.mainScreen.bounds];
+    self.backgroundImage.image = [UIImage imageNamed:@"golden_san_fran"];
+    self.backgroundImage.clipsToBounds = YES;
+    self.backgroundImage.contentMode = UIViewContentModeScaleAspectFill;
+    [self insertSubview:self.backgroundImage belowSubview:self.WeeklyCollectionView];
+    
+//    //Blur Effect
+//    UIVisualEffect *blureffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+//    self.BlurView = [[UIVisualEffectView alloc]initWithEffect:blureffect];
+//    self.BlurView.frame = self.backgroundImage.frame;
+//    self.BlurView.alpha = 0.37;
+//    [self insertSubview:self.BlurView aboveSubview:self.backgroundImage];
+
 }
 
 - (void) updateDataIfNeeded {
@@ -41,6 +68,7 @@ static BOOL showBanner;
         [self.location fetchDataType:@"weekly" WithCompletion:^(NSDictionary * data, NSError * error) {
             if(error == nil){
                 [self.WeeklytableView reloadData];
+                [self.WeeklyCollectionView reloadData];
             }
             else NSLog(@"%@", error.localizedDescription);
         }];
@@ -61,6 +89,7 @@ static BOOL showBanner;
 }
 
 - (void) setLocation:(Location *)location {
+
     if (_location.weeklyData) location.weeklyData = _location.weeklyData;
     _location = location;
     self.customNameLabel.text = self.location.customName;
@@ -73,6 +102,7 @@ static BOOL showBanner;
 - (void) setTempType:(NSString *)tempType {
     _tempType = tempType;
     [self.WeeklytableView reloadData];
+    [self.WeeklyCollectionView reloadData];
 }
 
 /*--------------------------SET UI METHODS------------------------------*/
@@ -86,6 +116,7 @@ static BOOL showBanner;
     [self.WeeklytableView registerClass: WeeklyCell.class forCellReuseIdentifier:@"WeeklyCell"];
     self.WeeklytableView.delegate = self;
     self.WeeklytableView.dataSource = self;
+
     
 
     self.backgroundImage = [[UIImageView alloc]initWithFrame:UIScreen.mainScreen.bounds];
@@ -102,9 +133,9 @@ static BOOL showBanner;
     self.weatherBanner = [[BannerView alloc] initWithMessage:@""];
     self.weatherBanner.backgroundColor = [UIColor redColor];
     [self addSubview:self.weatherBanner];
-
+  
     [self setLocationDisplay];
-    [self setWeeklyConstraints];
+    //[self setWeeklyConstraints];
 }
 
 -(void)setLocationDisplay{
@@ -117,13 +148,6 @@ static BOOL showBanner;
     [self.locationView.heightAnchor constraintEqualToConstant:self.frame.size.height/8].active = YES;
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[locationView]-0-[tableView]-0-|" options:NSLayoutFormatAlignAllCenterX metrics:nil views:@{@"locationView": self.locationView, @"tableView": self.WeeklytableView}]];
 
-    self.backgroundImageView = [[UIImageView alloc]initWithFrame:self.locationView.frame];
-    self.backgroundImageView.contentMode = UIViewContentModeScaleAspectFill;
-    self.backgroundImageView.clipsToBounds = YES;
-    
-    self.backgroundImageView.image = [UIImage imageNamed:@"sunnybackground"];
-    self.backgroundImageView.translatesAutoresizingMaskIntoConstraints = NO;
-    [self.locationView addSubview:self.backgroundImageView];
     
     //setting up customNameLabel
     self.customNameLabel = [[UILabel alloc]init];
@@ -147,11 +171,7 @@ static BOOL showBanner;
 - (void) setWeeklyConstraints {
     [self.WeeklytableView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor].active = YES;
     [self.WeeklytableView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor].active = YES;
-  
-    [self.backgroundImageView.topAnchor constraintEqualToAnchor:self.locationView.topAnchor].active = YES;
-    [self.backgroundImageView.bottomAnchor constraintEqualToAnchor:self.locationView.bottomAnchor].active = YES;
-    [self.backgroundImageView.leadingAnchor constraintEqualToAnchor:self.locationView.leadingAnchor].active = YES;
-    [self.backgroundImageView.trailingAnchor constraintEqualToAnchor:self.locationView.trailingAnchor].active = YES;
+
     
     // stack view constraints
     [self.locationStackView.centerXAnchor constraintEqualToAnchor:self.locationView.centerXAnchor].active = YES;
@@ -207,6 +227,7 @@ static BOOL showBanner;
 
 - (void) refreshView {
     [self.WeeklytableView reloadData];
+    [self.WeeklyCollectionView reloadData];
 }
 
 - (BOOL) shouldHighlightDate:(NSDate *)date {
@@ -246,4 +267,52 @@ static BOOL showBanner;
         }];
     }
 }
+
+/***********************COLLECTION VIEW********************/
+
+-(void)setCollectionView{
+    layout = [[UICollectionViewFlowLayout alloc]init];
+    self.WeeklyCollectionView = [[UICollectionView alloc]initWithFrame:self.frame collectionViewLayout:layout];
+    [self.WeeklyCollectionView registerClass:WeeklyCollectionViewCell.class forCellWithReuseIdentifier:WeeklyCollectioncellIdentifier];
+    self.WeeklyCollectionView.backgroundColor = UIColor.clearColor;
+    [self addSubview:self.WeeklyCollectionView];
+    
+    self.WeeklyCollectionView.translatesAutoresizingMaskIntoConstraints = NO;
+}
+
+- (nonnull __kindof UICollectionViewCell *)collectionView:(nonnull UICollectionView *)collectionView cellForItemAtIndexPath:(nonnull NSIndexPath *)indexPath {
+    WeeklyCollectionViewCell *cell = [self.WeeklyCollectionView dequeueReusableCellWithReuseIdentifier:WeeklyCollectioncellIdentifier forIndexPath:indexPath];
+    
+    if(cell.lowTempLabel == nil){
+        [cell setWeeklyCVC];
+    }
+    
+    Weather *dayWeather = self.location.weeklyData[indexPath.row];
+    
+    [cell setDayWeather:dayWeather];
+    cell.backgroundColor = UIColor.clearColor;
+    return cell;
+    
+}
+
+- (NSInteger)collectionView:(nonnull UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    return self.location.weeklyData.count;
+}
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
+    layout.minimumInteritemSpacing = 7;
+    layout.minimumLineSpacing = 7;
+    
+    CGFloat moviePerRow = 2;
+    CGFloat width = (self.WeeklyCollectionView.frame.size.width - layout.minimumInteritemSpacing * (moviePerRow-1)) / moviePerRow;
+    CGFloat height = width -40 ;
+    layout.itemSize = CGSizeMake(width, height);
+    return layout.itemSize;
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+    
+}
+
 @end
+

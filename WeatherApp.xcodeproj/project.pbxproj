@@ -49,6 +49,7 @@
 		CC7D392B20FD053D00913023 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CC7D392A20FD053D00913023 /* main.m */; };
 		CC7D393520FD053D00913023 /* WeatherAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CC7D393420FD053D00913023 /* WeatherAppTests.m */; };
 		CC7D394020FD053D00913023 /* WeatherAppUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = CC7D393F20FD053D00913023 /* WeatherAppUITests.m */; };
+		CC829DCC21153FCC00453152 /* WeeklyCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CC829DCB21153FCC00453152 /* WeeklyCollectionViewCell.m */; };
 		CCC8951920FFCCBA00DEF6AD /* DailyTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC8951820FFCCBA00DEF6AD /* DailyTableViewCell.m */; };
 		CCE8557421098B480035230F /* DailyView.m in Sources */ = {isa = PBXBuildFile; fileRef = CCE8557321098B480035230F /* DailyView.m */; };
 		CCE855B82109C3090035230F /* WeeklyView.m in Sources */ = {isa = PBXBuildFile; fileRef = CCE855B72109C3090035230F /* WeeklyView.m */; };
@@ -178,6 +179,8 @@
 		CC7D393B20FD053D00913023 /* WeatherAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WeatherAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CC7D393F20FD053D00913023 /* WeatherAppUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WeatherAppUITests.m; sourceTree = "<group>"; };
 		CC7D394120FD053D00913023 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CC829DCA21153FCC00453152 /* WeeklyCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WeeklyCollectionViewCell.h; sourceTree = "<group>"; };
+		CC829DCB21153FCC00453152 /* WeeklyCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WeeklyCollectionViewCell.m; sourceTree = "<group>"; };
 		CCC8951720FFCCBA00DEF6AD /* DailyTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DailyTableViewCell.h; sourceTree = "<group>"; };
 		CCC8951820FFCCBA00DEF6AD /* DailyTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DailyTableViewCell.m; sourceTree = "<group>"; };
 		CCE8557221098B480035230F /* DailyView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DailyView.h; sourceTree = "<group>"; };
@@ -361,6 +364,8 @@
 				CCE85683210F7F8B0035230F /* HamburgerTableViewCell.m */,
 				336621A22112D03B005CB1D3 /* BannerView.h */,
 				336621A32112D03B005CB1D3 /* BannerView.m */,
+				CC829DCA21153FCC00453152 /* WeeklyCollectionViewCell.h */,
+				CC829DCB21153FCC00453152 /* WeeklyCollectionViewCell.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -743,6 +748,7 @@
 				92499B29210A5C73005874C8 /* Activity.m in Sources */,
 				3330AE1C2101112000B37975 /* LocationPickerViewController.m in Sources */,
 				CCE8557421098B480035230F /* DailyView.m in Sources */,
+				CC829DCC21153FCC00453152 /* WeeklyCollectionViewCell.m in Sources */,
 				33F00C0F20FD1215008F56CE /* Location.m in Sources */,
 				92EEBD01210BEEE100D6721F /* SWRevealViewController.m in Sources */,
 				3330AE252102842700B37975 /* PreferenceTableViewCell.m in Sources */,
