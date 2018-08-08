@@ -81,7 +81,6 @@ NSString *cellID = @"weatherCardCell";
 - (nonnull __kindof UICollectionViewCell *)collectionView:(nonnull UICollectionView *)collectionView cellForItemAtIndexPath:(nonnull NSIndexPath *)indexPath {
     WeatherCardCell *cell = [self.mainCollectionView dequeueReusableCellWithReuseIdentifier:cellID forIndexPath:indexPath];
     UIView *placeholderView = UIView.new;
-//    placeholderView.backgroundColor = UIColor.whiteColor;
     
     if(indexPath.row == 0){
         [cell setTitle:@"Hourly Forecast" withView:placeholderView];
@@ -95,10 +94,8 @@ NSString *cellID = @"weatherCardCell";
     else if (indexPath.row == 3) {
         _weeklyView.location = self.location;
         [cell setTitle:@"Daily Forecast" withView:_weeklyView];
-//        [cell addSubview:_weeklyView];
     }
     
-//    cell.backgroundColor = UIColor.blueColor;
     return cell;
 }
 
@@ -115,7 +112,6 @@ NSString *cellID = @"weatherCardCell";
     [self.mainCollectionView.bottomAnchor constraintEqualToAnchor:self.safeAreaLayoutGuide.bottomAnchor].active = YES;
     [self.mainCollectionView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor].active = YES;
     [self.mainCollectionView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor].active = YES;
-    
     
     [_todayWeatherView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor].active = YES;
     [_todayWeatherView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor].active = YES;

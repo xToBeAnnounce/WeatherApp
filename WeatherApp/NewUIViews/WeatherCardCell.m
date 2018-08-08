@@ -41,6 +41,7 @@
     [view.bottomAnchor constraintEqualToAnchor:self.customView.bottomAnchor].active = YES;
     [view.leadingAnchor constraintEqualToAnchor:self.customView.leadingAnchor].active = YES;
     [view.trailingAnchor constraintEqualToAnchor:self.customView.trailingAnchor].active = YES;
+    [self.customView.heightAnchor constraintEqualToAnchor:view.heightAnchor].active = YES;
     
 }
 
