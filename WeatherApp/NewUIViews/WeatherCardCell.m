@@ -11,6 +11,7 @@
 @implementation WeatherCardCell
 {
     UILabel *_titleLabel;
+    UIView *_lineView;
 }
 
 - (instancetype)initWithTitle:(NSString *)title view:(UIView *)view {
@@ -32,6 +33,11 @@
     _titleLabel.font = [UIFont systemFontOfSize:20 weight:UIFontWeightLight];
     _titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
     [self addSubview:_titleLabel];
+    
+    _lineView = [[UIView alloc] init];
+    _lineView.backgroundColor = UIColor.whiteColor;
+    _lineView.translatesAutoresizingMaskIntoConstraints = NO;
+    
     
     self.customView = [[UIView alloc] init];
     self.customView.backgroundColor = nil;
