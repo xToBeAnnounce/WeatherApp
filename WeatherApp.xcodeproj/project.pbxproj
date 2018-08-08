@@ -25,6 +25,7 @@
 		33662163210EB9B0005CB1D3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CC7D392420FD053D00913023 /* Assets.xcassets */; };
 		336621A42112D03B005CB1D3 /* BannerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 336621A32112D03B005CB1D3 /* BannerView.m */; };
 		33A2A5C12118CBC400AC2006 /* CustomCameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 33A2A5C02118CBC400AC2006 /* CustomCameraViewController.m */; };
+		33A2A602211A5E4500AC2006 /* TodayWeatherCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 33A2A601211A5E4500AC2006 /* TodayWeatherCell.m */; };
 		33F00C0C20FD116C008F56CE /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 33F00C0B20FD116C008F56CE /* User.m */; };
 		33F00C0F20FD1215008F56CE /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = 33F00C0E20FD1215008F56CE /* Location.m */; };
 		33F00C1220FD1244008F56CE /* Preferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 33F00C1120FD1244008F56CE /* Preferences.m */; };
@@ -132,6 +133,8 @@
 		336621A32112D03B005CB1D3 /* BannerView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BannerView.m; sourceTree = "<group>"; };
 		33A2A5BF2118CBC400AC2006 /* CustomCameraViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomCameraViewController.h; sourceTree = "<group>"; };
 		33A2A5C02118CBC400AC2006 /* CustomCameraViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomCameraViewController.m; sourceTree = "<group>"; };
+		33A2A600211A5E4500AC2006 /* TodayWeatherCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TodayWeatherCell.h; sourceTree = "<group>"; };
+		33A2A601211A5E4500AC2006 /* TodayWeatherCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TodayWeatherCell.m; sourceTree = "<group>"; };
 		33F00C0A20FD116C008F56CE /* User.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
 		33F00C0B20FD116C008F56CE /* User.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		33F00C0D20FD1215008F56CE /* Location.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Location.h; sourceTree = "<group>"; };
@@ -383,6 +386,8 @@
 				CC829DCE211A51AD00453152 /* WeatherView.m */,
 				9207D79D211A56D3001E01CA /* HourlyForecastCell.h */,
 				9207D79E211A56D3001E01CA /* HourlyForecastCell.m */,
+				33A2A600211A5E4500AC2006 /* TodayWeatherCell.h */,
+				33A2A601211A5E4500AC2006 /* TodayWeatherCell.m */,
 			);
 			path = NewUIViews;
 			sourceTree = "<group>";
@@ -769,6 +774,7 @@
 				CCE8557421098B480035230F /* DailyView.m in Sources */,
 				CC829DCC21153FCC00453152 /* WeeklyCollectionViewCell.m in Sources */,
 				33F00C0F20FD1215008F56CE /* Location.m in Sources */,
+				33A2A602211A5E4500AC2006 /* TodayWeatherCell.m in Sources */,
 				92EEBD01210BEEE100D6721F /* SWRevealViewController.m in Sources */,
 				3330AE252102842700B37975 /* PreferenceTableViewCell.m in Sources */,
 				CC829DCF211A51AD00453152 /* WeatherView.m in Sources */,
