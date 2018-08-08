@@ -18,20 +18,32 @@
 
 NSString *hourlyCellIdentifier = @"hourlyCell";
 
-- (instancetype)initWithFrame:(CGRect)frame{
-    self = [super initWithFrame:frame];
+- (instancetype)init{
+    self = [super init];
     if (self) {
         [self layoutIfNeeded];
+        
         _layout = [[UICollectionViewFlowLayout alloc] init];
+        _layout.minimumInteritemSpacing = 1;
+        [_layout setScrollDirection:UICollectionViewScrollDirectionHorizontal];
         _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, self.contentView.frame.size.width, self.contentView.frame.size.height) collectionViewLayout:_layout];
         [_collectionView registerClass:HourlyCollectionCell.class forCellWithReuseIdentifier:hourlyCellIdentifier];
-        _collectionView.backgroundColor = UIColor.blueColor;
+        _collectionView.backgroundColor = UIColor.clearColor;
         _collectionView.delegate = self;
         _collectionView.dataSource = self;
+        _collectionView.translatesAutoresizingMaskIntoConstraints = NO;
         
         [self.contentView addSubview:_collectionView];
+        [self setCollectionViewConstraints];
     }
     return self;
+}
+
+-(void)setCollectionViewConstraints{
+    [_collectionView.topAnchor constraintEqualToAnchor:self.contentView.topAnchor].active = YES;
+    [_collectionView.bottomAnchor constraintEqualToAnchor:self.contentView.bottomAnchor].active = YES;
+    [_collectionView.leadingAnchor constraintEqualToAnchor:self.contentView.leadingAnchor].active = YES;
+    [_collectionView.trailingAnchor constraintEqualToAnchor:self.contentView.trailingAnchor].active = YES;
 }
 
 - (void)setLocation:(Location *)location{
@@ -60,6 +72,7 @@ NSString *hourlyCellIdentifier = @"hourlyCell";
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     HourlyCollectionCell *cell = [_collectionView dequeueReusableCellWithReuseIdentifier:hourlyCellIdentifier forIndexPath:indexPath];
     cell.weather = self.location.dailyData[indexPath.row];
+    cell.backgroundColor = UIColor.clearColor;
     return cell;
 }
 

@@ -72,6 +72,9 @@ NSString *cellID = @"cellIDD";
     // Table view
     self.maintableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 300, UIScreen.mainScreen.bounds.size.width, UIScreen.mainScreen.bounds.size.height) style:UITableViewStylePlain];
     self.maintableView.backgroundColor = nil;
+    self.maintableView.rowHeight = UITableViewAutomaticDimension;
+    self.maintableView.translatesAutoresizingMaskIntoConstraints = NO;
+
     self.maintableView.dataSource = self;
     self.maintableView.delegate = self;
     
