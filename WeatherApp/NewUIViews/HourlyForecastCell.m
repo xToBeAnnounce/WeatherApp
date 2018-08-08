@@ -26,16 +26,15 @@ NSString *hourlyCellIdentifier = @"hourlyCell";
         _layout = [[UICollectionViewFlowLayout alloc] init];
         _layout.minimumInteritemSpacing = 1;
         [_layout setScrollDirection:UICollectionViewScrollDirectionHorizontal];
-        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height) collectionViewLayout:_layout];
+        _collectionView = [[UICollectionView alloc] initWithFrame:self.frame collectionViewLayout:_layout];
         [_collectionView registerClass:HourlyCollectionCell.class forCellWithReuseIdentifier:hourlyCellIdentifier];
         _collectionView.backgroundColor = UIColor.clearColor;
         _collectionView.delegate = self;
         _collectionView.dataSource = self;
-//        _collectionView.translatesAutoresizingMaskIntoConstraints = NO;
+        _collectionView.translatesAutoresizingMaskIntoConstraints = NO;
         
         [self addSubview:_collectionView];
         [self setCollectionViewConstraints];
-        
     }
     return self;
 }
@@ -85,6 +84,11 @@ NSString *hourlyCellIdentifier = @"hourlyCell";
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     return CGSizeMake(100, 100);
+}
+
+- (void)layoutSubviews{
+    [super layoutSubviews];
+    _collectionView.frame = self.contentView.frame;
 }
 
 - (void)awakeFromNib {
