@@ -11,5 +11,6 @@
 
 @interface WeatherView : UIView <UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
 @property (strong,nonatomic) UICollectionView *mainCollectionView;
+@property (strong,nonatomic) UITableView *maintableView;
 @property (strong, nonatomic) Location *location;
 @end
