@@ -95,8 +95,7 @@
     
     self.weatherView = [[WeatherView alloc]initWithFrame:self.view.frame];
     [self.view addSubview:self.weatherView];
-    
-    
+    [self setConstraintsForView:self.weatherView];
 }
 
 - (void)setLocation:(Location *)location {
