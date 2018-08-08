@@ -1,25 +1,25 @@
 //
-//  HourlyForecastCell.m
+//  HourlyForecast.m
 //  WeatherApp
 //
-//  Created by Tiffany Ma on 8/7/18.
+//  Created by Tiffany Ma on 8/8/18.
 //  Copyright © 2018 xToBeAnnounce. All rights reserved.
 //
 
-#import "HourlyForecastCell.h"
+#import "HourlyForecast.h"
 #import "HourlyCollectionCell.h"
 
-@implementation HourlyForecastCell
+@implementation HourlyForecast
 {
     UICollectionView *_collectionView;
     NSMutableArray *_hourlyData;
     UICollectionViewFlowLayout *_layout;
 }
 
-NSString *hourlyCellIdentifier = @"hourlyCell";
+NSString *hourlyCellIdentifier = @"singleHourCell";
 
-- (instancetype)init{
-    self = [super init];
+- (instancetype)initWithFrame:(CGRect)frame{
+    self = [super initWithFrame:frame];
     if (self) {
         [self layoutIfNeeded];
         
@@ -86,19 +86,9 @@ NSString *hourlyCellIdentifier = @"hourlyCell";
     return CGSizeMake(100, 100);
 }
 
-- (void)layoutSubviews{
-    [super layoutSubviews];
-    _collectionView.frame = self.contentView.frame;
-}
-
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
-}
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-    // Configure the view for the selected state
 }
 
 @end

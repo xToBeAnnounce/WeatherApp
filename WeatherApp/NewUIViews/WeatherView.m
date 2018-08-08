@@ -7,10 +7,10 @@
 //
 
 #import "WeatherView.h"
-#import "HourlyForecastCell.h"
 #import "TodayWeatherCell.h"
 #import "TodayActivitiesCell.h"
 #import "WeeklyView.h"
+#import "HourlyForecast.h"
 
 @implementation WeatherView
 {
@@ -45,21 +45,12 @@ NSString *cellID = @"cellIDD";
         if (data) {
             self->_todayWeatherCell.weatherView.currentWeather = self.location.dailyData[0];
             self->_todayWeatherCell.weatherView.todayWeather = self.location.weeklyData[0];
-            [self.maintableView reloadData];
+//            [self.maintableView reloadData];
         }
         else {
             NSLog(@"Error %@", error.localizedDescription);
         }
     }];
-    
-    layout = [[UICollectionViewFlowLayout alloc]init];
-    self.mainCollectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, 300, UIScreen.mainScreen.bounds.size.width, UIScreen.mainScreen.bounds.size.height) collectionViewLayout:layout];
-    self.mainCollectionView.dataSource = self;
-    self.mainCollectionView.delegate = self;
-    self.mainCollectionView.backgroundColor = UIColor.cyanColor;
-    [self.mainCollectionView registerClass:UICollectionViewCell.class forCellWithReuseIdentifier:cellID];
-    [self addSubview:self.mainCollectionView];
-    
 }
 
 // initalizes cell properties
@@ -70,16 +61,26 @@ NSString *cellID = @"cellIDD";
 // sets the UI of table view and background
 - (void) setViewsUI {
     // Table view
-    self.maintableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 300, UIScreen.mainScreen.bounds.size.width, UIScreen.mainScreen.bounds.size.height) style:UITableViewStylePlain];
-    self.maintableView.backgroundColor = nil;
-    self.maintableView.rowHeight = UITableViewAutomaticDimension;
-    self.maintableView.translatesAutoresizingMaskIntoConstraints = NO;
-
-    self.maintableView.dataSource = self;
-    self.maintableView.delegate = self;
+//    self.maintableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 300, UIScreen.mainScreen.bounds.size.width, UIScreen.mainScreen.bounds.size.height) style:UITableViewStylePlain];
+//    self.maintableView.backgroundColor = nil;
+//    self.maintableView.rowHeight = UITableViewAutomaticDimension;
+//    self.maintableView.translatesAutoresizingMaskIntoConstraints = NO;
+//
+//    self.maintableView.dataSource = self;
+//    self.maintableView.delegate = self;
+//
+//    [self addSubview:self.maintableView];
+//    [self.maintableView reloadData];
     
-    [self addSubview:self.maintableView];
-    [self.maintableView reloadData];
+    //Collection View
+    layout = [[UICollectionViewFlowLayout alloc]init];
+    self.mainCollectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, 300, UIScreen.mainScreen.bounds.size.width, UIScreen.mainScreen.bounds.size.height) collectionViewLayout:layout];
+    self.mainCollectionView.dataSource = self;
+    self.mainCollectionView.delegate = self;
+    self.mainCollectionView.backgroundColor = UIColor.cyanColor;
+    [self.mainCollectionView registerClass:UICollectionViewCell.class forCellWithReuseIdentifier:cellID];
+    [self.mainCollectionView registerClass:HourlyForecast.class forCellWithReuseIdentifier:@"hourlyCell"];
+    [self addSubview:self.mainCollectionView];
     
 //    _screenView = [[UIView alloc] init];
 //    _screenView.backgroundColor = [[UIColor alloc] initWithWhite:0.0 alpha:0.5];
@@ -90,16 +91,16 @@ NSString *cellID = @"cellIDD";
 }
 
 - (nonnull __kindof UICollectionViewCell *)collectionView:(nonnull UICollectionView *)collectionView cellForItemAtIndexPath:(nonnull NSIndexPath *)indexPath {
-    if(indexPath.row == 1){
-        //        HourlyForecastCell *hourlyForecastCell = [[HourlyForecastCell alloc] init];
-        //        return hourlyForecastCell;
-    }
     if(indexPath.row == 0){
         UICollectionViewCell *Dailycell = [self.mainCollectionView dequeueReusableCellWithReuseIdentifier:cellID forIndexPath:indexPath];
         WeeklyView *weeklyView = [[WeeklyView alloc]initWithFrame:CGRectMake(0, 0, UIScreen.mainScreen.bounds.size.width, 350)];
         weeklyView.location = self.location;
         [Dailycell addSubview:weeklyView];
         return Dailycell;
+    }
+    else if(indexPath.row == 1){
+        HourlyForecast *hourlyForecastCell = [self.mainCollectionView dequeueReusableCellWithReuseIdentifier:@"hourlyCell" forIndexPath:indexPath];
+        return hourlyForecastCell;
     }
     
     UICollectionViewCell *cell = [self.mainCollectionView dequeueReusableCellWithReuseIdentifier:cellID forIndexPath:indexPath];
@@ -115,36 +116,37 @@ NSString *cellID = @"cellIDD";
     return CGSizeMake(self.frame.size.width, 350);
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return UITableViewAutomaticDimension;
-}
+//- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+//    return UITableViewAutomaticDimension;
+//}
+//
+//- (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+//    return 5;
+//}
 
-- (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 5;
-}
+//- (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
+//    UITableViewCell *cell = UITableViewCell.new;
+//
+//    if (indexPath.row == 0) {
+//        cell = _todayWeatherCell;
+//    }
+//    else if(indexPath.row == 1){
+//        cell = [[HourlyForecast alloc] init];
+//    }
+//    else if (indexPath.row == 3) {
+//        cell = [[TodayActivitiesCell alloc] init];
+//    }
+//
+//    if (indexPath.row != 0) cell.backgroundColor = [[UIColor alloc] initWithWhite:0.0 alpha:0.8];
+//    return cell;
+//}
 
-- (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
-    UITableViewCell *cell = UITableViewCell.new;
-    
-    if (indexPath.row == 0) {
-        cell = _todayWeatherCell;
-    }
-    else if(indexPath.row == 1){
-        cell = [[HourlyForecastCell alloc] init];
-    }
-    else if (indexPath.row == 3) {
-        cell = [[TodayActivitiesCell alloc] init];
-    }
-    
-    if (indexPath.row != 0) cell.backgroundColor = [[UIColor alloc] initWithWhite:0.0 alpha:0.8];
-    return cell;
-}
+//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+//    [self.maintableView deselectRowAtIndexPath:indexPath animated:NO];
+//}
+//
+//- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
+//    [cell layoutIfNeeded];
+//}
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [self.maintableView deselectRowAtIndexPath:indexPath animated:NO];
-}
-
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
-    [cell layoutIfNeeded];
-}
 @end
