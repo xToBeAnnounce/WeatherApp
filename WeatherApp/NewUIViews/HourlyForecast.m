@@ -57,11 +57,12 @@ NSString *hourlyCellIdentifier = @"singleHourCell";
         [self.location fetchDataType:@"daily" WithCompletion:^(NSDictionary * data, NSError * error) {
             if(error == nil){
                 //self.location.dailyData updated
-                [self->_collectionView reloadData];
+                [_collectionView reloadData];
             }
             else NSLog(@"%@", error.localizedDescription);
         }];
     }
+    else [_collectionView reloadData];
 }
 
 - (void)layoutSubviews{

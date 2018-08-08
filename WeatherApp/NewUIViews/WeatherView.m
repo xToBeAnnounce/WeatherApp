@@ -27,7 +27,6 @@
         tempBackground.contentMode = UIViewContentModeScaleAspectFill;
         tempBackground.clipsToBounds = YES;
         [self addSubview:tempBackground];
-        self.backgroundColor = UIColor.purpleColor;
         [self setUpCells];
         [self setViewsUI];
     }
@@ -35,22 +34,21 @@
 }
 
 UICollectionViewFlowLayout *layout;
-NSString *cellID = @"cellIDD";
+NSString *cellID = @"cellID";
 
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
 - (void)drawRect:(CGRect)rect {
     // Drawing code
-    [self.location fetchDataType:@"current" WithCompletion:^(NSDictionary *data, NSError *error) {
-        if (data) {
-            self->_todayWeatherCell.weatherView.currentWeather = self.location.dailyData[0];
-            self->_todayWeatherCell.weatherView.todayWeather = self.location.weeklyData[0];
-//            [self.maintableView reloadData];
-        }
-        else {
-            NSLog(@"Error %@", error.localizedDescription);
-        }
-    }];
+//    [self.location fetchDataType:@"current" WithCompletion:^(NSDictionary *data, NSError *error) {
+//        if (data) {
+//            self->_todayWeatherCell.weatherView.currentWeather = self.location.dailyData[0];
+//            self->_todayWeatherCell.weatherView.todayWeather = self.location.weeklyData[0];
+//        }
+//        else {
+//            NSLog(@"Error %@", error.localizedDescription);
+//        }
+//    }];
 }
 
 // initalizes cell properties
@@ -60,20 +58,9 @@ NSString *cellID = @"cellIDD";
 
 // sets the UI of table view and background
 - (void) setViewsUI {
-    // Table view
-//    self.maintableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 300, UIScreen.mainScreen.bounds.size.width, UIScreen.mainScreen.bounds.size.height) style:UITableViewStylePlain];
-//    self.maintableView.backgroundColor = nil;
-//    self.maintableView.rowHeight = UITableViewAutomaticDimension;
-//    self.maintableView.translatesAutoresizingMaskIntoConstraints = NO;
-//
-//    self.maintableView.dataSource = self;
-//    self.maintableView.delegate = self;
-//
-//    [self addSubview:self.maintableView];
-//    [self.maintableView reloadData];
-    
     //Collection View
     layout = [[UICollectionViewFlowLayout alloc]init];
+    layout.estimatedItemSize = CGSizeMake(self.frame.size.width, 100);
     self.mainCollectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, 300, UIScreen.mainScreen.bounds.size.width, UIScreen.mainScreen.bounds.size.height) collectionViewLayout:layout];
     self.mainCollectionView.dataSource = self;
     self.mainCollectionView.delegate = self;
@@ -81,72 +68,42 @@ NSString *cellID = @"cellIDD";
     [self.mainCollectionView registerClass:UICollectionViewCell.class forCellWithReuseIdentifier:cellID];
     [self.mainCollectionView registerClass:HourlyForecast.class forCellWithReuseIdentifier:@"hourlyCell"];
     [self addSubview:self.mainCollectionView];
-    
-//    _screenView = [[UIView alloc] init];
-//    _screenView.backgroundColor = [[UIColor alloc] initWithWhite:0.0 alpha:0.5];
-//    _screenView.translatesAutoresizingMaskIntoConstraints = NO;
-//    [self addSubview:_screenView];
-//
-//    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[todayWeatherCell][screenView]|" options:NSLayoutFormatAlignAllCenterX metrics:nil views:@{@"todayWeatherCell":_todayWeatherCell, @"screenView":_screenView}]];
 }
 
 - (nonnull __kindof UICollectionViewCell *)collectionView:(nonnull UICollectionView *)collectionView cellForItemAtIndexPath:(nonnull NSIndexPath *)indexPath {
     if(indexPath.row == 0){
         UICollectionViewCell *Dailycell = [self.mainCollectionView dequeueReusableCellWithReuseIdentifier:cellID forIndexPath:indexPath];
+        Dailycell.translatesAutoresizingMaskIntoConstraints = NO;
         WeeklyView *weeklyView = [[WeeklyView alloc]initWithFrame:CGRectMake(0, 0, UIScreen.mainScreen.bounds.size.width, 350)];
         weeklyView.location = self.location;
         [Dailycell addSubview:weeklyView];
+
+        weeklyView.translatesAutoresizingMaskIntoConstraints = NO;
+        [weeklyView.topAnchor constraintEqualToAnchor:Dailycell.topAnchor].active = YES;
+        [weeklyView.leadingAnchor constraintEqualToAnchor:Dailycell.leadingAnchor].active = YES;
+        [weeklyView.trailingAnchor constraintEqualToAnchor:Dailycell.trailingAnchor].active = YES;
+        //[weeklyView.bottomAnchor constraintEqualToAnchor:Dailycell.bottomAnchor].active = YES;
+        [Dailycell.heightAnchor constraintEqualToConstant:300].active = YES;
+        Dailycell.backgroundColor = UIColor.redColor;
         return Dailycell;
     }
     else if(indexPath.row == 1){
         HourlyForecast *hourlyForecastCell = [self.mainCollectionView dequeueReusableCellWithReuseIdentifier:@"hourlyCell" forIndexPath:indexPath];
+        hourlyForecastCell.translatesAutoresizingMaskIntoConstraints = NO;
+        hourlyForecastCell.location = self.location;
+        [hourlyForecastCell.heightAnchor constraintEqualToConstant:50].active = YES;
+        hourlyForecastCell.backgroundColor = UIColor.yellowColor;
         return hourlyForecastCell;
     }
-    
-    UICollectionViewCell *cell = [self.mainCollectionView dequeueReusableCellWithReuseIdentifier:cellID forIndexPath:indexPath];
-    cell.backgroundColor = UIColor.blueColor;
-    return cell;
+    else{
+        UICollectionViewCell *cell = [self.mainCollectionView dequeueReusableCellWithReuseIdentifier:cellID forIndexPath:indexPath];
+        cell.backgroundColor = UIColor.orangeColor;
+        return cell;
+    }
 }
 
-- (NSInteger)collectionView:(nonnull UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+- (NSInteger)collectionView:(nonnull UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
     return 5;
 }
-
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
-    return CGSizeMake(self.frame.size.width, 350);
-}
-
-//- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-//    return UITableViewAutomaticDimension;
-//}
-//
-//- (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-//    return 5;
-//}
-
-//- (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
-//    UITableViewCell *cell = UITableViewCell.new;
-//
-//    if (indexPath.row == 0) {
-//        cell = _todayWeatherCell;
-//    }
-//    else if(indexPath.row == 1){
-//        cell = [[HourlyForecast alloc] init];
-//    }
-//    else if (indexPath.row == 3) {
-//        cell = [[TodayActivitiesCell alloc] init];
-//    }
-//
-//    if (indexPath.row != 0) cell.backgroundColor = [[UIColor alloc] initWithWhite:0.0 alpha:0.8];
-//    return cell;
-//}
-
-//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-//    [self.maintableView deselectRowAtIndexPath:indexPath animated:NO];
-//}
-//
-//- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
-//    [cell layoutIfNeeded];
-//}
 
 @end
