@@ -31,6 +31,7 @@
 -(NSString*)getHumidityInString:(float)humidity;
 -(NSString*)getWindSpeedInString:(float)windspeed;
 -(NSString*)formatSummary:(NSString*)summary;
+-(NSString*)formattedIconSummary;
 
 
 - (instancetype)initWithData:(NSDictionary*)data;
