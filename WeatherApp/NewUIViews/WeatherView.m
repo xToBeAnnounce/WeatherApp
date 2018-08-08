@@ -16,12 +16,13 @@
 - (void)drawRect:(CGRect)rect {
     // Drawing code
     self.maintableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 300, UIScreen.mainScreen.bounds.size.width, UIScreen.mainScreen.bounds.size.height) style:UITableViewStylePlain];
-    
+    self.maintableView.rowHeight = UITableViewAutomaticDimension;
+    self.maintableView.translatesAutoresizingMaskIntoConstraints = NO;
+
     self.maintableView.dataSource = self;
     self.maintableView.delegate = self;
     
     [self addSubview:self.maintableView];
-    [self.maintableView reloadData];
 }
 
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
@@ -33,15 +34,11 @@
     return nil;
 }
 
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
-    [cell layoutIfNeeded];
-}
-
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return UITableViewAutomaticDimension;
 }
 
-- (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return 1;
 }
 
