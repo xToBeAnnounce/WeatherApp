@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Location.h"
 
-@interface HourlyForecastCell : UITableViewCell
-
+@interface HourlyForecastCell : UITableViewCell <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
+@property (strong, nonatomic) Location *location;
 @end
