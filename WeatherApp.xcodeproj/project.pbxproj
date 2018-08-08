@@ -408,6 +408,8 @@
 				33A2A60A211B6DA500AC2006 /* TodayWeatherView.m */,
 				33A2A60C211B6FDB00AC2006 /* WeatherCardCell.h */,
 				33A2A60D211B6FDB00AC2006 /* WeatherCardCell.m */,
+				33A2A600211A5E4500AC2006 /* TodayWeatherCell.h */,
+				33A2A601211A5E4500AC2006 /* TodayWeatherCell.m */,
 			);
 			path = NewUIViews;
 			sourceTree = "<group>";

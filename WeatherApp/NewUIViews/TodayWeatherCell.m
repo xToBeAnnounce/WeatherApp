@@ -8,7 +8,6 @@
 
 #import "TodayWeatherCell.h"
 
-
 @implementation TodayWeatherCell
 
 - (instancetype)init
