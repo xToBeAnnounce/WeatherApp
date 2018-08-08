@@ -53,7 +53,8 @@ NSString *hourlyCellIdentifier = @"hourlyCell";
 }
 
 - (void)layoutSubviews{
-    
+    _collectionView.frame = self.bounds;
+    [super layoutSubviews];
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
