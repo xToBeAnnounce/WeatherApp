@@ -49,6 +49,8 @@ NSString *cellID = @"cellID";
 //            NSLog(@"Error %@", error.localizedDescription);
 //        }
 //    }];
+    
+    [self addSubview:self.maintableView];
 }
 
 // initalizes cell properties
