@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "Location.h"
 
-@interface WeatherView : UIView <UITableViewDataSource,UITableViewDelegate>
-@property (strong,nonatomic) UITableView *maintableView;
+@interface WeatherView : UIView <UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
+@property (strong,nonatomic) UICollectionView *mainCollectionView;
 @property (strong, nonatomic) Location *location;
 @end
