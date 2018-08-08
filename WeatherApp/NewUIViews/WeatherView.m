@@ -25,19 +25,24 @@
 }
 
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
-    if(indexPath.row == 1){
-        HourlyForecast *hourlyForecastCell = [[HourlyForecast alloc] init];
+    if(indexPath.row == 0){
+        HourlyForecastCell *hourlyForecastCell = [[HourlyForecastCell alloc] init];
+        hourlyForecastCell.location = self.location;
         return hourlyForecastCell;
     }
     return nil;
 }
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 5;
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
+    [cell layoutIfNeeded];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return UITableViewAutomaticDimension;
 }
 
 - (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 0;
+    return 1;
 }
 
 
