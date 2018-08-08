@@ -26,24 +26,25 @@ NSString *hourlyCellIdentifier = @"hourlyCell";
         _layout = [[UICollectionViewFlowLayout alloc] init];
         _layout.minimumInteritemSpacing = 1;
         [_layout setScrollDirection:UICollectionViewScrollDirectionHorizontal];
-        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, self.contentView.frame.size.width, self.contentView.frame.size.height) collectionViewLayout:_layout];
+        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height) collectionViewLayout:_layout];
         [_collectionView registerClass:HourlyCollectionCell.class forCellWithReuseIdentifier:hourlyCellIdentifier];
         _collectionView.backgroundColor = UIColor.clearColor;
         _collectionView.delegate = self;
         _collectionView.dataSource = self;
-        _collectionView.translatesAutoresizingMaskIntoConstraints = NO;
+//        _collectionView.translatesAutoresizingMaskIntoConstraints = NO;
         
-        [self.contentView addSubview:_collectionView];
+        [self addSubview:_collectionView];
         [self setCollectionViewConstraints];
+        
     }
     return self;
 }
 
 -(void)setCollectionViewConstraints{
-    [_collectionView.topAnchor constraintEqualToAnchor:self.contentView.topAnchor].active = YES;
-    [_collectionView.bottomAnchor constraintEqualToAnchor:self.contentView.bottomAnchor].active = YES;
-    [_collectionView.leadingAnchor constraintEqualToAnchor:self.contentView.leadingAnchor].active = YES;
-    [_collectionView.trailingAnchor constraintEqualToAnchor:self.contentView.trailingAnchor].active = YES;
+    [_collectionView.topAnchor constraintEqualToAnchor:self.topAnchor].active = YES;
+    [_collectionView.bottomAnchor constraintEqualToAnchor:self.bottomAnchor].active = YES;
+    [_collectionView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor].active = YES;
+    [_collectionView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor].active = YES;
 }
 
 - (void)setLocation:(Location *)location{
@@ -73,11 +74,17 @@ NSString *hourlyCellIdentifier = @"hourlyCell";
     HourlyCollectionCell *cell = [_collectionView dequeueReusableCellWithReuseIdentifier:hourlyCellIdentifier forIndexPath:indexPath];
     cell.weather = self.location.dailyData[indexPath.row];
     cell.backgroundColor = UIColor.clearColor;
+    [cell layoutIfNeeded];
     return cell;
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
     return self.location.dailyData.count;
+}
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    return CGSizeMake(100, 100);
 }
 
 - (void)awakeFromNib {

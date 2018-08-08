@@ -32,29 +32,27 @@
 -(void)initalizeLabels{
     _timeLabel = [[UILabel alloc] init];
     _timeLabel.font = [UIFont systemFontOfSize:15];
-    [self.contentView addSubview:_timeLabel];
     
     _iconView = [[UIImageView alloc] init];
-    [self.contentView addSubview:_iconView];
     
     _temperatureLabel = [[UILabel alloc] init];
     _temperatureLabel.font = [UIFont systemFontOfSize:20];
-    [self.contentView addSubview:_temperatureLabel];
 }
 
 -(void)setLabelConstraints{
-    [_iconView.heightAnchor constraintEqualToConstant:20];
-    [_iconView.widthAnchor constraintEqualToConstant:20];
+    [_iconView.heightAnchor constraintEqualToConstant:30].active = YES;
+    [_iconView.widthAnchor constraintEqualToConstant:30].active = YES;
+    
     NSArray *arrangedViews = @[_timeLabel, _iconView, _temperatureLabel];
     _hourlyStackView = [[UIStackView alloc] initWithArrangedSubviews: arrangedViews];
     _hourlyStackView.axis = UILayoutConstraintAxisVertical;
     _hourlyStackView.distribution = UIStackViewDistributionFill;
     _hourlyStackView.alignment = UIStackViewAlignmentCenter;
     _hourlyStackView.translatesAutoresizingMaskIntoConstraints = NO;
-    [self.contentView addSubview:_hourlyStackView];
+    [self addSubview:_hourlyStackView];
     
     [_hourlyStackView.topAnchor constraintEqualToAnchor:self.contentView.topAnchor].active = YES;
-    [_hourlyStackView.bottomAnchor constraintEqualToAnchor:self.contentView.bottomAnchor].active = YES;
+    [_hourlyStackView.bottomAnchor constraintEqualToAnchor:self.bottomAnchor].active = YES;
     [_hourlyStackView.leadingAnchor constraintEqualToAnchor:self.contentView.leadingAnchor].active = YES;
     [_hourlyStackView.trailingAnchor constraintEqualToAnchor:self.contentView.trailingAnchor].active = YES;
 }
@@ -81,5 +79,6 @@
     
     _temperatureLabel.text = [weather getTempInString:weather.temperature];
     [_temperatureLabel sizeToFit];
+    
 }
 @end
