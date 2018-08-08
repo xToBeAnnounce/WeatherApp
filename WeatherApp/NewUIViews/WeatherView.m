@@ -8,15 +8,19 @@
 
 #import "WeatherView.h"
 #import "HourlyForecastCell.h"
-#import "TodayWeatherCell.h"
+#import "TodayWeatherView.h"
 #import "TodayActivitiesCell.h"
 #import "WeeklyView.h"
+#import "WeatherCardCell.h"
 
 @implementation WeatherView
 {
-    TodayWeatherCell *_todayWeatherCell;
-//    UIView *_screenView;
+    TodayWeatherView *_todayWeatherView;
+    WeeklyView *_weeklyView;
 }
+
+UICollectionViewFlowLayout *layout;
+NSString *cellID = @"weatherCardCell";
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
@@ -28,120 +32,89 @@
         tempBackground.clipsToBounds = YES;
         [self addSubview:tempBackground];
         self.backgroundColor = UIColor.purpleColor;
-        [self setUpCells];
+        [self setCollectionViewUI];
         [self setViewsUI];
+        [self setConstraints];
     }
     return self;
 }
 
-UICollectionViewFlowLayout *layout;
-NSString *cellID = @"cellIDD";
-
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
 - (void)drawRect:(CGRect)rect {
     // Drawing code
     [self.location fetchDataType:@"current" WithCompletion:^(NSDictionary *data, NSError *error) {
         if (data) {
-            self->_todayWeatherCell.weatherView.currentWeather = self.location.dailyData[0];
-            self->_todayWeatherCell.weatherView.todayWeather = self.location.weeklyData[0];
-            [self.maintableView reloadData];
+            self->_todayWeatherView.currentWeather = self.location.dailyData[0];
+            self->_todayWeatherView.todayWeather = self.location.weeklyData[0];
+            [self.mainCollectionView reloadData];
         }
         else {
             NSLog(@"Error %@", error.localizedDescription);
         }
     }];
-    
-    layout = [[UICollectionViewFlowLayout alloc]init];
-    self.mainCollectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, 300, UIScreen.mainScreen.bounds.size.width, UIScreen.mainScreen.bounds.size.height) collectionViewLayout:layout];
-    self.mainCollectionView.dataSource = self;
-    self.mainCollectionView.delegate = self;
-    self.mainCollectionView.backgroundColor = UIColor.cyanColor;
-    [self.mainCollectionView registerClass:UICollectionViewCell.class forCellWithReuseIdentifier:cellID];
-    [self addSubview:self.mainCollectionView];
-    
 }
 
-// initalizes cell properties
-- (void) setUpCells {
-    _todayWeatherCell = [[TodayWeatherCell alloc] init];
+- (void) setViewsUI {
+    _todayWeatherView = [[TodayWeatherView alloc] init];
+    _todayWeatherView.translatesAutoresizingMaskIntoConstraints = NO;
+    [self addSubview:_todayWeatherView];
+    
+    _weeklyView = [[WeeklyView alloc] initWithFrame:CGRectMake(0, 0, UIScreen.mainScreen.bounds.size.width, 350)];
 }
 
 // sets the UI of table view and background
-- (void) setViewsUI {
-    // Table view
-    self.maintableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 300, UIScreen.mainScreen.bounds.size.width, UIScreen.mainScreen.bounds.size.height) style:UITableViewStylePlain];
-    self.maintableView.backgroundColor = nil;
-    self.maintableView.dataSource = self;
-    self.maintableView.delegate = self;
+- (void) setCollectionViewUI {
+    layout = [[UICollectionViewFlowLayout alloc] init];
+    layout.scrollDirection = UICollectionViewScrollDirectionVertical;
+    layout.minimumLineSpacing = 8;
+    layout.sectionInset = UIEdgeInsetsMake(8, 8, 8, 8);
     
-    [self addSubview:self.maintableView];
-    [self.maintableView reloadData];
-    
-//    _screenView = [[UIView alloc] init];
-//    _screenView.backgroundColor = [[UIColor alloc] initWithWhite:0.0 alpha:0.5];
-//    _screenView.translatesAutoresizingMaskIntoConstraints = NO;
-//    [self addSubview:_screenView];
-//
-//    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[todayWeatherCell][screenView]|" options:NSLayoutFormatAlignAllCenterX metrics:nil views:@{@"todayWeatherCell":_todayWeatherCell, @"screenView":_screenView}]];
+    self.mainCollectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, 300, UIScreen.mainScreen.bounds.size.width, UIScreen.mainScreen.bounds.size.height) collectionViewLayout:layout];
+    self.mainCollectionView.dataSource = self;
+    self.mainCollectionView.delegate = self;
+    self.mainCollectionView.backgroundColor = [[UIColor alloc] initWithWhite:0.0 alpha:0.8];
+//    self.mainCollectionView.backgroundColor = UIColor.cyanColor;
+    self.mainCollectionView.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.mainCollectionView registerClass:WeatherCardCell.class forCellWithReuseIdentifier:cellID];
+    [self addSubview:self.mainCollectionView];
 }
 
 - (nonnull __kindof UICollectionViewCell *)collectionView:(nonnull UICollectionView *)collectionView cellForItemAtIndexPath:(nonnull NSIndexPath *)indexPath {
-    if(indexPath.row == 1){
-        //        HourlyForecastCell *hourlyForecastCell = [[HourlyForecastCell alloc] init];
-        //        return hourlyForecastCell;
-    }
+    WeatherCardCell *cell = [self.mainCollectionView dequeueReusableCellWithReuseIdentifier:cellID forIndexPath:indexPath];
+    UIView *placeholderView = UIView.new;
+    
     if(indexPath.row == 0){
-        UICollectionViewCell *Dailycell = [self.mainCollectionView dequeueReusableCellWithReuseIdentifier:cellID forIndexPath:indexPath];
-        WeeklyView *weeklyView = [[WeeklyView alloc]initWithFrame:CGRectMake(0, 0, UIScreen.mainScreen.bounds.size.width, 350)];
-        weeklyView.location = self.location;
-        [Dailycell addSubview:weeklyView];
-        return Dailycell;
+        [cell setTitle:@"Hourly Forecast" withView:placeholderView];
+    }
+    else if (indexPath.row == 1) {
+        [cell setTitle:@"Today's Summary" withView:placeholderView];
+    }
+    else if (indexPath.row == 2) {
+        [cell setTitle:@"Suggested Activities" withView:placeholderView];
+    }
+    else if (indexPath.row == 3) {
+        _weeklyView.location = self.location;
+        [cell setTitle:@"Daily Forecast" withView:_weeklyView];
     }
     
-    UICollectionViewCell *cell = [self.mainCollectionView dequeueReusableCellWithReuseIdentifier:cellID forIndexPath:indexPath];
-    cell.backgroundColor = UIColor.blueColor;
     return cell;
 }
 
 - (NSInteger)collectionView:(nonnull UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return 5;
+    return 4;
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
     return CGSizeMake(self.frame.size.width, 350);
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return UITableViewAutomaticDimension;
-}
-
-- (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 5;
-}
-
-- (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
-    UITableViewCell *cell = UITableViewCell.new;
+- (void) setConstraints {
+    [self.mainCollectionView.topAnchor constraintEqualToAnchor:self.topAnchor constant:300].active = YES;
+    [self.mainCollectionView.bottomAnchor constraintEqualToAnchor:self.safeAreaLayoutGuide.bottomAnchor].active = YES;
+    [self.mainCollectionView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor].active = YES;
+    [self.mainCollectionView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor].active = YES;
     
-    if (indexPath.row == 0) {
-        cell = _todayWeatherCell;
-    }
-    else if(indexPath.row == 1){
-        cell = [[HourlyForecastCell alloc] init];
-    }
-    else if (indexPath.row == 3) {
-        cell = [[TodayActivitiesCell alloc] init];
-    }
-    
-    if (indexPath.row != 0) cell.backgroundColor = [[UIColor alloc] initWithWhite:0.0 alpha:0.8];
-    return cell;
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [self.maintableView deselectRowAtIndexPath:indexPath animated:NO];
-}
-
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
-    [cell layoutIfNeeded];
+    [_todayWeatherView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor].active = YES;
+    [_todayWeatherView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor].active = YES;
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[todayWeatherView][collectionView]|" options:NSLayoutFormatAlignAllCenterX metrics:nil views:@{@"todayWeatherView":_todayWeatherView, @"collectionView":self.mainCollectionView}]];
 }
 @end
