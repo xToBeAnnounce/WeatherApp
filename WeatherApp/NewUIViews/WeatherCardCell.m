@@ -38,9 +38,13 @@
     _lineView.backgroundColor = UIColor.whiteColor;
     _lineView.translatesAutoresizingMaskIntoConstraints = NO;
     
-    
     self.customView = [[UIView alloc] init];
     self.customView.backgroundColor = nil;
+    self.customView.translatesAutoresizingMaskIntoConstraints = NO;
     [self addSubview:self.customView];
+}
+
+- (void) setConstraints {
+    
 }
 @end
