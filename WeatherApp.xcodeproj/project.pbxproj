@@ -39,7 +39,7 @@
 		9203E63220FD47DD00F8C858 /* APIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9203E63120FD47DD00F8C858 /* APIManager.m */; };
 		9203E63A20FD73C600F8C858 /* WeeklyCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9203E63920FD73C600F8C858 /* WeeklyCell.m */; };
 		9207D7A3211A6840001E01CA /* HourlyCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9207D7A2211A6840001E01CA /* HourlyCollectionCell.m */; };
-		9207D7A6211B9731001E01CA /* HourlyForecast.m in Sources */ = {isa = PBXBuildFile; fileRef = 9207D7A5211B9731001E01CA /* HourlyForecast.m */; };
+		9207D7A9211BC2FD001E01CA /* HourlyForecastView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9207D7A8211BC2FD001E01CA /* HourlyForecastView.m */; };
 		92499B26210A4B07005874C8 /* ActivityAPIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 92499B25210A4B07005874C8 /* ActivityAPIManager.m */; };
 		92499B29210A5C73005874C8 /* Activity.m in Sources */ = {isa = PBXBuildFile; fileRef = 92499B28210A5C73005874C8 /* Activity.m */; };
 		92499B2F210B9C65005874C8 /* ActivityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 92499B2E210B9C65005874C8 /* ActivityViewController.m */; };
@@ -161,8 +161,8 @@
 		9203E63920FD73C600F8C858 /* WeeklyCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WeeklyCell.m; sourceTree = "<group>"; };
 		9207D7A1211A6840001E01CA /* HourlyCollectionCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HourlyCollectionCell.h; sourceTree = "<group>"; };
 		9207D7A2211A6840001E01CA /* HourlyCollectionCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HourlyCollectionCell.m; sourceTree = "<group>"; };
-		9207D7A4211B9731001E01CA /* HourlyForecast.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HourlyForecast.h; sourceTree = "<group>"; };
-		9207D7A5211B9731001E01CA /* HourlyForecast.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HourlyForecast.m; sourceTree = "<group>"; };
+		9207D7A7211BC2FD001E01CA /* HourlyForecastView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HourlyForecastView.h; sourceTree = "<group>"; };
+		9207D7A8211BC2FD001E01CA /* HourlyForecastView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HourlyForecastView.m; sourceTree = "<group>"; };
 		92499B24210A4B07005874C8 /* ActivityAPIManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ActivityAPIManager.h; sourceTree = "<group>"; };
 		92499B25210A4B07005874C8 /* ActivityAPIManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ActivityAPIManager.m; sourceTree = "<group>"; };
 		92499B27210A5C73005874C8 /* Activity.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Activity.h; sourceTree = "<group>"; };
@@ -396,16 +396,16 @@
 			children = (
 				CC829DCD211A51AD00453152 /* WeatherView.h */,
 				CC829DCE211A51AD00453152 /* WeatherView.m */,
-				9207D7A4211B9731001E01CA /* HourlyForecast.h */,
-				9207D7A5211B9731001E01CA /* HourlyForecast.m */,
+				33A2A60C211B6FDB00AC2006 /* WeatherCardCell.h */,
+				33A2A60D211B6FDB00AC2006 /* WeatherCardCell.m */,
+				9207D7A7211BC2FD001E01CA /* HourlyForecastView.h */,
+				9207D7A8211BC2FD001E01CA /* HourlyForecastView.m */,
 				9207D7A1211A6840001E01CA /* HourlyCollectionCell.h */,
 				9207D7A2211A6840001E01CA /* HourlyCollectionCell.m */,
 				33A2A606211B635000AC2006 /* TodayActivitiesCell.h */,
 				33A2A607211B635000AC2006 /* TodayActivitiesCell.m */,
 				33A2A609211B6DA500AC2006 /* TodayWeatherView.h */,
 				33A2A60A211B6DA500AC2006 /* TodayWeatherView.m */,
-				33A2A60C211B6FDB00AC2006 /* WeatherCardCell.h */,
-				33A2A60D211B6FDB00AC2006 /* WeatherCardCell.m */,
 				33A2A600211A5E4500AC2006 /* TodayWeatherCell.h */,
 				33A2A601211A5E4500AC2006 /* TodayWeatherCell.m */,
 			);
@@ -779,8 +779,8 @@
 				3330AE282107A16700B37975 /* LocationTableViewCell.m in Sources */,
 				92499B26210A4B07005874C8 /* ActivityAPIManager.m in Sources */,
 				33A2A608211B635000AC2006 /* TodayActivitiesCell.m in Sources */,
+				9207D7A9211BC2FD001E01CA /* HourlyForecastView.m in Sources */,
 				CCE85684210F7F8B0035230F /* HamburgerTableViewCell.m in Sources */,
-				9207D7A6211B9731001E01CA /* HourlyForecast.m in Sources */,
 				927E18A2210106B700CA03F6 /* Weather.m in Sources */,
 				9203E63A20FD73C600F8C858 /* WeeklyCell.m in Sources */,
 				9203E63220FD47DD00F8C858 /* APIManager.m in Sources */,

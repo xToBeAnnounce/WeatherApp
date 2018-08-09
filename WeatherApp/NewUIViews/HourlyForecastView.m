@@ -1,42 +1,45 @@
 //
-//  HourlyForecast.m
+//  HourlyForecastView.m
 //  WeatherApp
 //
 //  Created by Tiffany Ma on 8/8/18.
 //  Copyright © 2018 xToBeAnnounce. All rights reserved.
 //
 
-#import "HourlyForecast.h"
+#import "HourlyForecastView.h"
 #import "HourlyCollectionCell.h"
 
-@implementation HourlyForecast
+@implementation HourlyForecastView 
 {
     UICollectionView *_collectionView;
     NSMutableArray *_hourlyData;
     UICollectionViewFlowLayout *_layout;
 }
-
 NSString *hourlyCellIdentifier = @"singleHourCell";
 
-- (instancetype)init{
+- (instancetype)init
+{
     self = [super init];
     if (self) {
-        [self layoutIfNeeded];
-        
-        _layout = [[UICollectionViewFlowLayout alloc] init];
-        _layout.minimumInteritemSpacing = 1;
-        [_layout setScrollDirection:UICollectionViewScrollDirectionHorizontal];
-        _collectionView = [[UICollectionView alloc] initWithFrame:self.frame collectionViewLayout:_layout];
-        [_collectionView registerClass:HourlyCollectionCell.class forCellWithReuseIdentifier:hourlyCellIdentifier];
-        _collectionView.backgroundColor = UIColor.clearColor;
-        _collectionView.delegate = self;
-        _collectionView.dataSource = self;
-        _collectionView.translatesAutoresizingMaskIntoConstraints = NO;
-        
-        [self addSubview:_collectionView];
-        [self setCollectionViewConstraints];
+        [self initalizeCollectionView];
     }
     return self;
+}
+
+-(void)initalizeCollectionView{
+    _layout = [[UICollectionViewFlowLayout alloc] init];
+    _layout.minimumInteritemSpacing = 1;
+    _layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+    
+    _collectionView = [[UICollectionView alloc] initWithFrame:self.frame collectionViewLayout:_layout];
+    [_collectionView registerClass:HourlyCollectionCell.class forCellWithReuseIdentifier:hourlyCellIdentifier];
+    _collectionView.backgroundColor = UIColor.clearColor;
+    _collectionView.delegate = self;
+    _collectionView.dataSource = self;
+    _collectionView.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    [self addSubview:_collectionView];
+    [self setCollectionViewConstraints];
 }
 
 -(void)setCollectionViewConstraints{
@@ -65,11 +68,6 @@ NSString *hourlyCellIdentifier = @"singleHourCell";
     else [_collectionView reloadData];
 }
 
-- (void)layoutSubviews{
-    _collectionView.frame = self.bounds;
-    [super layoutSubviews];
-}
-
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     HourlyCollectionCell *cell = [_collectionView dequeueReusableCellWithReuseIdentifier:hourlyCellIdentifier forIndexPath:indexPath];
     cell.weather = self.location.dailyData[indexPath.row];
@@ -87,9 +85,12 @@ NSString *hourlyCellIdentifier = @"singleHourCell";
     return CGSizeMake(100, 100);
 }
 
-- (void)awakeFromNib {
-    [super awakeFromNib];
-    // Initialization code
+/*
+// Only override drawRect: if you perform custom drawing.
+// An empty implementation adversely affects performance during animation.
+- (void)drawRect:(CGRect)rect {
+    // Drawing code
 }
+*/
 
 @end

@@ -1,5 +1,5 @@
 //
-//  HourlyForecast.h
+//  HourlyForecastView.h
 //  WeatherApp
 //
 //  Created by Tiffany Ma on 8/8/18.
@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "Location.h"
 
-@interface HourlyForecast : UICollectionViewCell <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
+@interface HourlyForecastView : UIView <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 @property (strong, nonatomic) Location *location;
 @end

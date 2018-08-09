@@ -8,16 +8,17 @@
 
 #import "WeatherView.h"
 #import "TodayWeatherCell.h"
-#import "HourlyForecast.h"
 #import "TodayWeatherView.h"
 #import "TodayActivitiesCell.h"
 #import "WeeklyView.h"
 #import "WeatherCardCell.h"
+#import "HourlyForecastView.h"
 
 @implementation WeatherView
 {
     TodayWeatherView *_todayWeatherView;
     WeeklyView *_weeklyView;
+    HourlyForecastView *_hourlyView;
 }
 
 UICollectionViewFlowLayout *layout;
@@ -60,7 +61,8 @@ NSString *cellID = @"weatherCardCell";
     _todayWeatherView.translatesAutoresizingMaskIntoConstraints = NO;
     [self addSubview:_todayWeatherView];
     
-    _weeklyView = [[WeeklyView alloc] initWithFrame:CGRectMake(0, 0, UIScreen.mainScreen.bounds.size.width, 350)];
+    _weeklyView = [[WeeklyView alloc] init];
+    _hourlyView = [[HourlyForecastView alloc]init];
 }
 
 // sets the UI of table view and background
@@ -114,7 +116,8 @@ NSString *cellID = @"weatherCardCell";
     UIView *placeholderView = UIView.new;
     
     if(indexPath.row == 0){
-        [cell setTitle:@"Hourly Forecast" withView:placeholderView];
+        _hourlyView.location = self.location;
+        [cell setTitle:@"Hourly Forecast" withView:_hourlyView];
     }
     else if (indexPath.row == 1) {
         [cell setTitle:@"Today's Summary" withView:placeholderView];
@@ -126,7 +129,6 @@ NSString *cellID = @"weatherCardCell";
         _weeklyView.location = self.location;
         [cell setTitle:@"Daily Forecast" withView:_weeklyView];
     }
-    
     return cell;
 }
 

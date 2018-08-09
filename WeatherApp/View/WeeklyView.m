@@ -14,9 +14,8 @@
 static NSString *WeeklycellIdentifier = @"WeeklyCell";
 static BOOL showBanner;
 
-- (instancetype)initWithFrame:(CGRect)frame
-{
-    self = [super initWithFrame:frame];
+- (instancetype)init{
+    self = [super init];
     if (self) {
         showBanner = NO;
         [self setWeeklyUI];
