@@ -118,6 +118,9 @@ BOOL isgranted;
 
 /*------------------SET NAVIGATION UI METHODS------------------*/
 - (void) setNavigationBarUI {
+    
+    self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
+    
     // Adjust buttons
     self.navigationController.navigationBar.topItem.rightBarButtonItem = self.addLocationButton;
     self.navigationController.navigationBar.topItem.leftBarButtonItem.tintColor = [UIColor whiteColor];
@@ -128,6 +131,8 @@ BOOL isgranted;
     [self.navigationController.navigationBar setTranslucent:YES];
     
     self.navigationController.navigationBar.topItem.title = nil;
+    
+    
     [self updateNavBarTitleIfNeeded];
 }
 
@@ -195,7 +200,6 @@ BOOL isgranted;
 // adds gradient to given view
 - (void) addGradientToView:(UIView *)gradView withColors:(NSArray *)colors{
     CAGradientLayer *gradient = [CAGradientLayer layer];
-//    gradient.frame = CGRectMake(gradView.frame.origin.x, gradView.frame.origin.y, gradView.frame.size.width, gradView.frame.size.height+10);
     gradient.frame = gradView.frame;
     gradient.colors = colors;
     gradient.opacity = 0.75;
@@ -228,11 +232,13 @@ BOOL isgranted;
     
     self.locationDetailsButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
     [self.locationDetailsButton addTarget:self action:@selector(didTapBottomButton:) forControlEvents:UIControlEventTouchUpInside];
+//    self.locationDetailsButton.tintColor = UIColor.whiteColor;
     self.locationDetailsButton.translatesAutoresizingMaskIntoConstraints = NO;
     self.locationDetailsButton.hidden = YES;
     [self.view addSubview:self.locationDetailsButton];
     
-    self.view.backgroundColor = [[UIColor alloc]initWithPatternImage:[UIImage imageNamed:@"grad"]];
+    self.view.backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"grad"]];
+//    self.view.backgroundColor = [[UIColor alloc] initWithWhite:1.0 alpha:0.2];
     
     [self makePlaceHolderScreen];
     [self setConstraints];

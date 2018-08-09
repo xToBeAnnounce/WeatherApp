@@ -167,7 +167,7 @@
     _gradientLayer = [CAGradientLayer layer];
     _gradientLayer.frame = _gradientLayer.frame;
     _gradientLayer.colors = @[(id)[UIColor clearColor].CGColor, (id)[UIColor.blackColor CGColor]];
-    _gradientLayer.opacity = 0.8;
+    _gradientLayer.opacity = 0.5;
     
     [_weatherView.layer addSublayer:_gradientLayer];
 }

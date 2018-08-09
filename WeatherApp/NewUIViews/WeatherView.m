@@ -12,12 +12,15 @@
 #import "TodayActivitiesView.h"
 #import "WeeklyView.h"
 #import "WeatherCardCell.h"
+#import "BannerView.h"
 
 @implementation WeatherView
 {
     TodayWeatherView *_todayWeatherView;
     TodayActivitiesView *_todayActivityView;
     WeeklyView *_weeklyView;
+    UIWindow *_bannerWindow;
+    BannerView *_bannerView;
 }
 
 UICollectionViewFlowLayout *layout;
@@ -28,7 +31,7 @@ NSString *cellID = @"weatherCardCell";
     self = [super initWithFrame:frame];
     if (self) {
         UIImageView *tempBackground = [[UIImageView alloc] initWithFrame:self.frame];
-        tempBackground.image = [UIImage imageNamed:@"golden_san_fran"];
+        tempBackground.image = [UIImage imageNamed:@"Sanfranciso"];
         tempBackground.contentMode = UIViewContentModeScaleAspectFill;
         tempBackground.clipsToBounds = YES;
         [self addSubview:tempBackground];
@@ -41,13 +44,14 @@ NSString *cellID = @"weatherCardCell";
 }
 
 - (void)drawRect:(CGRect)rect {
+    [super drawRect:rect];
     // Drawing code
     [self.location fetchDataType:@"current" WithCompletion:^(NSDictionary *data, NSError *error) {
         if (data) {
             Weather *currentWeather = self.location.dailyData[0];
             self->_todayWeatherView.currentWeather = currentWeather;
             self->_todayActivityView.currentWeather = currentWeather;
-            
+
             Weather *todayWeather = self.location.weeklyData[0];
             self->_todayWeatherView.todayWeather = todayWeather;
             [self.mainCollectionView reloadData];
@@ -66,6 +70,13 @@ NSString *cellID = @"weatherCardCell";
     _todayActivityView = [[TodayActivitiesView alloc] init];
     
     _weeklyView = [[WeeklyView alloc] initWithFrame:CGRectMake(0, 0, UIScreen.mainScreen.bounds.size.width, 350)];
+    
+//    _bannerWindow = UIApplication.sharedApplication.keyWindow;
+//
+//    _bannerView = [[BannerView alloc] initWithMessage:@"Placeholder message so I can see its behavior and all that jazz."];
+//    _bannerView.backgroundColor = [UIColor redColor];
+//    [_bannerWindow addSubview:_bannerView];
+//    [_bannerView setUpBannerForSuperview];
 }
 
 - (void)setActivityDelegate:(id<ActivityDelegate>)activityDelegate {
@@ -83,7 +94,7 @@ NSString *cellID = @"weatherCardCell";
     self.mainCollectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, 300, UIScreen.mainScreen.bounds.size.width, UIScreen.mainScreen.bounds.size.height) collectionViewLayout:layout];
     self.mainCollectionView.dataSource = self;
     self.mainCollectionView.delegate = self;
-    self.mainCollectionView.backgroundColor = [[UIColor alloc] initWithWhite:0.0 alpha:0.8];
+    self.mainCollectionView.backgroundColor = [[UIColor alloc] initWithWhite:0.0 alpha:0.5];
     self.mainCollectionView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.mainCollectionView registerClass:WeatherCardCell.class forCellWithReuseIdentifier:cellID];
     [self addSubview:self.mainCollectionView];
@@ -100,11 +111,9 @@ NSString *cellID = @"weatherCardCell";
         [cell setTitle:@"Today's Summary" withView:placeholderView];
     }
     else if (indexPath.row == 2) {
-        _todayActivityView.location = self.location;
         [cell setTitle:@"Today's Activities" withView:_todayActivityView];
     }
     else if (indexPath.row == 3) {
-        _weeklyView.location = self.location;
         [cell setTitle:@"Daily Forecast" withView:_weeklyView];
     }
     return cell;
@@ -128,4 +137,17 @@ NSString *cellID = @"weatherCardCell";
     [_todayWeatherView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor].active = YES;
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[todayWeatherView][collectionView]|" options:NSLayoutFormatAlignAllCenterX metrics:nil views:@{@"todayWeatherView":_todayWeatherView, @"collectionView":self.mainCollectionView}]];
 }
+
+- (void)setLocation:(Location *)location {
+    _location = location;
+    _weeklyView.location = location;
+    _todayActivityView.location = location;
+}
+
+//- (void) showBannerIfNeeded {
+//    _bannerWindow.windowLevel = UIWindowLevelStatusBar+1;
+//    [_bannerView animateBannerWithCompletion:^(BOOL finished) {
+//        self->_bannerWindow.windowLevel = UIWindowLevelStatusBar-1;
+//    }];
+//}
 @end

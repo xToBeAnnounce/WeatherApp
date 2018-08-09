@@ -101,4 +101,13 @@
 - (void)setCardBackgroundColor:(UIColor *)backgroundColor {
     _cardView.backgroundColor = backgroundColor;
 }
+
+//- (void) blur{
+//    UIVisualEffect *blureffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+//    UIVisualEffectView *blureffectView = [[UIVisualEffectView alloc]initWithEffect:blureffect];
+//    blureffectView.alpha = 1.0;
+//    blureffectView.frame = _cardView.frame;
+//    [_cardView addSubview:blureffectView];
+//    [_cardView sendSubviewToBack:blureffectView];
+//}
 @end

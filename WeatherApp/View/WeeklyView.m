@@ -8,8 +8,13 @@
 
 #import "WeeklyView.h"
 #import "WeeklyCell.h"
+#import "BannerView.h"
 
 @implementation WeeklyView
+{
+    UIWindow *_bannerWindow;
+    BannerView *_bannerView;
+}
 
 static NSString *WeeklycellIdentifier = @"WeeklyCell";
 static BOOL showBanner;
@@ -30,6 +35,7 @@ static BOOL showBanner;
 - (void)drawRect:(CGRect)rect {
     [super drawRect:rect];
     [self setLocationName];
+    
 }
 
 - (void) updateDataIfNeeded {
@@ -85,10 +91,12 @@ static BOOL showBanner;
     self.WeeklytableView.delegate = self;
     self.WeeklytableView.dataSource = self;
     [self setTableViewConstraints];
-
-    self.weatherBanner = [[BannerView alloc] initWithMessage:@""];
-    self.weatherBanner.backgroundColor = [UIColor redColor];
-    [self addSubview:self.weatherBanner];
+    
+    _bannerWindow = UIApplication.sharedApplication.keyWindow;
+    _bannerView = [[BannerView alloc] initWithMessage:@""];
+    _bannerView.backgroundColor = [UIColor redColor];
+    [_bannerWindow addSubview:_bannerView];
+    [_bannerView setUpBannerForSuperview];
 }
 
 
@@ -105,15 +113,12 @@ static BOOL showBanner;
     Weather *dayWeather = self.location.weeklyData[indexPath.row];
 
     weeklycell.dayWeather = dayWeather;
-//    weeklycell.contentView.backgroundColor = UIColor.clearColor;
-//    weeklycell.backgroundColor = UIColor.clearColor;
 
     if ([self shouldHighlightDate:cellDate]) {
-//        weeklycell.backgroundColor = [UIColor.greenColor colorWithAlphaComponent:0.2];
         weeklycell.backgroundColor = [UIColor.greenColor colorWithAlphaComponent:0.1];
-//        if (!showBanner && [self.weatherBanner.bannerLabel.text isEqualToString:@""]) {
+//        if (!showBanner && [_bannerView.bannerLabel.text isEqualToString:@""]) {
 //            showBanner = YES;
-//            [self.weatherBanner setBannerMessage:[self makeAlertStringForWeather:dayWeather]];
+//            [_bannerView setBannerMessage:[self makeAlertStringForWeather:dayWeather]];
 //        }
     }
     else {
@@ -155,11 +160,11 @@ static BOOL showBanner;
     return YES;
 }
 
-//- (NSString *)makeAlertStringForWeather:(Weather *)weather {
-//    NSString *alertString = [NSString stringWithFormat:@"%@ will be %@",
-//                             [weather getDayOfWeekWithTime:weather.time], [weather.summary lowercaseString]];
-//    return alertString;
-//}
+- (NSString *)makeAlertStringForWeather:(Weather *)weather {
+    NSString *alertString = [NSString stringWithFormat:@"%@ will be %@",
+                             [weather getDayOfWeekWithTime:weather.time], [weather.summary lowercaseString]];
+    return alertString;
+}
 
 - (void) setTableViewConstraints {
     [self.WeeklytableView.topAnchor constraintEqualToAnchor:self.topAnchor].active = YES;
@@ -169,16 +174,17 @@ static BOOL showBanner;
 }
 
 - (void) showBannerIfNeededWithCompletion:(void(^)(BOOL finished))completion{
-//    if (showBanner && ![self.weatherBanner.bannerLabel.text isEqualToString:@""]) {
-//        showBanner = NO;
-//        [self bringSubviewToFront:self.weatherBanner];
-//        [self.weatherBanner animateBannerWithCompletion:^(BOOL finished) {
-//            if (finished) {
-//                [self.weatherBanner setBannerMessage:@""];
-//                if (completion) completion(finished);
-//            }
-//        }];
-//    }
+    if (showBanner && ![_bannerView.bannerLabel.text isEqualToString:@""]) {
+        showBanner = NO;
+        _bannerWindow.windowLevel = UIWindowLevelStatusBar+1;
+        [_bannerView animateBannerWithCompletion:^(BOOL finished) {
+            if (finished) {
+                self->_bannerWindow.windowLevel = UIWindowLevelStatusBar-1;
+                [self->_bannerView setBannerMessage:@""];
+                if (completion) completion(finished);
+            }
+        }];
+    }
 }
 @end
 

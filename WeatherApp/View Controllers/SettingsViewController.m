@@ -175,6 +175,7 @@ static NSString *locationCellID = @"LocationTableViewCell";
 
 - (void) setNavigationUI {
     // Sets navigation bar title and buttons
+    self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
     self.navigationController.navigationBar.translucent = NO;
     self.navigationController.navigationBar.topItem.titleView = nil;
     self.navigationController.navigationBar.topItem.title = @"Settings";

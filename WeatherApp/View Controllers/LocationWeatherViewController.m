@@ -68,7 +68,7 @@
 - (void) viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     self.locationDetailsButton.hidden = !self.location.objectId;
-    [self setNavBarUI];
+    [self setNavigationUI];
     
     if (!self.weeklyView.hidden) {
         [self showBannerIfNeededWithCompletion:nil];
@@ -193,7 +193,7 @@
     if (!self.navigationController.navigationBar.topItem.titleView) [self addNavTitleView];
 }
 
-- (void) setNavBarUI {
+- (void) setNavigationUI {
     [self refreshNavBarTitle];
     [self addNavTitleView];
 }
