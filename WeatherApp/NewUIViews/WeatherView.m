@@ -33,14 +33,12 @@ NSString *cellID = @"weatherCardCell";
         tempBackground.clipsToBounds = YES;
         [self addSubview:tempBackground];
         self.backgroundColor = UIColor.purpleColor;
+        [self setViewsUI];
         [self setCollectionViewUI];
         [self setConstraints];
     }
     return self;
 }
-
-UICollectionViewFlowLayout *layout;
-NSString *cellID = @"cellID";
 
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
