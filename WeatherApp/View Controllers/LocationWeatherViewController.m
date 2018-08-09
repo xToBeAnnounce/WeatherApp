@@ -20,6 +20,9 @@
 @property (strong,nonatomic) DailyView *dailyView;
 @property (strong,nonatomic) WeeklyView *weeklyView;
 @property (strong,nonatomic) WeatherView *weatherView;
+
+@property (strong, nonatomic) UILabel *titleLabel;
+@property (strong, nonatomic) UILabel *subtitleLabel;
 @end
 
 @implementation LocationWeatherViewController
@@ -65,7 +68,7 @@
 - (void) viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     self.locationDetailsButton.hidden = !self.location.objectId;
-    [self setNavBarTitle:self.location.customName withSubtitle:self.location.placeName];
+    [self refreshNavBarTitle];
     
     if (!self.weeklyView.hidden) {
         [self showBannerIfNeededWithCompletion:nil];
@@ -80,6 +83,9 @@
 
 - (void) setSubviews {
     self.view.backgroundColor = [[UIColor alloc]initWithPatternImage:[UIImage imageNamed:@"grad"]];
+    
+    self.titleLabel = [[UILabel alloc]init];
+    self.subtitleLabel = [[UILabel alloc]init];
 //
 //    self.dailyView = [[DailyView alloc]initWithFrame:self.view.frame];
 //    self.dailyView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -103,6 +109,7 @@
 //    self.dailyView.location = location;
 //    self.weeklyView.location = location;
     self.weatherView.location = location;
+    [self refreshNavBarTitle];
 }
 
 -(void)displayPopoverWithLocation:(Location*)loc Weather:(Weather*)weather{
@@ -144,23 +151,38 @@
     [self.weeklyView showBannerIfNeededWithCompletion:completion];
 }
 
-// Sets Nav Bar title
-- (void) setNavBarTitle:(NSString *)title withSubtitle:(NSString *)subtitle {
-    UILabel *titleLabel = [[UILabel alloc]init];
-    UILabel *subtitleLabel = [[UILabel alloc]init];
+- (void) refreshNavBarTitle {
+    self.titleLabel.text = self.location.customName;
+    self.subtitleLabel.text = self.location.placeName;
     
-    titleLabel.text = title;
-    subtitleLabel.text = subtitle;
+    if ([self.location.customName isEqualToString:@"Current Location"] && !self.location.placeName) {
+        [self.location updatePlaceNameWithBlock:^(NSDictionary *data, NSError *error) {
+            if (data) {
+                self.subtitleLabel.text = self.location.placeName;
+                [self.subtitleLabel sizeToFit];
+            }
+            else {
+                NSLog(@"error");
+            }
+        }];
+    }
     
-    [self configureLabelProperties:titleLabel withFontSize:17];
-    [self configureLabelProperties:subtitleLabel withFontSize:13];
+    if ([self.location.customName isEqualToString:self.location.placeName]) {
+        [self configureLabelProperties:self.titleLabel withFontSize:25];
+        self.subtitleLabel.text = @"";
+        [self.subtitleLabel sizeToFit];
+    }
+    else {
+        [self configureLabelProperties:self.titleLabel withFontSize:17];
+        [self configureLabelProperties:self.subtitleLabel withFontSize:13];
+    }
     
-    UIStackView *stackView = [[UIStackView alloc]initWithArrangedSubviews:@[titleLabel,subtitleLabel]];
+    UIStackView *stackView = [[UIStackView alloc]initWithArrangedSubviews:@[self.titleLabel, self.subtitleLabel]];
     stackView.distribution = UIStackViewDistributionEqualCentering;
     stackView.axis = UILayoutConstraintAxisVertical;
     stackView.alignment =UIStackViewAlignmentCenter;
     
-    [stackView setFrame:CGRectMake(0, 0, MAX(titleLabel.frame.size.width, subtitleLabel.frame.size.width), 35)];
+    [stackView setFrame:CGRectMake(0, 0, MAX(self.titleLabel.frame.size.width, self.subtitleLabel.frame.size.width), 35)];
     self.navigationController.navigationBar.topItem.titleView = stackView;
 }
 

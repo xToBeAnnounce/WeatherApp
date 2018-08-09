@@ -15,33 +15,30 @@
     UIView *_lineView;
 }
 
-- (instancetype)initWithTitle:(NSString *)title view:(UIView *)view {
-    self = [super init];
+- (instancetype)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
     if (self) {
         self.backgroundColor = nil;
         [self initalizeCard];
-        _titleLabel.text = title;
-        [_titleLabel sizeToFit];
-        
-        [self.customView addSubview:view];
     }
     return self;
 }
 
 - (void)setTitle:(NSString *)title withView:(UIView *)view {
-    self.backgroundColor = nil;
-    [self initalizeCard];
+//    self.backgroundColor = nil;
     _titleLabel.text = title;
     [_titleLabel sizeToFit];
     
     view.translatesAutoresizingMaskIntoConstraints = NO;
     [self.customView addSubview:view];
     
+    [self.customView.heightAnchor constraintEqualToAnchor:view.heightAnchor].active = YES;
+    
     [view.topAnchor constraintEqualToAnchor:self.customView.topAnchor].active = YES;
     [view.bottomAnchor constraintEqualToAnchor:self.customView.bottomAnchor].active = YES;
     [view.leadingAnchor constraintEqualToAnchor:self.customView.leadingAnchor].active = YES;
     [view.trailingAnchor constraintEqualToAnchor:self.customView.trailingAnchor].active = YES;
-    [self.customView.heightAnchor constraintEqualToAnchor:view.heightAnchor].active = YES;
     
 }
 
@@ -49,7 +46,7 @@
 - (void) initalizeCard {
     _cardView = [[UIView alloc] init];
     _cardView.translatesAutoresizingMaskIntoConstraints = NO;
-    _cardView.backgroundColor = UIColor.blueColor;
+    _cardView.backgroundColor = [UIColor.blueColor colorWithAlphaComponent:0.3];
     _cardView.layer.cornerRadius = 5;
     [self addSubview:_cardView];
     

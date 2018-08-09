@@ -9,13 +9,14 @@
 #import "WeatherView.h"
 #import "HourlyForecastCell.h"
 #import "TodayWeatherView.h"
-#import "TodayActivitiesCell.h"
+#import "TodayActivitiesView.h"
 #import "WeeklyView.h"
 #import "WeatherCardCell.h"
 
 @implementation WeatherView
 {
     TodayWeatherView *_todayWeatherView;
+    TodayActivitiesView *_todayActivityView;
     WeeklyView *_weeklyView;
 }
 
@@ -27,7 +28,7 @@ NSString *cellID = @"weatherCardCell";
     self = [super initWithFrame:frame];
     if (self) {
         UIImageView *tempBackground = [[UIImageView alloc] initWithFrame:self.frame];
-        tempBackground.image = [UIImage imageNamed:@"Sanfranciso"];
+        tempBackground.image = [UIImage imageNamed:@"golden_san_fran"];
         tempBackground.contentMode = UIViewContentModeScaleAspectFill;
         tempBackground.clipsToBounds = YES;
         [self addSubview:tempBackground];
@@ -45,6 +46,8 @@ NSString *cellID = @"weatherCardCell";
         if (data) {
             self->_todayWeatherView.currentWeather = self.location.dailyData[0];
             self->_todayWeatherView.todayWeather = self.location.weeklyData[0];
+            
+            self->_todayActivityView.currentWeather = self.location.dailyData[0];
             [self.mainCollectionView reloadData];
         }
         else {
@@ -57,6 +60,8 @@ NSString *cellID = @"weatherCardCell";
     _todayWeatherView = [[TodayWeatherView alloc] init];
     _todayWeatherView.translatesAutoresizingMaskIntoConstraints = NO;
     [self addSubview:_todayWeatherView];
+    
+    _todayActivityView = [[TodayActivitiesView alloc] init];
     
     _weeklyView = [[WeeklyView alloc] initWithFrame:CGRectMake(0, 0, UIScreen.mainScreen.bounds.size.width, 350)];
 }
@@ -89,7 +94,8 @@ NSString *cellID = @"weatherCardCell";
         [cell setTitle:@"Today's Summary" withView:placeholderView];
     }
     else if (indexPath.row == 2) {
-        [cell setTitle:@"Suggested Activities" withView:placeholderView];
+        _todayActivityView.location = self.location;
+        [cell setTitle:@"Today's Activities" withView:_todayActivityView];
     }
     else if (indexPath.row == 3) {
         _weeklyView.location = self.location;

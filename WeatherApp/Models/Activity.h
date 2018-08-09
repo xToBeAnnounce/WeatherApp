@@ -23,4 +23,5 @@
 @property (strong, nonatomic) NSArray *location; //Lat, lng
 
 -(instancetype)initWithDictionary:(NSDictionary*)dict;
++ (NSArray *) getActivityCategoryWithWeatherType:(NSString*)weatherCondition;
 @end

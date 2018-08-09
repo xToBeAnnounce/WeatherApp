@@ -36,10 +36,9 @@ int buttonHeight = 45;
     self.lat = loc.lattitude;
     self.lng = loc.longitude;
     self.weather = weather;
-    self.category = [[NSArray alloc] init];
+    self.category = [Activity getActivityCategoryWithWeatherType:weather.icon];
     self.currentActivityList = [[NSMutableArray alloc] init];
     
-    [self setActivityCategoryWithWeatherType:weather.icon];
     [self getActivityDataType:self.category[0]];
     
     [self initActivityButtons];
@@ -47,16 +46,6 @@ int buttonHeight = 45;
     [self setStackViewConstraint];
     
     return self;
-}
-
--(void)setActivityCategoryWithWeatherType:(NSString*)weatherCondition{
-    if([weatherCondition rangeOfString:@"clear"].location != NSNotFound || [weatherCondition rangeOfString:@"cloud"].location != NSNotFound){
-        self.category = @[@"attractions", @"park", @"trails", @"resturant", @"cafe"];
-    }
-    else if([weatherCondition rangeOfString:@"wind"].location != NSNotFound ||
-            [weatherCondition rangeOfString:@"rain"].location != NSNotFound){
-        self.category = @[@"clothing_store", @"library", @"movie_theater", @"shopping_mall", @"cafe", @"resturant"];
-    }
 }
 
 -(void)getActivityDataType:(NSString*)type{
@@ -124,8 +113,7 @@ int buttonHeight = 45;
     for(UIButton *activity in self.activityButtons){
         if(![activity isEqual:selectedActivity])
             [activity setBackgroundColor:UIColor.clearColor];
-        else
-            [activity setBackgroundColor:UIColor.blueColor];
+        else [activity setBackgroundColor:[UIColor.blueColor colorWithAlphaComponent:0.3]];
     }
     [self getActivityDataType:selectedActivity.titleLabel.text];
 }
@@ -180,15 +168,4 @@ int buttonHeight = 45;
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-
 @end

@@ -19,4 +19,17 @@
     return self;
 }
 
++ (NSArray *) getActivityCategoryWithWeatherType:(NSString*)weatherCondition{
+    NSArray *category = @[];
+    
+    if([weatherCondition rangeOfString:@"clear"].location != NSNotFound || [weatherCondition rangeOfString:@"cloud"].location != NSNotFound){
+        category = @[@"attractions", @"park", @"trails", @"resturant", @"cafe"];
+    }
+    else if([weatherCondition rangeOfString:@"wind"].location != NSNotFound ||
+            [weatherCondition rangeOfString:@"rain"].location != NSNotFound){
+        category = @[@"clothing_store", @"library", @"movie_theater", @"shopping_mall", @"cafe", @"resturant"];
+    }
+    
+    return category;
+}
 @end

@@ -20,4 +20,5 @@
 
 - (instancetype) initWithLocation:(Location *)location segmentedControl:(UISegmentedControl *)DailyWeeklySC locDetailsButton:(UIButton *)locationsDetailsButton;
 - (void) showBannerIfNeededWithCompletion:(void(^)(BOOL finished))completion;
+- (void) refreshNavBarTitle;
 @end

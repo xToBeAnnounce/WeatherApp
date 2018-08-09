@@ -118,17 +118,24 @@ BOOL isgranted;
 
 /*------------------SET NAVIGATION UI METHODS------------------*/
 - (void) setNavigationBarUI {
+    // Adjust buttons
     self.navigationController.navigationBar.topItem.rightBarButtonItem = self.addLocationButton;
-//    self.navigationController.navigationBar.topItem.titleView = self.DailyWeeklySC;
-//    [self.DailyWeeklySC addTarget:self action:@selector(onToggleDailyWeekly) forControlEvents:UIControlEventValueChanged];
+    self.navigationController.navigationBar.topItem.leftBarButtonItem.tintColor = [UIColor whiteColor];
     
-//    Makes Navigation Controller translucent
+    // Makes Navigation Controller translucent
     [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
     [self.navigationController.navigationBar setShadowImage:[UIImage new]];
     [self.navigationController.navigationBar setTranslucent:YES];
     
-    self.navigationController.navigationBar.topItem.leftBarButtonItem.tintColor = [UIColor whiteColor];
-    
+    self.navigationController.navigationBar.topItem.title = nil;
+    [self updateNavBarTitleIfNeeded];
+}
+
+- (void) updateNavBarTitleIfNeeded {
+    LocationWeatherViewController *currentLocWVC = [self currentWeatherVC];
+    if (currentLocWVC.location && !self.navigationController.navigationBar.topItem.titleView) {
+        [currentLocWVC refreshNavBarTitle];
+    }
 }
 
 /*------------------SET GENERAL UI METHODS------------------*/
@@ -366,7 +373,6 @@ BOOL isgranted;
     [self presentPreferenceNotification];
     [self refreshPageViewWithStartIndex:[self currentPageIndex]];
     settingUpLocations = NO;
-    
 }
 
 -(void) updatePreferences:(Preferences *)pref {
