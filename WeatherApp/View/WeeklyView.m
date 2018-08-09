@@ -18,7 +18,6 @@ static BOOL showBanner;
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.selectedCell = nil;
         showBanner = NO;
         [self setWeeklyUI];
     }
@@ -41,6 +40,7 @@ static BOOL showBanner;
             else NSLog(@"%@", error.localizedDescription);
         }];
     }
+    else [self refreshView];
 }
 
 -(void)setLocationName{
@@ -56,14 +56,10 @@ static BOOL showBanner;
     }
 }
 - (void) setLocation:(Location *)location {
-
     if (_location.weeklyData) location.weeklyData = _location.weeklyData;
     _location = location;
     self.customNameLabel.text = self.location.customName;
-    self.selectedCell = nil;
-    
     [self updateDataIfNeeded];
-    [self refreshView];
 }
 
 - (void) setTempType:(NSString *)tempType {
@@ -73,17 +69,14 @@ static BOOL showBanner;
 
 /*--------------------------SET UI METHODS------------------------------*/
 -(void)setWeeklyUI{
+    self.WeeklytableView = [[UITableView alloc] init];
+    self.WeeklytableView.delegate = self;
+    self.WeeklytableView.dataSource = self;
     self.backgroundColor = UIColor.clearColor;
-
-    self.WeeklytableView = [[UITableView alloc] initWithFrame: CGRectMake(0, 0, self.frame.size.width,350)];
-    self.WeeklytableView.estimatedRowHeight = 50;
-//    self.WeeklytableView.rowHeight = 50;
     self.WeeklytableView.translatesAutoresizingMaskIntoConstraints = NO;
     [self addSubview:self.WeeklytableView];
     [self.WeeklytableView registerClass: WeeklyCell.class forCellReuseIdentifier:@"WeeklyCell"];
     self.WeeklytableView.backgroundColor = UIColor.clearColor;
-    self.WeeklytableView.delegate = self;
-    self.WeeklytableView.dataSource = self;
     [self setTableViewConstraints];
 
     self.weatherBanner = [[BannerView alloc] initWithMessage:@""];
@@ -91,11 +84,7 @@ static BOOL showBanner;
     [self addSubview:self.weatherBanner];
 }
 
-
-
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
-    NSDate *cellDate = [NSDate dateWithTimeIntervalSinceNow:3600*24*indexPath.row];
-    
     WeeklyCell *weeklycell = [self.WeeklytableView dequeueReusableCellWithIdentifier:WeeklycellIdentifier];
     if(weeklycell == nil){
         weeklycell = [[WeeklyCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:WeeklycellIdentifier];
@@ -107,7 +96,8 @@ static BOOL showBanner;
     weeklycell.dayWeather = dayWeather;
 //    weeklycell.contentView.backgroundColor = UIColor.clearColor;
 //    weeklycell.backgroundColor = UIColor.clearColor;
-
+    
+    NSDate *cellDate = [NSDate dateWithTimeIntervalSinceNow:3600*24*indexPath.row];
     if ([self shouldHighlightDate:cellDate]) {
 //        weeklycell.backgroundColor = [UIColor.greenColor colorWithAlphaComponent:0.2];
         weeklycell.backgroundColor = [UIColor.greenColor colorWithAlphaComponent:0.1];
@@ -122,7 +112,7 @@ static BOOL showBanner;
     return weeklycell;
 }
 
-- (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return self.location.weeklyData.count;
 }
 

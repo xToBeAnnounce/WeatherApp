@@ -7,7 +7,8 @@
 //
 
 #import "WeatherView.h"
-#import "HourlyForecastCell.h"
+#import "TodayWeatherCell.h"
+#import "HourlyForecast.h"
 #import "TodayWeatherView.h"
 #import "TodayActivitiesCell.h"
 #import "WeeklyView.h"
@@ -33,24 +34,27 @@ NSString *cellID = @"weatherCardCell";
         [self addSubview:tempBackground];
         self.backgroundColor = UIColor.purpleColor;
         [self setCollectionViewUI];
-        [self setViewsUI];
         [self setConstraints];
     }
     return self;
 }
 
+UICollectionViewFlowLayout *layout;
+NSString *cellID = @"cellID";
+
+// Only override drawRect: if you perform custom drawing.
+// An empty implementation adversely affects performance during animation.
 - (void)drawRect:(CGRect)rect {
     // Drawing code
-    [self.location fetchDataType:@"current" WithCompletion:^(NSDictionary *data, NSError *error) {
-        if (data) {
-            self->_todayWeatherView.currentWeather = self.location.dailyData[0];
-            self->_todayWeatherView.todayWeather = self.location.weeklyData[0];
-            [self.mainCollectionView reloadData];
-        }
-        else {
-            NSLog(@"Error %@", error.localizedDescription);
-        }
-    }];
+//    [self.location fetchDataType:@"current" WithCompletion:^(NSDictionary *data, NSError *error) {
+//        if (data) {
+//            self->_todayWeatherCell.weatherView.currentWeather = self.location.dailyData[0];
+//            self->_todayWeatherCell.weatherView.todayWeather = self.location.weeklyData[0];
+//        }
+//        else {
+//            NSLog(@"Error %@", error.localizedDescription);
+//        }
+//    }];
 }
 
 - (void) setViewsUI {
@@ -79,6 +83,35 @@ NSString *cellID = @"weatherCardCell";
 }
 
 - (nonnull __kindof UICollectionViewCell *)collectionView:(nonnull UICollectionView *)collectionView cellForItemAtIndexPath:(nonnull NSIndexPath *)indexPath {
+//     if(indexPath.row == 0){
+//         UICollectionViewCell *Dailycell = [self.mainCollectionView dequeueReusableCellWithReuseIdentifier:cellID forIndexPath:indexPath];
+//         Dailycell.translatesAutoresizingMaskIntoConstraints = NO;
+//         WeeklyView *weeklyView = [[WeeklyView alloc]initWithFrame:CGRectMake(0, 0, UIScreen.mainScreen.bounds.size.width, 350)];
+//         weeklyView.location = self.location;
+//         [Dailycell addSubview:weeklyView];
+
+//         weeklyView.translatesAutoresizingMaskIntoConstraints = NO;
+//         [weeklyView.topAnchor constraintEqualToAnchor:Dailycell.topAnchor].active = YES;
+//         [weeklyView.leadingAnchor constraintEqualToAnchor:Dailycell.leadingAnchor].active = YES;
+//         [weeklyView.trailingAnchor constraintEqualToAnchor:Dailycell.trailingAnchor].active = YES;
+//         //[weeklyView.bottomAnchor constraintEqualToAnchor:Dailycell.bottomAnchor].active = YES;
+//         [Dailycell.heightAnchor constraintEqualToConstant:300].active = YES;
+//         Dailycell.backgroundColor = UIColor.redColor;
+//         return Dailycell;
+//     }
+//     else if(indexPath.row == 1){
+//         HourlyForecast *hourlyForecastCell = [self.mainCollectionView dequeueReusableCellWithReuseIdentifier:@"hourlyCell" forIndexPath:indexPath];
+//         hourlyForecastCell.translatesAutoresizingMaskIntoConstraints = NO;
+//         hourlyForecastCell.location = self.location;
+//         [hourlyForecastCell.heightAnchor constraintEqualToConstant:50].active = YES;
+//         hourlyForecastCell.backgroundColor = UIColor.yellowColor;
+//         return hourlyForecastCell;
+//     }
+//     else{
+//         UICollectionViewCell *cell = [self.mainCollectionView dequeueReusableCellWithReuseIdentifier:cellID forIndexPath:indexPath];
+//         cell.backgroundColor = UIColor.orangeColor;
+//         return cell;
+//     }
     WeatherCardCell *cell = [self.mainCollectionView dequeueReusableCellWithReuseIdentifier:cellID forIndexPath:indexPath];
     UIView *placeholderView = UIView.new;
     
