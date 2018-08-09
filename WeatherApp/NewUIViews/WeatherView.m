@@ -70,7 +70,8 @@ NSString *cellID = @"weatherCardCell";
     layout = [[UICollectionViewFlowLayout alloc] init];
     layout.scrollDirection = UICollectionViewScrollDirectionVertical;
     layout.minimumLineSpacing = 8;
-    layout.sectionInset = UIEdgeInsetsMake(8, 8, 8, 8);
+//    layout.estimatedItemSize = UICollectionViewFlowLayoutAutomaticSize;
+    layout.estimatedItemSize = CGSizeMake(350, 150);
     
     self.mainCollectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, 300, UIScreen.mainScreen.bounds.size.width, UIScreen.mainScreen.bounds.size.height) collectionViewLayout:layout];
     self.mainCollectionView.dataSource = self;
@@ -83,52 +84,24 @@ NSString *cellID = @"weatherCardCell";
 }
 
 - (nonnull __kindof UICollectionViewCell *)collectionView:(nonnull UICollectionView *)collectionView cellForItemAtIndexPath:(nonnull NSIndexPath *)indexPath {
-//     if(indexPath.row == 0){
-//         UICollectionViewCell *Dailycell = [self.mainCollectionView dequeueReusableCellWithReuseIdentifier:cellID forIndexPath:indexPath];
-//         Dailycell.translatesAutoresizingMaskIntoConstraints = NO;
-//         WeeklyView *weeklyView = [[WeeklyView alloc]initWithFrame:CGRectMake(0, 0, UIScreen.mainScreen.bounds.size.width, 350)];
-//         weeklyView.location = self.location;
-//         [Dailycell addSubview:weeklyView];
-
-//         weeklyView.translatesAutoresizingMaskIntoConstraints = NO;
-//         [weeklyView.topAnchor constraintEqualToAnchor:Dailycell.topAnchor].active = YES;
-//         [weeklyView.leadingAnchor constraintEqualToAnchor:Dailycell.leadingAnchor].active = YES;
-//         [weeklyView.trailingAnchor constraintEqualToAnchor:Dailycell.trailingAnchor].active = YES;
-//         //[weeklyView.bottomAnchor constraintEqualToAnchor:Dailycell.bottomAnchor].active = YES;
-//         [Dailycell.heightAnchor constraintEqualToConstant:300].active = YES;
-//         Dailycell.backgroundColor = UIColor.redColor;
-//         return Dailycell;
-//     }
-//     else if(indexPath.row == 1){
-//         HourlyForecast *hourlyForecastCell = [self.mainCollectionView dequeueReusableCellWithReuseIdentifier:@"hourlyCell" forIndexPath:indexPath];
-//         hourlyForecastCell.translatesAutoresizingMaskIntoConstraints = NO;
-//         hourlyForecastCell.location = self.location;
-//         [hourlyForecastCell.heightAnchor constraintEqualToConstant:50].active = YES;
-//         hourlyForecastCell.backgroundColor = UIColor.yellowColor;
-//         return hourlyForecastCell;
-//     }
-//     else{
-//         UICollectionViewCell *cell = [self.mainCollectionView dequeueReusableCellWithReuseIdentifier:cellID forIndexPath:indexPath];
-//         cell.backgroundColor = UIColor.orangeColor;
-//         return cell;
-//     }
     WeatherCardCell *cell = [self.mainCollectionView dequeueReusableCellWithReuseIdentifier:cellID forIndexPath:indexPath];
     UIView *placeholderView = UIView.new;
     
     if(indexPath.row == 0){
         _hourlyView.location = self.location;
-        [cell setTitle:@"Hourly Forecast" withView:_hourlyView];
+        [cell setTitle:@"Hourly Forecast" withView:_hourlyView Width:_mainCollectionView.frame.size.width];
     }
     else if (indexPath.row == 1) {
-        [cell setTitle:@"Today's Summary" withView:placeholderView];
+        [cell setTitle:@"Today's Summary" withView:placeholderView Width:_mainCollectionView.frame.size.width];
     }
     else if (indexPath.row == 2) {
-        [cell setTitle:@"Suggested Activities" withView:placeholderView];
+        [cell setTitle:@"Suggested Activities" withView:placeholderView Width:_mainCollectionView.frame.size.width];
     }
     else if (indexPath.row == 3) {
         _weeklyView.location = self.location;
-        [cell setTitle:@"Daily Forecast" withView:_weeklyView];
+        [cell setTitle:@"Daily Forecast" withView:_weeklyView Width:_mainCollectionView.frame.size.width];
     }
+    [cell layoutIfNeeded];
     return cell;
 }
 
@@ -136,9 +109,9 @@ NSString *cellID = @"weatherCardCell";
     return 4;
 }
 
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
-    return CGSizeMake(self.frame.size.width, 350);
-}
+//- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
+//    return CGSizeMake(self.frame.size.width, 350);
+//}
 
 - (void) setConstraints {
     [self.mainCollectionView.topAnchor constraintEqualToAnchor:self.topAnchor constant:300].active = YES;
@@ -150,4 +123,6 @@ NSString *cellID = @"weatherCardCell";
     [_todayWeatherView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor].active = YES;
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[todayWeatherView][collectionView]|" options:NSLayoutFormatAlignAllCenterX metrics:nil views:@{@"todayWeatherView":_todayWeatherView, @"collectionView":self.mainCollectionView}]];
 }
+
+
 @end

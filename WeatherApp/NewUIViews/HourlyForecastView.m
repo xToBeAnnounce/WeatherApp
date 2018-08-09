@@ -22,6 +22,7 @@ NSString *hourlyCellIdentifier = @"singleHourCell";
     self = [super init];
     if (self) {
         [self initalizeCollectionView];
+        [self systemLayoutSizeFittingSize: UILayoutFittingCompressedSize];
     }
     return self;
 }
@@ -30,6 +31,7 @@ NSString *hourlyCellIdentifier = @"singleHourCell";
     _layout = [[UICollectionViewFlowLayout alloc] init];
     _layout.minimumInteritemSpacing = 1;
     _layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+    _layout.estimatedItemSize = UICollectionViewFlowLayoutAutomaticSize;
     
     _collectionView = [[UICollectionView alloc] initWithFrame:self.frame collectionViewLayout:_layout];
     [_collectionView registerClass:HourlyCollectionCell.class forCellWithReuseIdentifier:hourlyCellIdentifier];
@@ -60,7 +62,7 @@ NSString *hourlyCellIdentifier = @"singleHourCell";
         [self.location fetchDataType:@"daily" WithCompletion:^(NSDictionary * data, NSError * error) {
             if(error == nil){
                 //self.location.dailyData updated
-                [_collectionView reloadData];
+                [self->_collectionView reloadData];
             }
             else NSLog(@"%@", error.localizedDescription);
         }];
@@ -80,9 +82,8 @@ NSString *hourlyCellIdentifier = @"singleHourCell";
     return self.location.dailyData.count;
 }
 
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    return CGSizeMake(100, 100);
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
+    return 1;
 }
 
 /*
