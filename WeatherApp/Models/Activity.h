@@ -24,4 +24,5 @@
 
 -(instancetype)initWithDictionary:(NSDictionary*)dict;
 + (NSArray *) getActivityCategoryWithWeatherType:(NSString*)weatherCondition;
++ (NSString *) getSuggestionStringForActivity:(NSString *)activityCategory;
 @end

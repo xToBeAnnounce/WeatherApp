@@ -68,11 +68,12 @@
 - (void) viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     self.locationDetailsButton.hidden = !self.location.objectId;
-    [self refreshNavBarTitle];
+    [self setNavBarUI];
     
     if (!self.weeklyView.hidden) {
         [self showBannerIfNeededWithCompletion:nil];
     }
+    
 }
 
 - (void)setTempTypeString:(NSString *)tempTypeString {
@@ -100,6 +101,7 @@
 //    [self setConstraintsForView:self.weeklyView];
     
     self.weatherView = [[WeatherView alloc]initWithFrame:self.view.frame];
+    self.weatherView.translatesAutoresizingMaskIntoConstraints = NO;
     self.weatherView.activityDelegate = self;
     [self.view addSubview:self.weatherView];
     [self setConstraintsForView:self.weatherView];
@@ -152,6 +154,16 @@
     [self.weeklyView showBannerIfNeededWithCompletion:completion];
 }
 
+- (void) addNavTitleView{
+    UIStackView *stackView = [[UIStackView alloc]initWithArrangedSubviews:@[self.titleLabel, self.subtitleLabel]];
+    stackView.distribution = UIStackViewDistributionEqualCentering;
+    stackView.axis = UILayoutConstraintAxisVertical;
+    stackView.alignment =UIStackViewAlignmentCenter;
+    
+    [stackView setFrame:CGRectMake(0, 0, MAX(self.titleLabel.frame.size.width, self.subtitleLabel.frame.size.width), 35)];
+    self.navigationController.navigationBar.topItem.titleView = stackView;
+}
+
 - (void) refreshNavBarTitle {
     self.titleLabel.text = self.location.customName;
     self.subtitleLabel.text = self.location.placeName;
@@ -178,13 +190,12 @@
         [self configureLabelProperties:self.subtitleLabel withFontSize:13];
     }
     
-    UIStackView *stackView = [[UIStackView alloc]initWithArrangedSubviews:@[self.titleLabel, self.subtitleLabel]];
-    stackView.distribution = UIStackViewDistributionEqualCentering;
-    stackView.axis = UILayoutConstraintAxisVertical;
-    stackView.alignment =UIStackViewAlignmentCenter;
-    
-    [stackView setFrame:CGRectMake(0, 0, MAX(self.titleLabel.frame.size.width, self.subtitleLabel.frame.size.width), 35)];
-    self.navigationController.navigationBar.topItem.titleView = stackView;
+    if (!self.navigationController.navigationBar.topItem.titleView) [self addNavTitleView];
+}
+
+- (void) setNavBarUI {
+    [self refreshNavBarTitle];
+    [self addNavTitleView];
 }
 
 // Gives label white text color and black shadow

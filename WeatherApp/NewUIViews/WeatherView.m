@@ -82,7 +82,6 @@ NSString *cellID = @"weatherCardCell";
     self.mainCollectionView.dataSource = self;
     self.mainCollectionView.delegate = self;
     self.mainCollectionView.backgroundColor = [[UIColor alloc] initWithWhite:0.0 alpha:0.8];
-//    self.mainCollectionView.backgroundColor = UIColor.cyanColor;
     self.mainCollectionView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.mainCollectionView registerClass:WeatherCardCell.class forCellWithReuseIdentifier:cellID];
     [self addSubview:self.mainCollectionView];
@@ -120,7 +119,7 @@ NSString *cellID = @"weatherCardCell";
 
 - (void) setConstraints {
     [self.mainCollectionView.topAnchor constraintEqualToAnchor:self.topAnchor constant:300].active = YES;
-    [self.mainCollectionView.bottomAnchor constraintEqualToAnchor:self.safeAreaLayoutGuide.bottomAnchor].active = YES;
+    [self.mainCollectionView.bottomAnchor constraintEqualToAnchor:self.bottomAnchor].active = YES;
     [self.mainCollectionView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor].active = YES;
     [self.mainCollectionView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor].active = YES;
     

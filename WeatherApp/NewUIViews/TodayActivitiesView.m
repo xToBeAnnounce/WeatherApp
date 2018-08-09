@@ -37,10 +37,9 @@
     if (_activityCategory) {
         int randIdx = arc4random_uniform((int)_activityCategory.count);
         NSString *randomActivity = _activityCategory[randIdx];
-        _suggestLabel.text = [NSString stringWithFormat:@"It's a great day for a %@!", randomActivity];
+        _suggestLabel.text = [Activity getSuggestionStringForActivity:randomActivity];
     }
     else {
-        
         _suggestLabel.text = @"Nothing to do...";
     }
     [_suggestLabel sizeToFit];

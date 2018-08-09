@@ -32,4 +32,20 @@
     
     return category;
 }
+
++ (NSString *) getSuggestionStringForActivity:(NSString *)activityCategory {
+    activityCategory = [activityCategory stringByReplacingOccurrencesOfString:@"-" withString:@" "];
+    
+    NSString *suggestionString;
+    if ([activityCategory isEqualToString:@"attractions"]) {
+        suggestionString = @"Take a trip to somewhere fun today!";
+    }
+    else if ([activityCategory isEqualToString:@"trails"]) {
+        suggestionString = @"Today's perfect for a hike!";
+    }
+    else {
+        suggestionString = [NSString stringWithFormat:@"It's a great day to visit a %@!", activityCategory];
+    }
+    return suggestionString;
+}
 @end
