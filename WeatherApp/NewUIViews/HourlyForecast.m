@@ -26,27 +26,15 @@ NSString *hourlyCellIdentifier = @"singleHourCell";
         _layout = [[UICollectionViewFlowLayout alloc] init];
         _layout.minimumInteritemSpacing = 1;
         [_layout setScrollDirection:UICollectionViewScrollDirectionHorizontal];
-<<<<<<< HEAD:WeatherApp/NewUIViews/HourlyForecast.m
         _collectionView = [[UICollectionView alloc] initWithFrame:self.frame collectionViewLayout:_layout];
-=======
-        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height) collectionViewLayout:_layout];
->>>>>>> de83b6fa1a73b42f6a324527ebf31019dcf8fdde:WeatherApp/NewUIViews/HourlyForecastCell.m
         [_collectionView registerClass:HourlyCollectionCell.class forCellWithReuseIdentifier:hourlyCellIdentifier];
         _collectionView.backgroundColor = UIColor.clearColor;
         _collectionView.delegate = self;
         _collectionView.dataSource = self;
-<<<<<<< HEAD:WeatherApp/NewUIViews/HourlyForecast.m
         _collectionView.translatesAutoresizingMaskIntoConstraints = NO;
         
         [self addSubview:_collectionView];
         [self setCollectionViewConstraints];
-=======
-//        _collectionView.translatesAutoresizingMaskIntoConstraints = NO;
-        
-        [self addSubview:_collectionView];
-        [self setCollectionViewConstraints];
-        
->>>>>>> de83b6fa1a73b42f6a324527ebf31019dcf8fdde:WeatherApp/NewUIViews/HourlyForecastCell.m
     }
     return self;
 }
@@ -77,14 +65,11 @@ NSString *hourlyCellIdentifier = @"singleHourCell";
     else [_collectionView reloadData];
 }
 
-<<<<<<< HEAD:WeatherApp/NewUIViews/HourlyForecast.m
 - (void)layoutSubviews{
     _collectionView.frame = self.bounds;
     [super layoutSubviews];
 }
 
-=======
->>>>>>> de83b6fa1a73b42f6a324527ebf31019dcf8fdde:WeatherApp/NewUIViews/HourlyForecastCell.m
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     HourlyCollectionCell *cell = [_collectionView dequeueReusableCellWithReuseIdentifier:hourlyCellIdentifier forIndexPath:indexPath];
     cell.weather = self.location.dailyData[indexPath.row];
