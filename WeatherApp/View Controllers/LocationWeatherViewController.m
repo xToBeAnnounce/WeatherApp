@@ -100,6 +100,7 @@
 //    [self setConstraintsForView:self.weeklyView];
     
     self.weatherView = [[WeatherView alloc]initWithFrame:self.view.frame];
+    self.weatherView.activityDelegate = self;
     [self.view addSubview:self.weatherView];
     [self setConstraintsForView:self.weatherView];
 }
@@ -119,8 +120,8 @@
     
     UIPopoverPresentationController *popController = popoverView.popoverPresentationController;
     popController.delegate = self;
-    popController.sourceView = (UIView*)self.weeklyView;
-    popController.sourceRect = CGRectMake(self.weeklyView.bounds.size.width/2, self.weeklyView.bounds.size.height/2, 1, 1);
+    popController.sourceView = (UIView*)self.weatherView;
+    popController.sourceRect = CGRectMake(self.weatherView.bounds.size.width/2, self.weeklyView.bounds.size.height/2, 1, 1);
     popController.permittedArrowDirections = 0;
     
     [self.view addSubview:_blurEffectView];

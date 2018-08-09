@@ -66,6 +66,11 @@ NSString *cellID = @"weatherCardCell";
     _weeklyView = [[WeeklyView alloc] initWithFrame:CGRectMake(0, 0, UIScreen.mainScreen.bounds.size.width, 350)];
 }
 
+- (void)setActivityDelegate:(id<ActivityDelegate>)activityDelegate {
+    _activityDelegate = activityDelegate;
+    _todayActivityView.activityDelegate = activityDelegate;
+}
+
 // sets the UI of table view and background
 - (void) setCollectionViewUI {
     layout = [[UICollectionViewFlowLayout alloc] init];

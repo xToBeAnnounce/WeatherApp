@@ -7,7 +7,6 @@
 //
 
 #import "TodayActivitiesView.h"
-#import "Activity.h"
 #include <stdlib.h>
 
 @implementation TodayActivitiesView
@@ -115,7 +114,9 @@
 }
 
 - (IBAction)onTapActivity: (id)sender {
-    
+    int idx = (int)[_activityIconStackView.arrangedSubviews indexOfObject:sender];
+    NSLog(@"%@ Tapped!", _activityCategory[idx]);
+    [self.activityDelegate displayPopoverWithLocation:self.location Weather:self.currentWeather];
 }
 
 @end
