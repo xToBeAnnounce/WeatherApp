@@ -113,7 +113,7 @@
     [self configureLabelProperties:_currentTempLabel withFont:[UIFont systemFontOfSize:72 weight:UIFontWeightThin] text:@"--°"];
     
     _iconDescLabel = [[UILabel alloc] init];
-    [self configureLabelProperties:_iconDescLabel withFont:[UIFont systemFontOfSize:20] text:@" "];
+    [self configureLabelProperties:_iconDescLabel withFont:[UIFont systemFontOfSize:20] text:@"-----"];
     
     UIColor *lightBlueColor = [UIColor colorWithRed:0.83 green:0.92 blue:1.00 alpha:1.0];
     UIColor *lightRedColor = [UIColor colorWithRed:1.00 green:0.83 blue:0.92 alpha:1.0];

@@ -34,13 +34,13 @@
     _currentWeather = currentWeather;
     _activityCategory = [Activity getActivityCategoryWithWeatherType:currentWeather.icon];
     
-    if (_activityCategory) {
+    if (_activityCategory.count != 0) {
         int randIdx = arc4random_uniform((int)_activityCategory.count);
         NSString *randomActivity = _activityCategory[randIdx];
         _suggestLabel.text = [Activity getSuggestionStringForActivity:randomActivity];
     }
     else {
-        _suggestLabel.text = @"Nothing to do...";
+        _suggestLabel.text = @"It's more of a \"stay home\" day.";
     }
     [_suggestLabel sizeToFit];
     

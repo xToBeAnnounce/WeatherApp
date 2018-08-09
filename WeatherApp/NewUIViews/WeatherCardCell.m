@@ -30,6 +30,10 @@
     _titleLabel.text = title;
     [_titleLabel sizeToFit];
     
+    for (UIView *subview in self.customView.subviews) {
+        [subview removeFromSuperview];
+    }
+    
     view.translatesAutoresizingMaskIntoConstraints = NO;
     [self.customView addSubview:view];
     

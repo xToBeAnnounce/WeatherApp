@@ -44,10 +44,12 @@ NSString *cellID = @"weatherCardCell";
     // Drawing code
     [self.location fetchDataType:@"current" WithCompletion:^(NSDictionary *data, NSError *error) {
         if (data) {
-            self->_todayWeatherView.currentWeather = self.location.dailyData[0];
-            self->_todayWeatherView.todayWeather = self.location.weeklyData[0];
+            Weather *currentWeather = self.location.dailyData[0];
+            self->_todayWeatherView.currentWeather = currentWeather;
+            self->_todayActivityView.currentWeather = currentWeather;
             
-            self->_todayActivityView.currentWeather = self.location.dailyData[0];
+            Weather *todayWeather = self.location.weeklyData[0];
+            self->_todayWeatherView.todayWeather = todayWeather;
             [self.mainCollectionView reloadData];
         }
         else {
@@ -105,7 +107,6 @@ NSString *cellID = @"weatherCardCell";
         _weeklyView.location = self.location;
         [cell setTitle:@"Daily Forecast" withView:_weeklyView];
     }
-    
     return cell;
 }
 
