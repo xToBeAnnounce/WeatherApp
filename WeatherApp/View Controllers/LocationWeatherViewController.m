@@ -113,16 +113,16 @@
     [self refreshNavBarTitle];
 }
 
--(void)displayPopoverWithLocation:(Location*)loc Weather:(Weather*)weather{
-    ActivityViewController *popoverView = [[ActivityViewController alloc] initWithLocation:loc Weather:weather];
+-(void)displayPopoverWithLocation:(Location*)loc weather:(Weather*)weather index:(int)idx{
+    ActivityViewController *popoverView = [[ActivityViewController alloc] initWithLocation:loc weather:weather index:idx];
     popoverView.modalPresentationStyle = UIModalPresentationPopover;
-    popoverView.preferredContentSize = CGSizeMake(self.weeklyView.bounds.size.width-50, self.weeklyView.bounds.size.height-150);
+    popoverView.preferredContentSize = CGSizeMake(self.view.frame.size.width-35, self.view.frame.size.height-125);
     
     UIPopoverPresentationController *popController = popoverView.popoverPresentationController;
     popController.delegate = self;
-    popController.sourceView = (UIView*)self.weatherView;
-    popController.sourceRect = CGRectMake(self.weatherView.bounds.size.width/2, self.weeklyView.bounds.size.height/2, 1, 1);
+    popController.sourceView = self.view;
     popController.permittedArrowDirections = 0;
+    popController.sourceRect = CGRectMake(CGRectGetMidX(self.view.bounds), CGRectGetMidY(self.view.bounds)+25,0,0);
     
     [self.view addSubview:_blurEffectView];
     [self presentViewController:popoverView animated:YES completion:nil];

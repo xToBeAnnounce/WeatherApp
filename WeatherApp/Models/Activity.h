@@ -12,7 +12,7 @@
 #import "Weather.h"
 
 @protocol ActivityDelegate
--(void)displayPopoverWithLocation:(Location*)loc Weather:(Weather*)weather;
+-(void)displayPopoverWithLocation:(Location*)loc weather:(Weather*)weather index:(int)idx;
 @end
 
 @interface Activity : NSObject

@@ -116,7 +116,7 @@
 - (IBAction)onTapActivity: (id)sender {
     int idx = (int)[_activityIconStackView.arrangedSubviews indexOfObject:sender];
     NSLog(@"%@ Tapped!", _activityCategory[idx]);
-    [self.activityDelegate displayPopoverWithLocation:self.location Weather:self.currentWeather];
+    [self.activityDelegate displayPopoverWithLocation:self.location weather:self.currentWeather index:idx];
 }
 
 @end
