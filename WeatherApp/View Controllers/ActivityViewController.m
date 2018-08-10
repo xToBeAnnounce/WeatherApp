@@ -135,10 +135,12 @@ int buttonHeight = 45;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"activityCell"];
+    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier: @"activityCell"];
+    
     if(cell == nil){
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"activityCell"];
     }
+    
     Activity *activity = self.currentActivityList[indexPath.row];
     cell.textLabel.text = activity.name;
     return cell;

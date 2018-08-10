@@ -179,9 +179,6 @@ UIVisualEffectView *blureffectView;
     [self.DailytableView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor].active = YES;
     [self.DailytableView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor].active = YES;
     [self.DailytableView.bottomAnchor constraintEqualToAnchor:self.safeAreaLayoutGuide.bottomAnchor].active = YES;
-    
-  
-    
 }
 
 -(void)displayCurrentWeather{
