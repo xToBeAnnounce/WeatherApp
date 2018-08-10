@@ -443,7 +443,7 @@ BOOL saving = NO;
 
 - (void) imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
     UIImage *originalImage = info[UIImagePickerControllerOriginalImage];
-    CGSize size = CGSizeMake(82.6667*3, 147.333*3);
+    CGSize size = CGSizeMake(82.6667*4, 147.333*4);
     
     [self setImage:[self resizeImage:originalImage withSize:size]];
     [self dismissViewControllerAnimated:YES completion:nil];
