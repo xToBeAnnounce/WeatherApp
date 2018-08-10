@@ -11,6 +11,7 @@
 #import "TodayWeatherView.h"
 #import "TodayActivitiesCell.h"
 #import "WeeklyView.h"
+#import "DailyView.h"
 #import "WeatherCardCell.h"
 #import "HourlyForecastView.h"
 
@@ -105,13 +106,27 @@ bool dataLoaded = NO;
 }
 
 - (nonnull __kindof UICollectionViewCell *)collectionView:(nonnull UICollectionView *)collectionView cellForItemAtIndexPath:(nonnull NSIndexPath *)indexPath {
+
     WeatherCardCell *cell = [self.mainCollectionView dequeueReusableCellWithReuseIdentifier:cellID forIndexPath:indexPath];
-    UIView *placeholderView = UIView.new;
+    UIView *placeholderView = UIView.new:
     if(indexPath.row == 0){
 //        _hourlyView.location = self.location;
 //        if(dataLoaded) [_hourlyView setViewHeight];
         [cell setTitle:@"Hourly Forecast" withView:_hourlyView Width:_mainCollectionView.frame.size.width];
     }
+
+    if(indexPath.row == 4) {
+        UICollectionViewCell *TodayCell = [self.mainCollectionView dequeueReusableCellWithReuseIdentifier:cellID forIndexPath:indexPath];
+        DailyView *dailyView = [[DailyView alloc]initWithFrame:CGRectMake(0, 0, UIScreen.mainScreen.bounds.size.width, 250)];
+        dailyView.location = self.location;
+        dailyView.backgroundColor = UIColor.blueColor;
+        [TodayCell addSubview:dailyView];
+        return TodayCell;
+    }
+    
+    UICollectionViewCell *cell = [self.mainCollectionView dequeueReusableCellWithReuseIdentifier:cellID forIndexPath:indexPath];
+    cell.backgroundColor = UIColor.blueColor;
+
     else if (indexPath.row == 1) {
         [cell setTitle:@"Today's Summary" withView:placeholderView Width:_mainCollectionView.frame.size.width];
     }
@@ -123,6 +138,7 @@ bool dataLoaded = NO;
         [cell setTitle:@"Daily Forecast" withView:_weeklyView Width:_mainCollectionView.frame.size.width];
     }
     [cell layoutIfNeeded];
+
     return cell;
 }
 
