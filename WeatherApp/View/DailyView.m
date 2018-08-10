@@ -17,11 +17,6 @@
 
 
 @implementation DailyView
-static bool loadDailyData = NO;
-static NSString *DailycellIdentifier = @"DailyTableViewCell";
-static int currentWeatherViewHeight;
-UIVisualEffectView *blureffectView;
-
 
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
@@ -29,60 +24,45 @@ UIVisualEffectView *blureffectView;
     [super drawRect:rect];
     [self setDailyUI];
     [self displayCurrentWeather];
-    self.DailytableView.dataSource = self;
-    self.DailytableView.delegate = self;
 }
 
 - (void) updateDataIfNeeded {
     if (self.location.dailyData.count == 0) {
-        [self.location fetchDataType:@"daily" WithCompletion:^(NSDictionary * data, NSError * error) {
+        [self.location fetchDataType:@"weekly" WithCompletion:^(NSDictionary * data, NSError * error) {
             if(error == nil){
-                loadDailyData = YES;
                 [self displayCurrentWeather];
-                [self.DailytableView reloadData];
+                NSLog(@"%@",data);
             }
             else NSLog(@"%@", error.localizedDescription);
         }];
     }
 }
 
--(void)scrollViewDidScroll:(UIScrollView *)scrollView{
-    CGFloat TableViewOffset = self.DailytableView.contentOffset.y;
-    if(self.oldframe.size.height-TableViewOffset > currentWeatherViewHeight){
-        [UIView animateWithDuration:0.1 delay:0 usingSpringWithDamping:50 initialSpringVelocity:1 options:UIViewAnimationOptionCurveEaseIn animations:^{
-            CGRect newFrame = CGRectMake(self.oldframe.origin.x, self.oldframe.origin.y, self.oldframe.size.width, self.oldframe.size.height-TableViewOffset);
-            self.currentWeatherView.frame = newFrame;
-            if(fabs(self.oldframe.size.height - self.currentWeatherView.frame.size.height) <= 10){
-                self.temperatureLabel.alpha = 1;
-            }
-            else if (TableViewOffset > currentWeatherViewHeight){
-                self.temperatureLabel.alpha = 0;
-            }
-            else{
-                self.temperatureLabel.alpha = 1 - (currentWeatherViewHeight / (self.oldframe.size.height-TableViewOffset));
-            }
-            [self layoutIfNeeded];
-        } completion:nil];
-    }
-}
+//-(void)scrollViewDidScroll:(UIScrollView *)scrollView{
+//    CGFloat TableViewOffset = self.DailytableView.contentOffset.y;
+//    if(self.oldframe.size.height-TableViewOffset > currentWeatherViewHeight){
+//        [UIView animateWithDuration:0.1 delay:0 usingSpringWithDamping:50 initialSpringVelocity:1 options:UIViewAnimationOptionCurveEaseIn animations:^{
+//            CGRect newFrame = CGRectMake(self.oldframe.origin.x, self.oldframe.origin.y, self.oldframe.size.width, self.oldframe.size.height-TableViewOffset);
+//            self.currentWeatherView.frame = newFrame;
+//            if(fabs(self.oldframe.size.height - self.currentWeatherView.frame.size.height) <= 10){
+//                self.temperatureLabel.alpha = 1;
+//            }
+//            else if (TableViewOffset > currentWeatherViewHeight){
+//                self.temperatureLabel.alpha = 0;
+//            }
+//            else{
+//                self.temperatureLabel.alpha = 1 - (currentWeatherViewHeight / (self.oldframe.size.height-TableViewOffset));
+//            }
+//            [self layoutIfNeeded];
+//        } completion:nil];
+//    }
+//}
 
 - (void) setLocation:(Location *)location {
 
-    if (_location.dailyData) location.dailyData = _location.dailyData;
+    if (_location.weeklyData) location.weeklyData = _location.weeklyData[0];
 
     _location = location;
-    if ([self.location.placeName isEqualToString:self.location.customName]) {
-        self.customNameLabel.font = [UIFont systemFontOfSize:45];
-        self.locationLabel.hidden = YES;
-    }
-    else {
-        self.locationLabel.hidden = NO;
-        self.customNameLabel.font = [UIFont systemFontOfSize:35];
-        self.locationLabel.text = self.location.placeName;
-        [self.locationLabel sizeToFit];
-    }
-    self.customNameLabel.text = self.location.customName;
-    
     [self updateDataIfNeeded];
     [self refreshView];
 }
@@ -93,152 +73,97 @@ UIVisualEffectView *blureffectView;
 }
 
 - (void) setDailyUI {
-    self.DailytableView = [[UITableView alloc] init];
-    [self.DailytableView registerClass:DailyTableViewCell.class forCellReuseIdentifier:@"DailyTableViewCell"];
-    self.DailytableView.estimatedRowHeight = 44.0;
-    self.DailytableView.rowHeight = UITableViewAutomaticDimension;
-    self.DailytableView.translatesAutoresizingMaskIntoConstraints = NO;
-    self.DailytableView.dataSource = self;
-    self.DailytableView.delegate = self;
-    self.DailytableView.backgroundColor = UIColor.clearColor;
-    self.DailytableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    [self addSubview:self.DailytableView];
-    
-    UIVisualEffect *blureffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
-    blureffectView = [[UIVisualEffectView alloc]initWithEffect:blureffect];
-    blureffectView.alpha = 0.3;
-    [self insertSubview:blureffectView belowSubview:self.DailytableView];
-    
-    self.currentWeatherView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height/2)];
-    [self addSubview:self.currentWeatherView];
-    
-    self.backgroundImageView = [[UIImageView alloc]initWithFrame:UIScreen.mainScreen.bounds];
-    self.backgroundImageView.contentMode = UIViewContentModeScaleAspectFill;
-    self.backgroundImageView.clipsToBounds = YES;
-    //self.backgroundImageView.image = [UIImage imageNamed:@"Sanfranciso"];
-    self.backgroundImageView.translatesAutoresizingMaskIntoConstraints = NO;
-    [self.currentWeatherView addSubview:self.backgroundImageView];
-    
-    UIImageView *backgroundIV = [[UIImageView alloc]initWithFrame:UIScreen.mainScreen.bounds];
-    backgroundIV.image = [UIImage imageNamed:@"golden_san_fran"];
-    backgroundIV.contentMode = UIViewContentModeScaleAspectFill;
-    backgroundIV.clipsToBounds = YES;
-    [self insertSubview:backgroundIV belowSubview:self.DailytableView];
-    
-    //setting up customNameLabel
-    self.customNameLabel = [[UILabel alloc]init];
-    self.customNameLabel.font = [UIFont systemFontOfSize:35];
-    self.customNameLabel.text = self.location.customName;
-    
-    //setting up locationLabel
-    self.locationLabel = [[UILabel alloc]init];
-    self.locationLabel.font = [UIFont systemFontOfSize:17];
-    self.locationLabel.text = @"---";
     
     //setting up icon image view
-    self.iconImageView = [[UIImageView alloc]init];
+    self.iconImageView = [[UIImageView alloc]initWithFrame:CGRectMake(34, 3, 70 , 70)];
     self.iconImageView.contentMode = UIViewContentModeScaleAspectFit;
     self.iconImageView.clipsToBounds = YES;
-    self.iconImageView.translatesAutoresizingMaskIntoConstraints = NO;
+    [self addSubview:self.iconImageView];
     
-    //setting up temperatureLabel
-    self.temperatureLabel = [[UILabel alloc]init];
-    self.temperatureLabel.textColor = UIColor.whiteColor;
-    self.temperatureLabel.font = [UIFont systemFontOfSize:60 weight:UIFontWeightThin];
-    self.temperatureLabel.text = @"--°";
+    //setting up humidity label
+    UILabel *humidityTitle = [[UILabel alloc]initWithFrame:CGRectMake(60, 110, 0, 0)];
+    humidityTitle.font = [UIFont systemFontOfSize:15];
+
+    humidityTitle.text = @"HUMIDITY";
+    [humidityTitle sizeToFit];
+    [self addSubview:humidityTitle];
     
-    NSArray *weatherDisplayArray = @[self.customNameLabel,self.locationLabel, self.iconImageView, self.temperatureLabel];
-    self.weatherDisplayStackView = [[UIStackView alloc] initWithArrangedSubviews:weatherDisplayArray];
-    self.weatherDisplayStackView.axis = UILayoutConstraintAxisVertical;
-    self.weatherDisplayStackView.distribution = UIStackViewDistributionEqualSpacing;
-    self.weatherDisplayStackView.alignment = UIStackViewAlignmentCenter;
-    self.weatherDisplayStackView.translatesAutoresizingMaskIntoConstraints = NO;
-    [self.currentWeatherView addSubview:self.weatherDisplayStackView];
-    self.oldframe = self.currentWeatherView.frame;
-    currentWeatherViewHeight = self.oldframe.size.height / 2;
+    self.humidityLabel = [[UILabel alloc]initWithFrame:CGRectMake(73, 130, 0, 0)];
+    self.humidityLabel.font = [UIFont systemFontOfSize:16];
+    [self addSubview: self.humidityLabel];
     
-    [self setConstraints];
+    //setting up windspeed label
+    UILabel *windspeedTitle = [[UILabel alloc]initWithFrame:CGRectMake(230, 110, 0, 0)];
+    windspeedTitle.font = [UIFont systemFontOfSize:15];
+    windspeedTitle.text = @"WIND SPEED";
+    [windspeedTitle sizeToFit];
+    [self addSubview:windspeedTitle];
+    
+    self.windspeedLabel = [[UILabel alloc]initWithFrame:CGRectMake(240, 130 , 0, 0)];
+    self.windspeedLabel.font = [UIFont systemFontOfSize:16];
+    [self addSubview: self.windspeedLabel];
+    
+    //settings up uvIndex
+    UILabel *uvIndexTitle = [[UILabel alloc]initWithFrame:CGRectMake(62, 160, 0, 0)];
+    uvIndexTitle.font = [UIFont systemFontOfSize:15];
+    uvIndexTitle.text = @"UV INDEX";
+    [uvIndexTitle sizeToFit];
+    [self addSubview:uvIndexTitle];
+    
+    self.uvIndexLabel = [[UILabel alloc]initWithFrame:CGRectMake(80, 180, 0, 0)];
+    self.uvIndexLabel.font = [UIFont systemFontOfSize:16];
+    [self addSubview:self.uvIndexLabel];
+    
+    UILabel *rainChanceTitle = [[UILabel alloc]initWithFrame:CGRectMake(220, 160, 0, 0)];
+    rainChanceTitle.font = [UIFont systemFontOfSize:15];
+    rainChanceTitle.text = @"CHANCE OF RAIN";
+    [rainChanceTitle sizeToFit];
+    [self addSubview:rainChanceTitle];
+    
+    self.rainChance = [[UILabel alloc]initWithFrame:CGRectMake(250, 180, 0, 0)];
+    self.rainChance.font = [UIFont systemFontOfSize:16];
+    [self addSubview:self.rainChance];
+    
+    
+    self.summaryLabel = [[UILabel alloc]initWithFrame:CGRectMake(250, 19, 0, 0)];
+    self.summaryLabel.text = @"--";
+    self.summaryLabel.font = [UIFont systemFontOfSize:16];
+    [self addSubview:self.summaryLabel];
+    
 }
 
-- (void) setConstraints {
-    // background image constraints
-    
-    // stack view constraints
-    [self.weatherDisplayStackView.centerXAnchor constraintEqualToAnchor:self.currentWeatherView.centerXAnchor].active = YES;
-    [self.weatherDisplayStackView.topAnchor constraintEqualToAnchor:self.safeAreaLayoutGuide.topAnchor].active = YES;
-    [self.weatherDisplayStackView.bottomAnchor constraintEqualToAnchor:self.currentWeatherView.bottomAnchor constant:-8].active = YES;
-    
-    // icon contstraints
-    [self.iconImageView.heightAnchor constraintEqualToAnchor:self.currentWeatherView.heightAnchor multiplier:3.0/7.0].active = YES;
-    [self.iconImageView.widthAnchor constraintEqualToAnchor:self.iconImageView.heightAnchor multiplier:1.0/1.0].active = YES;
-    
-    // constraint between tableview and current weather view
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[weatherView]-0-[tableView]" options:NSLayoutFormatAlignAllCenterX metrics:nil views:@{@"weatherView":self.currentWeatherView, @"tableView":self.DailytableView}]];
-    
-    // table view constraints
-    [self.DailytableView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor].active = YES;
-    [self.DailytableView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor].active = YES;
-    [self.DailytableView.bottomAnchor constraintEqualToAnchor:self.safeAreaLayoutGuide.bottomAnchor].active = YES;
-    
-  
-    
-}
 
 -(void)displayCurrentWeather{
     Weather *currentWeather;
-    if (self.location.dailyData.count) currentWeather = self.location.dailyData[0];
+    if (self.location.weeklyData.count) currentWeather = self.location.weeklyData[0];
     
     self.iconImageView.image = [UIImage imageNamed:currentWeather.icon];
     
-    self.temperatureLabel.text = [currentWeather getTempInString:currentWeather.temperature withType:self.tempType];
-    [self.temperatureLabel sizeToFit];
+    self.humidityLabel.text = [currentWeather getHumidityInString:currentWeather.humidity];
+    [self.humidityLabel sizeToFit];
     
-    if ([self.location.customName isEqualToString:@"Current Location"]) {
-        [self.location updatePlaceNameWithBlock:^(NSDictionary *data, NSError *error) {
-            if (data) {
-                self.locationLabel.text = self.location.placeName;
-                [self.locationLabel sizeToFit];
-            }
-        }];
-    }
-    else if ([self.location.placeName isEqualToString:self.location.customName]) {
-        self.customNameLabel.font = [UIFont systemFontOfSize:45];
-        self.locationLabel.hidden = YES;
-    }
-    else {
-        self.locationLabel.text = self.location.placeName;
-        [self.locationLabel sizeToFit];
-    }
+    self.windspeedLabel.text = [currentWeather getWindSpeedInString:currentWeather.windSpeed];
+    [self.windspeedLabel sizeToFit];
+    
+    self.uvIndexLabel.text = [NSString stringWithFormat:@"%d", currentWeather.uvIndex];
+    [self.uvIndexLabel sizeToFit];
+    
+    self.summaryLabel.text = currentWeather.summary;
+    [self.summaryLabel  sizeToFit];
+    
+    self.rainChance.text = [currentWeather getprecipProbabilityInString:currentWeather.precipProbability];
+    [self.rainChance sizeToFit];
+    
+    
+    
+    
 }
 
 - (void) refreshView {
     [self displayCurrentWeather];
-    [self.DailytableView reloadData];
 }
 
-/*--------TABLE VIEW DELEGATE METHODS----------*/
-- (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
-    DailyTableViewCell *cell = [self.DailytableView dequeueReusableCellWithIdentifier:DailycellIdentifier];
-    if(cell == nil){
-        cell = [[DailyTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:DailycellIdentifier];
-    }
-    if(loadDailyData){
-        cell.tempType = self.tempType;
-        Weather *hourlyWeather = self.location.dailyData[indexPath.row];
-        cell.hourWeather = hourlyWeather;
-        cell.backgroundColor = UIColor.clearColor;
-        cell.contentView.backgroundColor = UIColor.clearColor;
-    }
-    return cell;
-}
 
-- (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.location.dailyData.count;
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [self.DailytableView deselectRowAtIndexPath:indexPath animated:YES];
-}
 
 
 @end

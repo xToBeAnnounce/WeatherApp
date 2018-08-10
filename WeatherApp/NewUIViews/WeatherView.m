@@ -9,6 +9,7 @@
 #import "WeatherView.h"
 #import "HourlyForecastCell.h"
 #import "WeeklyView.h"
+#import "DailyView.h"
 
 @implementation WeatherView
 
@@ -31,16 +32,24 @@ NSString *cellID = @"cellIDD";
 }
 
 - (nonnull __kindof UICollectionViewCell *)collectionView:(nonnull UICollectionView *)collectionView cellForItemAtIndexPath:(nonnull NSIndexPath *)indexPath {
-    if(indexPath.row == 1){
-        //        HourlyForecastCell *hourlyForecastCell = [[HourlyForecastCell alloc] init];
-        //        return hourlyForecastCell;
-    }
+//    if(indexPath.row == 1){
+//                HourlyForecastCell *hourlyForecastCell = [[HourlyForecastCell alloc] init];
+//                return hourlyForecastCell;
+//    }
     if(indexPath.row == 0){
         UICollectionViewCell *Dailycell = [self.mainCollectionView dequeueReusableCellWithReuseIdentifier:cellID forIndexPath:indexPath];
         WeeklyView *weeklyView = [[WeeklyView alloc]initWithFrame:CGRectMake(0, 0, UIScreen.mainScreen.bounds.size.width, 350)];
         weeklyView.location = self.location;
         [Dailycell addSubview:weeklyView];
         return Dailycell;
+    }
+    if(indexPath.row == 1) {
+        UICollectionViewCell *TodayCell = [self.mainCollectionView dequeueReusableCellWithReuseIdentifier:cellID forIndexPath:indexPath];
+        DailyView *dailyView = [[DailyView alloc]initWithFrame:CGRectMake(0, 0, UIScreen.mainScreen.bounds.size.width, 250)];
+        dailyView.location = self.location;
+        dailyView.backgroundColor = UIColor.blueColor;
+        [TodayCell addSubview:dailyView];
+        return TodayCell;
     }
     
     UICollectionViewCell *cell = [self.mainCollectionView dequeueReusableCellWithReuseIdentifier:cellID forIndexPath:indexPath];
