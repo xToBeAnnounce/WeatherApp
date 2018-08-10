@@ -170,7 +170,7 @@ static int const numHoursInDay = 24;
             }
         }];
     }
-    else if([dataType isEqualToString:@"widget"]) {
+    else if([dataType isEqualToString:@"current"]) {
         [self getDataWithLong:(int)self.longitude Lat:(int)self.lattitude Type:@"daily" Completion:^(NSDictionary *data, NSError *error) {
             if (data) {
                 NSDictionary *currentData = data[@"hourly"][@"data"][0];

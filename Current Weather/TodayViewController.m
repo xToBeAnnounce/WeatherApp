@@ -60,7 +60,7 @@
 - (void) displayLocation {
     [self.location updatePlaceNameWithBlock:^(NSDictionary *data, NSError *error) {
         if (data) {
-            [self.location fetchDataType:@"widget" WithCompletion:^(NSDictionary *data, NSError *error) {
+            [self.location fetchDataType:@"current" WithCompletion:^(NSDictionary *data, NSError *error) {
                 if (data) {
                     self.placeNameLabel.text = self.location.fullPlaceName;
                     if (self.location.dailyData.count) {

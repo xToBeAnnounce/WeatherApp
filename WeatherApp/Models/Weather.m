@@ -111,6 +111,15 @@
     return summary;
 }
 
+-(NSString*)formattedIconSummary{
+    NSString *summary = self.icon;
+    summary = [summary stringByReplacingOccurrencesOfString:@"-" withString:@" "];
+    summary = [summary stringByReplacingOccurrencesOfString:@"day" withString:@""];
+    summary = [summary stringByReplacingOccurrencesOfString:@"night" withString:@""];
+    [summary capitalizedString];
+    return summary;
+}
+
 
 
 

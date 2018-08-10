@@ -145,6 +145,7 @@
     self.windspeedLabel.text = [currentWeather getWindSpeedInString:currentWeather.windSpeed];
     [self.windspeedLabel sizeToFit];
     
+
     self.uvIndexLabel.text = [NSString stringWithFormat:@"%d", currentWeather.uvIndex];
     [self.uvIndexLabel sizeToFit];
     
@@ -153,11 +154,10 @@
     
     self.rainChance.text = [currentWeather getprecipProbabilityInString:currentWeather.precipProbability];
     [self.rainChance sizeToFit];
-    
-    
-    
-    
+
 }
+
+
 
 - (void) refreshView {
     [self displayCurrentWeather];

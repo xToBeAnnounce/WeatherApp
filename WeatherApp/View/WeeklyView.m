@@ -14,11 +14,9 @@
 static NSString *WeeklycellIdentifier = @"WeeklyCell";
 static BOOL showBanner;
 
-- (instancetype)initWithFrame:(CGRect)frame
-{
-    self = [super initWithFrame:frame];
+- (instancetype)init{
+    self = [super init];
     if (self) {
-        self.selectedCell = nil;
         showBanner = NO;
         [self setWeeklyUI];
     }
@@ -41,6 +39,7 @@ static BOOL showBanner;
             else NSLog(@"%@", error.localizedDescription);
         }];
     }
+    else [self refreshView];
 }
 
 -(void)setLocationName{
@@ -56,14 +55,10 @@ static BOOL showBanner;
     }
 }
 - (void) setLocation:(Location *)location {
-
     if (_location.weeklyData) location.weeklyData = _location.weeklyData;
     _location = location;
     self.customNameLabel.text = self.location.customName;
-    self.selectedCell = nil;
-    
     [self updateDataIfNeeded];
-    [self refreshView];
 }
 
 - (void) setTempType:(NSString *)tempType {
@@ -73,27 +68,22 @@ static BOOL showBanner;
 
 /*--------------------------SET UI METHODS------------------------------*/
 -(void)setWeeklyUI{
-
-    self.WeeklytableView = [[UITableView alloc] initWithFrame: CGRectMake(0, 0, self.frame.size.width,350)];
-    self.WeeklytableView.estimatedRowHeight = 50;
-    self.WeeklytableView.rowHeight = 50;
+    self.WeeklytableView = [[UITableView alloc] init];
+    self.WeeklytableView.delegate = self;
+    self.WeeklytableView.dataSource = self;
+    self.backgroundColor = UIColor.clearColor;
     self.WeeklytableView.translatesAutoresizingMaskIntoConstraints = NO;
     [self addSubview:self.WeeklytableView];
     [self.WeeklytableView registerClass: WeeklyCell.class forCellReuseIdentifier:@"WeeklyCell"];
-    self.WeeklytableView.backgroundColor = UIColor.orangeColor;
-    self.WeeklytableView.delegate = self;
-    self.WeeklytableView.dataSource = self;
+    self.WeeklytableView.backgroundColor = UIColor.clearColor;
+    [self setTableViewConstraints];
 
     self.weatherBanner = [[BannerView alloc] initWithMessage:@""];
     self.weatherBanner.backgroundColor = [UIColor redColor];
     [self addSubview:self.weatherBanner];
 }
 
-
-
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
-    NSDate *cellDate = [NSDate dateWithTimeIntervalSinceNow:3600*24*indexPath.row];
-    
     WeeklyCell *weeklycell = [self.WeeklytableView dequeueReusableCellWithIdentifier:WeeklycellIdentifier];
     if(weeklycell == nil){
         weeklycell = [[WeeklyCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:WeeklycellIdentifier];
@@ -105,9 +95,10 @@ static BOOL showBanner;
     weeklycell.dayWeather = dayWeather;
 //    weeklycell.contentView.backgroundColor = UIColor.clearColor;
 //    weeklycell.backgroundColor = UIColor.clearColor;
-
+    
+    NSDate *cellDate = [NSDate dateWithTimeIntervalSinceNow:3600*24*indexPath.row];
     if ([self shouldHighlightDate:cellDate]) {
-        weeklycell.backgroundColor = [UIColor.greenColor colorWithAlphaComponent:0.2];
+//        weeklycell.backgroundColor = [UIColor.greenColor colorWithAlphaComponent:0.2];
         weeklycell.backgroundColor = [UIColor.greenColor colorWithAlphaComponent:0.1];
 //        if (!showBanner && [self.weatherBanner.bannerLabel.text isEqualToString:@""]) {
 //            showBanner = YES;
@@ -115,12 +106,12 @@ static BOOL showBanner;
 //        }
     }
     else {
-        weeklycell.backgroundColor = nil;
+        weeklycell.backgroundColor = UIColor.clearColor;
     }
     return weeklycell;
 }
 
-- (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return self.location.weeklyData.count;
 }
 
@@ -158,6 +149,13 @@ static BOOL showBanner;
 //                             [weather getDayOfWeekWithTime:weather.time], [weather.summary lowercaseString]];
 //    return alertString;
 //}
+
+- (void) setTableViewConstraints {
+    [self.WeeklytableView.topAnchor constraintEqualToAnchor:self.topAnchor].active = YES;
+    [self.WeeklytableView.bottomAnchor constraintEqualToAnchor:self.bottomAnchor].active = YES;
+    [self.WeeklytableView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor].active = YES;
+    [self.WeeklytableView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor].active = YES;
+}
 
 - (void) showBannerIfNeededWithCompletion:(void(^)(BOOL finished))completion{
 //    if (showBanner && ![self.weatherBanner.bannerLabel.text isEqualToString:@""]) {

@@ -1,13 +1,13 @@
 //
-//  HourlyForecastCell.h
+//  TodayActivitiesCell.h
 //  WeatherApp
 //
-//  Created by Tiffany Ma on 8/7/18.
+//  Created by Jamie Tan on 8/8/18.
 //  Copyright © 2018 xToBeAnnounce. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-@interface HourlyForecastCell : UITableViewCell
+@interface TodayActivitiesCell : UITableViewCell
 
 @end
