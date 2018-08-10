@@ -46,24 +46,24 @@ NSString *cellID = @"weatherCardCell";
     return self;
 }
 
-- (void)drawRect:(CGRect)rect {
-    [super drawRect:rect];
-    // Drawing code
-    [self.location fetchDataType:@"current" WithCompletion:^(NSDictionary *data, NSError *error) {
-        if (data) {
-            Weather *currentWeather = self.location.dailyData[0];
-            self->_todayWeatherView.currentWeather = currentWeather;
-            self->_todayActivityView.currentWeather = currentWeather;
-            
-            Weather *todayWeather = self.location.weeklyData[0];
-            self->_todayWeatherView.todayWeather = todayWeather;
-            [self.mainCollectionView reloadData];
-            
-        }
-        else {
-            NSLog(@"Error %@", error.localizedDescription);
-        }
-    }];
+- (void) updateDataIfNeeded {
+    if (self.location.weeklyData.count == 0 || self.location.dailyData.count == 0) {
+        [self.location fetchDataType:@"all" WithCompletion:^(NSDictionary *data, NSError *error) {
+            if (data) {
+                Weather *currentWeather = self.location.dailyData[0];
+                self->_todayWeatherView.currentWeather = currentWeather;
+                self->_todayActivityView.currentWeather = currentWeather;
+                
+                Weather *todayWeather = self.location.weeklyData[0];
+                self->_todayWeatherView.todayWeather = todayWeather;
+                [self.mainCollectionView reloadData];
+                
+            }
+            else {
+                NSLog(@"Error %@", error.localizedDescription);
+            }
+        }];
+    }
 }
 
 - (void) setViewsUI {
@@ -140,7 +140,6 @@ NSString *cellID = @"weatherCardCell";
 }
 
 - (void) setConstraints {
-//    [self.mainCollectionView.topAnchor constraintLessThanOrEqualToAnchor:self.topAnchor constant:300].active = YES;
     [self.mainCollectionView.bottomAnchor constraintEqualToAnchor:self.bottomAnchor].active = YES;
     [self.mainCollectionView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor].active = YES;
     [self.mainCollectionView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor].active = YES;
@@ -152,16 +151,11 @@ NSString *cellID = @"weatherCardCell";
 
 - (void)setLocation:(Location *)location {
     _location = location;
+    [self updateDataIfNeeded];
+    
     _weeklyView.location = location;
     _todayActivityView.location = location;
 }
-
-//- (void) showBannerIfNeeded {
-//    _bannerWindow.windowLevel = UIWindowLevelStatusBar+1;
-//    [_bannerView animateBannerWithCompletion:^(BOOL finished) {
-//        self->_bannerWindow.windowLevel = UIWindowLevelStatusBar-1;
-//    }];
-//}
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     CGFloat collectionOffset = self.mainCollectionView.contentOffset.y;

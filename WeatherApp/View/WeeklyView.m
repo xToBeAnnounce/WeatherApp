@@ -38,17 +38,6 @@ static BOOL showBanner;
     
 }
 
-- (void) updateDataIfNeeded {
-    if (self.location.weeklyData.count == 0) {
-        [self.location fetchDataType:@"weekly" WithCompletion:^(NSDictionary * data, NSError * error) {
-            if(error == nil){
-                [self.WeeklytableView reloadData];
-            }
-            else NSLog(@"%@", error.localizedDescription);
-        }];
-    }
-}
-
 -(void)setLocationName{
     if ([self.location.placeName isEqualToString:self.location.customName]) {
         self.customNameLabel.font = [UIFont systemFontOfSize:45];
@@ -63,12 +52,10 @@ static BOOL showBanner;
 }
 - (void) setLocation:(Location *)location {
 
-    if (_location.weeklyData) location.weeklyData = _location.weeklyData;
+    if (_location.weeklyData && !location.weeklyData) location.weeklyData = _location.weeklyData;
     _location = location;
     self.customNameLabel.text = self.location.customName;
     self.selectedCell = nil;
-    
-    [self updateDataIfNeeded];
     [self refreshView];
 }
 
