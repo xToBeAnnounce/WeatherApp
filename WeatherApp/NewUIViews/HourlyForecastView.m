@@ -15,6 +15,7 @@
     NSMutableArray *_hourlyData;
     UICollectionViewFlowLayout *_layout;
     CGFloat _viewHeight;
+    NSLayoutConstraint *_heightConstraint;
 }
 NSString *hourlyCellIdentifier = @"singleHourCell";
 
