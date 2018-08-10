@@ -21,8 +21,10 @@
     WeeklyView *_weeklyView;
     UIWindow *_bannerWindow;
     BannerView *_bannerView;
+    NSLayoutConstraint *_collectionHeightConstraint;
 }
 
+CGFloat _originalPos = 500;
 UICollectionViewFlowLayout *layout;
 NSString *cellID = @"weatherCardCell";
 
@@ -36,6 +38,7 @@ NSString *cellID = @"weatherCardCell";
         tempBackground.clipsToBounds = YES;
         [self addSubview:tempBackground];
         self.backgroundColor = UIColor.purpleColor;
+        
         [self setCollectionViewUI];
         [self setViewsUI];
         [self setConstraints];
@@ -51,10 +54,11 @@ NSString *cellID = @"weatherCardCell";
             Weather *currentWeather = self.location.dailyData[0];
             self->_todayWeatherView.currentWeather = currentWeather;
             self->_todayActivityView.currentWeather = currentWeather;
-
+            
             Weather *todayWeather = self.location.weeklyData[0];
             self->_todayWeatherView.todayWeather = todayWeather;
             [self.mainCollectionView reloadData];
+            
         }
         else {
             NSLog(@"Error %@", error.localizedDescription);
@@ -98,6 +102,14 @@ NSString *cellID = @"weatherCardCell";
     self.mainCollectionView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.mainCollectionView registerClass:WeatherCardCell.class forCellWithReuseIdentifier:cellID];
     [self addSubview:self.mainCollectionView];
+    
+    _collectionHeightConstraint = [self.mainCollectionView.topAnchor constraintEqualToAnchor:self.topAnchor constant:300];
+    _collectionHeightConstraint.active = YES;
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    
 }
 
 - (nonnull __kindof UICollectionViewCell *)collectionView:(nonnull UICollectionView *)collectionView cellForItemAtIndexPath:(nonnull NSIndexPath *)indexPath {
@@ -128,7 +140,7 @@ NSString *cellID = @"weatherCardCell";
 }
 
 - (void) setConstraints {
-    [self.mainCollectionView.topAnchor constraintEqualToAnchor:self.topAnchor constant:300].active = YES;
+//    [self.mainCollectionView.topAnchor constraintLessThanOrEqualToAnchor:self.topAnchor constant:300].active = YES;
     [self.mainCollectionView.bottomAnchor constraintEqualToAnchor:self.bottomAnchor].active = YES;
     [self.mainCollectionView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor].active = YES;
     [self.mainCollectionView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor].active = YES;
@@ -150,4 +162,33 @@ NSString *cellID = @"weatherCardCell";
 //        self->_bannerWindow.windowLevel = UIWindowLevelStatusBar-1;
 //    }];
 //}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    CGFloat collectionOffset = self.mainCollectionView.contentOffset.y;
+    NSLayoutConstraint *oldConstraint = _collectionHeightConstraint;
+    CGFloat displacement;
+    
+    if (collectionOffset < 0) {
+        displacement = oldConstraint.constant-collectionOffset;
+    }
+    else {
+        displacement = _originalPos-collectionOffset;
+    }
+    
+    NSLog(@"%f", displacement);
+    
+    if (displacement>self.safeAreaInsets.top && displacement<self.frame.size.height-200) {
+        _collectionHeightConstraint = [self.mainCollectionView.topAnchor constraintEqualToAnchor:self.topAnchor constant:displacement];
+    }
+    
+    oldConstraint.active = NO;
+    self->_collectionHeightConstraint.active = YES;
+    
+    if (self->_todayWeatherView.frame.origin.y <= 75) {
+        self->_todayWeatherView.alpha = self->_todayWeatherView.frame.origin.y/75.0;
+    }
+    else {
+        self->_todayWeatherView.alpha = 1.0;
+    }
+}
 @end
