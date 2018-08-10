@@ -23,6 +23,7 @@
 
 UICollectionViewFlowLayout *layout;
 NSString *cellID = @"weatherCardCell";
+bool dataLoaded = NO;
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
@@ -34,11 +35,31 @@ NSString *cellID = @"weatherCardCell";
         tempBackground.clipsToBounds = YES;
         [self addSubview:tempBackground];
         self.backgroundColor = UIColor.purpleColor;
+        
         [self setViewsUI];
         [self setCollectionViewUI];
         [self setConstraints];
     }
     return self;
+}
+
+- (void)setLocation:(Location *)location{
+    _location = location;
+    if(!dataLoaded){
+        [self.location fetchDataType:@"daily" WithCompletion:^(NSDictionary * data, NSError * error) {
+            dispatch_async(dispatch_get_main_queue(), ^ {
+                if(error == nil){
+                    //self.location.dailyData updated
+                    //[self->_collectionView reloadData];
+                    dataLoaded = YES;
+                    self->_hourlyView.location = location;
+                    [self->_hourlyView setViewHeight];
+                    [self->_mainCollectionView reloadData];
+                }
+                else NSLog(@"%@", error.localizedDescription);
+            });
+        }];
+    }
 }
 
 // Only override drawRect: if you perform custom drawing.
@@ -70,8 +91,8 @@ NSString *cellID = @"weatherCardCell";
     layout = [[UICollectionViewFlowLayout alloc] init];
     layout.scrollDirection = UICollectionViewScrollDirectionVertical;
     layout.minimumLineSpacing = 8;
-//    layout.estimatedItemSize = UICollectionViewFlowLayoutAutomaticSize;
-    layout.estimatedItemSize = CGSizeMake(350, 150);
+    layout.estimatedItemSize = UICollectionViewFlowLayoutAutomaticSize;
+//    layout.estimatedItemSize = CGSizeMake(350, 150);
     
     self.mainCollectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, 300, UIScreen.mainScreen.bounds.size.width, UIScreen.mainScreen.bounds.size.height) collectionViewLayout:layout];
     self.mainCollectionView.dataSource = self;
@@ -86,9 +107,9 @@ NSString *cellID = @"weatherCardCell";
 - (nonnull __kindof UICollectionViewCell *)collectionView:(nonnull UICollectionView *)collectionView cellForItemAtIndexPath:(nonnull NSIndexPath *)indexPath {
     WeatherCardCell *cell = [self.mainCollectionView dequeueReusableCellWithReuseIdentifier:cellID forIndexPath:indexPath];
     UIView *placeholderView = UIView.new;
-    
     if(indexPath.row == 0){
-        _hourlyView.location = self.location;
+//        _hourlyView.location = self.location;
+//        if(dataLoaded) [_hourlyView setViewHeight];
         [cell setTitle:@"Hourly Forecast" withView:_hourlyView Width:_mainCollectionView.frame.size.width];
     }
     else if (indexPath.row == 1) {
@@ -105,7 +126,7 @@ NSString *cellID = @"weatherCardCell";
     return cell;
 }
 
-- (NSInteger)collectionView:(nonnull UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+- (NSInteger)collectionView:(nonnull UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
     return 4;
 }
 
