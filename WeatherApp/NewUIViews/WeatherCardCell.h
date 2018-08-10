@@ -10,7 +10,10 @@
 
 @interface WeatherCardCell : UICollectionViewCell
 
+//@property (strong, nonatomic) NSString *title;
 @property (strong, nonatomic) UIView *customView;
+
+- (void)setTitle:(NSString *)title withView:(UIView *)view;
 - (void)setTitle:(NSString *)title withView:(UIView *)view Width:(CGFloat)width;
 - (void)setCardBackgroundColor:(UIColor *)backgroundColor;
 @end

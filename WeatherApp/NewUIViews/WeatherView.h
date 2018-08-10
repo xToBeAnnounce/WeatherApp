@@ -9,9 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "Location.h"
 #import "HourlyForecastView.h"
+#import "Activity.h"
 
 @interface WeatherView : UIView <UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
 @property (strong,nonatomic) UICollectionView *mainCollectionView;
 @property (strong,nonatomic) UITableView *maintableView;
+@property (strong, nonatomic) id<ActivityDelegate> activityDelegate;
 @property (strong, nonatomic) Location *location;
 @end

@@ -53,6 +53,7 @@
 }
 
 - (void) setNavigationUI {
+    self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
     self.navigationController.navigationBar.translucent = NO;
     self.navigationController.navigationBar.topItem.titleView = nil;
     self.navigationController.navigationBar.topItem.rightBarButtonItem = nil;

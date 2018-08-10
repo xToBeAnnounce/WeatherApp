@@ -22,7 +22,6 @@
 @property (strong, nonatomic) UILabel *locationLabel;
 @property (strong, nonatomic) UILabel *customNameLabel;
 @property (strong, nonatomic) UIStackView *locationStackView;
-@property (strong, nonatomic) BannerView *weatherBanner;
 @property (strong, nonatomic) NSString *bannerMessage;
 
 @property (strong, nonatomic) NSIndexPath *selectedCell;

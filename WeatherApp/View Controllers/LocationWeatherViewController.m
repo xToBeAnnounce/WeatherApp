@@ -20,6 +20,9 @@
 @property (strong,nonatomic) DailyView *dailyView;
 @property (strong,nonatomic) WeeklyView *weeklyView;
 @property (strong,nonatomic) WeatherView *weatherView;
+
+@property (strong, nonatomic) UILabel *titleLabel;
+@property (strong, nonatomic) UILabel *subtitleLabel;
 @end
 
 @implementation LocationWeatherViewController
@@ -65,11 +68,12 @@
 - (void) viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     self.locationDetailsButton.hidden = !self.location.objectId;
-    [self setNavBarTitle:self.location.customName withSubtitle:self.location.placeName];
+    [self setNavigationUI];
     
     if (!self.weeklyView.hidden) {
         [self showBannerIfNeededWithCompletion:nil];
     }
+    
 }
 
 - (void)setTempTypeString:(NSString *)tempTypeString {
@@ -80,6 +84,9 @@
 
 - (void) setSubviews {
     self.view.backgroundColor = [[UIColor alloc]initWithPatternImage:[UIImage imageNamed:@"grad"]];
+    
+    self.titleLabel = [[UILabel alloc]init];
+    self.subtitleLabel = [[UILabel alloc]init];
 //
 //    self.dailyView = [[DailyView alloc]initWithFrame:self.view.frame];
 //    self.dailyView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -94,6 +101,8 @@
 //    [self setConstraintsForView:self.weeklyView];
     
     self.weatherView = [[WeatherView alloc]initWithFrame:self.view.frame];
+    self.weatherView.translatesAutoresizingMaskIntoConstraints = NO;
+    self.weatherView.activityDelegate = self;
     [self.view addSubview:self.weatherView];
     [self setConstraintsForView:self.weatherView];
 }
@@ -103,18 +112,19 @@
 //    self.dailyView.location = location;
 //    self.weeklyView.location = location;
     self.weatherView.location = location;
+    [self refreshNavBarTitle];
 }
 
--(void)displayPopoverWithLocation:(Location*)loc Weather:(Weather*)weather{
-    ActivityViewController *popoverView = [[ActivityViewController alloc] initWithLocation:loc Weather:weather];
+-(void)displayPopoverWithLocation:(Location*)loc weather:(Weather*)weather index:(int)idx{
+    ActivityViewController *popoverView = [[ActivityViewController alloc] initWithLocation:loc weather:weather index:idx];
     popoverView.modalPresentationStyle = UIModalPresentationPopover;
-    popoverView.preferredContentSize = CGSizeMake(self.weeklyView.bounds.size.width-50, self.weeklyView.bounds.size.height-150);
+    popoverView.preferredContentSize = CGSizeMake(self.view.frame.size.width-35, self.view.frame.size.height-125);
     
     UIPopoverPresentationController *popController = popoverView.popoverPresentationController;
     popController.delegate = self;
-    popController.sourceView = (UIView*)self.weeklyView;
-    popController.sourceRect = CGRectMake(self.weeklyView.bounds.size.width/2, self.weeklyView.bounds.size.height/2, 1, 1);
+    popController.sourceView = self.view;
     popController.permittedArrowDirections = 0;
+    popController.sourceRect = CGRectMake(CGRectGetMidX(self.view.bounds), CGRectGetMidY(self.view.bounds)+25,0,0);
     
     [self.view addSubview:_blurEffectView];
     [self presentViewController:popoverView animated:YES completion:nil];
@@ -144,24 +154,48 @@
     [self.weeklyView showBannerIfNeededWithCompletion:completion];
 }
 
-// Sets Nav Bar title
-- (void) setNavBarTitle:(NSString *)title withSubtitle:(NSString *)subtitle {
-    UILabel *titleLabel = [[UILabel alloc]init];
-    UILabel *subtitleLabel = [[UILabel alloc]init];
-    
-    titleLabel.text = title;
-    subtitleLabel.text = subtitle;
-    
-    [self configureLabelProperties:titleLabel withFontSize:17];
-    [self configureLabelProperties:subtitleLabel withFontSize:13];
-    
-    UIStackView *stackView = [[UIStackView alloc]initWithArrangedSubviews:@[titleLabel,subtitleLabel]];
+- (void) addNavTitleView{
+    UIStackView *stackView = [[UIStackView alloc]initWithArrangedSubviews:@[self.titleLabel, self.subtitleLabel]];
     stackView.distribution = UIStackViewDistributionEqualCentering;
     stackView.axis = UILayoutConstraintAxisVertical;
     stackView.alignment =UIStackViewAlignmentCenter;
     
-    [stackView setFrame:CGRectMake(0, 0, MAX(titleLabel.frame.size.width, subtitleLabel.frame.size.width), 35)];
+    [stackView setFrame:CGRectMake(0, 0, MAX(self.titleLabel.frame.size.width, self.subtitleLabel.frame.size.width), 35)];
     self.navigationController.navigationBar.topItem.titleView = stackView;
+}
+
+- (void) refreshNavBarTitle {
+    self.titleLabel.text = self.location.customName;
+    self.subtitleLabel.text = self.location.placeName;
+    
+    if ([self.location.customName isEqualToString:@"Current Location"] && !self.location.placeName) {
+        [self.location updatePlaceNameWithBlock:^(NSDictionary *data, NSError *error) {
+            if (data) {
+                self.subtitleLabel.text = self.location.placeName;
+                [self.subtitleLabel sizeToFit];
+            }
+            else {
+                NSLog(@"error");
+            }
+        }];
+    }
+    
+    if ([self.location.customName isEqualToString:self.location.placeName]) {
+        [self configureLabelProperties:self.titleLabel withFontSize:25];
+        self.subtitleLabel.text = @"";
+        [self.subtitleLabel sizeToFit];
+    }
+    else {
+        [self configureLabelProperties:self.titleLabel withFontSize:17];
+        [self configureLabelProperties:self.subtitleLabel withFontSize:13];
+    }
+    
+    if (!self.navigationController.navigationBar.topItem.titleView) [self addNavTitleView];
+}
+
+- (void) setNavigationUI {
+    [self refreshNavBarTitle];
+    [self addNavTitleView];
 }
 
 // Gives label white text color and black shadow
