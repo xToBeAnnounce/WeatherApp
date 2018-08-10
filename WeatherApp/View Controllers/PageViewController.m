@@ -74,6 +74,12 @@ BOOL isgranted;
     [super viewDidAppear:animated];
 }
 
+- (void)viewWillLayoutSubviews {
+    [super viewWillLayoutSubviews];
+    self.view.frame = CGRectMake(0, 0, UIScreen.mainScreen.bounds.size.width, UIScreen.mainScreen.bounds.size.height);
+    [self.view layoutIfNeeded];
+}
+
 /*----------------NOTIFICATION METHODS----------------*/
 - (void) notificationSetUp {
     //Notification Set UP

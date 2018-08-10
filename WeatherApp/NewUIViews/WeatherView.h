@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "Location.h"
+#import "HourlyForecastView.h"
 #import "Activity.h"
 
 @interface WeatherView : UIView <UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>

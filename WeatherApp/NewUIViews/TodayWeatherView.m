@@ -150,7 +150,6 @@
     label.textColor = [UIColor whiteColor];
     label.font = font;
     label.text = text;
-    [_iconDescLabel sizeToFit];
     [label setTextAlignment:NSTextAlignmentCenter];
     [label sizeToFit];
     
