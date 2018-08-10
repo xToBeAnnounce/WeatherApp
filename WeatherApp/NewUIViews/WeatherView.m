@@ -48,11 +48,8 @@ bool dataLoaded = NO;
     if(!dataLoaded){
         [self.location fetchDataType:@"daily" WithCompletion:^(NSDictionary * data, NSError * error) {
             if(error == nil){
-                //self.location.dailyData updated
-                //[self->_collectionView reloadData];
                 dataLoaded = YES;
                 self->_hourlyView.location = location;
-                [self->_hourlyView setViewHeight];
                 [self->_mainCollectionView reloadData];
             }
             else NSLog(@"%@", error.localizedDescription);
@@ -106,8 +103,6 @@ bool dataLoaded = NO;
     WeatherCardCell *cell = [self.mainCollectionView dequeueReusableCellWithReuseIdentifier:cellID forIndexPath:indexPath];
     UIView *placeholderView = UIView.new;
     if(indexPath.row == 0){
-//        _hourlyView.location = self.location;
-//        if(dataLoaded) [_hourlyView setViewHeight];
         [cell setTitle:@"Hourly Forecast" withView:_hourlyView Width:_mainCollectionView.frame.size.width];
     }
     else if (indexPath.row == 1) {

@@ -91,16 +91,4 @@
     _cardView.backgroundColor = backgroundColor;
 }
 
-//- (UICollectionViewLayoutAttributes *)preferredLayoutAttributesFittingAttributes:(UICollectionViewLayoutAttributes *)layoutAttributes{
-//    
-//    UICollectionViewLayoutAttributes *autoLayoutAttributes = [super preferredLayoutAttributesFittingAttributes:layoutAttributes];
-//    CGFloat width = _mainViewWidth;
-//    CGFloat height = _titleLabel.frame.size.height + _lineView.frame.size.height + _customView.frame.size.height + 15;
-//    CGSize targetSize = CGSizeMake(width, height);
-//    CGSize autoLayoutSize = [self.contentView systemLayoutSizeFittingSize:targetSize withHorizontalFittingPriority:UILayoutPriorityRequired verticalFittingPriority:UILayoutPriorityDefaultLow];
-//    CGRect autoLayoutFrame = CGRectMake(autoLayoutAttributes.frame.origin.x, autoLayoutAttributes.frame.origin.y, autoLayoutSize.width, autoLayoutSize.height);
-//    autoLayoutAttributes.frame = autoLayoutFrame;
-//    return autoLayoutAttributes;
-//}
-
 @end
