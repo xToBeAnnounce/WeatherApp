@@ -52,23 +52,19 @@ bool dataLoaded = NO;
     return self;
 }
 
-- (void)setLocation:(Location *)location{
-    _location = location;
-    if(!dataLoaded){
-        [self.location fetchDataType:@"daily" WithCompletion:^(NSDictionary * data, NSError * error) {
-            if(error == nil){
-                dataLoaded = YES;
-                self->_hourlyView.location = location;
-                [self->_mainCollectionView reloadData];
-            }
-            else NSLog(@"%@", error.localizedDescription);
-        }];
-        
-        [self.location fetchDataType:@"weekly" WithCompletion:^(NSDictionary * data, NSError * error) {
-            if(error == nil){
-                dataLoaded = YES;
-                self->_weeklyView.location = location;
-                [self->_mainCollectionView reloadData];
+- (void) updateDataIfNeeded {
+    if (self.location.weeklyData.count == 0 || self.location.dailyData.count == 0) {
+        [self.location fetchDataType:@"all" WithCompletion:^(NSDictionary *data, NSError *error) {
+            if (data) {
+                Weather *currentWeather = self.location.dailyData[0];
+                self->_todayWeatherView.currentWeather = currentWeather;
+                self->_todayActivityView.currentWeather = currentWeather;
+                
+                Weather *todayWeather = self.location.weeklyData[0];
+                self->_todayWeatherView.todayWeather = todayWeather;
+                [self.mainCollectionView reloadData];
+                
+                self.location = self.location;
             }
             else NSLog(@"%@", error.localizedDescription);
         }];
@@ -178,7 +174,8 @@ bool dataLoaded = NO;
     _weeklyView.location = location;
     _todayActivityView.location = location;
     _hourlyView.location = location;
-    [_hourlyView setViewHeight];
+//    [_hourlyView setViewHeight];
+    
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {

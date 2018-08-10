@@ -27,7 +27,6 @@
 }
 
 - (void)setTitle:(NSString *)title withView:(UIView *)view {
-//    self.backgroundColor = nil;
     _titleLabel.text = title;
     [_titleLabel sizeToFit];
     
@@ -45,6 +44,11 @@
     [view.topAnchor constraintEqualToAnchor:self.customView.topAnchor].active = YES;
     [view.leadingAnchor constraintEqualToAnchor:self.customView.leadingAnchor].active = YES;
     [view.trailingAnchor constraintEqualToAnchor:self.customView.trailingAnchor].active = YES;
+}
+
+- (void)setTitle:(NSString *)title withView:(UIView *)view Width:(CGFloat)width{
+    _mainViewWidth = width;
+    [self setTitle:title withView:view];
 }
 
 // initalizes title label properties and custom view properties
@@ -84,19 +88,16 @@
     [_cardView.trailingAnchor constraintEqualToAnchor:self.contentView.trailingAnchor constant:-8].active = YES;
     
     // title
-//    [_titleLabel.topAnchor constraintEqualToAnchor:_cardView.topAnchor constant:8].active = YES;
     [_titleLabel.leadingAnchor constraintEqualToAnchor:_cardView.leadingAnchor constant:8].active = YES;
     
     // line
     [_lineView.leadingAnchor constraintEqualToAnchor:_cardView.leadingAnchor constant:8].active = YES;
     [_lineView.trailingAnchor constraintEqualToAnchor:_cardView.trailingAnchor constant:-8].active = YES;
     [_lineView.heightAnchor constraintEqualToConstant:2].active = YES;
-//    [_lineView.topAnchor constraintEqualToAnchor:_titleLabel.bottomAnchor constant:8].active = YES;
     
     // customview
     [self.customView.leadingAnchor constraintEqualToAnchor:_cardView.leadingAnchor constant:8].active = YES;
     [self.customView.trailingAnchor constraintEqualToAnchor:_cardView.trailingAnchor constant:-8].active = YES;
-//    [self.customView.topAnchor constraintEqualToAnchor:_cardView.bottomAnchor constant:8].active = YES;
     
     [_cardView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-5-[titleLabel]-5-[lineView]-5-[customView]-5-|" options:NSLayoutFormatAlignAllCenterX metrics:nil views:@{@"titleLabel":_titleLabel, @"lineView":_lineView, @"customView":self.customView}]];
 }
