@@ -50,22 +50,25 @@ bool dataLoaded = NO;
     return self;
 }
 
-- (void) updateDataIfNeeded {
-    if (self.location.weeklyData.count == 0 || self.location.dailyData.count == 0) {
-        [self.location fetchDataType:@"all" WithCompletion:^(NSDictionary *data, NSError *error) {
-            if (data) {
-                Weather *currentWeather = self.location.dailyData[0];
-                self->_todayWeatherView.currentWeather = currentWeather;
-                self->_todayActivityView.currentWeather = currentWeather;
-                
-                Weather *todayWeather = self.location.weeklyData[0];
-                self->_todayWeatherView.todayWeather = todayWeather;
-                [self.mainCollectionView reloadData];
-                
+- (void)setLocation:(Location *)location{
+    _location = location;
+    if(!dataLoaded){
+        [self.location fetchDataType:@"daily" WithCompletion:^(NSDictionary * data, NSError * error) {
+            if(error == nil){
+                dataLoaded = YES;
+                self->_hourlyView.location = location;
+                [self->_mainCollectionView reloadData];
             }
-            else {
-                NSLog(@"Error %@", error.localizedDescription);
+            else NSLog(@"%@", error.localizedDescription);
+        }];
+        
+        [self.location fetchDataType:@"weekly" WithCompletion:^(NSDictionary * data, NSError * error) {
+            if(error == nil){
+                dataLoaded = YES;
+                self->_weeklyView.location = location;
+                [self->_mainCollectionView reloadData];
             }
+            else NSLog(@"%@", error.localizedDescription);
         }];
     }
 }
@@ -124,8 +127,6 @@ bool dataLoaded = NO;
     WeatherCardCell *cell = [self.mainCollectionView dequeueReusableCellWithReuseIdentifier:cellID forIndexPath:indexPath];
     UIView *placeholderView = UIView.new:
     if(indexPath.row == 0){
-//        _hourlyView.location = self.location;
-//        if(dataLoaded) [_hourlyView setViewHeight];
         [cell setTitle:@"Hourly Forecast" withView:_hourlyView Width:_mainCollectionView.frame.size.width];
     }
 
@@ -148,7 +149,6 @@ bool dataLoaded = NO;
         [cell setTitle:@"Today's Activities" withView:_todayActivityView Width:_mainCollectionView.frame.size.width];
     }
     else if (indexPath.row == 3) {
-        _weeklyView.location = self.location;
         [cell setTitle:@"Daily Forecast" withView:_weeklyView Width:_mainCollectionView.frame.size.width];
     }
     [cell layoutIfNeeded];

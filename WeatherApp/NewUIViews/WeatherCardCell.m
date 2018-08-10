@@ -36,6 +36,7 @@
     }
     
     view.translatesAutoresizingMaskIntoConstraints = NO;
+    [view setNeedsLayout];
     [self.customView addSubview:view];
 //    [self.customView setFrame:view.frame];
     
@@ -104,23 +105,4 @@
     _cardView.backgroundColor = backgroundColor;
 }
 
-//- (void) blur{
-//    UIVisualEffect *blureffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
-//    UIVisualEffectView *blureffectView = [[UIVisualEffectView alloc]initWithEffect:blureffect];
-//    blureffectView.alpha = 1.0;
-//    blureffectView.frame = _cardView.frame;
-//    [_cardView addSubview:blureffectView];
-//    [_cardView sendSubviewToBack:blureffectView];
-//}
-//- (UICollectionViewLayoutAttributes *)preferredLayoutAttributesFittingAttributes:(UICollectionViewLayoutAttributes *)layoutAttributes{
-//    
-//    UICollectionViewLayoutAttributes *autoLayoutAttributes = [super preferredLayoutAttributesFittingAttributes:layoutAttributes];
-//    CGFloat width = _mainViewWidth;
-//    CGFloat height = _titleLabel.frame.size.height + _lineView.frame.size.height + _customView.frame.size.height + 15;
-//    CGSize targetSize = CGSizeMake(width, height);
-//    CGSize autoLayoutSize = [self.contentView systemLayoutSizeFittingSize:targetSize withHorizontalFittingPriority:UILayoutPriorityRequired verticalFittingPriority:UILayoutPriorityDefaultLow];
-//    CGRect autoLayoutFrame = CGRectMake(autoLayoutAttributes.frame.origin.x, autoLayoutAttributes.frame.origin.y, autoLayoutSize.width, autoLayoutSize.height);
-//    autoLayoutAttributes.frame = autoLayoutFrame;
-//    return autoLayoutAttributes;
-//}
 @end

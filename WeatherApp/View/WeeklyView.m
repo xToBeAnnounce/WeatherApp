@@ -70,6 +70,7 @@ static BOOL showBanner;
     [self addSubview:self.WeeklytableView];
     [self.WeeklytableView registerClass: WeeklyCell.class forCellReuseIdentifier:@"WeeklyCell"];
     self.WeeklytableView.backgroundColor = UIColor.clearColor;
+    self.WeeklytableView.scrollEnabled = NO;
     [self setTableViewConstraints];
     
     _bannerWindow = UIApplication.sharedApplication.keyWindow;
@@ -150,6 +151,11 @@ static BOOL showBanner;
     [self.WeeklytableView.bottomAnchor constraintEqualToAnchor:self.bottomAnchor].active = YES;
     [self.WeeklytableView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor].active = YES;
     [self.WeeklytableView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor].active = YES;
+//    [self.heightAnchor constraintEqualToConstant:350].active = YES;
+}
+
+- (void)layoutSubviews{
+    [self.heightAnchor constraintEqualToConstant:self.WeeklytableView.contentSize.height].active = YES;
 }
 
 - (void) showBannerIfNeededWithCompletion:(void(^)(BOOL finished))completion{
