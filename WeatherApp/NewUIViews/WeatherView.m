@@ -62,6 +62,7 @@ bool dataLoaded = NO;
                 self->_todayWeatherView.todayWeather = todayWeather;
                 [self.mainCollectionView reloadData];
                 
+                self.location = self.location;
             }
             else {
                 NSLog(@"Error %@", error.localizedDescription);
@@ -122,25 +123,12 @@ bool dataLoaded = NO;
 - (nonnull __kindof UICollectionViewCell *)collectionView:(nonnull UICollectionView *)collectionView cellForItemAtIndexPath:(nonnull NSIndexPath *)indexPath {
 
     WeatherCardCell *cell = [self.mainCollectionView dequeueReusableCellWithReuseIdentifier:cellID forIndexPath:indexPath];
-    UIView *placeholderView = UIView.new:
+    UIView *placeholderView = UIView.new;
     if(indexPath.row == 0){
 //        _hourlyView.location = self.location;
 //        if(dataLoaded) [_hourlyView setViewHeight];
         [cell setTitle:@"Hourly Forecast" withView:_hourlyView Width:_mainCollectionView.frame.size.width];
     }
-
-    if(indexPath.row == 4) {
-        UICollectionViewCell *TodayCell = [self.mainCollectionView dequeueReusableCellWithReuseIdentifier:cellID forIndexPath:indexPath];
-        DailyView *dailyView = [[DailyView alloc]initWithFrame:CGRectMake(0, 0, UIScreen.mainScreen.bounds.size.width, 250)];
-        dailyView.location = self.location;
-        dailyView.backgroundColor = UIColor.blueColor;
-        [TodayCell addSubview:dailyView];
-        return TodayCell;
-    }
-    
-    UICollectionViewCell *cell = [self.mainCollectionView dequeueReusableCellWithReuseIdentifier:cellID forIndexPath:indexPath];
-    cell.backgroundColor = UIColor.blueColor;
-
     else if (indexPath.row == 1) {
         [cell setTitle:@"Today's Summary" withView:placeholderView Width:_mainCollectionView.frame.size.width];
     }
@@ -180,7 +168,8 @@ bool dataLoaded = NO;
     _weeklyView.location = location;
     _todayActivityView.location = location;
     _hourlyView.location = location;
-    [_hourlyView setViewHeight];
+//    [_hourlyView setViewHeight];
+    
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
