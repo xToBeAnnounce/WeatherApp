@@ -23,6 +23,10 @@
     self.icon = data[@"icon"];
     self.windSpeed = [data[@"windSpeed"] floatValue];
     self.humidity = [data[@"humidity"]floatValue];
+    self.uvIndex = [data[@"uvIndex"] intValue];
+    self.precipProbability = [data[@"precipProbability"] floatValue];
+    self.sunSet = data[@"sunsetTime"];
+    self.sunRise = data[@"sunriseTime"];
     
     self.summary = data[@"summary"];
     
@@ -85,6 +89,14 @@
     string = [string stringByAppendingString:@"%"];
     return string;
 }
+
+-(NSString*)getprecipProbabilityInString:(float)precipProbability{
+    NSString* string = [NSString stringWithFormat:@"%.0f",precipProbability*100];
+    string = [string stringByAppendingString:@"%"];
+    return string;
+}
+
+
 
 -(NSString*)getWindSpeedInString:(float)windspeed{
     NSString* string = [NSString stringWithFormat:@"%.02f ",windspeed];

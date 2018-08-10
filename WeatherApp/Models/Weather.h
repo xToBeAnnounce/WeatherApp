@@ -20,7 +20,10 @@
 @property (nonatomic) int temperatureLow;
 @property (nonatomic) float humidity;
 @property (nonatomic) float windSpeed;
-
+@property (strong,nonatomic) NSDate *sunRise;
+@property (strong,nonatomic) NSDate *sunSet;
+@property (nonatomic) int uvIndex;
+@property (nonatomic) float precipProbability;
 
 //Formatting functions for display in string
 - (NSString*)getHourInDayWithTime:(NSDate*)date;
@@ -30,8 +33,10 @@
 - (NSString*)getTempInString:(int)temp withType:(NSString *)type;
 -(NSString*)getHumidityInString:(float)humidity;
 -(NSString*)getWindSpeedInString:(float)windspeed;
+-(NSString*)getprecipProbabilityInString:(float)precipProbability;
 -(NSString*)formatSummary:(NSString*)summary;
 -(NSString*)formattedIconSummary;
+
 
 
 - (instancetype)initWithData:(NSDictionary*)data;

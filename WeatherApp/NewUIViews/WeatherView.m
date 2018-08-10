@@ -7,13 +7,15 @@
 //
 
 #import "WeatherView.h"
-#import "HourlyForecastCell.h"
+#import "TodayWeatherCell.h"
 #import "TodayWeatherView.h"
 #import "TodayActivitiesView.h"
 #import "WeeklyView.h"
+#import "DailyView.h"
 #import "WeatherCardCell.h"
 #import "BannerView.h"
 #import <Parse/PFImageView.h>
+#import "HourlyForecastView.h"
 
 @implementation WeatherView
 {
@@ -24,11 +26,13 @@
     UIWindow *_bannerWindow;
     BannerView *_bannerView;
     NSLayoutConstraint *_collectionHeightConstraint;
+    HourlyForecastView *_hourlyView;
 }
 NSString *defaultBackdrop;
 CGFloat _originalPos = 500;
 UICollectionViewFlowLayout *layout;
 NSString *cellID = @"weatherCardCell";
+bool dataLoaded = NO;
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
@@ -48,22 +52,25 @@ NSString *cellID = @"weatherCardCell";
     return self;
 }
 
-- (void) updateDataIfNeeded {
-    if (self.location.weeklyData.count == 0 || self.location.dailyData.count == 0) {
-        [self.location fetchDataType:@"all" WithCompletion:^(NSDictionary *data, NSError *error) {
-            if (data) {
-                Weather *currentWeather = self.location.dailyData[0];
-                self->_todayWeatherView.currentWeather = currentWeather;
-                self->_todayActivityView.currentWeather = currentWeather;
-                
-                Weather *todayWeather = self.location.weeklyData[0];
-                self->_todayWeatherView.todayWeather = todayWeather;
-                [self.mainCollectionView reloadData];
-                
+- (void)setLocation:(Location *)location{
+    _location = location;
+    if(!dataLoaded){
+        [self.location fetchDataType:@"daily" WithCompletion:^(NSDictionary * data, NSError * error) {
+            if(error == nil){
+                dataLoaded = YES;
+                self->_hourlyView.location = location;
+                [self->_mainCollectionView reloadData];
             }
-            else {
-                NSLog(@"Error %@", error.localizedDescription);
+            else NSLog(@"%@", error.localizedDescription);
+        }];
+        
+        [self.location fetchDataType:@"weekly" WithCompletion:^(NSDictionary * data, NSError * error) {
+            if(error == nil){
+                dataLoaded = YES;
+                self->_weeklyView.location = location;
+                [self->_mainCollectionView reloadData];
             }
+            else NSLog(@"%@", error.localizedDescription);
         }];
     }
 }
@@ -73,10 +80,12 @@ NSString *cellID = @"weatherCardCell";
     _todayWeatherView = [[TodayWeatherView alloc] init];
     _todayWeatherView.translatesAutoresizingMaskIntoConstraints = NO;
     [self addSubview:_todayWeatherView];
-    
+  
     _todayActivityView = [[TodayActivitiesView alloc] init];
-    
-    _weeklyView = [[WeeklyView alloc] initWithFrame:CGRectMake(0, 0, UIScreen.mainScreen.bounds.size.width, 350)];
+    _weeklyView = [[WeeklyView alloc] init];
+    _hourlyView = [[HourlyForecastView alloc]init];
+  
+//     _weeklyView = [[WeeklyView alloc] initWithFrame:CGRectMake(0, 0, UIScreen.mainScreen.bounds.size.width, 350)];
     
 //    _bannerWindow = UIApplication.sharedApplication.keyWindow;
 //
@@ -96,7 +105,8 @@ NSString *cellID = @"weatherCardCell";
     layout = [[UICollectionViewFlowLayout alloc] init];
     layout.scrollDirection = UICollectionViewScrollDirectionVertical;
     layout.minimumLineSpacing = 8;
-    layout.sectionInset = UIEdgeInsetsMake(8, 8, 8, 8);
+    layout.estimatedItemSize = UICollectionViewFlowLayoutAutomaticSize;
+//    layout.estimatedItemSize = CGSizeMake(350, 150);
     
     self.mainCollectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, 300, UIScreen.mainScreen.bounds.size.width, UIScreen.mainScreen.bounds.size.height) collectionViewLayout:layout];
     self.mainCollectionView.dataSource = self;
@@ -116,31 +126,32 @@ NSString *cellID = @"weatherCardCell";
 }
 
 - (nonnull __kindof UICollectionViewCell *)collectionView:(nonnull UICollectionView *)collectionView cellForItemAtIndexPath:(nonnull NSIndexPath *)indexPath {
+
     WeatherCardCell *cell = [self.mainCollectionView dequeueReusableCellWithReuseIdentifier:cellID forIndexPath:indexPath];
     UIView *placeholderView = UIView.new;
-    
     if(indexPath.row == 0){
-        [cell setTitle:@"Hourly Forecast" withView:placeholderView];
+        [cell setTitle:@"Hourly Forecast" withView:_hourlyView Width:_mainCollectionView.frame.size.width];
     }
     else if (indexPath.row == 1) {
-        [cell setTitle:@"Today's Summary" withView:placeholderView];
+        [cell setTitle:@"Today's Summary" withView:placeholderView Width:_mainCollectionView.frame.size.width];
     }
     else if (indexPath.row == 2) {
-        [cell setTitle:@"Today's Activities" withView:_todayActivityView];
+        [cell setTitle:@"Today's Activities" withView:_todayActivityView Width:_mainCollectionView.frame.size.width];
     }
     else if (indexPath.row == 3) {
-        [cell setTitle:@"Daily Forecast" withView:_weeklyView];
+        [cell setTitle:@"Daily Forecast" withView:_weeklyView Width:_mainCollectionView.frame.size.width];
     }
+    [cell layoutIfNeeded];
     return cell;
 }
 
-- (NSInteger)collectionView:(nonnull UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+- (NSInteger)collectionView:(nonnull UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
     return 4;
 }
 
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
-    return CGSizeMake(self.frame.size.width, 350);
-}
+//- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
+//    return CGSizeMake(self.frame.size.width, 350);
+//}
 
 - (void) setConstraints {
     [self.mainCollectionView.bottomAnchor constraintEqualToAnchor:self.bottomAnchor].active = YES;
@@ -166,6 +177,8 @@ NSString *cellID = @"weatherCardCell";
     
     _weeklyView.location = location;
     _todayActivityView.location = location;
+    _hourlyView.location = location;
+    [_hourlyView setViewHeight];
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
