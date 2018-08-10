@@ -48,7 +48,7 @@
 }
 
 - (void) initalizeProperties {
-    _suggestLabel = [[UILabel alloc] initWithFrame:CGRectMake(8, 8, 0, 0)];
+    _suggestLabel = [[UILabel alloc] init];
     _suggestLabel.textColor = UIColor.whiteColor;
     _suggestLabel.translatesAutoresizingMaskIntoConstraints = NO;
     [self addSubview:_suggestLabel];
@@ -105,11 +105,12 @@
     [_activityIconStackView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:8].active = YES;
     [_activityIconStackView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:-8].active = YES;
     
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-8-[suggestLabel]-8-[activityIconStackView]" options:NSLayoutFormatAlignAllLeft metrics:nil views:@{@"suggestLabel":_suggestLabel, @"activityIconStackView":_activityIconStackView}]];
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-8-[suggestLabel]-8-[activityIconStackView]-8-|" options:NSLayoutFormatAlignAllLeft metrics:nil views:@{@"suggestLabel":_suggestLabel, @"activityIconStackView":_activityIconStackView}]];
 }
 
 - (void)layoutSubviews {
     [super layoutSubviews];
+//    [self.heightAnchor constraintEqualToConstant:self.heightAnchor].active = YES;
 }
 
 - (IBAction)onTapActivity: (id)sender {

@@ -49,6 +49,8 @@
 - (void)setTitle:(NSString *)title withView:(UIView *)view Width:(CGFloat)width{
     _mainViewWidth = width;
     [self setTitle:title withView:view];
+    
+    [self.contentView.widthAnchor constraintEqualToConstant:_mainViewWidth].active = YES;
 }
 
 // initalizes title label properties and custom view properties
@@ -80,7 +82,6 @@
 }
 
 - (void) setConstraints {
-    [self.contentView.widthAnchor constraintEqualToConstant:_mainViewWidth].active = YES;
     // card
     [_cardView.topAnchor constraintEqualToAnchor:self.contentView.topAnchor].active = YES;
     [_cardView.bottomAnchor constraintEqualToAnchor:self.contentView.bottomAnchor].active = YES;

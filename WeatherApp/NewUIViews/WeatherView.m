@@ -126,16 +126,16 @@ bool dataLoaded = NO;
     WeatherCardCell *cell = [self.mainCollectionView dequeueReusableCellWithReuseIdentifier:cellID forIndexPath:indexPath];
     UIView *placeholderView = UIView.new;
     if(indexPath.row == 0){
-        [cell setTitle:@"Hourly Forecast" withView:_hourlyView Width:_mainCollectionView.frame.size.width];
+        [cell setTitle:@"Hourly Forecast" withView:_hourlyView Width:self.mainCollectionView.frame.size.width];
     }
     else if (indexPath.row == 1) {
-        [cell setTitle:@"Today's Summary" withView:placeholderView Width:_mainCollectionView.frame.size.width];
+        [cell setTitle:@"Today's Summary" withView:placeholderView Width:self.mainCollectionView.frame.size.width];
     }
     else if (indexPath.row == 2) {
-        [cell setTitle:@"Today's Activities" withView:_todayActivityView Width:_mainCollectionView.frame.size.width];
+        [cell setTitle:@"Today's Activities" withView:_todayActivityView Width:self.mainCollectionView.frame.size.width];
     }
     else if (indexPath.row == 3) {
-        [cell setTitle:@"Daily Forecast" withView:_weeklyView Width:_mainCollectionView.frame.size.width];
+        [cell setTitle:@"Daily Forecast" withView:_weeklyView Width:self.mainCollectionView.frame.size.width];
     }
     [cell layoutIfNeeded];
     return cell;
@@ -179,34 +179,34 @@ bool dataLoaded = NO;
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    CGFloat collectionOffset = self.mainCollectionView.contentOffset.y;
-    NSLayoutConstraint *oldConstraint = _collectionHeightConstraint;
-    CGFloat displacement;
-    
-    if (collectionOffset < 0) {
-        displacement = oldConstraint.constant-collectionOffset;
-    }
-    else {
-        displacement = _originalPos-collectionOffset;
-    }
-    
-    NSLog(@"%f", displacement);
-    
-    if (displacement>self.safeAreaInsets.top && displacement<self.frame.size.height-200) {
-        _collectionHeightConstraint = [self.mainCollectionView.topAnchor constraintEqualToAnchor:self.topAnchor constant:displacement];
-    }
-    
-    [UIView animateWithDuration:0.05 animations:^{
-        oldConstraint.active = NO;
-        self->_collectionHeightConstraint.active = YES;
-        
-        if (self->_todayWeatherView.frame.origin.y <= 75) {
-            self->_todayWeatherView.alpha = self->_todayWeatherView.frame.origin.y/75.0;
-        }
-        else {
-            self->_todayWeatherView.alpha = 1.0;
-        }
-    }];
+//    CGFloat collectionOffset = self.mainCollectionView.contentOffset.y;
+//    NSLayoutConstraint *oldConstraint = _collectionHeightConstraint;
+//    CGFloat displacement;
+//    
+//    if (collectionOffset < 0) {
+//        displacement = oldConstraint.constant-collectionOffset;
+//    }
+//    else {
+//        displacement = _originalPos-collectionOffset;
+//    }
+//    
+//    NSLog(@"%f", displacement);
+//    
+//    if (displacement>self.safeAreaInsets.top && displacement<self.frame.size.height-200) {
+//        _collectionHeightConstraint = [self.mainCollectionView.topAnchor constraintEqualToAnchor:self.topAnchor constant:displacement];
+//    }
+//    
+//    [UIView animateWithDuration:0.05 animations:^{
+//        oldConstraint.active = NO;
+//        self->_collectionHeightConstraint.active = YES;
+//        
+//        if (self->_todayWeatherView.frame.origin.y <= 75) {
+//            self->_todayWeatherView.alpha = self->_todayWeatherView.frame.origin.y/75.0;
+//        }
+//        else {
+//            self->_todayWeatherView.alpha = 1.0;
+//        }
+//    }];
     
 }
 @end
