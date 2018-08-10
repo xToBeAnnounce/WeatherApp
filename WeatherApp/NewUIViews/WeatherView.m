@@ -47,17 +47,15 @@ bool dataLoaded = NO;
     _location = location;
     if(!dataLoaded){
         [self.location fetchDataType:@"daily" WithCompletion:^(NSDictionary * data, NSError * error) {
-            dispatch_async(dispatch_get_main_queue(), ^ {
-                if(error == nil){
-                    //self.location.dailyData updated
-                    //[self->_collectionView reloadData];
-                    dataLoaded = YES;
-                    self->_hourlyView.location = location;
-                    [self->_hourlyView setViewHeight];
-                    [self->_mainCollectionView reloadData];
-                }
-                else NSLog(@"%@", error.localizedDescription);
-            });
+            if(error == nil){
+                //self.location.dailyData updated
+                //[self->_collectionView reloadData];
+                dataLoaded = YES;
+                self->_hourlyView.location = location;
+                [self->_hourlyView setViewHeight];
+                [self->_mainCollectionView reloadData];
+            }
+            else NSLog(@"%@", error.localizedDescription);
         }];
     }
 }

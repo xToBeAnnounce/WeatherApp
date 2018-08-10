@@ -90,7 +90,9 @@ NSString *hourlyCellIdentifier = @"singleHourCell";
 }
 
 - (void)setViewHeight{
-    [_collectionView reloadData];
+    dispatch_async(dispatch_get_main_queue(), ^ {
+        [_collectionView reloadData];
+    });
     [self.heightAnchor constraintEqualToConstant:150].active = YES;;
 }
 
