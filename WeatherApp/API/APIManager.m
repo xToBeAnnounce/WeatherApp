@@ -44,6 +44,9 @@ static NSString * urlString;
     else if([range isEqualToString:@"weekly"]){
         urlString = [urlString stringByAppendingString:@"?exclude=currently,minutely,hourly,alerts,flags"];
     }
+    else if ([range isEqualToString:@"all"]) {
+        urlString = [urlString stringByAppendingString:@"?exclude=currently,minutely,alerts,flags"];
+    }
 }
 
 - (void)getDataWithCompletion:(void(^)(NSDictionary *data, NSError *error))completion{

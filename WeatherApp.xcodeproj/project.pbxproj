@@ -26,7 +26,7 @@
 		336621A42112D03B005CB1D3 /* BannerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 336621A32112D03B005CB1D3 /* BannerView.m */; };
 		33A2A5C12118CBC400AC2006 /* CustomCameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 33A2A5C02118CBC400AC2006 /* CustomCameraViewController.m */; };
 		33A2A602211A5E4500AC2006 /* TodayWeatherCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 33A2A601211A5E4500AC2006 /* TodayWeatherCell.m */; };
-		33A2A608211B635000AC2006 /* TodayActivitiesCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 33A2A607211B635000AC2006 /* TodayActivitiesCell.m */; };
+		33A2A608211B635000AC2006 /* TodayActivitiesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 33A2A607211B635000AC2006 /* TodayActivitiesView.m */; };
 		33A2A60B211B6DA500AC2006 /* TodayWeatherView.m in Sources */ = {isa = PBXBuildFile; fileRef = 33A2A60A211B6DA500AC2006 /* TodayWeatherView.m */; };
 		33A2A60E211B6FDB00AC2006 /* WeatherCardCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 33A2A60D211B6FDB00AC2006 /* WeatherCardCell.m */; };
 		33F00C0C20FD116C008F56CE /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 33F00C0B20FD116C008F56CE /* User.m */; };
@@ -139,8 +139,8 @@
 		33A2A5C02118CBC400AC2006 /* CustomCameraViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomCameraViewController.m; sourceTree = "<group>"; };
 		33A2A600211A5E4500AC2006 /* TodayWeatherCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TodayWeatherCell.h; sourceTree = "<group>"; };
 		33A2A601211A5E4500AC2006 /* TodayWeatherCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TodayWeatherCell.m; sourceTree = "<group>"; };
-		33A2A606211B635000AC2006 /* TodayActivitiesCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TodayActivitiesCell.h; sourceTree = "<group>"; };
-		33A2A607211B635000AC2006 /* TodayActivitiesCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TodayActivitiesCell.m; sourceTree = "<group>"; };
+		33A2A606211B635000AC2006 /* TodayActivitiesView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TodayActivitiesView.h; sourceTree = "<group>"; };
+		33A2A607211B635000AC2006 /* TodayActivitiesView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TodayActivitiesView.m; sourceTree = "<group>"; };
 		33A2A609211B6DA500AC2006 /* TodayWeatherView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TodayWeatherView.h; sourceTree = "<group>"; };
 		33A2A60A211B6DA500AC2006 /* TodayWeatherView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TodayWeatherView.m; sourceTree = "<group>"; };
 		33A2A60C211B6FDB00AC2006 /* WeatherCardCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WeatherCardCell.h; sourceTree = "<group>"; };
@@ -402,8 +402,8 @@
 				9207D7A8211BC2FD001E01CA /* HourlyForecastView.m */,
 				9207D7A1211A6840001E01CA /* HourlyCollectionCell.h */,
 				9207D7A2211A6840001E01CA /* HourlyCollectionCell.m */,
-				33A2A606211B635000AC2006 /* TodayActivitiesCell.h */,
-				33A2A607211B635000AC2006 /* TodayActivitiesCell.m */,
+				33A2A606211B635000AC2006 /* TodayActivitiesView.h */,
+				33A2A607211B635000AC2006 /* TodayActivitiesView.m */,
 				33A2A609211B6DA500AC2006 /* TodayWeatherView.h */,
 				33A2A60A211B6DA500AC2006 /* TodayWeatherView.m */,
 				33A2A600211A5E4500AC2006 /* TodayWeatherCell.h */,
@@ -778,7 +778,7 @@
 			files = (
 				3330AE282107A16700B37975 /* LocationTableViewCell.m in Sources */,
 				92499B26210A4B07005874C8 /* ActivityAPIManager.m in Sources */,
-				33A2A608211B635000AC2006 /* TodayActivitiesCell.m in Sources */,
+				33A2A608211B635000AC2006 /* TodayActivitiesView.m in Sources */,
 				9207D7A9211BC2FD001E01CA /* HourlyForecastView.m in Sources */,
 				CCE85684210F7F8B0035230F /* HamburgerTableViewCell.m in Sources */,
 				927E18A2210106B700CA03F6 /* Weather.m in Sources */,

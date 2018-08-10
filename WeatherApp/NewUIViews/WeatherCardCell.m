@@ -16,28 +16,41 @@
     CGFloat _mainViewWidth;
 }
 
-- (void)setTitle:(NSString *)title withView:(UIView *)view Width:(CGFloat)width{
-    _mainViewWidth = width;
-    self.backgroundColor = nil;
-    [self initalizeCard];
+- (instancetype)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (self) {
+        self.backgroundColor = nil;
+        [self initalizeCard];
+    }
+    return self;
+}
+
+- (void)setTitle:(NSString *)title withView:(UIView *)view {
+//    self.backgroundColor = nil;
     _titleLabel.text = title;
     [_titleLabel sizeToFit];
+    
+    for (UIView *subview in self.customView.subviews) {
+        [subview removeFromSuperview];
+    }
     
     view.translatesAutoresizingMaskIntoConstraints = NO;
     [self.customView addSubview:view];
 //    [self.customView setFrame:view.frame];
     
+    [self.customView.heightAnchor constraintEqualToAnchor:view.heightAnchor].active = YES;
+    
     [view.topAnchor constraintEqualToAnchor:self.customView.topAnchor].active = YES;
     [view.leadingAnchor constraintEqualToAnchor:self.customView.leadingAnchor].active = YES;
     [view.trailingAnchor constraintEqualToAnchor:self.customView.trailingAnchor].active = YES;
-    [self.customView.heightAnchor constraintEqualToAnchor:view.heightAnchor].active = YES;
 }
 
 // initalizes title label properties and custom view properties
 - (void) initalizeCard {
     _cardView = [[UIView alloc] init];
     _cardView.translatesAutoresizingMaskIntoConstraints = NO;
-    _cardView.backgroundColor = UIColor.blueColor;
+    _cardView.backgroundColor = [UIColor.blueColor colorWithAlphaComponent:0.3];
     _cardView.layer.cornerRadius = 5;
     [self.contentView addSubview:_cardView];
     
@@ -91,6 +104,14 @@
     _cardView.backgroundColor = backgroundColor;
 }
 
+//- (void) blur{
+//    UIVisualEffect *blureffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+//    UIVisualEffectView *blureffectView = [[UIVisualEffectView alloc]initWithEffect:blureffect];
+//    blureffectView.alpha = 1.0;
+//    blureffectView.frame = _cardView.frame;
+//    [_cardView addSubview:blureffectView];
+//    [_cardView sendSubviewToBack:blureffectView];
+//}
 //- (UICollectionViewLayoutAttributes *)preferredLayoutAttributesFittingAttributes:(UICollectionViewLayoutAttributes *)layoutAttributes{
 //    
 //    UICollectionViewLayoutAttributes *autoLayoutAttributes = [super preferredLayoutAttributesFittingAttributes:layoutAttributes];
@@ -102,5 +123,4 @@
 //    autoLayoutAttributes.frame = autoLayoutFrame;
 //    return autoLayoutAttributes;
 //}
-
 @end
