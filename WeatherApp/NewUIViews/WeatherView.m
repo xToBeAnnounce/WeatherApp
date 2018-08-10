@@ -54,6 +54,15 @@ bool dataLoaded = NO;
             }
             else NSLog(@"%@", error.localizedDescription);
         }];
+        
+        [self.location fetchDataType:@"weekly" WithCompletion:^(NSDictionary * data, NSError * error) {
+            if(error == nil){
+                dataLoaded = YES;
+                self->_weeklyView.location = location;
+                [self->_mainCollectionView reloadData];
+            }
+            else NSLog(@"%@", error.localizedDescription);
+        }];
     }
 }
 
@@ -112,7 +121,6 @@ bool dataLoaded = NO;
         [cell setTitle:@"Suggested Activities" withView:placeholderView Width:_mainCollectionView.frame.size.width];
     }
     else if (indexPath.row == 3) {
-        _weeklyView.location = self.location;
         [cell setTitle:@"Daily Forecast" withView:_weeklyView Width:_mainCollectionView.frame.size.width];
     }
     [cell layoutIfNeeded];

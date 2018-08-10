@@ -65,8 +65,8 @@ NSString *hourlyCellIdentifier = @"singleHourCell";
     HourlyCollectionCell *cell = [_collectionView dequeueReusableCellWithReuseIdentifier:hourlyCellIdentifier forIndexPath:indexPath];
     cell.weather = self.location.dailyData[indexPath.row];
     cell.backgroundColor = UIColor.clearColor;
-    _viewHeight = cell.frame.size.height + 20;
     [cell layoutIfNeeded];
+    _viewHeight = cell.frame.size.height + 20;
     return cell;
 }
 
@@ -78,13 +78,9 @@ NSString *hourlyCellIdentifier = @"singleHourCell";
     return 1;
 }
 
-- (void)setViewHeight{
-    dispatch_async(dispatch_get_main_queue(), ^ {
-        [self->_collectionView reloadData];
-        [self.heightAnchor constraintEqualToConstant:self->_viewHeight].active = YES;
-    });
-//    [self.heightAnchor constraintEqualToConstant:150].active = YES;
-    [self layoutIfNeeded];
+- (void)layoutSubviews{
+//    _heightConstraint.active = NO;
+//    [_collectionView.heightAnchor constraintEqualToConstant:_viewHeight].active = YES;
 }
 
 /*

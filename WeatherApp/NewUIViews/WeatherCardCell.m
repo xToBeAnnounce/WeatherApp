@@ -24,6 +24,7 @@
     [_titleLabel sizeToFit];
     
     view.translatesAutoresizingMaskIntoConstraints = NO;
+    [view setNeedsLayout];
     [self.customView addSubview:view];
 //    [self.customView setFrame:view.frame];
     

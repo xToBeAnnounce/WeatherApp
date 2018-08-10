@@ -10,7 +10,7 @@
 #import "Location.h"
 #import "HourlyForecastView.h"
 
-@interface WeatherView : UIView <UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout, HourlyForecastDelegate>
+@interface WeatherView : UIView <UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
 @property (strong,nonatomic) UICollectionView *mainCollectionView;
 @property (strong,nonatomic) UITableView *maintableView;
 @property (strong, nonatomic) Location *location;
