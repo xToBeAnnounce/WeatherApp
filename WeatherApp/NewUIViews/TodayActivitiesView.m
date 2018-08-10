@@ -97,6 +97,7 @@
         [activityButton addTarget:self action:@selector(onTapActivity:) forControlEvents:UIControlEventTouchUpInside];
         [_activityIconStackView addArrangedSubview:activityButton];
     }
+    [self layoutIfNeeded];
 }
 
 - (void) setConstraints {
@@ -106,11 +107,6 @@
     [_activityIconStackView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:-8].active = YES;
     
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-8-[suggestLabel]-8-[activityIconStackView]-8-|" options:NSLayoutFormatAlignAllLeft metrics:nil views:@{@"suggestLabel":_suggestLabel, @"activityIconStackView":_activityIconStackView}]];
-}
-
-- (void)layoutSubviews {
-    [super layoutSubviews];
-//    [self.heightAnchor constraintEqualToConstant:self.heightAnchor].active = YES;
 }
 
 - (IBAction)onTapActivity: (id)sender {

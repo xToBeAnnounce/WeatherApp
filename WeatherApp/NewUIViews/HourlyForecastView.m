@@ -60,6 +60,7 @@ NSString *hourlyCellIdentifier = @"singleHourCell";
 - (void)setLocation:(Location *)location{
     if(_location.dailyData) location.dailyData = _location.dailyData; //Updates daily data
     _location = location; //Updates rest of locatin object (i.e. Preference settings)
+    [_collectionView reloadData];
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{

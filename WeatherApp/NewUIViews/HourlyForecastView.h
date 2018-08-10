@@ -15,5 +15,4 @@
 
 @interface HourlyForecastView : UIView <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 @property (strong, nonatomic) Location *location;
--(void)setViewHeight;
 @end

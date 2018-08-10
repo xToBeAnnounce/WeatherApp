@@ -188,6 +188,7 @@ static int const numHoursInDay = 24;
     else if([dataType isEqualToString:@"all"]) {
         [self getDataWithLong:(int)self.longitude Lat:(int)self.lattitude Type:@"all" Completion:^(NSDictionary *data, NSError *error) {
             if (data) {
+                
                 [self setWeeklyDataWithDictionary:data];
                 [self setDailyDataWithDictionary:data];
                 completion(data, nil);
@@ -214,9 +215,11 @@ static int const numHoursInDay = 24;
 -(void)setWeeklyDataWithDictionary:(NSDictionary*)data{
     [self.weeklyData removeAllObjects];
     NSArray *dailyArray = data[@"daily"][@"data"];
+    
     for(int i=0; i<numDaysInWeek; i++){
         [self.weeklyData addObject:[[Weather alloc]initWithData:dailyArray[i]]];
     }
+    
 }
 
 -(void)setDailyDataWithDictionary:(NSDictionary*)data{

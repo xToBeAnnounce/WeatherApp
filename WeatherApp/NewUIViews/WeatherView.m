@@ -56,15 +56,8 @@ bool dataLoaded = NO;
     if (self.location.weeklyData.count == 0 || self.location.dailyData.count == 0) {
         [self.location fetchDataType:@"all" WithCompletion:^(NSDictionary *data, NSError *error) {
             if (data) {
-                Weather *currentWeather = self.location.dailyData[0];
-                self->_todayWeatherView.currentWeather = currentWeather;
-                self->_todayActivityView.currentWeather = currentWeather;
-                
-                Weather *todayWeather = self.location.weeklyData[0];
-                self->_todayWeatherView.todayWeather = todayWeather;
+                [self refreshViews];
                 [self.mainCollectionView reloadData];
-                
-                self.location = self.location;
             }
             else NSLog(@"%@", error.localizedDescription);
         }];
@@ -80,11 +73,8 @@ bool dataLoaded = NO;
     _todayActivityView = [[TodayActivitiesView alloc] init];
     _weeklyView = [[WeeklyView alloc] init];
     _hourlyView = [[HourlyForecastView alloc]init];
-  
-//     _weeklyView = [[WeeklyView alloc] initWithFrame:CGRectMake(0, 0, UIScreen.mainScreen.bounds.size.width, 350)];
     
 //    _bannerWindow = UIApplication.sharedApplication.keyWindow;
-//
 //    _bannerView = [[BannerView alloc] initWithMessage:@"Placeholder message so I can see its behavior and all that jazz."];
 //    _bannerView.backgroundColor = [UIColor redColor];
 //    [_bannerWindow addSubview:_bannerView];
@@ -102,7 +92,6 @@ bool dataLoaded = NO;
     layout.scrollDirection = UICollectionViewScrollDirectionVertical;
     layout.minimumLineSpacing = 8;
     layout.estimatedItemSize = UICollectionViewFlowLayoutAutomaticSize;
-//    layout.estimatedItemSize = CGSizeMake(350, 150);
     
     self.mainCollectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, 300, UIScreen.mainScreen.bounds.size.width, UIScreen.mainScreen.bounds.size.height) collectionViewLayout:layout];
     self.mainCollectionView.dataSource = self;
@@ -145,10 +134,6 @@ bool dataLoaded = NO;
     return 4;
 }
 
-//- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
-//    return CGSizeMake(self.frame.size.width, 350);
-//}
-
 - (void) setConstraints {
     [self.mainCollectionView.bottomAnchor constraintEqualToAnchor:self.bottomAnchor].active = YES;
     [self.mainCollectionView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor].active = YES;
@@ -161,7 +146,6 @@ bool dataLoaded = NO;
 
 - (void)setLocation:(Location *)location {
     _location = location;
-    [self updateDataIfNeeded];
     
     if (location.backdropImage) {
         _backdropImageView.file = location.backdropImage;
@@ -174,8 +158,20 @@ bool dataLoaded = NO;
     _weeklyView.location = location;
     _todayActivityView.location = location;
     _hourlyView.location = location;
-//    [_hourlyView setViewHeight];
     
+    [self updateDataIfNeeded];
+}
+
+- (void) refreshViews {
+    Weather *currentWeather = self.location.dailyData[0];
+    _todayWeatherView.currentWeather = currentWeather;
+    _todayActivityView.currentWeather = currentWeather;
+    
+    Weather *todayWeather = self.location.weeklyData[0];
+    _todayWeatherView.todayWeather = todayWeather;
+    
+    self.location = self.location;
+    [self.maintableView reloadData];
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
