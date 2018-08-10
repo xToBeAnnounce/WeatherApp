@@ -15,5 +15,7 @@
 @property (strong,nonatomic) UICollectionView *mainCollectionView;
 @property (strong,nonatomic) UITableView *maintableView;
 @property (strong, nonatomic) id<ActivityDelegate> activityDelegate;
+
 @property (strong, nonatomic) Location *location;
+@property (strong, nonatomic) NSString *tempTypeString;
 @end

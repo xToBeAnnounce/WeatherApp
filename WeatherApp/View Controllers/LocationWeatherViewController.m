@@ -69,16 +69,17 @@
     self.locationDetailsButton.hidden = !self.location.objectId;
     [self setNavigationUI];
     
-    if (!self.weeklyView.hidden) {
-        [self showBannerIfNeededWithCompletion:nil];
-    }
+//    if (!self.weeklyView.hidden) {
+//        [self showBannerIfNeededWithCompletion:nil];
+//    }
     
 }
 
 - (void)setTempTypeString:(NSString *)tempTypeString {
     _tempTypeString = tempTypeString;
-    self.dailyView.tempType = tempTypeString;
-    self.weeklyView.tempType = tempTypeString;
+//    self.dailyView.tempType = tempTypeString;
+//    self.weeklyView.tempType = tempTypeString;
+    self.weatherView.tempTypeString = tempTypeString;
 }
 
 - (void) setSubviews {

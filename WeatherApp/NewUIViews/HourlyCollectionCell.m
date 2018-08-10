@@ -82,7 +82,7 @@
     
     _iconView.image = [UIImage imageNamed:weather.icon];
     
-    _temperatureLabel.text = [weather getTempInString:weather.temperature];
+    _temperatureLabel.text = [weather getTempInString:weather.temperature withType:self.tempType];
     [_temperatureLabel sizeToFit];
     
     [_blureffectView.widthAnchor constraintEqualToAnchor:_hourlyStackView.widthAnchor].active = YES;

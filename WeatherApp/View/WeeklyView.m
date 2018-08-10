@@ -14,6 +14,7 @@
 {
     UIWindow *_bannerWindow;
     BannerView *_bannerView;
+    NSLayoutConstraint *_tableViewHeightConstraint;
 }
 
 static NSString *WeeklycellIdentifier = @"WeeklyCell";
@@ -104,6 +105,7 @@ static BOOL showBanner;
 
 - (void) refreshView {
     [self.WeeklytableView reloadData];
+    _tableViewHeightConstraint.constant = self.WeeklytableView.contentSize.height;
 }
 
 - (BOOL) shouldHighlightDate:(NSDate *)date {
@@ -136,14 +138,13 @@ static BOOL showBanner;
     [self.WeeklytableView.bottomAnchor constraintEqualToAnchor:self.bottomAnchor].active = YES;
     [self.WeeklytableView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor].active = YES;
     [self.WeeklytableView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor].active = YES;
-    
-//    [self.heightAnchor constraintEqualToAnchor:self.WeeklytableView.heightAnchor].active = YES;
+    _tableViewHeightConstraint = [self.WeeklytableView.heightAnchor constraintEqualToConstant:self.WeeklytableView.contentSize.height];
+    _tableViewHeightConstraint.active = YES;
+    [self.heightAnchor constraintEqualToAnchor:self.WeeklytableView.heightAnchor].active = YES;
 }
 
 - (void)layoutSubviews{
     [super layoutSubviews];
-    
-    [self.heightAnchor constraintEqualToConstant:self.WeeklytableView.contentSize.height].active = YES;
 }
 
 - (void) showBannerIfNeededWithCompletion:(void(^)(BOOL finished))completion{

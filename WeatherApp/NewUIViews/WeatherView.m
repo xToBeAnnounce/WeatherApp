@@ -92,6 +92,7 @@ bool dataLoaded = NO;
     layout.scrollDirection = UICollectionViewScrollDirectionVertical;
     layout.minimumLineSpacing = 8;
     layout.estimatedItemSize = UICollectionViewFlowLayoutAutomaticSize;
+    layout.sectionInset = UIEdgeInsetsMake(8, 0, 8, 0);
     
     self.mainCollectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, 300, UIScreen.mainScreen.bounds.size.width, UIScreen.mainScreen.bounds.size.height) collectionViewLayout:layout];
     self.mainCollectionView.dataSource = self;
@@ -160,6 +161,15 @@ bool dataLoaded = NO;
     _hourlyView.location = location;
     
     [self updateDataIfNeeded];
+}
+
+- (void)setTempTypeString:(NSString *)tempTypeString {
+    _tempTypeString = tempTypeString;
+    _todayWeatherView.tempTypeString = tempTypeString;
+    _weeklyView.tempType = tempTypeString;
+    _hourlyView.tempTypeString = tempTypeString;
+    
+//    [self.mainCollectionView reloadData];
 }
 
 - (void) refreshViews {
