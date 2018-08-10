@@ -53,13 +53,13 @@ static NSString *cellID = @"hamburgerMenu";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     SWRevealViewController *revealController = self.revealViewController;
+    
     if (indexPath.row == 0){
         [revealController pushFrontViewController:self.pageVC animated:YES];
     }
     if (indexPath.row == 2){
         [revealController pushFrontViewController:self.mapWVC animated:YES];
     }
-    
     if (indexPath.row == 3){
         [revealController pushFrontViewController:self.settingsVC animated:YES];
     }

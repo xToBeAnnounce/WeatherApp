@@ -44,7 +44,6 @@
     _blurEffectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
     _blurEffectView.frame = self.view.bounds;
     _blurEffectView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    
     return self;
 }
 
@@ -145,7 +144,7 @@
 
 - (void) setConstraintsForView:(UIView *)view{
     [view.topAnchor constraintEqualToAnchor:self.view.topAnchor].active = YES;
-    [view.bottomAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.bottomAnchor].active = YES;
+    [view.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor].active = YES;
     [view.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor].active = YES;
     [view.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor].active = YES;
 }

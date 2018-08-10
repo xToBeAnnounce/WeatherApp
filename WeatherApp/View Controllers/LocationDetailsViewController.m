@@ -75,12 +75,17 @@ BOOL saving = NO;
 - (void) initalizeControlProperties {
     //Displays name of location
     self.placeNameLabel = [[UILabel alloc]init];
-    self.placeNameLabel.font = [UIFont systemFontOfSize:25 weight:UIFontWeightThin];
-    self.placeNameLabel.textColor = UIColor.blackColor;
+    self.placeNameLabel.font = [UIFont systemFontOfSize:25];
+    self.placeNameLabel.textColor = UIColor.whiteColor;
     self.placeNameLabel.text = self.location.fullPlaceName;
     self.placeNameLabel.numberOfLines = 0;
     self.placeNameLabel.textAlignment = NSTextAlignmentCenter;
     [self.placeNameLabel sizeToFit];
+    
+    self.placeNameLabel.layer.shadowColor = [UIColor.blackColor CGColor];
+    self.placeNameLabel.layer.shadowRadius = 2;
+    
+    self.placeNameLabel.layer.shadowOffset = CGSizeMake(0.5, 1.0);
     self.placeNameLabel.translatesAutoresizingMaskIntoConstraints = NO;
     
     //Custom Name input
@@ -170,10 +175,12 @@ BOOL saving = NO;
     self.placeImageView.clipsToBounds = YES;
     self.placeImageView.translatesAutoresizingMaskIntoConstraints = NO;
     if (self.location.backdropImage) {
+        self.placeNameLabel.layer.shadowOpacity = 1.0;
         self.placeImageView.file = self.location.backdropImage;
         [self.placeImageView loadInBackground];
     }
     else {
+        self.placeNameLabel.layer.shadowOpacity = 0.0;
         self.placeImageView.image = [UIImage imageNamed:@"grad"];
     }
     
@@ -443,7 +450,7 @@ BOOL saving = NO;
 
 - (void) imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
     UIImage *originalImage = info[UIImagePickerControllerOriginalImage];
-    CGSize size = CGSizeMake(82.6667*3, 147.333*3);
+    CGSize size = CGSizeMake(82.6667*4, 147.333*4);
     
     [self setImage:[self resizeImage:originalImage withSize:size]];
     [self dismissViewControllerAnimated:YES completion:nil];
@@ -453,6 +460,7 @@ BOOL saving = NO;
     self.placeImageView.image = locImage;
     [locationAttributeDict setValue:[Location getPFFileFromImage:locImage] forKey:@"backdropImage"];
     self.clearPhotoButton.hidden = NO;
+    self.placeNameLabel.layer.shadowOpacity = 1.0;
 }
 
 - (void) clearImage{
@@ -460,6 +468,7 @@ BOOL saving = NO;
     self.location.backdropImage = nil;
     [locationAttributeDict removeObjectForKey:@"backdropImage"];
     self.clearPhotoButton.hidden = YES;
+    self.placeNameLabel.layer.shadowOpacity = 0.0;
 }
 
 - (UIImage *)resizeImage:(UIImage *)image withSize:(CGSize)size {

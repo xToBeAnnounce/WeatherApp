@@ -14,10 +14,12 @@
 #import "DailyView.h"
 #import "WeatherCardCell.h"
 #import "BannerView.h"
+#import <Parse/PFImageView.h>
 #import "HourlyForecastView.h"
 
 @implementation WeatherView
 {
+    PFImageView *_backdropImageView;
     TodayWeatherView *_todayWeatherView;
     TodayActivitiesView *_todayActivityView;
     WeeklyView *_weeklyView;
@@ -26,7 +28,7 @@
     NSLayoutConstraint *_collectionHeightConstraint;
     HourlyForecastView *_hourlyView;
 }
-
+NSString *defaultBackdrop;
 CGFloat _originalPos = 500;
 UICollectionViewFlowLayout *layout;
 NSString *cellID = @"weatherCardCell";
@@ -36,12 +38,12 @@ bool dataLoaded = NO;
 {
     self = [super initWithFrame:frame];
     if (self) {
-        UIImageView *tempBackground = [[UIImageView alloc] initWithFrame:self.frame];
-        tempBackground.image = [UIImage imageNamed:@"Sanfranciso"];
-        tempBackground.contentMode = UIViewContentModeScaleAspectFill;
-        tempBackground.clipsToBounds = YES;
-        [self addSubview:tempBackground];
-        self.backgroundColor = UIColor.purpleColor;
+        defaultBackdrop = @"golden_san_fran";
+        _backdropImageView = [[PFImageView alloc] initWithFrame:self.frame];
+        _backdropImageView.image = [UIImage imageNamed:defaultBackdrop];
+        _backdropImageView.contentMode = UIViewContentModeScaleAspectFill;
+        _backdropImageView.clipsToBounds = YES;
+        [self addSubview:_backdropImageView];
         
         [self setCollectionViewUI];
         [self setViewsUI];
@@ -74,6 +76,7 @@ bool dataLoaded = NO;
 }
 
 - (void) setViewsUI {
+    
     _todayWeatherView = [[TodayWeatherView alloc] init];
     _todayWeatherView.translatesAutoresizingMaskIntoConstraints = NO;
     [self addSubview:_todayWeatherView];
@@ -125,23 +128,10 @@ bool dataLoaded = NO;
 - (nonnull __kindof UICollectionViewCell *)collectionView:(nonnull UICollectionView *)collectionView cellForItemAtIndexPath:(nonnull NSIndexPath *)indexPath {
 
     WeatherCardCell *cell = [self.mainCollectionView dequeueReusableCellWithReuseIdentifier:cellID forIndexPath:indexPath];
-    UIView *placeholderView = UIView.new:
+    UIView *placeholderView = UIView.new;
     if(indexPath.row == 0){
         [cell setTitle:@"Hourly Forecast" withView:_hourlyView Width:_mainCollectionView.frame.size.width];
     }
-
-    if(indexPath.row == 4) {
-        UICollectionViewCell *TodayCell = [self.mainCollectionView dequeueReusableCellWithReuseIdentifier:cellID forIndexPath:indexPath];
-        DailyView *dailyView = [[DailyView alloc]initWithFrame:CGRectMake(0, 0, UIScreen.mainScreen.bounds.size.width, 250)];
-        dailyView.location = self.location;
-        dailyView.backgroundColor = UIColor.blueColor;
-        [TodayCell addSubview:dailyView];
-        return TodayCell;
-    }
-    
-    UICollectionViewCell *cell = [self.mainCollectionView dequeueReusableCellWithReuseIdentifier:cellID forIndexPath:indexPath];
-    cell.backgroundColor = UIColor.blueColor;
-
     else if (indexPath.row == 1) {
         [cell setTitle:@"Today's Summary" withView:placeholderView Width:_mainCollectionView.frame.size.width];
     }
@@ -177,6 +167,14 @@ bool dataLoaded = NO;
     _location = location;
     [self updateDataIfNeeded];
     
+    if (location.backdropImage) {
+        _backdropImageView.file = location.backdropImage;
+        [_backdropImageView loadInBackground];
+    }
+    else {
+        _backdropImageView.image = [UIImage imageNamed:defaultBackdrop];
+    }
+    
     _weeklyView.location = location;
     _todayActivityView.location = location;
     _hourlyView.location = location;
@@ -201,14 +199,17 @@ bool dataLoaded = NO;
         _collectionHeightConstraint = [self.mainCollectionView.topAnchor constraintEqualToAnchor:self.topAnchor constant:displacement];
     }
     
-    oldConstraint.active = NO;
-    self->_collectionHeightConstraint.active = YES;
+    [UIView animateWithDuration:0.05 animations:^{
+        oldConstraint.active = NO;
+        self->_collectionHeightConstraint.active = YES;
+        
+        if (self->_todayWeatherView.frame.origin.y <= 75) {
+            self->_todayWeatherView.alpha = self->_todayWeatherView.frame.origin.y/75.0;
+        }
+        else {
+            self->_todayWeatherView.alpha = 1.0;
+        }
+    }];
     
-    if (self->_todayWeatherView.frame.origin.y <= 75) {
-        self->_todayWeatherView.alpha = self->_todayWeatherView.frame.origin.y/75.0;
-    }
-    else {
-        self->_todayWeatherView.alpha = 1.0;
-    }
 }
 @end
