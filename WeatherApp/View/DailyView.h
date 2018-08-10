@@ -9,18 +9,16 @@
 #import <UIKit/UIKit.h>
 #import "Location.h"
 
-@interface DailyView : UIView <UITableViewDataSource,UITableViewDelegate>
+@interface DailyView : UIView
 @property (strong,nonatomic) Location *location;
 @property (strong, nonatomic) NSString *tempType;
-@property (strong, nonatomic) UIView *currentWeatherView;
-@property (strong,nonatomic) UITableView *DailytableView;
-@property (strong, nonatomic) UIStackView *weatherDisplayStackView;
 @property (strong,nonatomic) UIImageView *iconImageView;
 @property (strong,nonatomic) UILabel *temperatureLabel;
-@property (strong,nonatomic) UILabel *locationLabel;
-@property (strong,nonatomic) UILabel *customNameLabel;
-@property (strong,nonatomic) UIImageView *backgroundImageView;
-@property CGRect oldframe;
+@property (strong,nonatomic) UILabel *humidityLabel;
+@property (strong,nonatomic) UILabel *windspeedLabel;
+@property (strong,nonatomic) UILabel *summaryLabel;
+@property (strong,nonatomic) UILabel *uvIndexLabel;
+@property (strong,nonatomic) UILabel *rainChance;
 
 - (void) refreshView;
 
