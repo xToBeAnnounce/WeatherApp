@@ -24,6 +24,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [self parseBackendSetup];
+    [[User currentUser] fetchIfNeededInBackground];
     self.mainNavController = [[NavigationController alloc] init];
     
     

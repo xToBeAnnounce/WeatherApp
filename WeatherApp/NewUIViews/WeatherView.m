@@ -173,12 +173,15 @@ bool dataLoaded = NO;
 }
 
 - (void) refreshViews {
-    Weather *currentWeather = self.location.dailyData[0];
-    _todayWeatherView.currentWeather = currentWeather;
-    _todayActivityView.currentWeather = currentWeather;
-    
-    Weather *todayWeather = self.location.weeklyData[0];
-    _todayWeatherView.todayWeather = todayWeather;
+    if (self.location.dailyData) {
+        Weather *currentWeather = self.location.dailyData[0];
+        _todayWeatherView.currentWeather = currentWeather;
+        _todayActivityView.currentWeather = currentWeather;
+    }
+    if (self.location.weeklyData) {
+        Weather *todayWeather = self.location.weeklyData[0];
+        _todayWeatherView.todayWeather = todayWeather;
+    }
     
     self.location = self.location;
     [self.maintableView reloadData];

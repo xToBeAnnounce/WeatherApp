@@ -42,7 +42,7 @@
 
 - (void)setTempTypeString:(NSString *)tempTypeString {
     _tempTypeString = tempTypeString;
-    [self refreshView];
+    if (self.currentWeather || self.todayWeather) [self refreshView];
 }
 
 - (void)setCurrentWeather:(Weather *)currentWeather {
