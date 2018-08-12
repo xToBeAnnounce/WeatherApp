@@ -27,6 +27,9 @@
     BannerView *_bannerView;
     NSLayoutConstraint *_collectionHeightConstraint;
     HourlyForecastView *_hourlyView;
+    CGRect _oldCollectionViewFrame;
+    CGRect _oldTodayWeatherFrame;
+    BOOL _getTodayViewFrame;
 }
 NSString *defaultBackdrop;
 CGFloat _originalPos = 500;
@@ -64,7 +67,7 @@ bool dataLoaded = NO;
                 self->_todayWeatherView.todayWeather = todayWeather;
                 [self.mainCollectionView reloadData];
                 
-                self.location = self.location;
+                self.location = self.location; //Sets the locations of the views in setLocation
             }
             else NSLog(@"%@", error.localizedDescription);
         }];
@@ -74,6 +77,7 @@ bool dataLoaded = NO;
 - (void) setViewsUI {
     
     _todayWeatherView = [[TodayWeatherView alloc] init];
+    _getTodayViewFrame = NO;
     _todayWeatherView.translatesAutoresizingMaskIntoConstraints = NO;
     [self addSubview:_todayWeatherView];
   
@@ -156,7 +160,10 @@ bool dataLoaded = NO;
     
     [_todayWeatherView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor].active = YES;
     [_todayWeatherView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor].active = YES;
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[todayWeatherView][collectionView]|" options:NSLayoutFormatAlignAllCenterX metrics:nil views:@{@"todayWeatherView":_todayWeatherView, @"collectionView":self.mainCollectionView}]];
+
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[todayWeatherView][collectionView]" options:NSLayoutFormatAlignAllCenterX metrics:nil views:@{@"todayWeatherView":_todayWeatherView, @"collectionView":self.mainCollectionView}]];
+    
+    _oldCollectionViewFrame = self.mainCollectionView.frame;
 }
 
 - (void)setLocation:(Location *)location {
@@ -179,7 +186,31 @@ bool dataLoaded = NO;
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-//    CGFloat collectionOffset = self.mainCollectionView.contentOffset.y;
+    if(!_getTodayViewFrame){
+        _oldTodayWeatherFrame = _todayWeatherView.frame;
+        _getTodayViewFrame = YES;
+    }
+    
+    CGFloat contentOffset = self.mainCollectionView.contentOffset.y;
+    NSLog(@"%f", contentOffset);
+    if((contentOffset < 10 && self.mainCollectionView.frame.origin.y <= _oldCollectionViewFrame.origin.y) || ((_todayWeatherView.frame.origin.y > self.safeAreaInsets.top) && self.mainCollectionView.frame.origin.y - contentOffset <= _oldCollectionViewFrame.origin.y)){
+        [UIView animateWithDuration:0.1 delay:0 usingSpringWithDamping:50 initialSpringVelocity:1 options:UIViewAnimationOptionCurveEaseIn animations:^{
+            self->_collectionHeightConstraint.active = NO;
+            CGFloat newTodayWeatherY = self->_oldTodayWeatherFrame.origin.y - contentOffset;
+            CGFloat newCollectionY = self->_oldCollectionViewFrame.origin.y - contentOffset;
+            
+            CGRect newTodayFrame = CGRectMake(self->_oldTodayWeatherFrame.origin.x, newTodayWeatherY, self->_oldTodayWeatherFrame.size.width, self->_oldTodayWeatherFrame.size.height);
+            CGRect newCollectionFrame = CGRectMake(self->_oldCollectionViewFrame.origin.x, newCollectionY, self->_oldCollectionViewFrame.size.width, self->_oldCollectionViewFrame.size.height);
+            
+            self->_todayWeatherView.frame = newTodayFrame;
+            self.mainCollectionView.frame = newCollectionFrame;
+            
+            self->_collectionHeightConstraint.constant = self->_collectionHeightConstraint.constant - contentOffset;
+            self->_collectionHeightConstraint.active = YES;
+            [self layoutIfNeeded];
+        } completion:^(BOOL finished) {}];
+    }
+    //NSLog(@"%f", collectionOffset);
 //    NSLayoutConstraint *oldConstraint = _collectionHeightConstraint;
 //    CGFloat displacement;
 //    

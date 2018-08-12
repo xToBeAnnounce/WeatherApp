@@ -151,7 +151,6 @@ static BOOL showBanner;
     [self.WeeklytableView.bottomAnchor constraintEqualToAnchor:self.bottomAnchor].active = YES;
     [self.WeeklytableView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor].active = YES;
     [self.WeeklytableView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor].active = YES;
-//    [self.heightAnchor constraintEqualToConstant:350].active = YES;
 }
 
 - (void)layoutSubviews{
