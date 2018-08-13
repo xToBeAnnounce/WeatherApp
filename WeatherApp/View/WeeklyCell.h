@@ -25,6 +25,7 @@
 @property (strong, nonatomic) NSLayoutConstraint *bottomConstraint;
 @property (strong,nonatomic) UILabel *humidityLabel;
 @property (strong,nonatomic) UILabel *windspeedLabel;
+@property (strong,nonatomic) UILabel *HumidityTitle;
 /* Weather Information */
 @property (strong, nonatomic) Weather *dayWeather;
 @property (strong, nonatomic) NSString *tempType; //C or F
