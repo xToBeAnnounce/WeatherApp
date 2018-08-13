@@ -177,8 +177,8 @@ static int const numHoursInDay = 24;
                 NSDictionary *currentData = data[@"hourly"][@"data"][0];
                 NSDictionary *todayData = data[@"daily"][@"data"][0];
                 
-                self.dailyData = [NSMutableArray arrayWithObject:[[Weather alloc] initWithData:currentData]];
-                self.weeklyData = [NSMutableArray arrayWithObject:[[Weather alloc] initWithData:todayData]];
+                self.dailyData = [NSMutableArray arrayWithObject:[[Weather alloc] initWithData:currentData Timezone:data[@"timezone"]]];
+                self.weeklyData = [NSMutableArray arrayWithObject:[[Weather alloc] initWithData:todayData Timezone:data[@"timezone"]]];
                 
                 completion(data, nil);
             }
@@ -188,6 +188,7 @@ static int const numHoursInDay = 24;
     else if([dataType isEqualToString:@"all"]) {
         [self getDataWithLong:(int)self.longitude Lat:(int)self.lattitude Type:@"all" Completion:^(NSDictionary *data, NSError *error) {
             if (data) {
+                
                 [self setWeeklyDataWithDictionary:data];
                 [self setDailyDataWithDictionary:data];
                 completion(data, nil);
@@ -214,16 +215,20 @@ static int const numHoursInDay = 24;
 -(void)setWeeklyDataWithDictionary:(NSDictionary*)data{
     [self.weeklyData removeAllObjects];
     NSArray *dailyArray = data[@"daily"][@"data"];
+    
     for(int i=0; i<numDaysInWeek; i++){
-        [self.weeklyData addObject:[[Weather alloc]initWithData:dailyArray[i]]];
+        Weather *dayWeather = [[Weather alloc]initWithData:dailyArray[i] Timezone:data[@"timezone"]];
+        [self.weeklyData addObject:dayWeather];
     }
+    
 }
 
 -(void)setDailyDataWithDictionary:(NSDictionary*)data{
     [self.dailyData removeAllObjects];
     NSArray *hourlyArray = data[@"hourly"][@"data"];
     for(int i=0; i<numHoursInDay; i++){
-        [self.dailyData addObject:[[Weather alloc]initWithData:hourlyArray[i]]];
+        Weather *hourWeather = [[Weather alloc]initWithData:hourlyArray[i] Timezone:data[@"timezone"]];
+        [self.dailyData addObject:hourWeather];
     }
 }
 

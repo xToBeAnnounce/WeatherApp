@@ -9,11 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "Location.h"
 
-@protocol HourlyForecastDelegate
--(void)reloadByHeight;
-@end
-
 @interface HourlyForecastView : UIView <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 @property (strong, nonatomic) Location *location;
--(void)setViewHeight;
+@property (strong, nonatomic) NSString *tempTypeString;
 @end

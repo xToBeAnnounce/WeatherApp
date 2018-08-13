@@ -27,10 +27,12 @@
     BannerView *_bannerView;
     NSLayoutConstraint *_collectionHeightConstraint;
     HourlyForecastView *_hourlyView;
+    DailyView *_dailyView;
     CGRect _oldCollectionViewFrame;
     CGRect _oldTodayWeatherFrame;
     BOOL _getTodayViewFrame;
 }
+
 NSString *defaultBackdrop;
 CGFloat _originalPos = 500;
 UICollectionViewFlowLayout *layout;
@@ -59,14 +61,8 @@ bool dataLoaded = NO;
     if (self.location.weeklyData.count == 0 || self.location.dailyData.count == 0) {
         [self.location fetchDataType:@"all" WithCompletion:^(NSDictionary *data, NSError *error) {
             if (data) {
-                Weather *currentWeather = self.location.dailyData[0];
-                self->_todayWeatherView.currentWeather = currentWeather;
-                self->_todayActivityView.currentWeather = currentWeather;
-                
-                Weather *todayWeather = self.location.weeklyData[0];
-                self->_todayWeatherView.todayWeather = todayWeather;
+                [self refreshViews];
                 [self.mainCollectionView reloadData];
-                
                 self.location = self.location; //Sets the locations of the views in setLocation
             }
             else NSLog(@"%@", error.localizedDescription);
@@ -84,20 +80,19 @@ bool dataLoaded = NO;
     _todayActivityView = [[TodayActivitiesView alloc] init];
     _weeklyView = [[WeeklyView alloc] init];
     _hourlyView = [[HourlyForecastView alloc]init];
-  
-//     _weeklyView = [[WeeklyView alloc] initWithFrame:CGRectMake(0, 0, UIScreen.mainScreen.bounds.size.width, 350)];
     
 //    _bannerWindow = UIApplication.sharedApplication.keyWindow;
-//
 //    _bannerView = [[BannerView alloc] initWithMessage:@"Placeholder message so I can see its behavior and all that jazz."];
 //    _bannerView.backgroundColor = [UIColor redColor];
 //    [_bannerWindow addSubview:_bannerView];
 //    [_bannerView setUpBannerForSuperview];
+    _dailyView = [[DailyView alloc]init];
 }
 
 - (void)setActivityDelegate:(id<ActivityDelegate>)activityDelegate {
     _activityDelegate = activityDelegate;
     _todayActivityView.activityDelegate = activityDelegate;
+    _weeklyView.activityDelegate = activityDelegate;
 }
 
 // sets the UI of table view and background
@@ -106,9 +101,9 @@ bool dataLoaded = NO;
     layout.scrollDirection = UICollectionViewScrollDirectionVertical;
     layout.minimumLineSpacing = 8;
     layout.estimatedItemSize = UICollectionViewFlowLayoutAutomaticSize;
-//    layout.estimatedItemSize = CGSizeMake(350, 150);
+    layout.sectionInset = UIEdgeInsetsMake(8, 0, 8, 0);
     
-    self.mainCollectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, 300, UIScreen.mainScreen.bounds.size.width, UIScreen.mainScreen.bounds.size.height) collectionViewLayout:layout];
+    self.mainCollectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, _originalPos, UIScreen.mainScreen.bounds.size.width, UIScreen.mainScreen.bounds.size.height) collectionViewLayout:layout];
     self.mainCollectionView.dataSource = self;
     self.mainCollectionView.delegate = self;
     self.mainCollectionView.backgroundColor = [[UIColor alloc] initWithWhite:0.0 alpha:0.5];
@@ -116,7 +111,7 @@ bool dataLoaded = NO;
     [self.mainCollectionView registerClass:WeatherCardCell.class forCellWithReuseIdentifier:cellID];
     [self addSubview:self.mainCollectionView];
     
-    _collectionHeightConstraint = [self.mainCollectionView.topAnchor constraintEqualToAnchor:self.topAnchor constant:300];
+    _collectionHeightConstraint = [self.mainCollectionView.topAnchor constraintEqualToAnchor:self.topAnchor constant:_originalPos];
     _collectionHeightConstraint.active = YES;
 }
 
@@ -141,6 +136,7 @@ bool dataLoaded = NO;
     else if (indexPath.row == 3) {
         [cell setTitle:@"Daily Forecast" withView:_weeklyView Width:self.mainCollectionView.frame.size.width];
     }
+    
     [cell layoutIfNeeded];
     return cell;
 }
@@ -149,9 +145,9 @@ bool dataLoaded = NO;
     return 4;
 }
 
-//- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
-//    return CGSizeMake(self.frame.size.width, 350);
-//}
+// - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
+//     return CGSizeMake(self.frame.size.width, 300);
+// }
 
 - (void) setConstraints {
     [self.mainCollectionView.bottomAnchor constraintEqualToAnchor:self.bottomAnchor].active = YES;
@@ -168,7 +164,6 @@ bool dataLoaded = NO;
 
 - (void)setLocation:(Location *)location {
     _location = location;
-    [self updateDataIfNeeded];
     
     if (location.backdropImage) {
         _backdropImageView.file = location.backdropImage;
@@ -178,11 +173,37 @@ bool dataLoaded = NO;
         _backdropImageView.image = [UIImage imageNamed:defaultBackdrop];
     }
     
+    if (location.objectId && ![location.customName isEqualToString:location.placeName]) _todayWeatherView.customName = location.customName;
+    
     _weeklyView.location = location;
     _todayActivityView.location = location;
     _hourlyView.location = location;
-//    [_hourlyView setViewHeight];
     
+    [self updateDataIfNeeded];
+}
+
+- (void)setTempTypeString:(NSString *)tempTypeString {
+    _tempTypeString = tempTypeString;
+    _todayWeatherView.tempTypeString = tempTypeString;
+    _weeklyView.tempType = tempTypeString;
+    _hourlyView.tempTypeString = tempTypeString;
+    
+//    [self.mainCollectionView reloadData];
+}
+
+- (void) refreshViews {
+    if (self.location.dailyData) {
+        Weather *currentWeather = self.location.dailyData[0];
+        _todayWeatherView.currentWeather = currentWeather;
+        _todayActivityView.currentWeather = currentWeather;
+    }
+    if (self.location.weeklyData) {
+        Weather *todayWeather = self.location.weeklyData[0];
+        _todayWeatherView.todayWeather = todayWeather;
+    }
+    
+    self.location = self.location;
+    [self.maintableView reloadData];
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
@@ -192,7 +213,6 @@ bool dataLoaded = NO;
     }
     
     CGFloat contentOffset = self.mainCollectionView.contentOffset.y;
-    NSLog(@"%f", contentOffset);
     if((contentOffset < 10 && self.mainCollectionView.frame.origin.y <= _oldCollectionViewFrame.origin.y) || ((_todayWeatherView.frame.origin.y > self.safeAreaInsets.top) && self.mainCollectionView.frame.origin.y - contentOffset <= _oldCollectionViewFrame.origin.y)){
         [UIView animateWithDuration:0.1 delay:0 usingSpringWithDamping:50 initialSpringVelocity:1 options:UIViewAnimationOptionCurveEaseIn animations:^{
             self->_collectionHeightConstraint.active = NO;
@@ -210,34 +230,5 @@ bool dataLoaded = NO;
             [self layoutIfNeeded];
         } completion:^(BOOL finished) {}];
     }
-    //NSLog(@"%f", collectionOffset);
-//    NSLayoutConstraint *oldConstraint = _collectionHeightConstraint;
-//    CGFloat displacement;
-//    
-//    if (collectionOffset < 0) {
-//        displacement = oldConstraint.constant-collectionOffset;
-//    }
-//    else {
-//        displacement = _originalPos-collectionOffset;
-//    }
-//    
-//    NSLog(@"%f", displacement);
-//    
-//    if (displacement>self.safeAreaInsets.top && displacement<self.frame.size.height-200) {
-//        _collectionHeightConstraint = [self.mainCollectionView.topAnchor constraintEqualToAnchor:self.topAnchor constant:displacement];
-//    }
-//    
-//    [UIView animateWithDuration:0.05 animations:^{
-//        oldConstraint.active = NO;
-//        self->_collectionHeightConstraint.active = YES;
-//        
-//        if (self->_todayWeatherView.frame.origin.y <= 75) {
-//            self->_todayWeatherView.alpha = self->_todayWeatherView.frame.origin.y/75.0;
-//        }
-//        else {
-//            self->_todayWeatherView.alpha = 1.0;
-//        }
-//    }];
-    
 }
 @end

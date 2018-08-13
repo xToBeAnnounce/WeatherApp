@@ -61,10 +61,17 @@ NSString *hourlyCellIdentifier = @"singleHourCell";
 - (void)setLocation:(Location *)location{
     if(_location.dailyData) location.dailyData = _location.dailyData; //Updates daily data
     _location = location; //Updates rest of locatin object (i.e. Preference settings)
+    [_collectionView reloadData];
+}
+
+- (void)setTempTypeString:(NSString *)tempTypeString {
+    _tempTypeString = tempTypeString;
+    [_collectionView reloadData];
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     HourlyCollectionCell *cell = [_collectionView dequeueReusableCellWithReuseIdentifier:hourlyCellIdentifier forIndexPath:indexPath];
+    cell.tempType = self.tempTypeString;
     cell.weather = self.location.dailyData[indexPath.row];
     cell.backgroundColor = UIColor.clearColor;
     [cell layoutIfNeeded];

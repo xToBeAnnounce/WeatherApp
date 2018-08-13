@@ -39,22 +39,20 @@ static NSArray *activityNames;
 
     //High temperature display at right
     self.highTempLabel = [[UILabel alloc] init];
-    self.highTempLabel.textColor = [UIColor redColor];
+    self.highTempLabel.textColor = [UIColor colorWithRed:1.00 green:0.83 blue:0.92 alpha:1.0];
     self.highTempLabel.font = [UIFont systemFontOfSize:17];
-    [self.contentView addSubview:self.highTempLabel];
+
 
 
 
     //Low temperature display at right
     self.lowTempLabel = [[UILabel alloc] init];
-    self.lowTempLabel.textColor = [UIColor cyanColor];
+    self.lowTempLabel.textColor = [UIColor colorWithRed:0.83 green:0.92 blue:1.00 alpha:1.0];
     self.lowTempLabel.font = [UIFont systemFontOfSize:17];
-    [self.contentView addSubview:self.lowTempLabel];
-
+    
+    
     self.tempStackView = [[UIStackView alloc]initWithArrangedSubviews:@[self.highTempLabel,self.lowTempLabel]];
     [self.contentView addSubview:self.tempStackView];
-    
-    
     [self setConstraints];
     return self;
 }
@@ -103,7 +101,7 @@ self.activityButton = [[UIButton alloc]init];
     // Low temp label
     self.lowTempLabel.text = [dayWeather getTempInString:dayWeather.temperatureLow withType:self.tempType];
     [self.lowTempLabel sizeToFit];
-    
+  
     self.humidityLabel.text = [dayWeather getHumidityInString:dayWeather.humidity];
     [self.humidityLabel sizeToFit];
     
@@ -112,7 +110,6 @@ self.activityButton = [[UIButton alloc]init];
     
     self.summaryLabel.text = dayWeather.summary;
     [self.summaryLabel sizeToFit];
-    
     
     
 }
@@ -140,11 +137,6 @@ self.activityButton = [[UIButton alloc]init];
     [self.ExpandedView.trailingAnchor constraintEqualToAnchor:self.contentView.trailingAnchor].active = YES;
     self.ExpandedView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.ExpandedView.topAnchor constraintEqualToAnchor:self.tempStackView.bottomAnchor constant:20].active = YES;
-    
-    
-    
-
-    
 
 }
 

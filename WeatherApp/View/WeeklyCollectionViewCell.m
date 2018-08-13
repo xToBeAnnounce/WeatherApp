@@ -58,7 +58,7 @@
     self.dateLabel.text = [dayWeather getDayOfWeekWithTime:dayWeather.time];
     [self.dateLabel sizeToFit];
     
-    self.summaryLabel.text = [dayWeather formatSummary:dayWeather.icon];
+    self.summaryLabel.text = [dayWeather formatSummary];
     [self.summaryLabel sizeToFit];
     
     // Weather icon image view

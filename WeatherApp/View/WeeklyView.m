@@ -14,6 +14,8 @@
 {
     UIWindow *_bannerWindow;
     BannerView *_bannerView;
+    NSLayoutConstraint *_tableViewHeightConstraint;
+    NSIndexPath *expandedIndexPath;
 }
 
 static NSString *WeeklycellIdentifier = @"WeeklyCell";
@@ -32,25 +34,12 @@ static BOOL showBanner;
 // An empty implementation adversely affects performance during animation.
 - (void)drawRect:(CGRect)rect {
     [super drawRect:rect];
-    [self setLocationName];
 }
 
--(void)setLocationName{
-    if ([self.location.placeName isEqualToString:self.location.customName]) {
-        self.customNameLabel.font = [UIFont systemFontOfSize:45];
-        self.locationLabel.hidden = YES;
-    }
-    else {
-        self.locationLabel.hidden = NO;
-        self.customNameLabel.font = [UIFont systemFontOfSize:35];
-        self.locationLabel.text = self.location.placeName;
-        [self.locationLabel sizeToFit];
-    }
-}
 - (void) setLocation:(Location *)location {
     if (_location.weeklyData && !location.weeklyData) location.weeklyData = _location.weeklyData;
     _location = location;
-    self.customNameLabel.text = self.location.customName;
+    
     self.selectedCell = nil;
     [self refreshView];
 }
@@ -89,10 +78,7 @@ static BOOL showBanner;
     
     weeklycell.tempType = self.tempType;
     Weather *dayWeather = self.location.weeklyData[indexPath.row];
-
     weeklycell.dayWeather = dayWeather;
-//    weeklycell.contentView.backgroundColor = UIColor.clearColor;
-//    weeklycell.backgroundColor = UIColor.clearColor;
     
     NSDate *cellDate = [NSDate dateWithTimeIntervalSinceNow:3600*24*indexPath.row];
     if ([self shouldHighlightDate:cellDate]) {
@@ -105,6 +91,11 @@ static BOOL showBanner;
     else {
         weeklycell.backgroundColor = UIColor.clearColor;
     }
+    
+    if(indexPath.row == 0){
+        weeklycell.dateLabel.text = @"Tomorrow";
+        [weeklycell.dateLabel sizeToFit];
+    }
     return weeklycell;
 }
 
@@ -114,12 +105,17 @@ static BOOL showBanner;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
     Weather *weatherOfDay = self.location.weeklyData[indexPath.row];
-    [self.delegate displayPopoverWithLocation:self.location weather:weatherOfDay index:0];
+    [self.activityDelegate displayPopoverWithLocation:self.location weather:weatherOfDay index:0];
     [self.WeeklytableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    if(indexPath.row == 0){
+        NSLog(@"Selected index");
+    }
 }
 
 - (void) refreshView {
     [self.WeeklytableView reloadData];
+    _tableViewHeightConstraint.constant = self.WeeklytableView.contentSize.height;
 }
 
 - (BOOL) shouldHighlightDate:(NSDate *)date {
@@ -152,10 +148,13 @@ static BOOL showBanner;
     [self.WeeklytableView.bottomAnchor constraintEqualToAnchor:self.bottomAnchor].active = YES;
     [self.WeeklytableView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor].active = YES;
     [self.WeeklytableView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor].active = YES;
+    _tableViewHeightConstraint = [self.WeeklytableView.heightAnchor constraintEqualToConstant:self.WeeklytableView.contentSize.height];
+    _tableViewHeightConstraint.active = YES;
+    [self.heightAnchor constraintEqualToAnchor:self.WeeklytableView.heightAnchor].active = YES;
 }
 
 - (void)layoutSubviews{
-    [self.heightAnchor constraintEqualToConstant:self.WeeklytableView.contentSize.height].active = YES;
+    [super layoutSubviews];
 }
 
 - (void) showBannerIfNeededWithCompletion:(void(^)(BOOL finished))completion{

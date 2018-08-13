@@ -33,12 +33,13 @@
 {
     [super awakeFromNib];
     self.contentView.frame = self.bounds;
-    self.contentView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+//    self.contentView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 }
 
 -(void)initalizeLabels{
     _timeLabel = [[UILabel alloc] init];
     _timeLabel.font = [UIFont systemFontOfSize:15];
+    _timeLabel.textColor = UIColor.whiteColor;
     _timeLabel.translatesAutoresizingMaskIntoConstraints = NO;
     
     _iconView = [[UIImageView alloc] init];
@@ -47,12 +48,13 @@
     _temperatureLabel = [[UILabel alloc] init];
     _temperatureLabel.font = [UIFont systemFontOfSize:20];
     _temperatureLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    _temperatureLabel.textColor = UIColor.whiteColor;
     self.contentView.translatesAutoresizingMaskIntoConstraints = NO;
 }
 
 -(void)setLabelConstraints{
-    [_iconView.heightAnchor constraintEqualToConstant:50].active = YES;
-    [_iconView.widthAnchor constraintEqualToConstant:50].active = YES;
+    [_iconView.heightAnchor constraintEqualToConstant:45].active = YES;
+    [_iconView.widthAnchor constraintEqualToConstant:45].active = YES;
     
     NSArray *arrangedViews = @[_timeLabel, _iconView, _temperatureLabel];
     _hourlyStackView = [[UIStackView alloc] initWithArrangedSubviews: arrangedViews];
@@ -87,7 +89,7 @@
     
     _iconView.image = [UIImage imageNamed:weather.icon];
     
-    _temperatureLabel.text = [weather getTempInString:weather.temperature];
+    _temperatureLabel.text = [weather getTempInString:weather.temperature withType:self.tempType];
     [_temperatureLabel sizeToFit];
     
     [_blureffectView.widthAnchor constraintEqualToAnchor:_hourlyStackView.widthAnchor].active = YES;
