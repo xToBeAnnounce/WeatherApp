@@ -156,6 +156,8 @@ bool dataLoaded = NO;
         _backdropImageView.image = [UIImage imageNamed:defaultBackdrop];
     }
     
+    if (![location.customName isEqualToString:location.placeName]) _todayWeatherView.customName = location.customName;
+    
     _weeklyView.location = location;
     _todayActivityView.location = location;
     _hourlyView.location = location;
