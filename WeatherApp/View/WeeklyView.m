@@ -55,6 +55,7 @@ static BOOL showBanner;
     self.WeeklytableView.delegate = self;
     self.WeeklytableView.dataSource = self;
     self.backgroundColor = UIColor.clearColor;
+    self.WeeklytableView.rowHeight = UITableViewAutomaticDimension;
     self.WeeklytableView.translatesAutoresizingMaskIntoConstraints = NO;
     [self addSubview:self.WeeklytableView];
     [self.WeeklytableView registerClass: WeeklyCell.class forCellReuseIdentifier:@"WeeklyCell"];

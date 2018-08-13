@@ -43,6 +43,8 @@ static NSArray *activityNames;
     self.highTempLabel.font = [UIFont systemFontOfSize:17];
 
 
+
+
     //Low temperature display at right
     self.lowTempLabel = [[UILabel alloc] init];
     self.lowTempLabel.textColor = [UIColor colorWithRed:0.83 green:0.92 blue:1.00 alpha:1.0];
@@ -51,9 +53,36 @@ static NSArray *activityNames;
     
     self.tempStackView = [[UIStackView alloc]initWithArrangedSubviews:@[self.highTempLabel,self.lowTempLabel]];
     [self.contentView addSubview:self.tempStackView];
-
     [self setConstraints];
     return self;
+}
+
+-(void)setExpandedView{
+    
+//Expanded View UI
+self.ExpandedView = [[UIView alloc]init];
+[self addSubview:self.ExpandedView];
+
+UILabel *HumidityTitle = [[UILabel alloc]init];
+HumidityTitle.text = @"Humidity";
+HumidityTitle.font = [UIFont systemFontOfSize:18];
+[HumidityTitle sizeToFit];
+self.humidityLabel = [[UILabel alloc]init];
+self.humidityLabel.font = [UIFont systemFontOfSize:17];
+
+UILabel *WindSpeedTitle = [[UILabel alloc]init];
+WindSpeedTitle.text = @"Humidity";
+WindSpeedTitle.font = [UIFont systemFontOfSize:18];
+[WindSpeedTitle sizeToFit];
+self.windspeedLabel = [[UILabel alloc]init];
+self.windspeedLabel.font = [UIFont systemFontOfSize:17];
+
+self.summaryLabel = [[UILabel alloc]init];
+self.summaryLabel.font = [UIFont systemFontOfSize:17];
+    
+    
+self.activityButton = [[UIButton alloc]init];
+[self.activityButton setImage:[UIImage imageNamed:@"activities"] forState:UIControlStateNormal];
 }
 
 - (void)setDayWeather:(Weather *)dayWeather {
@@ -72,7 +101,15 @@ static NSArray *activityNames;
     // Low temp label
     self.lowTempLabel.text = [dayWeather getTempInString:dayWeather.temperatureLow withType:self.tempType];
     [self.lowTempLabel sizeToFit];
+  
+    self.humidityLabel.text = [dayWeather getHumidityInString:dayWeather.humidity];
+    [self.humidityLabel sizeToFit];
     
+    self.windspeedLabel.text = [dayWeather getWindSpeedInString:dayWeather.windSpeed];
+    [self.windspeedLabel sizeToFit];
+    
+    self.summaryLabel.text = dayWeather.summary;
+    [self.summaryLabel sizeToFit];
     
     
 }
@@ -94,6 +131,12 @@ static NSArray *activityNames;
     self.tempStackView.distribution = UIStackViewAlignmentCenter;
     self.tempStackView.axis = UILayoutConstraintAxisHorizontal;
     self.tempStackView.spacing = 8;
+    
+    //Constraints for Expanded View
+    [self.ExpandedView.leadingAnchor constraintEqualToAnchor:self.contentView.leadingAnchor].active = YES;
+    [self.ExpandedView.trailingAnchor constraintEqualToAnchor:self.contentView.trailingAnchor].active = YES;
+    self.ExpandedView.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.ExpandedView.topAnchor constraintEqualToAnchor:self.tempStackView.bottomAnchor constant:20].active = YES;
 
 }
 
