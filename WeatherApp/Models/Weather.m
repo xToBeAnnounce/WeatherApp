@@ -11,14 +11,27 @@
 
 @implementation Weather
 
-- (instancetype)initWithData:(NSDictionary*)data{
-    NSTimeInterval timeInSeconds = [data[@"time"] longValue];
-    //Increment by one day so it starts at current day
-    NSDateComponents *components = [[NSDateComponents alloc]init];
-    components.day = 1;
-    NSCalendar *calendar = [NSCalendar currentCalendar];
-    NSDate *time = [NSDate dateWithTimeIntervalSince1970:timeInSeconds];
-    self.time = [calendar dateByAddingComponents:components toDate:time options:0];
+static NSString *const _currentTimeZone = @"America/Los_Angeles";
+static NSArray *dayOfWeek;
+
+- (instancetype)initWithData:(NSDictionary*)data Timezone:(NSString*)timezone{
+    dayOfWeek = @[@"nil", @"Sunday", @"Monday", @"Tuesday", @"Wednesday", @"Thursday", @"Friday", @"Saturday"];
+    
+    NSTimeInterval timeInSeconds = [data[@"time"] integerValue];
+    self.time = [NSDate dateWithTimeIntervalSince1970:timeInSeconds];
+    
+    if(![timezone isEqualToString:_currentTimeZone]){
+        NSTimeZone *destinationTimeZone = [NSTimeZone timeZoneWithName:_currentTimeZone];
+        NSInteger destinationSeconds = [destinationTimeZone secondsFromGMTForDate:self.time];
+        
+        NSTimeZone *sourceTimeZone = [NSTimeZone timeZoneWithName:timezone];
+        NSInteger sourceSeconds = [sourceTimeZone secondsFromGMTForDate:self.time];
+        
+        NSTimeInterval timeDiff = 0;
+        if(destinationSeconds > sourceSeconds) timeDiff = sourceSeconds - destinationSeconds;
+        else timeDiff = destinationSeconds - sourceSeconds;
+        self.time = [[NSDate alloc] initWithTimeInterval:timeDiff sinceDate:self.time];
+    }
     
     self.icon = data[@"icon"];
     self.windSpeed = [data[@"windSpeed"] floatValue];
@@ -56,13 +69,26 @@
     else return [NSString stringWithFormat:@"%d pm", (hour - 12)];
 }
 
-- (NSString*)getDayOfWeekWithTime:(NSDate*)date{
+- (NSString*)getDayOfWeekWithTime:(NSDate*)date{    
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    formatter.dateStyle = NSDateFormatterMediumStyle;
-    formatter.timeStyle = NSDateFormatterNoStyle;
-    formatter.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US"];
-    [formatter setLocalizedDateFormatFromTemplate:@"EEEE"];
-    return [formatter stringFromDate:date];
+    formatter.dateFormat = @"yyyy-MM-dd";
+    [formatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"GMT+0:00"]];
+    NSString *currentDayString = [formatter stringFromDate:date];
+    
+    NSArray *dateInArray = [currentDayString componentsSeparatedByString:@"-"];
+    
+    NSDateComponents *dateComponents = [[NSDateComponents alloc] init];
+    NSString *day = dateInArray[2];
+    dateComponents.day = [day intValue];
+    NSString *month = dateInArray[1];
+    dateComponents.month = [month intValue];
+    NSString *year = dateInArray[0];
+    dateComponents.year = [year intValue];
+    
+    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+    NSDate *usedDate = [calendar dateFromComponents:dateComponents];
+    NSInteger numDayOfWeek = [calendar component:NSCalendarUnitWeekday fromDate:usedDate];
+    return dayOfWeek[(int)numDayOfWeek];
 }
 
 - (NSString*)getDateInString:(NSDate*)date{

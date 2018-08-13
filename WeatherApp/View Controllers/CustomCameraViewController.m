@@ -164,7 +164,7 @@
 - (void)captureOutput:(AVCapturePhotoOutput *)output didFinishProcessingPhoto:(AVCapturePhoto *)photo error:(NSError *)error {
     NSData *imageData = photo.fileDataRepresentation;
     UIImage *image = [UIImage imageWithData:imageData];
-    UIImage *resizedImage = [self resizeImage:image withSize:CGSizeMake(82.6667*3, 147.333*3)];
+    UIImage *resizedImage = [self resizeImage:image withSize:CGSizeMake(82.6667*4, 147.333*4)];
     self.captureImageView.image = resizedImage;
 }
 

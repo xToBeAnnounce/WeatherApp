@@ -14,7 +14,7 @@
 
 - (instancetype) initWithMessage:(NSString *)message;
 
-- (void) setDefaultSuperviewConstraints;
+- (void) setUpBannerForSuperview;
 - (void) setBannerMessage:(NSString *)message;
 - (void)animateBannerWithCompletion:(void(^)(BOOL finished))completion;
 

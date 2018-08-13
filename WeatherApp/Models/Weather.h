@@ -12,6 +12,7 @@
 @end
 
 @interface Weather : NSObject
+@property (strong, nonatomic) NSString *timezone;
 @property (strong, nonatomic) NSDate *time;
 @property (strong, nonatomic) NSString *summary;
 @property (strong, nonatomic) NSString *icon;
@@ -38,5 +39,5 @@
 
 
 
-- (instancetype)initWithData:(NSDictionary*)data;
+- (instancetype)initWithData:(NSDictionary*)data Timezone:(NSString*)timezone;
 @end

@@ -15,16 +15,17 @@
     NSMutableArray *_hourlyData;
     UICollectionViewFlowLayout *_layout;
     CGFloat _viewHeight;
+    NSLayoutConstraint *_heightConstraint;
 }
 NSString *hourlyCellIdentifier = @"singleHourCell";
 
-- (instancetype)init
-{
+- (instancetype)init{
     self = [super init];
     if (self) {
         self.translatesAutoresizingMaskIntoConstraints = NO;
         [self initalizeCollectionView];
         [self systemLayoutSizeFittingSize: UILayoutFittingCompressedSize];
+        _viewHeight = 150;
     }
     return self;
 }
@@ -41,6 +42,7 @@ NSString *hourlyCellIdentifier = @"singleHourCell";
     _collectionView.delegate = self;
     _collectionView.dataSource = self;
     _collectionView.translatesAutoresizingMaskIntoConstraints = NO;
+    _collectionView.contentInset = UIEdgeInsetsMake(0, 0, 0, 30);
     
     [self addSubview:_collectionView];
     [self setCollectionViewConstraints];
@@ -51,33 +53,22 @@ NSString *hourlyCellIdentifier = @"singleHourCell";
     [_collectionView.bottomAnchor constraintEqualToAnchor:self.bottomAnchor].active = YES;
     [_collectionView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor].active = YES;
     [_collectionView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor].active = YES;
+    
+    _heightConstraint = [NSLayoutConstraint constraintWithItem:_collectionView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:100];
+    [self addConstraint:_heightConstraint];
 }
 
 - (void)setLocation:(Location *)location{
     if(_location.dailyData) location.dailyData = _location.dailyData; //Updates daily data
     _location = location; //Updates rest of locatin object (i.e. Preference settings)
-//    [self fetchDailyDataIfNeeded];
 }
-
-//-(void)fetchDailyDataIfNeeded{
-//    if (self.location.dailyData.count == 0) {
-//        [self.location fetchDataType:@"daily" WithCompletion:^(NSDictionary * data, NSError * error) {
-//            if(error == nil){
-//                //self.location.dailyData updated
-//                [self->_collectionView reloadData];
-//            }
-//            else NSLog(@"%@", error.localizedDescription);
-//        }];
-//    }
-//    else [_collectionView reloadData];
-//}
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     HourlyCollectionCell *cell = [_collectionView dequeueReusableCellWithReuseIdentifier:hourlyCellIdentifier forIndexPath:indexPath];
     cell.weather = self.location.dailyData[indexPath.row];
     cell.backgroundColor = UIColor.clearColor;
-    _viewHeight = cell.frame.size.height + 8;
     [cell layoutIfNeeded];
+    _viewHeight = cell.frame.size.height + 20;
     return cell;
 }
 
@@ -89,9 +80,9 @@ NSString *hourlyCellIdentifier = @"singleHourCell";
     return 1;
 }
 
-- (void)setViewHeight{
-    [_collectionView reloadData];
-    [self.heightAnchor constraintEqualToConstant:150].active = YES;;
+- (void)layoutSubviews{
+//    _heightConstraint.active = NO;
+//    [_collectionView.heightAnchor constraintEqualToConstant:_viewHeight].active = YES;
 }
 
 /*

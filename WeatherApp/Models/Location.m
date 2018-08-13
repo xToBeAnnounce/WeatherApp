@@ -146,8 +146,10 @@ static int const numHoursInDay = 24;
 
 /*-------------FETCH WEATHER METHODS-------------*/
 -(void)fetchDataType:(NSString*)dataType WithCompletion:(void(^)(NSDictionary*, NSError*))completion{
+    if (!self.weeklyData) self.weeklyData = [[NSMutableArray alloc] init];
+    if (!self.dailyData) self.dailyData = [[NSMutableArray alloc] init];
+    
     if([dataType isEqualToString:@"daily"]){
-        self.dailyData = [[NSMutableArray alloc] init];
         [self getDataWithLong:self.longitude Lat:self.lattitude Type:dataType Completion:^(NSDictionary *data, NSError *error) {
             if (data) {
                 [self setDailyDataWithDictionary:data];
@@ -159,7 +161,6 @@ static int const numHoursInDay = 24;
         }];
     }
     else if([dataType isEqualToString:@"weekly"]){
-        self.weeklyData = [[NSMutableArray alloc] init];
         [self getDataWithLong:(int)self.longitude Lat:(int)self.lattitude Type:dataType Completion:^(NSDictionary *data, NSError *error) {
             if (data) {
                 [self setWeeklyDataWithDictionary:data];
@@ -171,20 +172,25 @@ static int const numHoursInDay = 24;
         }];
     }
     else if([dataType isEqualToString:@"current"]) {
-        [self getDataWithLong:(int)self.longitude Lat:(int)self.lattitude Type:@"daily" Completion:^(NSDictionary *data, NSError *error) {
+        [self getDataWithLong:(int)self.longitude Lat:(int)self.lattitude Type:@"all" Completion:^(NSDictionary *data, NSError *error) {
             if (data) {
                 NSDictionary *currentData = data[@"hourly"][@"data"][0];
-                self.dailyData = [NSMutableArray arrayWithObject:[[Weather alloc] initWithData:currentData]];
-                [self getDataWithLong:(int)self.longitude Lat:(int)self.lattitude Type:@"weekly" Completion:^(NSDictionary *data, NSError *error) {
-                    if (data) {
-                        NSDictionary *todayData = data[@"daily"][@"data"][0];
-                        self.weeklyData = [NSMutableArray arrayWithObject:[[Weather alloc] initWithData:todayData]];
-                        completion(data, nil);
-                    }
-                    else {
-                        completion(nil, error);
-                    }
-                }];
+                NSDictionary *todayData = data[@"daily"][@"data"][0];
+                
+                self.dailyData = [NSMutableArray arrayWithObject:[[Weather alloc] initWithData:currentData Timezone:data[@"timezone"]]];
+                self.weeklyData = [NSMutableArray arrayWithObject:[[Weather alloc] initWithData:todayData Timezone:data[@"timezone"]]];
+                
+                completion(data, nil);
+            }
+            else completion(nil, error);
+        }];
+    }
+    else if([dataType isEqualToString:@"all"]) {
+        [self getDataWithLong:(int)self.longitude Lat:(int)self.lattitude Type:@"all" Completion:^(NSDictionary *data, NSError *error) {
+            if (data) {
+                [self setWeeklyDataWithDictionary:data];
+                [self setDailyDataWithDictionary:data];
+                completion(data, nil);
             }
             else completion(nil, error);
         }];
@@ -209,7 +215,8 @@ static int const numHoursInDay = 24;
     [self.weeklyData removeAllObjects];
     NSArray *dailyArray = data[@"daily"][@"data"];
     for(int i=0; i<numDaysInWeek; i++){
-        [self.weeklyData addObject:[[Weather alloc]initWithData:dailyArray[i]]];
+        Weather *dayWeather = [[Weather alloc]initWithData:dailyArray[i] Timezone:data[@"timezone"]];
+        [self.weeklyData addObject:dayWeather];
     }
 }
 
@@ -217,7 +224,8 @@ static int const numHoursInDay = 24;
     [self.dailyData removeAllObjects];
     NSArray *hourlyArray = data[@"hourly"][@"data"];
     for(int i=0; i<numHoursInDay; i++){
-        [self.dailyData addObject:[[Weather alloc]initWithData:hourlyArray[i]]];
+        Weather *hourWeather = [[Weather alloc]initWithData:hourlyArray[i] Timezone:data[@"timezone"]];
+        [self.dailyData addObject:hourWeather];
     }
 }
 

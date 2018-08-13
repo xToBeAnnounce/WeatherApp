@@ -28,7 +28,7 @@ double readingTime;
     self = [super init];
     if (self) {
         self.bannerLabel = [[UILabel alloc] init];
-        self.bannerLabel.font = [UIFont systemFontOfSize:20];
+        self.bannerLabel.font = [UIFont systemFontOfSize:15];
         self.bannerLabel.translatesAutoresizingMaskIntoConstraints = NO;
         [self addSubview:self.bannerLabel];
         
@@ -52,7 +52,7 @@ double readingTime;
 // Set internal constraints for label and view
 - (void) setInternalConstraints {
     // set banner height to adjust to label height
-    _bannerHeightConstraint = [self.heightAnchor constraintEqualToAnchor:self.bannerLabel.heightAnchor constant:10];
+    _bannerHeightConstraint = [self.heightAnchor constraintEqualToAnchor:self.bannerLabel.heightAnchor constant:5];
     _bannerHeightConstraint.active = YES;
     
     [self.bannerLabel.centerYAnchor constraintEqualToAnchor:self.centerYAnchor].active = YES;
@@ -71,6 +71,11 @@ double readingTime;
     
     _bannerHideConstraint = [self.bottomAnchor constraintEqualToAnchor:self.superview.safeAreaLayoutGuide.topAnchor];
     _bannerShowConstraint = [self.topAnchor constraintEqualToAnchor:self.superview.safeAreaLayoutGuide.topAnchor];
+}
+
+- (void) setUpBannerForSuperview {
+    [self setDefaultSuperviewConstraints];
+    [self showAlert:NO];
 }
 
 // Change constraints based on height of label
@@ -94,7 +99,7 @@ double readingTime;
     self.bannerLabel.text = message;
     [self.bannerLabel sizeToFit];
     
-    readingTime = self.bannerLabel.frame.size.width/250;
+    readingTime = self.bannerLabel.frame.size.width/150;
     if (readingTime < 1.2) readingTime = 1.2;
     
     [self adjustLabelBasedConstraints];
