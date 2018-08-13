@@ -69,6 +69,7 @@
 - (void) refreshView {
     // Icon and description
     _currentIconView.image = [UIImage imageNamed:self.currentWeather.icon];
+    _iconDescLabel.text = [self.currentWeather formattedIconSummary];
 
     // High low for the day
     _highTempLabel.text = [NSString stringWithFormat:@"%@",

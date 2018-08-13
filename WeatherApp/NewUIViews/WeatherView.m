@@ -102,7 +102,7 @@ bool dataLoaded = NO;
     layout.estimatedItemSize = UICollectionViewFlowLayoutAutomaticSize;
     layout.sectionInset = UIEdgeInsetsMake(8, 0, 8, 0);
     
-    self.mainCollectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, 300, UIScreen.mainScreen.bounds.size.width, UIScreen.mainScreen.bounds.size.height) collectionViewLayout:layout];
+    self.mainCollectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, _originalPos, UIScreen.mainScreen.bounds.size.width, UIScreen.mainScreen.bounds.size.height) collectionViewLayout:layout];
     self.mainCollectionView.dataSource = self;
     self.mainCollectionView.delegate = self;
     self.mainCollectionView.backgroundColor = [[UIColor alloc] initWithWhite:0.0 alpha:0.5];
@@ -110,7 +110,7 @@ bool dataLoaded = NO;
     [self.mainCollectionView registerClass:WeatherCardCell.class forCellWithReuseIdentifier:cellID];
     [self addSubview:self.mainCollectionView];
     
-    _collectionHeightConstraint = [self.mainCollectionView.topAnchor constraintEqualToAnchor:self.topAnchor constant:300];
+    _collectionHeightConstraint = [self.mainCollectionView.topAnchor constraintEqualToAnchor:self.topAnchor constant:_originalPos];
     _collectionHeightConstraint.active = YES;
 }
 
