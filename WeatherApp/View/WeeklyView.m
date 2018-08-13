@@ -15,6 +15,7 @@
     UIWindow *_bannerWindow;
     BannerView *_bannerView;
     NSLayoutConstraint *_tableViewHeightConstraint;
+    NSIndexPath *expandedIndexPath;
 }
 
 static NSString *WeeklycellIdentifier = @"WeeklyCell";
@@ -39,7 +40,6 @@ static BOOL showBanner;
     if (_location.weeklyData && !location.weeklyData) location.weeklyData = _location.weeklyData;
     _location = location;
     
-    self.customNameLabel.text = self.location.customName;
     self.selectedCell = nil;
     [self refreshView];
 }
@@ -104,7 +104,7 @@ static BOOL showBanner;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
     Weather *weatherOfDay = self.location.weeklyData[indexPath.row];
-    [self.delegate displayPopoverWithLocation:self.location weather:weatherOfDay index:0];
+    [self.activityDelegate displayPopoverWithLocation:self.location weather:weatherOfDay index:0];
     [self.WeeklytableView deselectRowAtIndexPath:indexPath animated:YES];
     
     if(indexPath.row == 0){
