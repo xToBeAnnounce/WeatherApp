@@ -192,7 +192,6 @@ bool dataLoaded = NO;
     }
     
     CGFloat contentOffset = self.mainCollectionView.contentOffset.y;
-    NSLog(@"%f", contentOffset);
     if((contentOffset < 10 && self.mainCollectionView.frame.origin.y <= _oldCollectionViewFrame.origin.y) || ((_todayWeatherView.frame.origin.y > self.safeAreaInsets.top) && self.mainCollectionView.frame.origin.y - contentOffset <= _oldCollectionViewFrame.origin.y)){
         [UIView animateWithDuration:0.1 delay:0 usingSpringWithDamping:50 initialSpringVelocity:1 options:UIViewAnimationOptionCurveEaseIn animations:^{
             self->_collectionHeightConstraint.active = NO;
@@ -210,34 +209,5 @@ bool dataLoaded = NO;
             [self layoutIfNeeded];
         } completion:^(BOOL finished) {}];
     }
-    //NSLog(@"%f", collectionOffset);
-//    NSLayoutConstraint *oldConstraint = _collectionHeightConstraint;
-//    CGFloat displacement;
-//    
-//    if (collectionOffset < 0) {
-//        displacement = oldConstraint.constant-collectionOffset;
-//    }
-//    else {
-//        displacement = _originalPos-collectionOffset;
-//    }
-//    
-//    NSLog(@"%f", displacement);
-//    
-//    if (displacement>self.safeAreaInsets.top && displacement<self.frame.size.height-200) {
-//        _collectionHeightConstraint = [self.mainCollectionView.topAnchor constraintEqualToAnchor:self.topAnchor constant:displacement];
-//    }
-//    
-//    [UIView animateWithDuration:0.05 animations:^{
-//        oldConstraint.active = NO;
-//        self->_collectionHeightConstraint.active = YES;
-//        
-//        if (self->_todayWeatherView.frame.origin.y <= 75) {
-//            self->_todayWeatherView.alpha = self->_todayWeatherView.frame.origin.y/75.0;
-//        }
-//        else {
-//            self->_todayWeatherView.alpha = 1.0;
-//        }
-//    }];
-    
 }
 @end

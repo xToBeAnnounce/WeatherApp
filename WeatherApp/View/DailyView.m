@@ -31,32 +31,11 @@
         [self.location fetchDataType:@"weekly" WithCompletion:^(NSDictionary * data, NSError * error) {
             if(error == nil){
                 [self displayCurrentWeather];
-                NSLog(@"%@",data);
             }
             else NSLog(@"%@", error.localizedDescription);
         }];
     }
 }
-
-//-(void)scrollViewDidScroll:(UIScrollView *)scrollView{
-//    CGFloat TableViewOffset = self.DailytableView.contentOffset.y;
-//    if(self.oldframe.size.height-TableViewOffset > currentWeatherViewHeight){
-//        [UIView animateWithDuration:0.1 delay:0 usingSpringWithDamping:50 initialSpringVelocity:1 options:UIViewAnimationOptionCurveEaseIn animations:^{
-//            CGRect newFrame = CGRectMake(self.oldframe.origin.x, self.oldframe.origin.y, self.oldframe.size.width, self.oldframe.size.height-TableViewOffset);
-//            self.currentWeatherView.frame = newFrame;
-//            if(fabs(self.oldframe.size.height - self.currentWeatherView.frame.size.height) <= 10){
-//                self.temperatureLabel.alpha = 1;
-//            }
-//            else if (TableViewOffset > currentWeatherViewHeight){
-//                self.temperatureLabel.alpha = 0;
-//            }
-//            else{
-//                self.temperatureLabel.alpha = 1 - (currentWeatherViewHeight / (self.oldframe.size.height-TableViewOffset));
-//            }
-//            [self layoutIfNeeded];
-//        } completion:nil];
-//    }
-//}
 
 - (void) setLocation:(Location *)location {
 
@@ -157,13 +136,8 @@
 
 }
 
-
-
 - (void) refreshView {
     [self displayCurrentWeather];
 }
-
-
-
 
 @end
