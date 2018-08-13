@@ -34,8 +34,7 @@
 -(NSString*)getHumidityInString:(float)humidity;
 -(NSString*)getWindSpeedInString:(float)windspeed;
 -(NSString*)getprecipProbabilityInString:(float)precipProbability;
--(NSString*)formatSummary:(NSString*)summary;
--(NSString*)formattedIconSummary;
+-(NSString*)formatSummary;
 
 
 

@@ -44,8 +44,8 @@
 }
 
 -(void)setLabelConstraints{
-    [_iconView.heightAnchor constraintEqualToConstant:50].active = YES;
-    [_iconView.widthAnchor constraintEqualToConstant:50].active = YES;
+    [_iconView.heightAnchor constraintEqualToConstant:45].active = YES;
+    [_iconView.widthAnchor constraintEqualToConstant:45].active = YES;
     
     NSArray *arrangedViews = @[_timeLabel, _iconView, _temperatureLabel];
     _hourlyStackView = [[UIStackView alloc] initWithArrangedSubviews: arrangedViews];

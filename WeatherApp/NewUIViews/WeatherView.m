@@ -20,6 +20,7 @@
     TodayWeatherView *_todayWeatherView;
     WeeklyView *_weeklyView;
     HourlyForecastView *_hourlyView;
+    DailyView *_dailyView;
 }
 
 UICollectionViewFlowLayout *layout;
@@ -85,6 +86,7 @@ bool dataLoaded = NO;
     
     _weeklyView = [[WeeklyView alloc] init];
     _hourlyView = [[HourlyForecastView alloc]init];
+    _dailyView = [[DailyView alloc]init];
 }
 
 // sets the UI of table view and background
@@ -108,35 +110,26 @@ bool dataLoaded = NO;
 - (nonnull __kindof UICollectionViewCell *)collectionView:(nonnull UICollectionView *)collectionView cellForItemAtIndexPath:(nonnull NSIndexPath *)indexPath {
 
     WeatherCardCell *cell = [self.mainCollectionView dequeueReusableCellWithReuseIdentifier:cellID forIndexPath:indexPath];
-    UIView *placeholderView = UIView.new:
+    UIView *placeholderView = UIView.new;
     if(indexPath.row == 0){
 //        _hourlyView.location = self.location;
 //        if(dataLoaded) [_hourlyView setViewHeight];
         [cell setTitle:@"Hourly Forecast" withView:_hourlyView Width:_mainCollectionView.frame.size.width];
     }
 
-    if(indexPath.row == 4) {
-        UICollectionViewCell *TodayCell = [self.mainCollectionView dequeueReusableCellWithReuseIdentifier:cellID forIndexPath:indexPath];
-        DailyView *dailyView = [[DailyView alloc]initWithFrame:CGRectMake(0, 0, UIScreen.mainScreen.bounds.size.width, 250)];
-        dailyView.location = self.location;
-        dailyView.backgroundColor = UIColor.blueColor;
-        [TodayCell addSubview:dailyView];
-        return TodayCell;
-    }
-    
-    UICollectionViewCell *cell = [self.mainCollectionView dequeueReusableCellWithReuseIdentifier:cellID forIndexPath:indexPath];
-    cell.backgroundColor = UIColor.blueColor;
-
     else if (indexPath.row == 1) {
-        [cell setTitle:@"Today's Summary" withView:placeholderView Width:_mainCollectionView.frame.size.width];
-    }
-    else if (indexPath.row == 2) {
-        [cell setTitle:@"Suggested Activities" withView:placeholderView Width:_mainCollectionView.frame.size.width];
+        _dailyView.location = self.location;
+        _dailyView.backgroundColor = UIColor.clearColor;
+        [cell setTitle:@"Today's Summary" withView:_dailyView Width:_mainCollectionView.frame.size.width];
     }
     else if (indexPath.row == 3) {
+        [cell setTitle:@"Suggested Activities" withView:placeholderView Width:_mainCollectionView.frame.size.width];
+    }
+    else if (indexPath.row == 2) {
         _weeklyView.location = self.location;
         [cell setTitle:@"Daily Forecast" withView:_weeklyView Width:_mainCollectionView.frame.size.width];
     }
+    
     [cell layoutIfNeeded];
 
     return cell;
@@ -146,9 +139,11 @@ bool dataLoaded = NO;
     return 4;
 }
 
-//- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
-//    return CGSizeMake(self.frame.size.width, 350);
-//}
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
+    return CGSizeMake(self.frame.size.width, 300);
+}
+
+
 
 - (void) setConstraints {
     [self.mainCollectionView.topAnchor constraintEqualToAnchor:self.topAnchor constant:300].active = YES;
