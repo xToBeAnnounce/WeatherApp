@@ -47,6 +47,7 @@ static BOOL showBanner;
         [self.locationLabel sizeToFit];
     }
 }
+
 - (void) setLocation:(Location *)location {
     if (_location.weeklyData && !location.weeklyData) location.weeklyData = _location.weeklyData;
     _location = location;

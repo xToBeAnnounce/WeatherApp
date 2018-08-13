@@ -39,6 +39,7 @@
 -(void)initalizeLabels{
     _timeLabel = [[UILabel alloc] init];
     _timeLabel.font = [UIFont systemFontOfSize:15];
+    _timeLabel.textColor = UIColor.whiteColor;
     _timeLabel.translatesAutoresizingMaskIntoConstraints = NO;
     
     _iconView = [[UIImageView alloc] init];
@@ -46,6 +47,7 @@
     
     _temperatureLabel = [[UILabel alloc] init];
     _temperatureLabel.font = [UIFont systemFontOfSize:20];
+    _temperatureLabel.textColor = UIColor.whiteColor;
     _temperatureLabel.translatesAutoresizingMaskIntoConstraints = NO;
     self.contentView.translatesAutoresizingMaskIntoConstraints = NO;
 }

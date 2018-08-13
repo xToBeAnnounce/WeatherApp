@@ -42,7 +42,7 @@ NSString *hourlyCellIdentifier = @"singleHourCell";
     _collectionView.delegate = self;
     _collectionView.dataSource = self;
     _collectionView.translatesAutoresizingMaskIntoConstraints = NO;
-    _collectionView.contentInset = UIEdgeInsetsMake(0, 0, 0, 30);
+    _collectionView.contentInset = UIEdgeInsetsMake(10, 0, 0, 50);
     
     [self addSubview:_collectionView];
     [self setCollectionViewConstraints];

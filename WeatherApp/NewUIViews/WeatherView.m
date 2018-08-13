@@ -87,6 +87,7 @@ bool dataLoaded = NO;
     _weeklyView = [[WeeklyView alloc] init];
     _hourlyView = [[HourlyForecastView alloc]init];
     _dailyView = [[DailyView alloc]init];
+    _dailyView.translatesAutoresizingMaskIntoConstraints = NO;
 }
 
 - (void)setActivityDelegate:(id<ActivityDelegate>)activityDelegate {
@@ -127,7 +128,8 @@ bool dataLoaded = NO;
         [cell setTitle:@"Hourly Forecast" withView:_hourlyView Width:self.mainCollectionView.frame.size.width];
     }
     else if (indexPath.row == 1) {
-        [cell setTitle:@"Today's Summary" withView:placeholderView Width:self.mainCollectionView.frame.size.width];
+        _dailyView.backgroundColor = UIColor.clearColor;
+        [cell setTitle:@"Today's Summary" withView:_dailyView Width:self.mainCollectionView.frame.size.width];
     }
     else if (indexPath.row == 2) {
         [cell setTitle:@"Today's Activities" withView:_todayActivityView Width:self.mainCollectionView.frame.size.width];
@@ -143,12 +145,6 @@ bool dataLoaded = NO;
 - (NSInteger)collectionView:(nonnull UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
     return 4;
 }
-
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
-    return CGSizeMake(self.frame.size.width, 300);
-}
-
-
 
 - (void) setConstraints {
     [self.mainCollectionView.bottomAnchor constraintEqualToAnchor:self.bottomAnchor].active = YES;
@@ -178,8 +174,7 @@ bool dataLoaded = NO;
     _weeklyView.location = location;
     _todayActivityView.location = location;
     _hourlyView.location = location;
-//    [_hourlyView setViewHeight];
-    
+    _dailyView.location = location;
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
@@ -189,7 +184,7 @@ bool dataLoaded = NO;
     }
     
     CGFloat contentOffset = self.mainCollectionView.contentOffset.y;
-    if((contentOffset < 10 && self.mainCollectionView.frame.origin.y <= _oldCollectionViewFrame.origin.y) || ((_todayWeatherView.frame.origin.y > self.safeAreaInsets.top) && self.mainCollectionView.frame.origin.y - contentOffset <= _oldCollectionViewFrame.origin.y)){
+    if((contentOffset < 10 && self.mainCollectionView.frame.origin.y <= _oldCollectionViewFrame.origin.y) || ((_todayWeatherView.frame.origin.y > self.safeAreaInsets.top*1.05) && self.mainCollectionView.frame.origin.y - contentOffset <= _oldCollectionViewFrame.origin.y)){
         [UIView animateWithDuration:0.1 delay:0 usingSpringWithDamping:50 initialSpringVelocity:1 options:UIViewAnimationOptionCurveEaseIn animations:^{
             self->_collectionHeightConstraint.active = NO;
             CGFloat newTodayWeatherY = self->_oldTodayWeatherFrame.origin.y - contentOffset;
