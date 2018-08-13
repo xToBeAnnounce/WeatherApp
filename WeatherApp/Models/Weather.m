@@ -12,13 +12,20 @@
 @implementation Weather
 
 - (instancetype)initWithData:(NSDictionary*)data{
-    NSTimeInterval timeInSeconds = [data[@"time"] longValue];
+    NSTimeInterval timeInSeconds = [data[@"time"] integerValue];
     //Increment by one day so it starts at current day
-    NSDateComponents *components = [[NSDateComponents alloc]init];
-    components.day = 1;
-    NSCalendar *calendar = [NSCalendar currentCalendar];
-    NSDate *time = [NSDate dateWithTimeIntervalSince1970:timeInSeconds];
-    self.time = [calendar dateByAddingComponents:components toDate:time options:0];
+//    NSDateComponents *components = [[NSDateComponents alloc]init];
+//    components.day = 1;
+//    NSCalendar *calendar = [NSCalendar currentCalendar];
+//    NSDate *time = [NSDate dateWithTimeIntervalSince1970:timeInSeconds];
+//    self.time = [calendar dateByAddingComponents:components toDate:time options:0];
+    self.time = [NSDate dateWithTimeIntervalSince1970:timeInSeconds];
+//    NSDate *currentTime = [NSDate dateWithTimeIntervalSince1970:timeInSeconds];
+//    NSDateFormatter* df_local = [[NSDateFormatter alloc] init];
+//    [df_local setTimeZone:[NSTimeZone timeZoneWithName:@"EST"]];
+//    [df_local setDateFormat:@"yyyy.MM.dd G 'at' HH:mm:ss zzz"];
+//    NSString *formattedDate = [df_local stringFromDate:self.time];
+//    self.time = [df_local dateFromString:formattedDate];
     
     self.icon = data[@"icon"];
     self.windSpeed = [data[@"windSpeed"] floatValue];
