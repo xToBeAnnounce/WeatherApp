@@ -27,10 +27,12 @@
     BannerView *_bannerView;
     NSLayoutConstraint *_collectionHeightConstraint;
     HourlyForecastView *_hourlyView;
+    DailyView *_dailyView;
     CGRect _oldCollectionViewFrame;
     CGRect _oldTodayWeatherFrame;
     BOOL _getTodayViewFrame;
 }
+
 NSString *defaultBackdrop;
 CGFloat _originalPos = 500;
 UICollectionViewFlowLayout *layout;
@@ -84,15 +86,7 @@ bool dataLoaded = NO;
     _todayActivityView = [[TodayActivitiesView alloc] init];
     _weeklyView = [[WeeklyView alloc] init];
     _hourlyView = [[HourlyForecastView alloc]init];
-  
-//     _weeklyView = [[WeeklyView alloc] initWithFrame:CGRectMake(0, 0, UIScreen.mainScreen.bounds.size.width, 350)];
-    
-//    _bannerWindow = UIApplication.sharedApplication.keyWindow;
-//
-//    _bannerView = [[BannerView alloc] initWithMessage:@"Placeholder message so I can see its behavior and all that jazz."];
-//    _bannerView.backgroundColor = [UIColor redColor];
-//    [_bannerWindow addSubview:_bannerView];
-//    [_bannerView setUpBannerForSuperview];
+    _dailyView = [[DailyView alloc]init];
 }
 
 - (void)setActivityDelegate:(id<ActivityDelegate>)activityDelegate {
@@ -141,6 +135,7 @@ bool dataLoaded = NO;
     else if (indexPath.row == 3) {
         [cell setTitle:@"Daily Forecast" withView:_weeklyView Width:self.mainCollectionView.frame.size.width];
     }
+    
     [cell layoutIfNeeded];
     return cell;
 }
@@ -149,9 +144,11 @@ bool dataLoaded = NO;
     return 4;
 }
 
-//- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
-//    return CGSizeMake(self.frame.size.width, 350);
-//}
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
+    return CGSizeMake(self.frame.size.width, 300);
+}
+
+
 
 - (void) setConstraints {
     [self.mainCollectionView.bottomAnchor constraintEqualToAnchor:self.bottomAnchor].active = YES;

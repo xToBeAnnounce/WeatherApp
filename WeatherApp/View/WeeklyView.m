@@ -104,6 +104,11 @@ static BOOL showBanner;
     else {
         weeklycell.backgroundColor = UIColor.clearColor;
     }
+    
+    if(indexPath.row == 0){
+        weeklycell.dateLabel.text = @"Tomorrow";
+        [weeklycell.dateLabel sizeToFit];
+    }
     return weeklycell;
 }
 
@@ -115,6 +120,10 @@ static BOOL showBanner;
     Weather *weatherOfDay = self.location.weeklyData[indexPath.row];
     [self.delegate displayPopoverWithLocation:self.location weather:weatherOfDay index:0];
     [self.WeeklytableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    if(indexPath.row == 0){
+        NSLog(@"Selected index");
+    }
 }
 
 - (void) refreshView {

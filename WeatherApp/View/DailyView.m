@@ -27,7 +27,7 @@
 }
 
 - (void) updateDataIfNeeded {
-    if (self.location.dailyData.count == 0) {
+    if (self.location.weeklyData.count == 0) {
         [self.location fetchDataType:@"weekly" WithCompletion:^(NSDictionary * data, NSError * error) {
             if(error == nil){
                 [self displayCurrentWeather];
@@ -39,8 +39,7 @@
 
 - (void) setLocation:(Location *)location {
 
-    if (_location.weeklyData) location.weeklyData = _location.weeklyData[0];
-
+    if (_location.weeklyData) location.weeklyData = _location.weeklyData;
     _location = location;
     [self updateDataIfNeeded];
     [self refreshView];
@@ -54,60 +53,175 @@
 - (void) setDailyUI {
     
     //setting up icon image view
-    self.iconImageView = [[UIImageView alloc]initWithFrame:CGRectMake(34, 3, 70 , 70)];
+    self.iconImageView = [[UIImageView alloc]init];
     self.iconImageView.contentMode = UIViewContentModeScaleAspectFit;
     self.iconImageView.clipsToBounds = YES;
-    [self addSubview:self.iconImageView];
     
     //setting up humidity label
-    UILabel *humidityTitle = [[UILabel alloc]initWithFrame:CGRectMake(60, 110, 0, 0)];
+    UILabel *humidityTitle = [[UILabel alloc]init];
     humidityTitle.font = [UIFont systemFontOfSize:15];
-
     humidityTitle.text = @"HUMIDITY";
     [humidityTitle sizeToFit];
-    [self addSubview:humidityTitle];
-    
-    self.humidityLabel = [[UILabel alloc]initWithFrame:CGRectMake(73, 130, 0, 0)];
-    self.humidityLabel.font = [UIFont systemFontOfSize:16];
-    [self addSubview: self.humidityLabel];
+    self.humidityLabel = [[UILabel alloc]init];
+    self.humidityLabel.font = [UIFont systemFontOfSize:18];
+
     
     //setting up windspeed label
-    UILabel *windspeedTitle = [[UILabel alloc]initWithFrame:CGRectMake(230, 110, 0, 0)];
+    UILabel *windspeedTitle = [[UILabel alloc]init];
     windspeedTitle.font = [UIFont systemFontOfSize:15];
     windspeedTitle.text = @"WIND SPEED";
     [windspeedTitle sizeToFit];
-    [self addSubview:windspeedTitle];
+    self.windspeedLabel = [[UILabel alloc]init];
+    self.windspeedLabel.font = [UIFont systemFontOfSize:18];
+
     
-    self.windspeedLabel = [[UILabel alloc]initWithFrame:CGRectMake(240, 130 , 0, 0)];
-    self.windspeedLabel.font = [UIFont systemFontOfSize:16];
-    [self addSubview: self.windspeedLabel];
-    
-    //settings up uvIndex
-    UILabel *uvIndexTitle = [[UILabel alloc]initWithFrame:CGRectMake(62, 160, 0, 0)];
+    //setting up uvIndex
+    UILabel *uvIndexTitle = [[UILabel alloc]init];
     uvIndexTitle.font = [UIFont systemFontOfSize:15];
     uvIndexTitle.text = @"UV INDEX";
     [uvIndexTitle sizeToFit];
-    [self addSubview:uvIndexTitle];
+    self.uvIndexLabel = [[UILabel alloc]init];
+    self.uvIndexLabel.font = [UIFont systemFontOfSize:18];
     
-    self.uvIndexLabel = [[UILabel alloc]initWithFrame:CGRectMake(80, 180, 0, 0)];
-    self.uvIndexLabel.font = [UIFont systemFontOfSize:16];
-    [self addSubview:self.uvIndexLabel];
-    
-    UILabel *rainChanceTitle = [[UILabel alloc]initWithFrame:CGRectMake(220, 160, 0, 0)];
+    //setting up rain chance
+    UILabel *rainChanceTitle = [[UILabel alloc]init];
     rainChanceTitle.font = [UIFont systemFontOfSize:15];
     rainChanceTitle.text = @"CHANCE OF RAIN";
     [rainChanceTitle sizeToFit];
-    [self addSubview:rainChanceTitle];
+    self.rainChanceLabel = [[UILabel alloc]init];
+    self.rainChanceLabel.font = [UIFont systemFontOfSize:18];
     
-    self.rainChance = [[UILabel alloc]initWithFrame:CGRectMake(250, 180, 0, 0)];
-    self.rainChance.font = [UIFont systemFontOfSize:16];
-    [self addSubview:self.rainChance];
-    
-    
-    self.summaryLabel = [[UILabel alloc]initWithFrame:CGRectMake(250, 19, 0, 0)];
+    //setting up summary
+    self.summaryLabel = [[UILabel alloc]init];
     self.summaryLabel.text = @"--";
-    self.summaryLabel.font = [UIFont systemFontOfSize:16];
-    [self addSubview:self.summaryLabel];
+    self.summaryLabel.numberOfLines = 0;
+    self.summaryLabel.font = [UIFont systemFontOfSize:17];
+
+    
+    UIImageView *sunriseIV = [[UIImageView alloc]init];
+    sunriseIV.image = [UIImage imageNamed:@"sunrise"];
+    UIImageView *sunsetIV = [[UIImageView alloc]init];
+    sunsetIV.image = [UIImage imageNamed:@"sunset"];
+
+    
+    self.sunriseLabel = [[UILabel alloc]init];
+    self.sunriseLabel.text = @"6am";
+    self.sunriseLabel.font = [UIFont systemFontOfSize:18];
+    [self.sunriseLabel sizeToFit];
+
+    self.sunsetLabel = [[UILabel alloc]init];
+    self.sunsetLabel.text = @"8pm";
+    self.sunsetLabel.font = [UIFont systemFontOfSize:18];
+    [self.sunsetLabel sizeToFit];
+
+    UIView *lineView = [[UIView alloc]initWithFrame:CGRectMake(45, 125, 300, 1)];
+    lineView.backgroundColor = UIColor.whiteColor;
+    lineView.alpha = 0.7;
+    [self addSubview:lineView];
+    
+    UIView *lineView2 = [[UIView alloc]initWithFrame:CGRectMake(45, 175, 300, 1)];
+    lineView2.backgroundColor = UIColor.whiteColor;
+        lineView2.alpha = 0.7;
+    [self addSubview:lineView2];
+    
+    
+    UIView *lineView3 = [[UIView alloc]initWithFrame:CGRectMake(0, 75, self.frame.size.width, 1)];
+    lineView3.backgroundColor = UIColor.whiteColor;
+        lineView3.alpha = 0.7;
+    [self addSubview:lineView3];
+    
+    self.IconSummaryStackView = [[UIStackView alloc]initWithArrangedSubviews:@[self.iconImageView,self.summaryLabel]];
+    [self addSubview:self.IconSummaryStackView];
+    
+    self.HumidityStack = [[UIStackView alloc]initWithArrangedSubviews:@[humidityTitle,self.humidityLabel]];
+    self.WindspeedStack = [[UIStackView alloc]initWithArrangedSubviews:@[windspeedTitle,self.windspeedLabel]];
+    self.HumidityWindStackView = [[UIStackView alloc]initWithArrangedSubviews:@[self.HumidityStack,self.WindspeedStack]];
+    [self addSubview:self.HumidityWindStackView];
+    
+    self.UVIndexStack = [[UIStackView alloc]initWithArrangedSubviews:@[uvIndexTitle,self.uvIndexLabel]];
+    self.ChanceOfRainStack = [[UIStackView alloc]initWithArrangedSubviews:@[rainChanceTitle,self.rainChanceLabel]];
+    self.UVIndexRainStackView = [[UIStackView alloc]initWithArrangedSubviews:@[self.UVIndexStack,self.ChanceOfRainStack]];
+    [self addSubview:self.UVIndexRainStackView];
+    
+    self.sunRiseStack = [[UIStackView alloc]initWithArrangedSubviews:@[sunriseIV,self.sunriseLabel]];
+    self.sunSetStack = [[UIStackView alloc]initWithArrangedSubviews:@[sunsetIV,self.sunsetLabel]];
+    self.sunRiseSetStackView = [[UIStackView alloc]initWithArrangedSubviews:@[self.sunRiseStack,self.sunSetStack]];
+    [self addSubview:self.sunRiseSetStackView];
+    
+    
+    [self setConstraints];
+}
+
+-(void)setConstraints{
+    [self.iconImageView.heightAnchor constraintEqualToConstant:70].active = YES;
+    [self.iconImageView.widthAnchor constraintEqualToConstant:70].active = YES;
+    
+    
+    self.IconSummaryStackView.distribution = UIStackViewAlignmentCenter;
+    self.IconSummaryStackView.axis = UILayoutConstraintAxisHorizontal;
+    self.IconSummaryStackView.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.iconImageView.leadingAnchor constraintEqualToAnchor:self.IconSummaryStackView.leadingAnchor constant:20].active = YES;
+    [self.summaryLabel.trailingAnchor constraintEqualToAnchor:self.IconSummaryStackView.trailingAnchor constant:-10].active = YES;
+    [self.IconSummaryStackView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor].active = YES;
+    [self.IconSummaryStackView.trailingAnchor constraintLessThanOrEqualToAnchor:self.trailingAnchor].active = YES;
+    [self.IconSummaryStackView.topAnchor constraintEqualToAnchor:self.topAnchor constant:8].active = YES;
+    
+    self.HumidityStack.axis = UILayoutConstraintAxisVertical;
+    self.HumidityStack.distribution = UIStackViewAlignmentCenter;
+    self.HumidityStack.spacing = 5;
+    self.HumidityStack.translatesAutoresizingMaskIntoConstraints = NO;
+    self.WindspeedStack.axis = UILayoutConstraintAxisVertical;
+    self.WindspeedStack.distribution = UIStackViewAlignmentCenter;
+    self.WindspeedStack.translatesAutoresizingMaskIntoConstraints = NO;
+    self.WindspeedStack.spacing = 5;
+    self.HumidityWindStackView.axis = UILayoutConstraintAxisHorizontal;
+    self.HumidityWindStackView.distribution = UIStackViewAlignmentCenter;
+    self.HumidityWindStackView.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.HumidityWindStackView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:55].active=YES;
+    [self.HumidityWindStackView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:-55].active=YES;
+    [self.IconSummaryStackView.bottomAnchor constraintLessThanOrEqualToAnchor:self.HumidityWindStackView.topAnchor].active=YES;
+    
+    self.UVIndexStack.axis = UILayoutConstraintAxisVertical;
+    self.UVIndexStack.distribution = UIStackViewAlignmentCenter;
+    self.UVIndexStack.spacing = 5;
+    self.UVIndexStack.translatesAutoresizingMaskIntoConstraints = NO;
+    self.ChanceOfRainStack.axis = UILayoutConstraintAxisVertical;
+    self.ChanceOfRainStack.distribution = UIStackViewAlignmentCenter;
+    self.ChanceOfRainStack.spacing = 5;
+    self.ChanceOfRainStack.translatesAutoresizingMaskIntoConstraints = NO;
+    self.UVIndexRainStackView.axis = UILayoutConstraintAxisHorizontal;
+    self.UVIndexRainStackView.distribution = UIStackViewAlignmentCenter;
+    self.UVIndexRainStackView.translatesAutoresizingMaskIntoConstraints = NO;
+    self.UVIndexRainStackView.spacing = 90;
+    [self.UVIndexRainStackView.leadingAnchor constraintLessThanOrEqualToAnchor:self.leadingAnchor constant:55].active = YES;
+    [self.UVIndexRainStackView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:-50].active = YES;
+    [self.HumidityWindStackView.bottomAnchor constraintEqualToAnchor:self.UVIndexRainStackView.topAnchor constant:-6].active = YES;
+    
+    self.sunRiseStack.axis = UILayoutConstraintAxisVertical;
+    self.sunRiseStack.distribution = UIStackViewAlignmentCenter;
+    self.sunRiseStack.spacing = 5;
+    self.sunRiseStack.translatesAutoresizingMaskIntoConstraints = NO;
+    self.sunSetStack.axis = UILayoutConstraintAxisVertical;
+    self.sunSetStack.distribution = UIStackViewAlignmentCenter;
+    self.sunSetStack.spacing = 5;
+    self.sunSetStack.translatesAutoresizingMaskIntoConstraints = NO;
+    self.sunRiseSetStackView.axis = UILayoutConstraintAxisHorizontal;
+    self.sunRiseSetStackView.distribution = UIStackViewAlignmentCenter;
+    self.sunRiseSetStackView.spacing = 40;
+    self.sunRiseSetStackView.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.sunRiseSetStackView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:55].active = YES;
+    [self.sunRiseSetStackView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant: -55].active = YES;
+    [self.UVIndexRainStackView.bottomAnchor constraintEqualToAnchor:self.sunRiseSetStackView.topAnchor constant:-9].active = YES;
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
     
 }
 
@@ -128,11 +242,11 @@
     self.uvIndexLabel.text = [NSString stringWithFormat:@"%d", currentWeather.uvIndex];
     [self.uvIndexLabel sizeToFit];
     
-    self.summaryLabel.text = currentWeather.summary;
+    self.summaryLabel.text = [currentWeather formatSummary];
     [self.summaryLabel  sizeToFit];
     
-    self.rainChance.text = [currentWeather getprecipProbabilityInString:currentWeather.precipProbability];
-    [self.rainChance sizeToFit];
+    self.rainChanceLabel.text = [currentWeather getprecipProbabilityInString:currentWeather.precipProbability];
+    [self.rainChanceLabel sizeToFit];
 
 }
 

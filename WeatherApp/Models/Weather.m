@@ -130,23 +130,19 @@ static NSArray *dayOfWeek;
     return string;
 }
 
--(NSString*)formatSummary:(NSString*)summary{
-    summary = [summary stringByReplacingOccurrencesOfString:@"-" withString:@" "];
-    summary = [summary stringByReplacingOccurrencesOfString:@"day" withString:@" "];
-    summary = [summary stringByReplacingOccurrencesOfString:@"night" withString:@" "];
+-(NSString*)formatSummary{
+    NSString *icon = self.icon;
+    NSString *summary;
+    icon = [icon stringByReplacingOccurrencesOfString:@"-" withString:@" "];
+    icon = [icon stringByReplacingOccurrencesOfString:@"day" withString:@""];
+    icon = [icon stringByReplacingOccurrencesOfString:@"night" withString:@""];
+    icon = [icon capitalizedString];
+    
+    summary = [NSString localizedStringWithFormat:@"%@ currently with a high of %d. The low tonight will be %d",icon,self.temperatureHigh,self.temperatureLow];
+
+    
     return summary;
 }
-
--(NSString*)formattedIconSummary{
-    NSString *summary = self.icon;
-    summary = [summary stringByReplacingOccurrencesOfString:@"-" withString:@" "];
-    summary = [summary stringByReplacingOccurrencesOfString:@"day" withString:@""];
-    summary = [summary stringByReplacingOccurrencesOfString:@"night" withString:@""];
-    [summary capitalizedString];
-    return summary;
-}
-
-
 
 
 

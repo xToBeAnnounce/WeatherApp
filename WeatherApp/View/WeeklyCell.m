@@ -26,61 +26,33 @@ static NSArray *activityNames;
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     
     //Date Label at left (Monday, Tuesday...)
-    self.dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(1, 13, 0, 0)];
+    self.dateLabel = [[UILabel alloc] init];
     self.dateLabel.textColor = [UIColor whiteColor];
     self.dateLabel.font = [UIFont systemFontOfSize:17];
-    //self.dateLabel.translatesAutoresizingMaskIntoConstraints = NO;
     [self.contentView addSubview:self.dateLabel];
     
     //Weather icon image at center
-    self.iconImageView = [[UIImageView alloc] initWithFrame:CGRectMake(185, 2, 37, 37)];
+    self.iconImageView = [[UIImageView alloc] init];
     self.iconImageView.contentMode = UIViewContentModeScaleAspectFit;
     self.iconImageView.clipsToBounds = YES;
-    //self.iconImageView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.contentView addSubview:self.iconImageView];
 
     //High temperature display at right
-    self.highTempLabel = [[UILabel alloc] initWithFrame:CGRectMake(340, 2, 0, 0)];
-    self.highTempLabel.textColor = [UIColor redColor];
+    self.highTempLabel = [[UILabel alloc] init];
+    self.highTempLabel.textColor = [UIColor colorWithRed:1.00 green:0.83 blue:0.92 alpha:1.0];
     self.highTempLabel.font = [UIFont systemFontOfSize:17];
-    [self.contentView addSubview:self.highTempLabel];
+
 
     //Low temperature display at right
-    self.lowTempLabel = [[UILabel alloc] initWithFrame:CGRectMake(380, 2, 0, 0)];
-    self.lowTempLabel.textColor = [UIColor cyanColor];
+    self.lowTempLabel = [[UILabel alloc] init];
+    self.lowTempLabel.textColor = [UIColor colorWithRed:0.83 green:0.92 blue:1.00 alpha:1.0];
     self.lowTempLabel.font = [UIFont systemFontOfSize:17];
-    [self.contentView addSubview:self.lowTempLabel];
     
-//    self.summaryLabel = [[UILabel alloc]initWithFrame:CGRectMake(120, 2, 0, 0)];
-//    self.summaryLabel.textColor = UIColor.whiteColor;
-//    self.summaryLabel.font = [UIFont systemFontOfSize:16];
-//    self.summaryLabel.numberOfLines = 2;
-//    [self.contentView addSubview:self.summaryLabel];
-//
-//    UILabel *humidity = [[UILabel alloc]initWithFrame:CGRectMake(120, 30, 0, 0)];
-//    humidity.font = [UIFont systemFontOfSize:15];
-//    humidity.text = @"Humidity:";
-//    humidity.textColor = UIColor.whiteColor;
-//    [humidity sizeToFit];
-//    [self.contentView addSubview:humidity];
     
-//    UILabel *windspeed = [[UILabel alloc]initWithFrame:CGRectMake(120, 60, 0,0)];
-//    windspeed.text = @"Wind Speed:";
-//    windspeed.textColor = UIColor.whiteColor;
-//    windspeed.font = [UIFont systemFontOfSize:15];
-//    [windspeed sizeToFit];
-//    [self.contentView addSubview:windspeed];
+    self.tempStackView = [[UIStackView alloc]initWithArrangedSubviews:@[self.highTempLabel,self.lowTempLabel]];
+    [self.contentView addSubview:self.tempStackView];
 
-//    self.humidityLabel = [[UILabel alloc]initWithFrame:CGRectMake(190, 30, 0, 0)];
-//    self.humidityLabel.textColor = UIColor.whiteColor;
-//    self.humidityLabel.font = [UIFont systemFontOfSize:15];
-//    [self.contentView addSubview:self.humidityLabel];
-//
-//    self.windspeedLabel = [[UILabel alloc]initWithFrame:CGRectMake(215, 60, 0, 0)];
-//    self.windspeedLabel.textColor = UIColor.whiteColor;
-//    self.windspeedLabel.font = [UIFont systemFontOfSize:15];
-//    [self.contentView addSubview:self.windspeedLabel];
-   
+    [self setConstraints];
     return self;
 }
 
@@ -101,14 +73,28 @@ static NSArray *activityNames;
     self.lowTempLabel.text = [dayWeather getTempInString:dayWeather.temperatureLow withType:self.tempType];
     [self.lowTempLabel sizeToFit];
     
-//    self.summaryLabel.text = [dayWeather formatSummary:dayWeather.icon];
-//    [self.summaryLabel sizeToFit];
-//
-//    self.humidityLabel.text = [dayWeather getHumidityInString:dayWeather.humidity];
-//    [self.humidityLabel sizeToFit];
-//
-//    self.windspeedLabel.text = [dayWeather getWindSpeedInString:dayWeather.windSpeed];
-//    [self.windspeedLabel sizeToFit];
+    
+    
+}
+
+-(void)setConstraints{
+    [self.dateLabel.leadingAnchor constraintEqualToAnchor:self.contentView.leadingAnchor].active = YES;
+    [self.dateLabel.topAnchor constraintEqualToAnchor:self.contentView.topAnchor constant:8].active = YES;
+    self.dateLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    [self.iconImageView.centerXAnchor constraintEqualToAnchor:self.contentView.centerXAnchor].active=YES;
+    [self.iconImageView.heightAnchor constraintEqualToConstant:37].active=YES;
+    [self.iconImageView.widthAnchor constraintEqualToConstant:37].active=YES;
+    [self.iconImageView.topAnchor constraintEqualToAnchor:self.contentView.topAnchor constant:8].active = YES;
+    self.iconImageView.translatesAutoresizingMaskIntoConstraints = NO;
+
+    [self.tempStackView.trailingAnchor constraintEqualToAnchor:self.contentView.trailingAnchor].active =YES;
+    [self.tempStackView.topAnchor constraintEqualToAnchor:self.contentView.topAnchor constant:8].active=YES;
+    self.tempStackView.translatesAutoresizingMaskIntoConstraints = NO;
+    self.tempStackView.distribution = UIStackViewAlignmentCenter;
+    self.tempStackView.axis = UILayoutConstraintAxisHorizontal;
+    self.tempStackView.spacing = 8;
+
 }
 
 @end
