@@ -12,6 +12,7 @@
 @interface TodayWeatherView : UIView
 
 @property (strong, nonatomic) NSString *tempTypeString;
+@property (strong, nonatomic) NSString *customName;
 @property (strong, nonatomic) Weather *currentWeather;
 @property (strong, nonatomic) Weather *todayWeather;
 

@@ -11,4 +11,5 @@
 
 @interface HourlyForecastView : UIView <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 @property (strong, nonatomic) Location *location;
+@property (strong, nonatomic) NSString *tempTypeString;
 @end

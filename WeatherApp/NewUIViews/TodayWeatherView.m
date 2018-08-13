@@ -16,6 +16,7 @@
     UIStackView *_iconStackView;
     UIStackView *_highLowStackView;
     
+    UILabel *_customNameLabel;
     UILabel *_iconDescLabel;
     UILabel *_currentTempLabel;
     UILabel *_highTempLabel;
@@ -42,7 +43,12 @@
 
 - (void)setTempTypeString:(NSString *)tempTypeString {
     _tempTypeString = tempTypeString;
-    [self refreshView];
+    if (self.currentWeather || self.todayWeather) [self refreshView];
+}
+
+- (void)setCustomName:(NSString *)customName {
+    _customName = customName;
+    _customNameLabel.text = customName;
 }
 
 - (void)setCurrentWeather:(Weather *)currentWeather {
@@ -95,6 +101,7 @@
     _highLowStackView.spacing = 15;
     _highLowStackView.translatesAutoresizingMaskIntoConstraints = NO;
     
+    [_weatherView addSubview:_customNameLabel];
     [_weatherView addSubview:_iconStackView];
     [_weatherView addSubview:_currentTempLabel];
     [_weatherView addSubview:_highLowStackView];
@@ -108,11 +115,14 @@
     _currentIconView.clipsToBounds = YES;
     _currentIconView.translatesAutoresizingMaskIntoConstraints = NO;
     
-    _currentTempLabel = [[UILabel alloc] init];
-    [self configureLabelProperties:_currentTempLabel withFont:[UIFont systemFontOfSize:72 weight:UIFontWeightThin] text:@"--°"];
+    _customNameLabel = [[UILabel alloc] init];
+    [self configureLabelProperties:_customNameLabel withFont:[UIFont systemFontOfSize:25 weight:UIFontWeightBold] text:@""];
     
     _iconDescLabel = [[UILabel alloc] init];
     [self configureLabelProperties:_iconDescLabel withFont:[UIFont systemFontOfSize:20] text:@"-----"];
+    
+    _currentTempLabel = [[UILabel alloc] init];
+    [self configureLabelProperties:_currentTempLabel withFont:[UIFont systemFontOfSize:72 weight:UIFontWeightThin] text:@"--°"];
     
     UIColor *lightBlueColor = [UIColor colorWithRed:0.83 green:0.92 blue:1.00 alpha:1.0];
     UIColor *lightRedColor = [UIColor colorWithRed:1.00 green:0.83 blue:0.92 alpha:1.0];
@@ -133,6 +143,8 @@
     [_weatherView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor].active = YES;
     [_weatherView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor].active = YES;
     
+    [_customNameLabel.leadingAnchor constraintEqualToAnchor:_weatherView.leadingAnchor constant:8].active = YES;
+    
     [_currentIconView.heightAnchor constraintEqualToConstant:_iconDescLabel.frame.size.height+10].active = YES;
     [_currentIconView.widthAnchor constraintEqualToAnchor:_currentIconView.heightAnchor].active = YES;
     
@@ -141,7 +153,7 @@
     
     [_currentTempLabel.leadingAnchor constraintEqualToAnchor:_weatherView.leadingAnchor constant:8].active = YES;
     
-    [_weatherView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-15-[iconStackView]-(-10)-[currentTempLabel]-(-2)-|" options:NSLayoutFormatAlignAllLeft metrics:nil views:@{@"iconStackView":_iconStackView, @"currentTempLabel":_currentTempLabel}]];
+    [_weatherView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-15-[customNameLabel]-(-2)-[iconStackView]-(-10)-[currentTempLabel]-(-2)-|" options:NSLayoutFormatAlignAllLeft metrics:nil views:@{@"iconStackView":_iconStackView, @"currentTempLabel":_currentTempLabel, @"customNameLabel":_customNameLabel}]];
 }
 
 - (void) configureLabelProperties:(UILabel *)label withFont:(UIFont *)font text:(NSString *)text{

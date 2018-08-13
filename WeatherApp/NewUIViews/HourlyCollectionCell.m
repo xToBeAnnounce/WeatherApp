@@ -39,6 +39,7 @@
 -(void)initalizeLabels{
     _timeLabel = [[UILabel alloc] init];
     _timeLabel.font = [UIFont systemFontOfSize:15];
+    _timeLabel.textColor = UIColor.whiteColor;
     _timeLabel.translatesAutoresizingMaskIntoConstraints = NO;
     
     _iconView = [[UIImageView alloc] init];
@@ -47,6 +48,7 @@
     _temperatureLabel = [[UILabel alloc] init];
     _temperatureLabel.font = [UIFont systemFontOfSize:20];
     _temperatureLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    _temperatureLabel.textColor = UIColor.whiteColor;
     self.contentView.translatesAutoresizingMaskIntoConstraints = NO;
 }
 
@@ -87,7 +89,7 @@
     
     _iconView.image = [UIImage imageNamed:weather.icon];
     
-    _temperatureLabel.text = [weather getTempInString:weather.temperature];
+    _temperatureLabel.text = [weather getTempInString:weather.temperature withType:self.tempType];
     [_temperatureLabel sizeToFit];
     
     [_blureffectView.widthAnchor constraintEqualToAnchor:_hourlyStackView.widthAnchor].active = YES;
