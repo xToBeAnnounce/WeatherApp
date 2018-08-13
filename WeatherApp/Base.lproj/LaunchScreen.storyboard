@@ -17,13 +17,63 @@
                     <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ceW-Zr-Idd">
+                                <rect key="frame" x="47" y="236" width="280" height="181"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="yellow_umbrella" translatesAutoresizingMaskIntoConstraints="NO" id="6Fh-xT-Nqh">
+                                        <rect key="frame" x="142" y="8" width="135" height="132"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="132" id="TaQ-06-Gj0"/>
+                                            <constraint firstAttribute="width" constant="135" id="nTS-4r-Pnu"/>
+                                        </constraints>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Umbre" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9FF-NB-AYd">
+                                        <rect key="frame" x="8" y="71" width="177" height="74"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="74" id="cWD-Il-Tg1"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="Cochin-BoldItalic" family="Cochin" pointSize="64"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="la" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="42m-p3-Aut">
+                                        <rect key="frame" x="206" y="75" width="54" height="74"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="74" id="2dF-rD-gTn"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="Cochin-BoldItalic" family="Cochin" pointSize="64"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="42m-p3-Aut" firstAttribute="leading" secondItem="9FF-NB-AYd" secondAttribute="trailing" constant="21" id="C2K-ME-6FQ"/>
+                                    <constraint firstAttribute="trailing" secondItem="42m-p3-Aut" secondAttribute="trailing" constant="20" id="Eh8-4M-yeo"/>
+                                    <constraint firstItem="9FF-NB-AYd" firstAttribute="leading" secondItem="ceW-Zr-Idd" secondAttribute="leading" constant="8" id="Hcn-lb-mdG"/>
+                                    <constraint firstItem="6Fh-xT-Nqh" firstAttribute="top" secondItem="ceW-Zr-Idd" secondAttribute="top" constant="8" id="ZRM-pK-G21"/>
+                                    <constraint firstAttribute="trailing" secondItem="6Fh-xT-Nqh" secondAttribute="trailing" constant="3" id="aCq-jB-EJn"/>
+                                    <constraint firstAttribute="bottom" secondItem="9FF-NB-AYd" secondAttribute="bottom" constant="36" id="bdz-hZ-qjg"/>
+                                    <constraint firstAttribute="bottom" secondItem="6Fh-xT-Nqh" secondAttribute="bottom" constant="41" id="gcO-9X-3sY"/>
+                                    <constraint firstAttribute="bottom" secondItem="42m-p3-Aut" secondAttribute="bottom" constant="32" id="iZH-rE-Juf"/>
+                                </constraints>
+                            </view>
+                        </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="ceW-Zr-Idd" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="sDy-Pr-lO2"/>
+                            <constraint firstItem="ceW-Zr-Idd" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" constant="-7" id="vd5-EV-3yU"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="53" y="375"/>
+            <point key="canvasLocation" x="52" y="374.66266866566718"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="yellow_umbrella" width="373" height="377"/>
+    </resources>
 </document>

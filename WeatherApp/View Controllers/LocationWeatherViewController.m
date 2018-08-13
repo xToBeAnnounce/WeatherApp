@@ -69,16 +69,17 @@
     self.locationDetailsButton.hidden = !self.location.objectId;
     [self setNavigationUI];
     
-    if (!self.weeklyView.hidden) {
-        [self showBannerIfNeededWithCompletion:nil];
-    }
+//    if (!self.weeklyView.hidden) {
+//        [self showBannerIfNeededWithCompletion:nil];
+//    }
     
 }
 
 - (void)setTempTypeString:(NSString *)tempTypeString {
     _tempTypeString = tempTypeString;
-    self.dailyView.tempType = tempTypeString;
-    self.weeklyView.tempType = tempTypeString;
+//    self.dailyView.tempType = tempTypeString;
+//    self.weeklyView.tempType = tempTypeString;
+    self.weatherView.tempTypeString = tempTypeString;
 }
 
 - (void) setSubviews {
@@ -154,7 +155,7 @@
 }
 
 - (void) addNavTitleView{
-    UIStackView *stackView = [[UIStackView alloc]initWithArrangedSubviews:@[self.titleLabel, self.subtitleLabel]];
+    UIStackView *stackView = [[UIStackView alloc]initWithArrangedSubviews:@[self.titleLabel]];
     stackView.distribution = UIStackViewDistributionEqualCentering;
     stackView.axis = UILayoutConstraintAxisVertical;
     stackView.alignment =UIStackViewAlignmentCenter;
@@ -164,14 +165,14 @@
 }
 
 - (void) refreshNavBarTitle {
-    self.titleLabel.text = self.location.customName;
-    self.subtitleLabel.text = self.location.placeName;
+    self.titleLabel.text = self.location.placeName;
+    [self configureLabelProperties:self.titleLabel withFontSize:22];
     
     if ([self.location.customName isEqualToString:@"Current Location"] && !self.location.placeName) {
         [self.location updatePlaceNameWithBlock:^(NSDictionary *data, NSError *error) {
             if (data) {
-                self.subtitleLabel.text = self.location.placeName;
-                [self.subtitleLabel sizeToFit];
+                self.titleLabel.text = self.location.placeName;
+                [self.titleLabel sizeToFit];
             }
             else {
                 NSLog(@"error");
@@ -179,15 +180,14 @@
         }];
     }
     
-    if ([self.location.customName isEqualToString:self.location.placeName]) {
-        [self configureLabelProperties:self.titleLabel withFontSize:25];
-        self.subtitleLabel.text = @"";
-        [self.subtitleLabel sizeToFit];
-    }
-    else {
-        [self configureLabelProperties:self.titleLabel withFontSize:17];
-        [self configureLabelProperties:self.subtitleLabel withFontSize:13];
-    }
+//    if ([self.location.customName isEqualToString:self.location.placeName]) {
+//        self.subtitleLabel.text = @"";
+//        [self.subtitleLabel sizeToFit];
+//    }
+//    else {
+//        [self configureLabelProperties:self.titleLabel withFontSize:17];
+//        [self configureLabelProperties:self.subtitleLabel withFontSize:13];
+//    }
     
     if (!self.navigationController.navigationBar.topItem.titleView) [self addNavTitleView];
 }

@@ -14,6 +14,7 @@
 {
     UIWindow *_bannerWindow;
     BannerView *_bannerView;
+    NSLayoutConstraint *_tableViewHeightConstraint;
 }
 
 static NSString *WeeklycellIdentifier = @"WeeklyCell";
@@ -32,9 +33,9 @@ static BOOL showBanner;
 // An empty implementation adversely affects performance during animation.
 - (void)drawRect:(CGRect)rect {
     [super drawRect:rect];
-    [self setLocationName];
 }
 
+<<<<<<< HEAD
 -(void)setLocationName{
     if ([self.location.placeName isEqualToString:self.location.customName]) {
         self.customNameLabel.font = [UIFont systemFontOfSize:45];
@@ -48,9 +49,12 @@ static BOOL showBanner;
     }
 }
 
+=======
+>>>>>>> ffc2feae63deaa55132bbd6c42467d5cc8ee40d8
 - (void) setLocation:(Location *)location {
     if (_location.weeklyData && !location.weeklyData) location.weeklyData = _location.weeklyData;
     _location = location;
+    
     self.customNameLabel.text = self.location.customName;
     self.selectedCell = nil;
     [self refreshView];
@@ -89,10 +93,7 @@ static BOOL showBanner;
     
     weeklycell.tempType = self.tempType;
     Weather *dayWeather = self.location.weeklyData[indexPath.row];
-
     weeklycell.dayWeather = dayWeather;
-//    weeklycell.contentView.backgroundColor = UIColor.clearColor;
-//    weeklycell.backgroundColor = UIColor.clearColor;
     
     NSDate *cellDate = [NSDate dateWithTimeIntervalSinceNow:3600*24*indexPath.row];
     if ([self shouldHighlightDate:cellDate]) {
@@ -129,6 +130,7 @@ static BOOL showBanner;
 
 - (void) refreshView {
     [self.WeeklytableView reloadData];
+    _tableViewHeightConstraint.constant = self.WeeklytableView.contentSize.height;
 }
 
 - (BOOL) shouldHighlightDate:(NSDate *)date {
@@ -161,10 +163,13 @@ static BOOL showBanner;
     [self.WeeklytableView.bottomAnchor constraintEqualToAnchor:self.bottomAnchor].active = YES;
     [self.WeeklytableView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor].active = YES;
     [self.WeeklytableView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor].active = YES;
+    _tableViewHeightConstraint = [self.WeeklytableView.heightAnchor constraintEqualToConstant:self.WeeklytableView.contentSize.height];
+    _tableViewHeightConstraint.active = YES;
+    [self.heightAnchor constraintEqualToAnchor:self.WeeklytableView.heightAnchor].active = YES;
 }
 
 - (void)layoutSubviews{
-    [self.heightAnchor constraintEqualToConstant:self.WeeklytableView.contentSize.height].active = YES;
+    [super layoutSubviews];
 }
 
 - (void) showBannerIfNeededWithCompletion:(void(^)(BOOL finished))completion{

@@ -196,7 +196,13 @@ static NSString *locationCellID = @"LocationTableViewCell";
     
     self.tableView.estimatedRowHeight = 44.0;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
+    self.tableView.translatesAutoresizingMaskIntoConstraints = NO;
+    
     [self.view addSubview:self.tableView];
+    [self.tableView.topAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.topAnchor].active = YES;
+    [self.tableView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor].active = YES;
+    [self.tableView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor].active = YES;
+    [self.tableView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor].active = YES;
 }
 /*--------------------ACTION METHODS--------------------*/
 - (IBAction)onTap:(id)sender{

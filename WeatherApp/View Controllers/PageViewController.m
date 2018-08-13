@@ -238,13 +238,12 @@ BOOL isgranted;
     
     self.locationDetailsButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
     [self.locationDetailsButton addTarget:self action:@selector(didTapBottomButton:) forControlEvents:UIControlEventTouchUpInside];
-//    self.locationDetailsButton.tintColor = UIColor.whiteColor;
+    self.locationDetailsButton.tintColor = UIColor.whiteColor;
     self.locationDetailsButton.translatesAutoresizingMaskIntoConstraints = NO;
     self.locationDetailsButton.hidden = YES;
     [self.view addSubview:self.locationDetailsButton];
     
-    self.view.backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"grad"]];
-//    self.view.backgroundColor = [[UIColor alloc] initWithWhite:1.0 alpha:0.2];
+    self.view.backgroundColor = [[UIColor alloc] initWithWhite:0.2 alpha:1.0];
     
     [self makePlaceHolderScreen];
     [self setConstraints];
@@ -529,4 +528,14 @@ BOOL isgranted;
     }
 }
 @end
+
+//UIButton *addLocationButton = [[UIButton alloc] init];
+//[addLocationButton setImage:[[UIImage imageNamed:@"plus-1"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
+//addLocationButton.layer.shadowColor = [UIColor.blackColor CGColor];
+//addLocationButton.layer.shadowOpacity = 1.0;
+//addLocationButton.layer.shadowRadius = 2;
+//addLocationButton.layer.shadowOffset = CGSizeMake(0.5, 1.0);
+//addLocationButton.tintColor = UIColor.whiteColor;
+//[addLocationButton addTarget:self action:@selector(segueToAddLocation) forControlEvents:UIControlEventTouchUpInside];
+//self.addLocationButton = [[UIBarButtonItem alloc] initWithCustomView:addLocationButton];
 

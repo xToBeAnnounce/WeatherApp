@@ -10,7 +10,7 @@
 
 /*Sample API request: https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=LAT,LNG&radius=RADIUS_METERS&type=LOC_TYPE&keyword=KEYWORD&key=YOUR_API_KEY */
 static NSString const * baseURL = @"https://maps.googleapis.com/maps/api/place/nearbysearch/json?";
-static NSInteger const radius = 1500; //meters
+static NSInteger const radius = 11265; //meters (about 7 miles)
 static NSString const * APIKey = @"AIzaSyDgbVK8x7X-7tUEnIxOG44M42lXkHWlVCM";
 static NSString * urlString = @"";
 

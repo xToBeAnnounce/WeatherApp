@@ -11,4 +11,5 @@
 
 @interface HourlyCollectionCell : UICollectionViewCell
 @property (strong, nonatomic) Weather *weather;
+@property (strong, nonatomic) NSString *tempType;
 @end

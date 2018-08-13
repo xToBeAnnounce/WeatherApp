@@ -34,7 +34,7 @@
 }
 
 + (NSString *) getSuggestionStringForActivity:(NSString *)activityCategory {
-    activityCategory = [activityCategory stringByReplacingOccurrencesOfString:@"-" withString:@" "];
+    activityCategory = [activityCategory stringByReplacingOccurrencesOfString:@"_" withString:@" "];
     
     NSString *suggestionString;
     if ([activityCategory isEqualToString:@"attractions"]) {

@@ -49,6 +49,7 @@
     _temperatureLabel.font = [UIFont systemFontOfSize:20];
     _temperatureLabel.textColor = UIColor.whiteColor;
     _temperatureLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    _temperatureLabel.textColor = UIColor.whiteColor;
     self.contentView.translatesAutoresizingMaskIntoConstraints = NO;
 }
 
@@ -89,7 +90,7 @@
     
     _iconView.image = [UIImage imageNamed:weather.icon];
     
-    _temperatureLabel.text = [weather getTempInString:weather.temperature];
+    _temperatureLabel.text = [weather getTempInString:weather.temperature withType:self.tempType];
     [_temperatureLabel sizeToFit];
     
     [_blureffectView.widthAnchor constraintEqualToAnchor:_hourlyStackView.widthAnchor].active = YES;
