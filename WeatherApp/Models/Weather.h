@@ -12,6 +12,7 @@
 @end
 
 @interface Weather : NSObject
+@property (strong, nonatomic) NSString *timezone;
 @property (strong, nonatomic) NSDate *time;
 @property (strong, nonatomic) NSString *summary;
 @property (strong, nonatomic) NSString *icon;
@@ -34,10 +35,9 @@
 -(NSString*)getHumidityInString:(float)humidity;
 -(NSString*)getWindSpeedInString:(float)windspeed;
 -(NSString*)getprecipProbabilityInString:(float)precipProbability;
--(NSString*)formatSummary:(NSString*)summary;
--(NSString*)formattedIconSummary;
+-(NSString*)formatSummary;
 
 
 
-- (instancetype)initWithData:(NSDictionary*)data;
+- (instancetype)initWithData:(NSDictionary*)data Timezone:(NSString*)timezone;
 @end

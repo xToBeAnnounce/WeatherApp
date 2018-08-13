@@ -25,7 +25,6 @@ static NSString *cellID = @"hamburgerMenu";
     [self setTableView];
     cellImages = @[@"weatherIcon",@"activities",@"map",@"settings",@"logout"];
     cellContent = @[@"Weather",@"Activies",@"Map",@"Settings",@"Logout"];
-    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"BlackG"]];
 }
 
 -(void)setTableView{

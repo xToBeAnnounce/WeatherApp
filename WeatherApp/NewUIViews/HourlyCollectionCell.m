@@ -29,6 +29,13 @@
     return self;
 }
 
+-(void)awakeFromNib
+{
+    [super awakeFromNib];
+    self.contentView.frame = self.bounds;
+    self.contentView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+}
+
 -(void)initalizeLabels{
     _timeLabel = [[UILabel alloc] init];
     _timeLabel.font = [UIFont systemFontOfSize:15];
@@ -46,8 +53,8 @@
 }
 
 -(void)setLabelConstraints{
-    [_iconView.heightAnchor constraintEqualToConstant:50].active = YES;
-    [_iconView.widthAnchor constraintEqualToConstant:50].active = YES;
+    [_iconView.heightAnchor constraintEqualToConstant:45].active = YES;
+    [_iconView.widthAnchor constraintEqualToConstant:45].active = YES;
     
     NSArray *arrangedViews = @[_timeLabel, _iconView, _temperatureLabel];
     _hourlyStackView = [[UIStackView alloc] initWithArrangedSubviews: arrangedViews];
