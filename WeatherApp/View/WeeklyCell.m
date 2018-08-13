@@ -54,21 +54,37 @@ static NSArray *activityNames;
     self.tempStackView = [[UIStackView alloc]initWithArrangedSubviews:@[self.highTempLabel,self.lowTempLabel]];
     [self.contentView addSubview:self.tempStackView];
     
-    //Expanded View UI
-    self.ExpandedView = [[UIView alloc]init];
-    [self addSubview:self.ExpandedView];
     
-    self.HumidityTitle = [[UILabel alloc]init];
-    self.HumidityTitle.text = @"Humidity";
-    self.HumidityTitle.font = [UIFont systemFontOfSize:18];
-    [self.HumidityTitle sizeToFit];
-    [self.ExpandedView addSubview:self.HumidityTitle];
-    
-    self.humidityLabel = [[UILabel alloc]init];
-    [self.ExpandedView addSubview:self.humidityLabel];
-
     [self setConstraints];
     return self;
+}
+
+-(void)setExpandedView{
+    
+//Expanded View UI
+self.ExpandedView = [[UIView alloc]init];
+[self addSubview:self.ExpandedView];
+
+UILabel *HumidityTitle = [[UILabel alloc]init];
+HumidityTitle.text = @"Humidity";
+HumidityTitle.font = [UIFont systemFontOfSize:18];
+[HumidityTitle sizeToFit];
+self.humidityLabel = [[UILabel alloc]init];
+self.humidityLabel.font = [UIFont systemFontOfSize:17];
+
+UILabel *WindSpeedTitle = [[UILabel alloc]init];
+WindSpeedTitle.text = @"Humidity";
+WindSpeedTitle.font = [UIFont systemFontOfSize:18];
+[WindSpeedTitle sizeToFit];
+self.windspeedLabel = [[UILabel alloc]init];
+self.windspeedLabel.font = [UIFont systemFontOfSize:17];
+
+self.summaryLabel = [[UILabel alloc]init];
+self.summaryLabel.font = [UIFont systemFontOfSize:17];
+    
+    
+self.activityButton = [[UIButton alloc]init];
+[self.activityButton setImage:[UIImage imageNamed:@"activities"] forState:UIControlStateNormal];
 }
 
 - (void)setDayWeather:(Weather *)dayWeather {
@@ -90,6 +106,12 @@ static NSArray *activityNames;
     
     self.humidityLabel.text = [dayWeather getHumidityInString:dayWeather.humidity];
     [self.humidityLabel sizeToFit];
+    
+    self.windspeedLabel.text = [dayWeather getWindSpeedInString:dayWeather.windSpeed];
+    [self.windspeedLabel sizeToFit];
+    
+    self.summaryLabel.text = dayWeather.summary;
+    [self.summaryLabel sizeToFit];
     
     
     
