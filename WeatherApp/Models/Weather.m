@@ -21,12 +21,6 @@ static NSArray *dayOfWeek;
     self.time = [NSDate dateWithTimeIntervalSince1970:timeInSeconds];
     
     if(![timezone isEqualToString:_currentTimeZone]){
-        if([timezone isEqualToString:@"America/New_York"]){
-            
-        }
-        if([timezone isEqualToString:@"Asia/Taipei"]){
-            
-        }
         NSTimeZone *destinationTimeZone = [NSTimeZone timeZoneWithName:_currentTimeZone];
         NSInteger destinationSeconds = [destinationTimeZone secondsFromGMTForDate:self.time];
         
