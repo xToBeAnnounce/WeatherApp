@@ -101,7 +101,6 @@ bool dataLoaded = NO;
     layout.scrollDirection = UICollectionViewScrollDirectionVertical;
     layout.minimumLineSpacing = 8;
     layout.estimatedItemSize = UICollectionViewFlowLayoutAutomaticSize;
-    layout.sectionInset = UIEdgeInsetsMake(8, 0, 8, 0);
     
     self.mainCollectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, _originalPos, UIScreen.mainScreen.bounds.size.width, UIScreen.mainScreen.bounds.size.height) collectionViewLayout:layout];
     self.mainCollectionView.dataSource = self;
@@ -211,8 +210,9 @@ bool dataLoaded = NO;
     }
     
     CGFloat contentOffset = self.mainCollectionView.contentOffset.y;
-    if((contentOffset < 10 && self.mainCollectionView.frame.origin.y <= _oldCollectionViewFrame.origin.y) || ((_todayWeatherView.frame.origin.y > self.safeAreaInsets.top*1.05) && self.mainCollectionView.frame.origin.y - contentOffset <= _oldCollectionViewFrame.origin.y)){
-        [UIView animateWithDuration:0.1 delay:0 usingSpringWithDamping:50 initialSpringVelocity:1 options:UIViewAnimationOptionCurveEaseIn animations:^{
+    CGFloat originTodayY = _oldTodayWeatherFrame.origin.y;
+    if((contentOffset < 10 && self.mainCollectionView.frame.origin.y <= _oldCollectionViewFrame.origin.y) || ((originTodayY - contentOffset > 100 && _todayWeatherView.frame.origin.y > 100) && self.mainCollectionView.frame.origin.y - contentOffset <= _oldCollectionViewFrame.origin.y)){
+        [UIView animateWithDuration:0.5 delay:0 usingSpringWithDamping:50 initialSpringVelocity:1 options:UIViewAnimationOptionCurveEaseIn animations:^{
             self->_collectionHeightConstraint.active = NO;
             CGFloat newTodayWeatherY = self->_oldTodayWeatherFrame.origin.y - contentOffset;
             CGFloat newCollectionY = self->_oldCollectionViewFrame.origin.y - contentOffset;
@@ -229,4 +229,5 @@ bool dataLoaded = NO;
         } completion:^(BOOL finished) {}];
     }
 }
+
 @end

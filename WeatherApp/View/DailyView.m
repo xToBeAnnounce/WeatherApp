@@ -190,10 +190,8 @@
     self.IconSummaryStackView.axis = UILayoutConstraintAxisHorizontal;
     self.IconSummaryStackView.translatesAutoresizingMaskIntoConstraints = NO;
     
-    [self.iconImageView.leadingAnchor constraintEqualToAnchor:self.IconSummaryStackView.leadingAnchor constant:20].active = YES;
-    [self.summaryLabel.trailingAnchor constraintEqualToAnchor:self.IconSummaryStackView.trailingAnchor constant:-10].active = YES;
     [self.IconSummaryStackView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor].active = YES;
-    [self.IconSummaryStackView.trailingAnchor constraintLessThanOrEqualToAnchor:self.trailingAnchor].active = YES;
+    [self.IconSummaryStackView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor].active = YES;
     [self.IconSummaryStackView.topAnchor constraintEqualToAnchor:self.topAnchor constant:8].active = YES;
     
     self.HumidityStack.axis = UILayoutConstraintAxisVertical;
@@ -281,7 +279,6 @@
     
     self.rainChanceLabel.text = [currentWeather getprecipProbabilityInString:currentWeather.precipProbability];
     [self.rainChanceLabel sizeToFit];
-    [self layoutIfNeeded];
 }
 
 - (void) refreshView {

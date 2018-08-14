@@ -35,7 +35,6 @@ static BOOL showBanner;
     [super drawRect:rect];
 }
 
-<<<<<<< HEAD
 -(void)setLocationName{
     if ([self.location.placeName isEqualToString:self.location.customName]) {
         self.customNameLabel.font = [UIFont systemFontOfSize:45];
@@ -49,8 +48,6 @@ static BOOL showBanner;
     }
 }
 
-=======
->>>>>>> ffc2feae63deaa55132bbd6c42467d5cc8ee40d8
 - (void) setLocation:(Location *)location {
     if (_location.weeklyData && !location.weeklyData) location.weeklyData = _location.weeklyData;
     _location = location;
