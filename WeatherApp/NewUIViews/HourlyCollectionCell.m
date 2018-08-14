@@ -33,7 +33,7 @@
 {
     [super awakeFromNib];
     self.contentView.frame = self.bounds;
-    self.contentView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+//    self.contentView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 }
 
 -(void)initalizeLabels{

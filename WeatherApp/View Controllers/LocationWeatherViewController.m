@@ -53,7 +53,8 @@
 
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    self.weeklyView.selectedCell = nil;
+    [self.weatherView updateDataIfNeeded];
+    
     [User.currentUser getUserPreferencesWithBlock:^(Preferences *pref, NSError *error) {
         if (pref) {
             self.tempTypeString = pref.tempTypeString;

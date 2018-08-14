@@ -14,6 +14,7 @@
     UILabel *_titleLabel;
     UIView *_lineView;
     CGFloat _mainViewWidth;
+    UIVisualEffectView *_blureffectView;
 }
 
 - (instancetype)initWithFrame:(CGRect)frame
@@ -24,6 +25,10 @@
         [self initalizeCard];
     }
     return self;
+}
+
+- (void)setSelected:(BOOL)selected {
+    
 }
 
 - (void)setTitle:(NSString *)title withView:(UIView *)view {
@@ -55,9 +60,18 @@
 - (void) initalizeCard {
     _cardView = [[UIView alloc] init];
     _cardView.translatesAutoresizingMaskIntoConstraints = NO;
-    _cardView.backgroundColor = [UIColor.blackColor colorWithAlphaComponent:0.3];
-    _cardView.layer.cornerRadius = 5;
+
+    _cardView.backgroundColor = [UIColor.blueColor colorWithAlphaComponent:0.3];
+    _cardView.layer.cornerRadius = 10;
     [self.contentView addSubview:_cardView];
+    
+    UIVisualEffect *blureffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+    _blureffectView = [[UIVisualEffectView alloc]initWithEffect:blureffect];
+    _blureffectView.alpha = 0.7;
+    _blureffectView.frame = CGRectMake(0, 0, self.contentView.frame.size.width, self.contentView.frame.size.height);
+    _blureffectView.translatesAutoresizingMaskIntoConstraints = NO;
+    _blureffectView.layer.cornerRadius = 10;
+    [_cardView addSubview:_blureffectView];
     
     _titleLabel = [[UILabel alloc] init];
     _titleLabel.textColor = UIColor.whiteColor;
@@ -72,7 +86,8 @@
     
     self.customView = [[UIView alloc] init];
     self.customView.backgroundColor = UIColor.clearColor;
-//    self.customView.clipsToBounds = YES;
+    self.customView.layer.cornerRadius = 10;
+    self.customView.clipsToBounds = YES;
     self.customView.translatesAutoresizingMaskIntoConstraints = NO;
     [_cardView addSubview:self.customView];
     
@@ -86,6 +101,11 @@
     [_cardView.leadingAnchor constraintEqualToAnchor:self.contentView.leadingAnchor constant:8].active = YES;
     [_cardView.trailingAnchor constraintEqualToAnchor:self.contentView.trailingAnchor constant:-8].active = YES;
     
+    [_blureffectView.topAnchor constraintEqualToAnchor:_cardView.topAnchor].active = YES;
+    [_blureffectView.bottomAnchor constraintEqualToAnchor:_cardView.bottomAnchor].active = YES;
+    [_blureffectView.leadingAnchor constraintEqualToAnchor:_cardView.leadingAnchor].active = YES;
+    [_blureffectView.trailingAnchor constraintEqualToAnchor:_cardView.trailingAnchor].active = YES;
+
     // title
     [_titleLabel.leadingAnchor constraintEqualToAnchor:_cardView.leadingAnchor constant:8].active = YES;
     
@@ -104,5 +124,5 @@
 - (void)setCardBackgroundColor:(UIColor *)backgroundColor {
     _cardView.backgroundColor = backgroundColor;
 }
-
+          
 @end
