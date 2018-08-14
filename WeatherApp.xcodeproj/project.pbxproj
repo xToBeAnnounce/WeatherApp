@@ -25,6 +25,10 @@
 		33662163210EB9B0005CB1D3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CC7D392420FD053D00913023 /* Assets.xcassets */; };
 		336621A42112D03B005CB1D3 /* BannerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 336621A32112D03B005CB1D3 /* BannerView.m */; };
 		33A2A5C12118CBC400AC2006 /* CustomCameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 33A2A5C02118CBC400AC2006 /* CustomCameraViewController.m */; };
+		33A2A602211A5E4500AC2006 /* TodayWeatherCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 33A2A601211A5E4500AC2006 /* TodayWeatherCell.m */; };
+		33A2A608211B635000AC2006 /* TodayActivitiesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 33A2A607211B635000AC2006 /* TodayActivitiesView.m */; };
+		33A2A60B211B6DA500AC2006 /* TodayWeatherView.m in Sources */ = {isa = PBXBuildFile; fileRef = 33A2A60A211B6DA500AC2006 /* TodayWeatherView.m */; };
+		33A2A60E211B6FDB00AC2006 /* WeatherCardCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 33A2A60D211B6FDB00AC2006 /* WeatherCardCell.m */; };
 		33F00C0C20FD116C008F56CE /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 33F00C0B20FD116C008F56CE /* User.m */; };
 		33F00C0F20FD1215008F56CE /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = 33F00C0E20FD1215008F56CE /* Location.m */; };
 		33F00C1220FD1244008F56CE /* Preferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 33F00C1120FD1244008F56CE /* Preferences.m */; };
@@ -34,6 +38,8 @@
 		844AE5BDA5409821B5B46CE9 /* libPods-WeatherAppTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3330AE95210BF64E00B37975 /* libPods-WeatherAppTests.a */; };
 		9203E63220FD47DD00F8C858 /* APIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9203E63120FD47DD00F8C858 /* APIManager.m */; };
 		9203E63A20FD73C600F8C858 /* WeeklyCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9203E63920FD73C600F8C858 /* WeeklyCell.m */; };
+		9207D7A3211A6840001E01CA /* HourlyCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9207D7A2211A6840001E01CA /* HourlyCollectionCell.m */; };
+		9207D7A9211BC2FD001E01CA /* HourlyForecastView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9207D7A8211BC2FD001E01CA /* HourlyForecastView.m */; };
 		92499B26210A4B07005874C8 /* ActivityAPIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 92499B25210A4B07005874C8 /* ActivityAPIManager.m */; };
 		92499B29210A5C73005874C8 /* Activity.m in Sources */ = {isa = PBXBuildFile; fileRef = 92499B28210A5C73005874C8 /* Activity.m */; };
 		92499B2F210B9C65005874C8 /* ActivityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 92499B2E210B9C65005874C8 /* ActivityViewController.m */; };
@@ -131,6 +137,14 @@
 		336621A32112D03B005CB1D3 /* BannerView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BannerView.m; sourceTree = "<group>"; };
 		33A2A5BF2118CBC400AC2006 /* CustomCameraViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomCameraViewController.h; sourceTree = "<group>"; };
 		33A2A5C02118CBC400AC2006 /* CustomCameraViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomCameraViewController.m; sourceTree = "<group>"; };
+		33A2A600211A5E4500AC2006 /* TodayWeatherCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TodayWeatherCell.h; sourceTree = "<group>"; };
+		33A2A601211A5E4500AC2006 /* TodayWeatherCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TodayWeatherCell.m; sourceTree = "<group>"; };
+		33A2A606211B635000AC2006 /* TodayActivitiesView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TodayActivitiesView.h; sourceTree = "<group>"; };
+		33A2A607211B635000AC2006 /* TodayActivitiesView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TodayActivitiesView.m; sourceTree = "<group>"; };
+		33A2A609211B6DA500AC2006 /* TodayWeatherView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TodayWeatherView.h; sourceTree = "<group>"; };
+		33A2A60A211B6DA500AC2006 /* TodayWeatherView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TodayWeatherView.m; sourceTree = "<group>"; };
+		33A2A60C211B6FDB00AC2006 /* WeatherCardCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WeatherCardCell.h; sourceTree = "<group>"; };
+		33A2A60D211B6FDB00AC2006 /* WeatherCardCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WeatherCardCell.m; sourceTree = "<group>"; };
 		33F00C0A20FD116C008F56CE /* User.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
 		33F00C0B20FD116C008F56CE /* User.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		33F00C0D20FD1215008F56CE /* Location.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Location.h; sourceTree = "<group>"; };
@@ -145,6 +159,10 @@
 		9203E63120FD47DD00F8C858 /* APIManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APIManager.m; sourceTree = "<group>"; };
 		9203E63820FD73C600F8C858 /* WeeklyCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WeeklyCell.h; sourceTree = "<group>"; };
 		9203E63920FD73C600F8C858 /* WeeklyCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WeeklyCell.m; sourceTree = "<group>"; };
+		9207D7A1211A6840001E01CA /* HourlyCollectionCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HourlyCollectionCell.h; sourceTree = "<group>"; };
+		9207D7A2211A6840001E01CA /* HourlyCollectionCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HourlyCollectionCell.m; sourceTree = "<group>"; };
+		9207D7A7211BC2FD001E01CA /* HourlyForecastView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HourlyForecastView.h; sourceTree = "<group>"; };
+		9207D7A8211BC2FD001E01CA /* HourlyForecastView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HourlyForecastView.m; sourceTree = "<group>"; };
 		92499B24210A4B07005874C8 /* ActivityAPIManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ActivityAPIManager.h; sourceTree = "<group>"; };
 		92499B25210A4B07005874C8 /* ActivityAPIManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ActivityAPIManager.m; sourceTree = "<group>"; };
 		92499B27210A5C73005874C8 /* Activity.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Activity.h; sourceTree = "<group>"; };
@@ -369,10 +387,29 @@
 				336621A32112D03B005CB1D3 /* BannerView.m */,
 				CC829DCA21153FCC00453152 /* WeeklyCollectionViewCell.h */,
 				CC829DCB21153FCC00453152 /* WeeklyCollectionViewCell.m */,
-				CC829DCD211A51AD00453152 /* WeatherView.h */,
-				CC829DCE211A51AD00453152 /* WeatherView.m */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		9207D7A0211A5A5F001E01CA /* NewUIViews */ = {
+			isa = PBXGroup;
+			children = (
+				CC829DCD211A51AD00453152 /* WeatherView.h */,
+				CC829DCE211A51AD00453152 /* WeatherView.m */,
+				33A2A60C211B6FDB00AC2006 /* WeatherCardCell.h */,
+				33A2A60D211B6FDB00AC2006 /* WeatherCardCell.m */,
+				9207D7A7211BC2FD001E01CA /* HourlyForecastView.h */,
+				9207D7A8211BC2FD001E01CA /* HourlyForecastView.m */,
+				9207D7A1211A6840001E01CA /* HourlyCollectionCell.h */,
+				9207D7A2211A6840001E01CA /* HourlyCollectionCell.m */,
+				33A2A606211B635000AC2006 /* TodayActivitiesView.h */,
+				33A2A607211B635000AC2006 /* TodayActivitiesView.m */,
+				33A2A609211B6DA500AC2006 /* TodayWeatherView.h */,
+				33A2A60A211B6DA500AC2006 /* TodayWeatherView.m */,
+				33A2A600211A5E4500AC2006 /* TodayWeatherCell.h */,
+				33A2A601211A5E4500AC2006 /* TodayWeatherCell.m */,
+			);
+			path = NewUIViews;
 			sourceTree = "<group>";
 		};
 		92EEBCFE210BEEE100D6721F /* SWRevealViewController */ = {
@@ -411,6 +448,7 @@
 		CC7D391A20FD053A00913023 /* WeatherApp */ = {
 			isa = PBXGroup;
 			children = (
+				9207D7A0211A5A5F001E01CA /* NewUIViews */,
 				92EEBCFE210BEEE100D6721F /* SWRevealViewController */,
 				9203E63720FD73B100F8C858 /* View */,
 				3330AE1620FE736900B37975 /* View Controllers */,
@@ -740,6 +778,8 @@
 			files = (
 				3330AE282107A16700B37975 /* LocationTableViewCell.m in Sources */,
 				92499B26210A4B07005874C8 /* ActivityAPIManager.m in Sources */,
+				33A2A608211B635000AC2006 /* TodayActivitiesView.m in Sources */,
+				9207D7A9211BC2FD001E01CA /* HourlyForecastView.m in Sources */,
 				CCE85684210F7F8B0035230F /* HamburgerTableViewCell.m in Sources */,
 				927E18A2210106B700CA03F6 /* Weather.m in Sources */,
 				9203E63A20FD73C600F8C858 /* WeeklyCell.m in Sources */,
@@ -755,10 +795,13 @@
 				CCE8557421098B480035230F /* DailyView.m in Sources */,
 				CC829DCC21153FCC00453152 /* WeeklyCollectionViewCell.m in Sources */,
 				33F00C0F20FD1215008F56CE /* Location.m in Sources */,
+				33A2A602211A5E4500AC2006 /* TodayWeatherCell.m in Sources */,
 				92EEBD01210BEEE100D6721F /* SWRevealViewController.m in Sources */,
 				3330AE252102842700B37975 /* PreferenceTableViewCell.m in Sources */,
 				CC829DCF211A51AD00453152 /* WeatherView.m in Sources */,
+				33A2A60B211B6DA500AC2006 /* TodayWeatherView.m in Sources */,
 				33F00C1220FD1244008F56CE /* Preferences.m in Sources */,
+				9207D7A3211A6840001E01CA /* HourlyCollectionCell.m in Sources */,
 				CCE85681210F7C440035230F /* HamburgerViewController.m in Sources */,
 				33A2A5C12118CBC400AC2006 /* CustomCameraViewController.m in Sources */,
 				CC7D392B20FD053D00913023 /* main.m in Sources */,
@@ -767,6 +810,7 @@
 				CCE856942110D93A0035230F /* WebViewViewController.m in Sources */,
 				CC7A6A0A210115D600028419 /* LoginViewController.m in Sources */,
 				CC7A6A0D2102B10F00028419 /* PageViewController.m in Sources */,
+				33A2A60E211B6FDB00AC2006 /* WeatherCardCell.m in Sources */,
 				CC7D391D20FD053A00913023 /* AppDelegate.m in Sources */,
 				3330AE1920FE739700B37975 /* SettingsViewController.m in Sources */,
 				3330AE212101363B00B37975 /* GeoAPIManager.m in Sources */,

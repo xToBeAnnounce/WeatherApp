@@ -61,10 +61,6 @@ BOOL isgranted;
     [self setUI];
     [super viewDidLoad];
     
-    //Makes Navigation Controller translucent
-//    [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
-//    [self.navigationController.navigationBar setShadowImage:[UIImage new]];
-//    [self.navigationController.navigationBar setTranslucent:YES];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -76,6 +72,12 @@ BOOL isgranted;
 
 - (void) viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+}
+
+- (void)viewWillLayoutSubviews {
+    [super viewWillLayoutSubviews];
+    self.view.frame = CGRectMake(0, 0, UIScreen.mainScreen.bounds.size.width, UIScreen.mainScreen.bounds.size.height);
+    [self.view layoutIfNeeded];
 }
 
 /*----------------NOTIFICATION METHODS----------------*/
@@ -120,7 +122,34 @@ BOOL isgranted;
     }
 }
 
-/*------------------SET UI METHODS------------------*/
+/*------------------SET NAVIGATION UI METHODS------------------*/
+- (void) setNavigationBarUI {
+    
+    self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
+    
+    // Adjust buttons
+    self.navigationController.navigationBar.topItem.rightBarButtonItem = self.addLocationButton;
+    self.navigationController.navigationBar.topItem.leftBarButtonItem.tintColor = [UIColor whiteColor];
+    
+    // Makes Navigation Controller translucent
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+    [self.navigationController.navigationBar setShadowImage:[UIImage new]];
+    [self.navigationController.navigationBar setTranslucent:YES];
+    
+    self.navigationController.navigationBar.topItem.title = nil;
+    
+    
+    [self updateNavBarTitleIfNeeded];
+}
+
+- (void) updateNavBarTitleIfNeeded {
+    LocationWeatherViewController *currentLocWVC = [self currentWeatherVC];
+    if (currentLocWVC.location && !self.navigationController.navigationBar.topItem.titleView) {
+        [currentLocWVC refreshNavBarTitle];
+    }
+}
+
+/*------------------SET GENERAL UI METHODS------------------*/
 // initalizes placeholder screen and contents
 - (void) makePlaceHolderScreen {
     // creating placeholder view controller
@@ -153,12 +182,6 @@ BOOL isgranted;
     [self refreshPageViewWithStartIndex:0];
 }
 
-- (void) setNavigationBarUI {
-    self.navigationController.navigationBar.topItem.rightBarButtonItem = self.addLocationButton;
-    self.navigationController.navigationBar.topItem.titleView = self.DailyWeeklySC;
-    [self.DailyWeeklySC addTarget:self action:@selector(onToggleDailyWeekly) forControlEvents:UIControlEventValueChanged];
-}
-
 - (void) setConstraints {
     [self.placeholderLabel.centerXAnchor constraintEqualToAnchor:self.placeholderScreen.view.centerXAnchor].active = YES;
     [self.placeholderLabel.centerYAnchor constraintEqualToAnchor:self.placeholderScreen.view.centerYAnchor].active = YES;
@@ -180,9 +203,26 @@ BOOL isgranted;
     [self.mapButton.widthAnchor constraintEqualToAnchor:self.mapButton.heightAnchor].active = YES;
 }
 
-// Initalizes controls and placeholder screen, sets view background color
+// adds gradient to given view
+- (void) addGradientToView:(UIView *)gradView withColors:(NSArray *)colors{
+    CAGradientLayer *gradient = [CAGradientLayer layer];
+    gradient.frame = gradView.frame;
+    gradient.colors = colors;
+    gradient.opacity = 0.75;
+    
+    [gradView.layer addSublayer:gradient];
+}
+
+// Initalizes controls and placeholder screen and gradient, sets view background color
 - (void) setUI {
+    CGFloat gradheight = [UIApplication sharedApplication].statusBarFrame.size.height + self.navigationController.navigationBar.frame.size.height;
+    UIView *gradView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, gradheight)];
+    [self addGradientToView:gradView withColors:@[(id)[UIColor blackColor].CGColor,
+                                                  (id)[UIColor clearColor].CGColor]];
+    [self.view addSubview:gradView];
+    
     self.addLocationButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"plus-1"] style:UIBarButtonItemStylePlain target:self action:@selector(segueToAddLocation)];
+    self.addLocationButton.tintColor = UIColor.whiteColor;
     
     self.DailyWeeklySC = [[UISegmentedControl alloc]initWithItems:@[@"Daily",@"Weekly"]];
     self.DailyWeeklySC.tintColor = UIColor.blackColor;
@@ -198,11 +238,13 @@ BOOL isgranted;
     
     self.locationDetailsButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
     [self.locationDetailsButton addTarget:self action:@selector(didTapBottomButton:) forControlEvents:UIControlEventTouchUpInside];
+//    self.locationDetailsButton.tintColor = UIColor.whiteColor;
     self.locationDetailsButton.translatesAutoresizingMaskIntoConstraints = NO;
     self.locationDetailsButton.hidden = YES;
     [self.view addSubview:self.locationDetailsButton];
     
-    self.view.backgroundColor = [[UIColor alloc]initWithPatternImage:[UIImage imageNamed:@"grad"]];
+    self.view.backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"grad"]];
+//    self.view.backgroundColor = [[UIColor alloc] initWithWhite:1.0 alpha:0.2];
     
     [self makePlaceHolderScreen];
     [self setConstraints];
@@ -343,7 +385,6 @@ BOOL isgranted;
     [self presentPreferenceNotification];
     [self refreshPageViewWithStartIndex:[self currentPageIndex]];
     settingUpLocations = NO;
-    
 }
 
 -(void) updatePreferences:(Preferences *)pref {

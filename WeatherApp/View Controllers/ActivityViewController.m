@@ -27,36 +27,37 @@
 
 int buttonHeight = 45;
 
--(instancetype)initWithLocation:(Location*)loc Weather:(Weather*)weather{
-    self.tableView = [[UITableView alloc] initWithFrame: CGRectMake(0, 0, self.view.frame.size.width,self.view.frame.size.height)];
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
-    [self.view addSubview:self.tableView];
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        self.tableView = [[UITableView alloc] initWithFrame: CGRectMake(0, 0, self.view.frame.size.width,self.view.frame.size.height)];
+        self.tableView.delegate = self;
+        self.tableView.dataSource = self;
+        [self.view addSubview:self.tableView];
+        
+        self.currentActivityList = [[NSMutableArray alloc] init];
+        [self setTableViewConstraint];
+    }
+    return self;
+}
+
+-(instancetype)initWithLocation:(Location*)loc weather:(Weather*)weather index:(int)idx{
+    self = [self init];
     
     self.lat = loc.lattitude;
     self.lng = loc.longitude;
     self.weather = weather;
-    self.category = [[NSArray alloc] init];
-    self.currentActivityList = [[NSMutableArray alloc] init];
-    
-    [self setActivityCategoryWithWeatherType:weather.icon];
-    [self getActivityDataType:self.category[0]];
+    self.category = [Activity getActivityCategoryWithWeatherType:weather.icon];
     
     [self initActivityButtons];
-    [self setTableViewConstraint];
     [self setStackViewConstraint];
     
+    UIButton *activityButton = self.activityButtons[idx];
+    [activityButton setBackgroundColor:[UIColor.blueColor colorWithAlphaComponent:0.3]];
+    [self getActivityDataType:self.category[idx]];
+    
     return self;
-}
-
--(void)setActivityCategoryWithWeatherType:(NSString*)weatherCondition{
-    if([weatherCondition rangeOfString:@"clear"].location != NSNotFound || [weatherCondition rangeOfString:@"cloud"].location != NSNotFound){
-        self.category = @[@"attractions", @"park", @"trails", @"resturant", @"cafe"];
-    }
-    else if([weatherCondition rangeOfString:@"wind"].location != NSNotFound ||
-            [weatherCondition rangeOfString:@"rain"].location != NSNotFound){
-        self.category = @[@"clothing_store", @"library", @"movie_theater", @"shopping_mall", @"cafe", @"resturant"];
-    }
 }
 
 -(void)getActivityDataType:(NSString*)type{
@@ -64,6 +65,11 @@ int buttonHeight = 45;
     ActivityAPIManager *activityAPI = [ActivityAPIManager shared];
     [activityAPI getActivityDataWithLocation:@[@(self.lat), @(self.lng)] Type:type WithCompletion:^(NSDictionary *data, NSError *error) {
         if(error == nil){
+            if (data.count == 0) {
+                Activity *noResults = [[Activity alloc] init];
+                noResults.name = @"Nothing Found";
+                [self.currentActivityList addObject:noResults];
+            }
             for(NSMutableDictionary *dict in data){
                 [self.currentActivityList addObject:[[Activity alloc] initWithDictionary:dict]];
             }
@@ -74,7 +80,7 @@ int buttonHeight = 45;
 }
 
 -(void)initActivityButtons{
-    int rowCount = 5;
+    int rowCount = 6;
     self.activityStack = [[UIStackView alloc] init];
     self.activityStack.axis = UILayoutConstraintAxisVertical;
     self.activityStack.distribution = UIStackViewDistributionFill;
@@ -97,8 +103,8 @@ int buttonHeight = 45;
             
             [activity setTitle:title forState:UIControlStateNormal];
             activity.translatesAutoresizingMaskIntoConstraints = NO;
-            [activity.heightAnchor constraintEqualToConstant:buttonHeight].active = YES;
-            [activity.widthAnchor constraintEqualToConstant:buttonHeight].active = YES;
+            [activity.heightAnchor constraintLessThanOrEqualToConstant:buttonHeight].active = YES;
+            [activity.widthAnchor constraintEqualToAnchor:activity.heightAnchor].active = YES;
             
             [activity setImage:[UIImage imageNamed:title] forState:UIControlStateNormal];
             activity.layer.borderWidth = 2.0f;
@@ -124,8 +130,7 @@ int buttonHeight = 45;
     for(UIButton *activity in self.activityButtons){
         if(![activity isEqual:selectedActivity])
             [activity setBackgroundColor:UIColor.clearColor];
-        else
-            [activity setBackgroundColor:UIColor.blueColor];
+        else [activity setBackgroundColor:[UIColor.blueColor colorWithAlphaComponent:0.3]];
     }
     [self getActivityDataType:selectedActivity.titleLabel.text];
 }
@@ -135,10 +140,12 @@ int buttonHeight = 45;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"activityCell"];
+    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier: @"activityCell"];
+    
     if(cell == nil){
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"activityCell"];
     }
+    
     Activity *activity = self.currentActivityList[indexPath.row];
     cell.textLabel.text = activity.name;
     return cell;
@@ -146,7 +153,7 @@ int buttonHeight = 45;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     Activity *activity = self.currentActivityList[indexPath.row];
-    if([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"comgooglemaps://"]]){
+    if(activity.location && [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"comgooglemaps://"]]){
         NSString *baseURL = @"comgooglemaps://";
         NSString *activityName = [activity.name stringByReplacingOccurrencesOfString:@" " withString:@"+"];
         NSString *url = [NSString stringWithFormat:@"%@?q=%@&center=%@,%@", baseURL,activityName, activity.location[0], activity.location[1]];
@@ -155,6 +162,7 @@ int buttonHeight = 45;
     else{
         NSLog(@"Unable to open Google Maps");
     }
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 - (void)viewDidLoad {
@@ -172,21 +180,10 @@ int buttonHeight = 45;
     [self.activityStack.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor].active = YES;
     [self.activityStack.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor].active = YES;
     
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-10-[activityView]-10-[tableView]-0-|" options:NSLayoutFormatAlignAllCenterX metrics:nil views:@{@"activityView":self.activityStack, @"tableView": self.tableView}]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-8-[activityView]-8-[tableView]-0-|" options:NSLayoutFormatAlignAllCenterX metrics:nil views:@{@"activityView":self.activityStack, @"tableView": self.tableView}]];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-
 @end

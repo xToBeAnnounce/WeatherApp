@@ -10,8 +10,8 @@
 
 static NSString * const baseURLString = @"https://api.darksky.net/forecast/";
 //static NSString * const consumerSecret = @"41cbd5a478f0e0165572447fdb67d4db/"; // Tiffany's
-static NSString * const consumerSecret = @"d54d5c8906cd432065ed86b50f25049b/"; // Trustin's
-//static NSString * const consumerSecret = @"bc3c4e45aa60ac2223c847786e4754dd/"; // Jamie's
+//static NSString * const consumerSecret = @"d54d5c8906cd432065ed86b50f25049b/"; // Trustin's
+static NSString * const consumerSecret = @"bc3c4e45aa60ac2223c847786e4754dd/"; // Jamie's
 
 static NSString * urlString;
 
@@ -43,6 +43,9 @@ static NSString * urlString;
     }
     else if([range isEqualToString:@"weekly"]){
         urlString = [urlString stringByAppendingString:@"?exclude=currently,minutely,hourly,alerts,flags"];
+    }
+    else if ([range isEqualToString:@"all"]) {
+        urlString = [urlString stringByAppendingString:@"?exclude=currently,minutely,alerts,flags"];
     }
 }
 
