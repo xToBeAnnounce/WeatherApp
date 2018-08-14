@@ -174,16 +174,13 @@ bool dataLoaded = NO;
     _location = location;
     
     if([self.location.placeName  isEqual: @"Honolulu"]){
-        defaultBackdrop = @"Hawaii";
-        _backdropImageView.image =[UIImage imageNamed:defaultBackdrop];
+        _backdropImageView.image =[UIImage imageNamed:@"Hawaii"];
     }
     else if([self.location.placeName  isEqual: @"Menlo Park"]){
-        defaultBackdrop = @"FaceBook";
-        _backdropImageView.image =[UIImage imageNamed:defaultBackdrop];
+        _backdropImageView.image =[UIImage imageNamed:@"FaceBook"];
     }
     else if([self.location.placeName  isEqual: @"San Francisco"]){
-        defaultBackdrop = @"golden_san_fran";
-        _backdropImageView.image =[UIImage imageNamed:defaultBackdrop];
+        _backdropImageView.image =[UIImage imageNamed:@"golden_san_fran"];
     }
     
     if (location.backdropImage) {
