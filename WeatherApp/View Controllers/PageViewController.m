@@ -232,6 +232,7 @@ BOOL isgranted;
     [self.mapButton setImage:[UIImage imageNamed:@"map"] forState:UIControlStateNormal];
     self.mapButton.contentMode = UIViewContentModeScaleAspectFit;
     self.mapButton.clipsToBounds = YES;
+    self.mapButton.hidden = YES;
     [self.mapButton addTarget:self action:@selector(didTapBottomButton:) forControlEvents:UIControlEventTouchUpInside];
     self.mapButton.translatesAutoresizingMaskIntoConstraints = NO;
     [self.view addSubview:self.mapButton];
@@ -347,6 +348,7 @@ BOOL isgranted;
 - (void) addPlaceholderIfNeeded {
     if (self.locViewArray.count == 0) {
         self.locationDetailsButton.hidden = YES;
+        self.mapButton.hidden = YES;
         self.placeholderButton.hidden = NO;
         [self.locViewArray addObject:self.placeholderScreen];
     }
@@ -365,6 +367,7 @@ BOOL isgranted;
         // Add new current location screen
         LocationWeatherViewController *currentLocVC = [[LocationWeatherViewController alloc] initWithLocation:Location.currentLocation segmentedControl:self.DailyWeeklySC  locDetailsButton:self.locationDetailsButton];
         [self.locViewArray insertObject:currentLocVC atIndex:0];
+        self.mapButton.hidden = NO;
     }
     // current location switched from on to off
     else if (!pref.locationOn && currentLocation){
@@ -446,7 +449,9 @@ BOOL isgranted;
             for (LocationWeatherViewController *locWVC in expiredLocationScreens) {
                 [self removeExpiredLocScreen:locWVC];
             }
+            
             settingUpLocations = NO;
+            self.mapButton.hidden = NO;
             [self refreshPageViewWithStartIndex:[self currentPageIndex]];
             self.view.userInteractionEnabled = YES;
         }

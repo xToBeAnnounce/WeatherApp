@@ -18,4 +18,5 @@
 
 @property (strong, nonatomic) Location *location;
 @property (strong, nonatomic) NSString *tempTypeString;
+- (void) updateDataIfNeeded;
 @end

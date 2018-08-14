@@ -94,6 +94,7 @@ bool dataLoaded = NO;
 - (void)setActivityDelegate:(id<ActivityDelegate>)activityDelegate {
     _activityDelegate = activityDelegate;
     _todayActivityView.activityDelegate = activityDelegate;
+    _weeklyView.activityDelegate = activityDelegate;
 }
 
 // sets the UI of table view and background
