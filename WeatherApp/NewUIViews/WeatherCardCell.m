@@ -103,7 +103,7 @@
     [self.customView.leadingAnchor constraintEqualToAnchor:_cardView.leadingAnchor constant:8].active = YES;
     [self.customView.trailingAnchor constraintEqualToAnchor:_cardView.trailingAnchor constant:-8].active = YES;
     
-    [_cardView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-5-[titleLabel]-5-[lineView]-5-[customView]-8-|" options:NSLayoutFormatAlignAllCenterX metrics:nil views:@{@"titleLabel":_titleLabel, @"lineView":_lineView, @"customView":self.customView}]];
+    [_cardView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-8-[titleLabel]-5-[lineView]-5-[customView]-8-|" options:NSLayoutFormatAlignAllCenterX metrics:nil views:@{@"titleLabel":_titleLabel, @"lineView":_lineView, @"customView":self.customView}]];
 }
 
 - (void)setCardBackgroundColor:(UIColor *)backgroundColor {

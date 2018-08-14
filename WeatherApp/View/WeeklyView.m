@@ -37,6 +37,19 @@ static BOOL showBanner;
     [super drawRect:rect];
 }
 
+-(void)setLocationName{
+    if ([self.location.placeName isEqualToString:self.location.customName]) {
+        self.customNameLabel.font = [UIFont systemFontOfSize:45];
+        self.locationLabel.hidden = YES;
+    }
+    else {
+        self.locationLabel.hidden = NO;
+        self.customNameLabel.font = [UIFont systemFontOfSize:35];
+        self.locationLabel.text = self.location.placeName;
+        [self.locationLabel sizeToFit];
+    }
+}
+
 - (void) setLocation:(Location *)location {
     if (_location.weeklyData && !location.weeklyData) location.weeklyData = _location.weeklyData;
     _location = location;

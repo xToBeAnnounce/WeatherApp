@@ -11,7 +11,6 @@
 
 @implementation HourlyForecastView 
 {
-    UICollectionView *_collectionView;
     NSMutableArray *_hourlyData;
     UICollectionViewFlowLayout *_layout;
     CGFloat _viewHeight;
@@ -36,41 +35,41 @@ NSString *hourlyCellIdentifier = @"singleHourCell";
     _layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
     _layout.estimatedItemSize = UICollectionViewFlowLayoutAutomaticSize;
     
-    _collectionView = [[UICollectionView alloc] initWithFrame:self.frame collectionViewLayout:_layout];
-    [_collectionView registerClass:HourlyCollectionCell.class forCellWithReuseIdentifier:hourlyCellIdentifier];
-    _collectionView.backgroundColor = UIColor.clearColor;
-    _collectionView.delegate = self;
-    _collectionView.dataSource = self;
-    _collectionView.translatesAutoresizingMaskIntoConstraints = NO;
-    _collectionView.contentInset = UIEdgeInsetsMake(0, 0, 0, 30);
+    self.collectionView = [[UICollectionView alloc] initWithFrame:self.frame collectionViewLayout:_layout];
+    [self.collectionView registerClass:HourlyCollectionCell.class forCellWithReuseIdentifier:hourlyCellIdentifier];
+    self.collectionView.backgroundColor = UIColor.clearColor;
+    self.collectionView.delegate = self;
+    self.collectionView.dataSource = self;
+    self.collectionView.translatesAutoresizingMaskIntoConstraints = NO;
+    self.collectionView.contentInset = UIEdgeInsetsMake(10, 0, 0, 50);
     
-    [self addSubview:_collectionView];
+    [self addSubview:self.collectionView];
     [self setCollectionViewConstraints];
 }
 
 -(void)setCollectionViewConstraints{
-    [_collectionView.topAnchor constraintEqualToAnchor:self.topAnchor].active = YES;
-    [_collectionView.bottomAnchor constraintEqualToAnchor:self.bottomAnchor].active = YES;
-    [_collectionView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor].active = YES;
-    [_collectionView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor].active = YES;
+    [self.collectionView.topAnchor constraintEqualToAnchor:self.topAnchor].active = YES;
+    [self.collectionView.bottomAnchor constraintEqualToAnchor:self.bottomAnchor].active = YES;
+    [self.collectionView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor].active = YES;
+    [self.collectionView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor].active = YES;
     
-    _heightConstraint = [NSLayoutConstraint constraintWithItem:_collectionView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:100];
+    _heightConstraint = [NSLayoutConstraint constraintWithItem:self.collectionView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:100];
     [self addConstraint:_heightConstraint];
 }
 
 - (void)setLocation:(Location *)location{
     if(_location.dailyData) location.dailyData = _location.dailyData; //Updates daily data
     _location = location; //Updates rest of locatin object (i.e. Preference settings)
-    [_collectionView reloadData];
+    [self.collectionView reloadData];
 }
 
 - (void)setTempTypeString:(NSString *)tempTypeString {
     _tempTypeString = tempTypeString;
-    [_collectionView reloadData];
+    [self.collectionView reloadData];
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
-    HourlyCollectionCell *cell = [_collectionView dequeueReusableCellWithReuseIdentifier:hourlyCellIdentifier forIndexPath:indexPath];
+    HourlyCollectionCell *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:hourlyCellIdentifier forIndexPath:indexPath];
     cell.tempType = self.tempTypeString;
     cell.weather = self.location.dailyData[indexPath.row];
     cell.backgroundColor = UIColor.clearColor;

@@ -47,6 +47,7 @@
     
     _temperatureLabel = [[UILabel alloc] init];
     _temperatureLabel.font = [UIFont systemFontOfSize:20];
+    _temperatureLabel.textColor = UIColor.whiteColor;
     _temperatureLabel.translatesAutoresizingMaskIntoConstraints = NO;
     _temperatureLabel.textColor = UIColor.whiteColor;
     self.contentView.translatesAutoresizingMaskIntoConstraints = NO;
