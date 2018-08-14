@@ -10,6 +10,7 @@
 #import "Location.h"
 
 @interface HourlyForecastView : UIView <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
+@property (strong, nonatomic) UICollectionView *collectionView;
 @property (strong, nonatomic) Location *location;
 @property (strong, nonatomic) NSString *tempTypeString;
 @end

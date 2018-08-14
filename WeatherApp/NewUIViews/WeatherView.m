@@ -31,6 +31,7 @@
     CGRect _oldCollectionViewFrame;
     CGRect _oldTodayWeatherFrame;
     BOOL _getTodayViewFrame;
+    BOOL _scrolling;
 }
 
 NSString *defaultBackdrop;
@@ -124,6 +125,7 @@ bool dataLoaded = NO;
     WeatherCardCell *cell = [self.mainCollectionView dequeueReusableCellWithReuseIdentifier:cellID forIndexPath:indexPath];
 //    UIView *placeholderView = UIView.new;
     if(indexPath.row == 0){
+        [_hourlyView.collectionView reloadData];
         [cell setTitle:@"Hourly Forecast" withView:_hourlyView Width:self.mainCollectionView.frame.size.width];
     }
     else if (indexPath.row == 1) {
@@ -207,26 +209,58 @@ bool dataLoaded = NO;
     if(!_getTodayViewFrame){
         _oldTodayWeatherFrame = _todayWeatherView.frame;
         _getTodayViewFrame = YES;
+        _scrolling = NO;
     }
     
     CGFloat contentOffset = self.mainCollectionView.contentOffset.y;
     CGFloat originTodayY = _oldTodayWeatherFrame.origin.y;
-    if((contentOffset < 10 && self.mainCollectionView.frame.origin.y <= _oldCollectionViewFrame.origin.y) || ((originTodayY - contentOffset > 100 && _todayWeatherView.frame.origin.y > 100) && self.mainCollectionView.frame.origin.y - contentOffset <= _oldCollectionViewFrame.origin.y)){
-        [UIView animateWithDuration:0.5 delay:0 usingSpringWithDamping:50 initialSpringVelocity:1 options:UIViewAnimationOptionCurveEaseIn animations:^{
-            self->_collectionHeightConstraint.active = NO;
-            CGFloat newTodayWeatherY = self->_oldTodayWeatherFrame.origin.y - contentOffset;
-            CGFloat newCollectionY = self->_oldCollectionViewFrame.origin.y - contentOffset;
-            
-            CGRect newTodayFrame = CGRectMake(self->_oldTodayWeatherFrame.origin.x, newTodayWeatherY, self->_oldTodayWeatherFrame.size.width, self->_oldTodayWeatherFrame.size.height);
-            CGRect newCollectionFrame = CGRectMake(self->_oldCollectionViewFrame.origin.x, newCollectionY, self->_oldCollectionViewFrame.size.width, self->_oldCollectionViewFrame.size.height);
-            
-            self->_todayWeatherView.frame = newTodayFrame;
-            self.mainCollectionView.frame = newCollectionFrame;
-            
-            self->_collectionHeightConstraint.constant = self->_collectionHeightConstraint.constant - contentOffset;
-            self->_collectionHeightConstraint.active = YES;
-            [self layoutIfNeeded];
-        } completion:^(BOOL finished) {}];
+    if(contentOffset > 0){
+        for(int i = 0; i<contentOffset; i+= 10){
+            [UIView animateWithDuration:0.5 delay:0 usingSpringWithDamping:10 initialSpringVelocity:0.5 options:UIViewAnimationOptionCurveEaseIn animations:^{
+                if(((contentOffset > 0 && _todayWeatherView.frame.origin.y > self.safeAreaInsets.top) || (contentOffset < 0 && self.mainCollectionView.frame.origin.y <= self->_oldCollectionViewFrame.origin.y))){
+                    //            if((self.mainCollectionView.frame.origin.y <= self->_oldCollectionViewFrame.origin.y) &&
+                    //               (contentOffset < 10 || _todayWeatherView.frame.origin.y > self.safeAreaInsets.top)){
+                    //            if((contentOffset < 10 && self.mainCollectionView.frame.origin.y <= self->_oldCollectionViewFrame.origin.y) ||
+                    //               (_todayWeatherView.frame.origin.y > self.safeAreaInsets.top)){
+                    //            if((contentOffset < 10 && self.mainCollectionView.frame.origin.y <= self->_oldCollectionViewFrame.origin.y) || ((originTodayY - contentOffset > 100 && _todayWeatherView.frame.origin.y > 100) && self.mainCollectionView.frame.origin.y - contentOffset <= _oldCollectionViewFrame.origin.y)){
+                    self->_collectionHeightConstraint.active = NO;
+                    CGFloat newTodayWeatherY = self->_todayWeatherView.frame.origin.y - i;
+                    CGFloat newCollectionY = self.mainCollectionView.frame.origin.y - i;
+                    
+                    CGRect newTodayFrame = CGRectMake(self->_oldTodayWeatherFrame.origin.x, newTodayWeatherY, self->_oldTodayWeatherFrame.size.width, self->_oldTodayWeatherFrame.size.height);
+                    CGRect newCollectionFrame = CGRectMake(self->_oldCollectionViewFrame.origin.x, newCollectionY, self->_oldCollectionViewFrame.size.width, self->_oldCollectionViewFrame.size.height);
+                    
+                    self->_todayWeatherView.frame = newTodayFrame;
+                    self.mainCollectionView.frame = newCollectionFrame;
+                    
+                    self->_collectionHeightConstraint.constant = self->_collectionHeightConstraint.constant - i;
+                    self->_collectionHeightConstraint.active = YES;
+                    [self layoutSubviews];
+                }
+            } completion:nil];
+        }
+    }
+    else{
+        for(int i = 0; i>contentOffset; i-= 10){
+            [UIView animateWithDuration:0.5 delay:0 usingSpringWithDamping:10 initialSpringVelocity:0.5 options:UIViewAnimationOptionCurveEaseIn animations:^{
+                if(((contentOffset > 0 && _todayWeatherView.frame.origin.y > self.safeAreaInsets.top) || (contentOffset < 0 && self.mainCollectionView.frame.origin.y <= self->_oldCollectionViewFrame.origin.y))){
+
+                    self->_collectionHeightConstraint.active = NO;
+                    CGFloat newTodayWeatherY = self->_todayWeatherView.frame.origin.y - i;
+                    CGFloat newCollectionY = self.mainCollectionView.frame.origin.y - i;
+                    
+                    CGRect newTodayFrame = CGRectMake(self->_oldTodayWeatherFrame.origin.x, newTodayWeatherY, self->_oldTodayWeatherFrame.size.width, self->_oldTodayWeatherFrame.size.height);
+                    CGRect newCollectionFrame = CGRectMake(self->_oldCollectionViewFrame.origin.x, newCollectionY, self->_oldCollectionViewFrame.size.width, self->_oldCollectionViewFrame.size.height);
+                    
+                    self->_todayWeatherView.frame = newTodayFrame;
+                    self.mainCollectionView.frame = newCollectionFrame;
+                    
+                    self->_collectionHeightConstraint.constant = self->_collectionHeightConstraint.constant - i;
+                    self->_collectionHeightConstraint.active = YES;
+                    [self layoutSubviews];
+                }
+            } completion:nil];
+        }
     }
 }
 
