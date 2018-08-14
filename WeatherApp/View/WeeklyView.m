@@ -117,7 +117,6 @@ static BOOL showBanner;
     // has just been tapped set the expanded index to nil so that there aren't any
     // expanded cells, otherwise, set the expanded index to the index that has just
     // been selected.
-    WeeklyCell *cell = [self.WeeklytableView cellForRowAtIndexPath:indexPath];
     if ([indexPath compare:_expandedIndexPath] == NSOrderedSame) {
         _expandedIndexPath = nil;
     } else {
@@ -134,7 +133,8 @@ static BOOL showBanner;
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if ([indexPath compare:_expandedIndexPath] == NSOrderedSame) {
         WeeklyCell *cell = [self.WeeklytableView cellForRowAtIndexPath:indexPath];
-//        return MIN(MAX(cell.contentView.frame.size.height + cell.ExpandedView.frame.size.height, 72), 120);
+        _tableViewHeightConstraint.constant = self.WeeklytableView.contentSize.height;
+        
         return cell.contentView.frame.size.height + cell.ExpandedView.frame.size.height;
     }
     return 53.0;
