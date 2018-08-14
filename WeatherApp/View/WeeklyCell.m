@@ -183,6 +183,11 @@ static NSArray *activityNames;
 
     [self.tempStackView.trailingAnchor constraintEqualToAnchor:self.contentView.trailingAnchor constant:-8].active =YES;
     [self.tempStackView.topAnchor constraintEqualToAnchor:self.contentView.topAnchor constant:8].active=YES;
+    self.tempStackView.translatesAutoresizingMaskIntoConstraints = NO;
+    self.tempStackView.distribution = UIStackViewDistributionEqualCentering;
+    self.tempStackView.axis = UILayoutConstraintAxisHorizontal;
+    self.tempStackView.spacing = 8;
+
     
     //Constraints for Expanded View
     [self.ExpandedView.leadingAnchor constraintEqualToAnchor:self.contentView.leadingAnchor].active = YES;

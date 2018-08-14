@@ -60,6 +60,7 @@
 - (void) initalizeCard {
     _cardView = [[UIView alloc] init];
     _cardView.translatesAutoresizingMaskIntoConstraints = NO;
+
     _cardView.backgroundColor = [UIColor.blueColor colorWithAlphaComponent:0.3];
     _cardView.layer.cornerRadius = 10;
     [self.contentView addSubview:_cardView];

@@ -38,8 +38,14 @@ static NSArray *dayOfWeek;
     self.humidity = [data[@"humidity"]floatValue];
     self.uvIndex = [data[@"uvIndex"] intValue];
     self.precipProbability = [data[@"precipProbability"] floatValue];
-    self.sunSet = data[@"sunsetTime"];
-    self.sunRise = data[@"sunriseTime"];
+    
+    NSTimeInterval sunSet = [data[@"sunsetTime"] integerValue];
+    self.sunSet = [NSDate dateWithTimeIntervalSince1970:sunSet];
+
+    
+    NSTimeInterval sunRise = [data[@"sunriseTime"] integerValue];
+    self.sunRise = [NSDate dateWithTimeIntervalSince1970:sunRise];
+   
     
     self.summary = data[@"summary"];
     
@@ -132,7 +138,7 @@ static NSArray *dayOfWeek;
 
 -(NSString*)formatSummary{
     NSString *icon = [self formattedIconSummary];
-    NSString *summary = [NSString localizedStringWithFormat:@"%@ currently with a high of %d. The low tonight will be %d",icon,self.temperatureHigh, self.temperatureLow];
+    NSString *summary = [NSString localizedStringWithFormat:@"%@ currently with a high of %d°F (%.0f°C). The low tonight will be %d°F (%.0f°C)",icon,self.temperatureHigh,((self.temperatureHigh-32)/1.8), self.temperatureLow,((self.temperatureLow-32)/1.8)];
     
     return summary;
 }
