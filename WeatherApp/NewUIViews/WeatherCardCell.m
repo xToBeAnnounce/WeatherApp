@@ -26,6 +26,10 @@
     return self;
 }
 
+- (void)setSelected:(BOOL)selected {
+    
+}
+
 - (void)setTitle:(NSString *)title withView:(UIView *)view {
     _titleLabel.text = title;
     [_titleLabel sizeToFit];
@@ -72,7 +76,8 @@
     
     self.customView = [[UIView alloc] init];
     self.customView.backgroundColor = UIColor.clearColor;
-//    self.customView.clipsToBounds = YES;
+    self.customView.layer.cornerRadius = 10;
+    self.customView.clipsToBounds = YES;
     self.customView.translatesAutoresizingMaskIntoConstraints = NO;
     [_cardView addSubview:self.customView];
     
@@ -104,5 +109,5 @@
 - (void)setCardBackgroundColor:(UIColor *)backgroundColor {
     _cardView.backgroundColor = backgroundColor;
 }
-
+          
 @end

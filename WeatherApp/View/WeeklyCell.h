@@ -23,10 +23,18 @@
 @property (strong, nonatomic) UIStackView *activityStack;
 @property (strong, nonatomic) UIButton *sunnyActivity;
 @property (strong, nonatomic) NSLayoutConstraint *bottomConstraint;
+@property (strong,nonatomic) UIStackView *humidityStack;
+@property (strong,nonatomic) UIStackView *windspeedStack;
+@property (strong,nonatomic) UIStackView *HumidWindStackView;
 @property (strong,nonatomic) UILabel *humidityLabel;
 @property (strong,nonatomic) UILabel *windspeedLabel;
 @property (strong,nonatomic) UIView *ExpandedView;
 @property (strong,nonatomic) UIButton *activityButton;
+
+@property (strong,nonatomic) id<ActivityDelegate> activitDelegate;
+@property (strong,nonatomic) Location *location;
+
+
 /* Weather Information */
 @property (strong, nonatomic) Weather *dayWeather;
 @property (strong, nonatomic) NSString *tempType; //C or F

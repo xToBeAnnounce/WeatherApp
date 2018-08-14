@@ -213,14 +213,24 @@ bool dataLoaded = NO;
     }
     
     CGFloat contentOffset = self.mainCollectionView.contentOffset.y;
-    if((contentOffset < 10 && self.mainCollectionView.frame.origin.y <= _oldCollectionViewFrame.origin.y) || ((_todayWeatherView.frame.origin.y > self.safeAreaInsets.top) && self.mainCollectionView.frame.origin.y - contentOffset <= _oldCollectionViewFrame.origin.y)){
+    if((contentOffset < 10 &&
+        self.mainCollectionView.frame.origin.y <= _oldCollectionViewFrame.origin.y) ||
+       ((_todayWeatherView.frame.origin.y > self.safeAreaInsets.top) &&
+        self.mainCollectionView.frame.origin.y - contentOffset <= _oldCollectionViewFrame.origin.y)){
+           
         [UIView animateWithDuration:0.1 delay:0 usingSpringWithDamping:50 initialSpringVelocity:1 options:UIViewAnimationOptionCurveEaseIn animations:^{
             self->_collectionHeightConstraint.active = NO;
             CGFloat newTodayWeatherY = self->_oldTodayWeatherFrame.origin.y - contentOffset;
             CGFloat newCollectionY = self->_oldCollectionViewFrame.origin.y - contentOffset;
             
-            CGRect newTodayFrame = CGRectMake(self->_oldTodayWeatherFrame.origin.x, newTodayWeatherY, self->_oldTodayWeatherFrame.size.width, self->_oldTodayWeatherFrame.size.height);
-            CGRect newCollectionFrame = CGRectMake(self->_oldCollectionViewFrame.origin.x, newCollectionY, self->_oldCollectionViewFrame.size.width, self->_oldCollectionViewFrame.size.height);
+            CGRect newTodayFrame = CGRectMake(self->_oldTodayWeatherFrame.origin.x,
+                                              newTodayWeatherY,
+                                              self->_oldTodayWeatherFrame.size.width,
+                                              self->_oldTodayWeatherFrame.size.height);
+            CGRect newCollectionFrame = CGRectMake(self->_oldCollectionViewFrame.origin.x,
+                                                   newCollectionY,
+                                                   self-> _oldCollectionViewFrame.size.width,
+                                                   self-> _oldCollectionViewFrame.size.height);
             
             self->_todayWeatherView.frame = newTodayFrame;
             self.mainCollectionView.frame = newCollectionFrame;
