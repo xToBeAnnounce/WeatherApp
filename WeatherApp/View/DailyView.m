@@ -122,43 +122,30 @@
     sunsetIV.image = [UIImage imageNamed:@"sunset"];
 
     self.sunriseLabel = [[UILabel alloc]init];
-    self.sunriseLabel.text = @"6am";
     self.sunriseLabel.font = [UIFont systemFontOfSize:18];
     self.sunriseLabel.textColor = UIColor.whiteColor;
-    [self.sunriseLabel sizeToFit];
 
     self.sunsetLabel = [[UILabel alloc]init];
-    self.sunsetLabel.text = @"8pm";
     self.sunsetLabel.font = [UIFont systemFontOfSize:18];
     self.sunsetLabel.textColor = UIColor.whiteColor;
-    [self.sunsetLabel sizeToFit];
 
     _lineView = [[UIView alloc]init];
     _lineView.backgroundColor = UIColor.whiteColor;
     _lineView.alpha = 0.7;
     [self addSubview:_lineView];
-    _lineView.translatesAutoresizingMaskIntoConstraints = NO;
-    [_lineView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:5].active = YES;
-    [_lineView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:-5].active = YES;
-    [_lineView.heightAnchor constraintEqualToConstant:1].active = YES;
+
 
     _lineView2 = [[UIView alloc]init];
     _lineView2.backgroundColor = UIColor.whiteColor;
         _lineView2.alpha = 0.7;
     [self addSubview:_lineView2];
-    _lineView2.translatesAutoresizingMaskIntoConstraints = NO;
-    [_lineView2.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:5].active = YES;
-    [_lineView2.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:-5].active = YES;
-    [_lineView2.heightAnchor constraintEqualToConstant:1].active = YES;
+ 
 
     _lineView3 = [[UIView alloc]init];
     _lineView3.backgroundColor = UIColor.whiteColor;
         _lineView3.alpha = 0.7;
     [self addSubview:_lineView3];
-    _lineView3.translatesAutoresizingMaskIntoConstraints = NO;
-    [_lineView3.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:5].active = YES;
-    [_lineView3.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:-5].active = YES;
-    [_lineView3.heightAnchor constraintEqualToConstant:1].active = YES;
+
 
     self.IconSummaryStackView = [[UIStackView alloc]initWithArrangedSubviews:@[self.iconImageView,self.summaryLabel]];
     [self addSubview:self.IconSummaryStackView];
@@ -186,70 +173,91 @@
     [self.iconImageView.heightAnchor constraintEqualToConstant:70].active = YES;
     [self.iconImageView.widthAnchor constraintEqualToConstant:70].active = YES;
     
-    self.IconSummaryStackView.distribution = UIStackViewAlignmentCenter;
-    self.IconSummaryStackView.axis = UILayoutConstraintAxisHorizontal;
-    self.IconSummaryStackView.translatesAutoresizingMaskIntoConstraints = NO;
+    _lineView.translatesAutoresizingMaskIntoConstraints = NO;
+    [_lineView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:5].active = YES;
+    [_lineView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:-5].active = YES;
+    [_lineView.heightAnchor constraintEqualToConstant:1].active = YES;
     
+    _lineView2.translatesAutoresizingMaskIntoConstraints = NO;
+    [_lineView2.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:27].active = YES;
+    [_lineView2.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:-27].active = YES;
+    [_lineView2.heightAnchor constraintEqualToConstant:1].active = YES;
+    
+    _lineView3.translatesAutoresizingMaskIntoConstraints = NO;
+    [_lineView3.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:27].active = YES;
+    [_lineView3.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:-27].active = YES;
+    [_lineView3.heightAnchor constraintEqualToConstant:1].active = YES;
+    
+    self.IconSummaryStackView.translatesAutoresizingMaskIntoConstraints = NO;
+    self.IconSummaryStackView.distribution = UIStackViewDistributionFillProportionally;
+    self.IconSummaryStackView.axis = UILayoutConstraintAxisHorizontal;
+    self.IconSummaryStackView.spacing = 15;
+    //self.IconSummaryStackView.alignment = UIStackViewAlignmentCenter; this breaks everything
     [self.IconSummaryStackView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor].active = YES;
     [self.IconSummaryStackView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor].active = YES;
     [self.IconSummaryStackView.topAnchor constraintEqualToAnchor:self.topAnchor constant:8].active = YES;
     
-    self.HumidityStack.axis = UILayoutConstraintAxisVertical;
-    self.HumidityStack.distribution = UIStackViewAlignmentCenter;
-    self.HumidityStack.spacing = 5;
     self.HumidityStack.translatesAutoresizingMaskIntoConstraints = NO;
-    
-    self.WindspeedStack.axis = UILayoutConstraintAxisVertical;
-    self.WindspeedStack.distribution = UIStackViewAlignmentCenter;
+    self.HumidityStack.axis = UILayoutConstraintAxisVertical;
+    self.HumidityStack.alignment = UIStackViewAlignmentCenter;
+    self.HumidityStack.distribution = UIStackViewDistributionEqualCentering;
+    self.HumidityStack.spacing = 5;
+
     self.WindspeedStack.translatesAutoresizingMaskIntoConstraints = NO;
-    
+    self.WindspeedStack.axis = UILayoutConstraintAxisVertical;
+    self.WindspeedStack.alignment = UIStackViewAlignmentCenter;
+    self.WindspeedStack.distribution = UIStackViewDistributionEqualCentering;
     self.WindspeedStack.spacing = 5;
-    self.HumidityWindStackView.axis = UILayoutConstraintAxisHorizontal;
-    self.HumidityWindStackView.distribution = UIStackViewAlignmentCenter;
-    self.HumidityWindStackView.translatesAutoresizingMaskIntoConstraints = NO;
     
+    self.HumidityWindStackView.translatesAutoresizingMaskIntoConstraints = NO;
+    self.HumidityWindStackView.axis = UILayoutConstraintAxisHorizontal;
+    self.HumidityWindStackView.distribution = UIStackViewDistributionEqualCentering;
     [self.HumidityWindStackView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:55].active=YES;
     [self.HumidityWindStackView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:-55].active=YES;
     [_lineView.topAnchor constraintEqualToAnchor: self.IconSummaryStackView.bottomAnchor constant:5].active = YES;
     [_lineView.bottomAnchor constraintEqualToAnchor:self.HumidityWindStackView.topAnchor constant:-5].active = YES;
 //    [self.IconSummaryStackView.bottomAnchor constraintEqualToAnchor:self.HumidityWindStackView.topAnchor constant:-5].active=YES;
     
-    self.UVIndexStack.axis = UILayoutConstraintAxisVertical;
-    self.UVIndexStack.distribution = UIStackViewAlignmentCenter;
-    self.UVIndexStack.spacing = 5;
     self.UVIndexStack.translatesAutoresizingMaskIntoConstraints = NO;
+    self.UVIndexStack.axis = UILayoutConstraintAxisVertical;
+    self.UVIndexStack.distribution = UIStackViewDistributionEqualCentering;
+    self.UVIndexStack.spacing = 5;
+    self.UVIndexStack.alignment = UIStackViewAlignmentCenter;
+
+    self.ChanceOfRainStack.translatesAutoresizingMaskIntoConstraints = NO;
     self.ChanceOfRainStack.axis = UILayoutConstraintAxisVertical;
     self.ChanceOfRainStack.distribution = UIStackViewAlignmentCenter;
     self.ChanceOfRainStack.spacing = 5;
-    self.ChanceOfRainStack.translatesAutoresizingMaskIntoConstraints = NO;
-    self.UVIndexRainStackView.axis = UILayoutConstraintAxisHorizontal;
-    self.UVIndexRainStackView.distribution = UIStackViewAlignmentCenter;
+    self.ChanceOfRainStack.alignment = UIStackViewAlignmentCenter;
+
     self.UVIndexRainStackView.translatesAutoresizingMaskIntoConstraints = NO;
-    self.UVIndexRainStackView.spacing = 90;
-    [self.UVIndexRainStackView.leadingAnchor constraintLessThanOrEqualToAnchor:self.leadingAnchor constant:55].active = YES;
+    self.UVIndexRainStackView.axis = UILayoutConstraintAxisHorizontal;
+    self.UVIndexRainStackView.distribution = UIStackViewDistributionEqualCentering;
+    [self.UVIndexRainStackView.leadingAnchor constraintLessThanOrEqualToAnchor:self.leadingAnchor constant:50].active = YES;
     [self.UVIndexRainStackView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:-50].active = YES;
 //    [self.HumidityWindStackView.bottomAnchor constraintEqualToAnchor:self.UVIndexRainStackView.topAnchor constant:-6].active = YES;
     [_lineView2.topAnchor constraintEqualToAnchor: self.HumidityWindStackView.bottomAnchor constant:5].active = YES;
     [_lineView2.bottomAnchor constraintEqualToAnchor:self.UVIndexRainStackView.topAnchor constant:-5].active = YES;
 
-    
-    self.sunRiseStack.axis = UILayoutConstraintAxisVertical;
-    self.sunRiseStack.distribution = UIStackViewAlignmentCenter;
-    self.sunRiseStack.spacing = 5;
     self.sunRiseStack.translatesAutoresizingMaskIntoConstraints = NO;
-
-    self.sunSetStack.axis = UILayoutConstraintAxisVertical;
-    self.sunSetStack.distribution = UIStackViewAlignmentCenter;
-    self.sunSetStack.spacing = 5;
+    self.sunRiseStack.axis = UILayoutConstraintAxisVertical;
+    self.sunRiseStack.alignment = UIStackViewAlignmentCenter;
+    self.sunRiseStack.distribution = UIStackViewDistributionEqualCentering;
+    self.sunRiseStack.spacing = 5;
+   
     self.sunSetStack.translatesAutoresizingMaskIntoConstraints = NO;
-    
-    self.sunRiseSetStackView.axis = UILayoutConstraintAxisHorizontal;
-    self.sunRiseSetStackView.distribution = UIStackViewAlignmentCenter;
-    self.sunRiseSetStackView.spacing = 40;
+    self.sunSetStack.axis = UILayoutConstraintAxisVertical;
+    self.sunSetStack.alignment = UIStackViewAlignmentCenter;
+    self.sunSetStack.distribution = UIStackViewDistributionEqualCentering;
+    self.sunSetStack.spacing = 5;
+
     self.sunRiseSetStackView.translatesAutoresizingMaskIntoConstraints = NO;
-    
+    self.sunRiseSetStackView.axis = UILayoutConstraintAxisHorizontal;
+    self.sunRiseSetStackView.distribution = UIStackViewDistributionEqualCentering;
+    self.sunRiseSetStackView.spacing = 40;
     [self.sunRiseSetStackView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:55].active = YES;
     [self.sunRiseSetStackView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant: -55].active = YES;
+    
 //    [self.UVIndexRainStackView.bottomAnchor constraintEqualToAnchor:self.sunRiseSetStackView.topAnchor constant:-9].active = YES;
     [_lineView3.topAnchor constraintEqualToAnchor: self.UVIndexRainStackView.bottomAnchor constant:5].active = YES;
     [_lineView3.bottomAnchor constraintEqualToAnchor:self.sunRiseSetStackView   .topAnchor constant:-5].active = YES;
@@ -279,6 +287,12 @@
     
     self.rainChanceLabel.text = [currentWeather getprecipProbabilityInString:currentWeather.precipProbability];
     [self.rainChanceLabel sizeToFit];
+    
+    self.sunriseLabel.text = [currentWeather getHourInDayWithTime:currentWeather.sunRise];
+    [self.sunriseLabel sizeToFit];
+    
+
+    
 }
 
 - (void) refreshView {

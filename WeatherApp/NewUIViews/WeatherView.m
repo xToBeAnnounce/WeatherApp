@@ -43,6 +43,7 @@ bool dataLoaded = NO;
 {
     self = [super initWithFrame:frame];
     if (self) {
+        
         defaultBackdrop = @"golden_san_fran";
         _backdropImageView = [[PFImageView alloc] initWithFrame:self.frame];
         _backdropImageView.image = [UIImage imageNamed:defaultBackdrop];
@@ -58,6 +59,7 @@ bool dataLoaded = NO;
 }
 
 - (void) updateDataIfNeeded {
+    
     if (self.location.weeklyData.count == 0 || self.location.dailyData.count == 0) {
         [self.location fetchDataType:@"all" WithCompletion:^(NSDictionary *data, NSError *error) {
             if (data) {
@@ -70,7 +72,14 @@ bool dataLoaded = NO;
     }
 }
 
+
+- (void)drawRect:(CGRect)rect {
+    [super drawRect:rect];
+    
+}
+
 - (void) setViewsUI {
+    
     
     _todayWeatherView = [[TodayWeatherView alloc] init];
     _getTodayViewFrame = NO;
@@ -161,6 +170,19 @@ bool dataLoaded = NO;
 - (void)setLocation:(Location *)location {
     _location = location;
     
+    if([self.location.placeName  isEqual: @"Honolulu"]){
+        defaultBackdrop = @"Hawaii";
+        _backdropImageView.image =[UIImage imageNamed:defaultBackdrop];
+    }
+    else if([self.location.placeName  isEqual: @"Menlo Park"]){
+        defaultBackdrop = @"FaceBook";
+        _backdropImageView.image =[UIImage imageNamed:defaultBackdrop];
+    }
+    else if([self.location.placeName  isEqual: @"San Francisco"]){
+        defaultBackdrop = @"golden_san_fran";
+        _backdropImageView.image =[UIImage imageNamed:defaultBackdrop];
+    }
+    
     if (location.backdropImage) {
         _backdropImageView.file = location.backdropImage;
         [_backdropImageView loadInBackground];
@@ -175,6 +197,7 @@ bool dataLoaded = NO;
     _todayActivityView.location = location;
     _hourlyView.location = location;
     _dailyView.location = location;
+    
     
     [self updateDataIfNeeded];
 }
