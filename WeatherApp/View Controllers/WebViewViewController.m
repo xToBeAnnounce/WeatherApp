@@ -53,13 +53,17 @@
 }
 
 - (void) setNavigationUI {
+    self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
+    self.navigationController.navigationBar.translucent = NO;
     self.navigationController.navigationBar.topItem.titleView = nil;
     self.navigationController.navigationBar.topItem.rightBarButtonItem = nil;
     self.navigationController.navigationBar.topItem.title = @"Map";
+    self.navigationController.navigationBar.topItem.leftBarButtonItem.tintColor = self.view.tintColor;
     
     if (!self.navigationController.navigationBar.topItem.leftBarButtonItem) {
         self.navigationController.navigationBar.topItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Close" style:UIBarButtonItemStylePlain target:self action:@selector(onTapClose:)];
     }
+    
 }
 
 - (void) loadMap {

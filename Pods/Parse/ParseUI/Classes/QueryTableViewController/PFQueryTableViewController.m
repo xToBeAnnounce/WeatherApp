@@ -209,9 +209,9 @@
 
 - (void)clear {
     dispatch_async(dispatch_get_main_queue(), ^{
-        [_mutableObjects removeAllObjects];
+        [self->_mutableObjects removeAllObjects];
         [self.tableView reloadData];
-        _currentPage = 0;
+        self->_currentPage = 0;
     });
 }
 
@@ -239,16 +239,16 @@
             self.loading = NO;
 
             if (error) {
-                _lastLoadCount = -1;
+                self->_lastLoadCount = -1;
             } else {
-                _currentPage = page;
-                _lastLoadCount = [foundObjects count];
+                self->_currentPage = page;
+                self->_lastLoadCount = [foundObjects count];
 
                 if (clear) {
-                    [_mutableObjects removeAllObjects];
+                    [self->_mutableObjects removeAllObjects];
                 }
 
-                [_mutableObjects addObjectsFromArray:foundObjects];
+                [self->_mutableObjects addObjectsFromArray:foundObjects];
             }
             [self.tableView reloadData];
             [self objectsDidLoad:error];

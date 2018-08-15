@@ -112,14 +112,13 @@
     [self.addPhotoButton.bottomAnchor constraintEqualToAnchor:self.previewView.bottomAnchor constant:-15].active = YES;
     [self.addPhotoButton.heightAnchor constraintEqualToConstant:50].active = YES;
     [self.addPhotoButton.widthAnchor constraintEqualToAnchor:self.snapshotButton.heightAnchor].active = YES;
-    
-    NSDictionary *viewDict = @{@"previewView":self.previewView,
-                               @"captureView":self.captureImageView,
-                               @"snapshotButton":self.snapshotButton,
-                               @"addPhotoButton":self.addPhotoButton,
-                               @"view":self.view
-                               };
-    
+//
+//    NSDictionary *viewDict = @{@"previewView":self.previewView,
+//                               @"captureView":self.captureImageView,
+//                               @"snapshotButton":self.snapshotButton,
+//                               @"addPhotoButton":self.addPhotoButton,
+//                               @"view":self.view
+//                               };
 //    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[previewView]-8-[captureView]-8-|" options:NSLayoutFormatAlignAllLeft metrics:nil views:viewDict]];
 //    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[captureView]-(>=8)-[snapshotButton]-(>=8)-[addPhotoButton]-8-|" options:NSLayoutFormatAlignAllCenterY metrics:nil views:viewDict]];
 }
@@ -165,7 +164,7 @@
 - (void)captureOutput:(AVCapturePhotoOutput *)output didFinishProcessingPhoto:(AVCapturePhoto *)photo error:(NSError *)error {
     NSData *imageData = photo.fileDataRepresentation;
     UIImage *image = [UIImage imageWithData:imageData];
-    UIImage *resizedImage = [self resizeImage:image withSize:CGSizeMake(82.6667*3, 147.333*3)];
+    UIImage *resizedImage = [self resizeImage:image withSize:CGSizeMake(82.6667*4, 147.333*4)];
     self.captureImageView.image = resizedImage;
 }
 
