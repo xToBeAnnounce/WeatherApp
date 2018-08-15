@@ -266,6 +266,7 @@
 }
 
 
+
 -(void)displayCurrentWeather{
     Weather *currentWeather;
     if (self.location.weeklyData.count) currentWeather = self.location.weeklyData[0];
@@ -282,7 +283,7 @@
     self.uvIndexLabel.text = [NSString stringWithFormat:@"%d", currentWeather.uvIndex];
     [self.uvIndexLabel sizeToFit];
     
-    self.summaryLabel.text = [currentWeather formatSummary];
+    self.summaryLabel.text = [currentWeather formatSummaryWithType:self.tempType];
     [self.summaryLabel  sizeToFit];
     
     self.rainChanceLabel.text = [currentWeather getprecipProbabilityInString:currentWeather.precipProbability];

@@ -102,7 +102,6 @@ static NSArray *activityNames;
     self.summaryLabel = [[UILabel alloc]init];
     self.summaryLabel.font = [UIFont systemFontOfSize:17];
     self.summaryLabel.textColor = UIColor.whiteColor;
-//    self.summaryLabel.numberOfLines = 0;
     self.summaryLabel.translatesAutoresizingMaskIntoConstraints = NO;
     
     self.humidityStack = [[UIStackView alloc]initWithArrangedSubviews:@[HumidityTitle, self.humidityLabel]];
@@ -118,7 +117,7 @@ static NSArray *activityNames;
     self.windspeedStack.spacing = 10;
     
     self.HumidWindStackView = [[UIStackView alloc]initWithArrangedSubviews:@[self.humidityStack, self.windspeedStack, self.summaryLabel]];
-    self.HumidWindStackView.distribution = UIStackViewDistributionFill;
+    self.HumidWindStackView.distribution = UIStackViewDistributionEqualSpacing;
     self.HumidWindStackView.axis = UILayoutConstraintAxisVertical;
     self.HumidWindStackView.alignment = UIStackViewAlignmentLeading;
     self.HumidWindStackView.spacing = 5;
@@ -162,7 +161,7 @@ static NSArray *activityNames;
     [self.summaryLabel sizeToFit];
     self.summaryLabel.numberOfLines = 0;
     [self.summaryLabel sizeToFit];
-    [self.summaryLabel.heightAnchor constraintLessThanOrEqualToConstant:self.summaryLabel.frame.size.height+80].active = YES;
+//    [self.HumidWindStackView.heightAnchor constraintLessThanOrEqualToConstant:80].active = YES;
     
 }
 

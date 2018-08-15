@@ -135,7 +135,12 @@ static BOOL showBanner;
         WeeklyCell *cell = [self.WeeklytableView cellForRowAtIndexPath:indexPath];
         _tableViewHeightConstraint.constant = self.WeeklytableView.contentSize.height;
         
-        return cell.contentView.frame.size.height + cell.ExpandedView.frame.size.height;
+        if (cell.contentView.frame.size.height +
+            cell.ExpandedView.frame.size.height == 0){
+            return 150;
+        }
+        
+        return MIN(MAX(cell.contentView.frame.size.height + cell.ExpandedView.frame.size.height,110),155);
     }
     return 53.0;
 }

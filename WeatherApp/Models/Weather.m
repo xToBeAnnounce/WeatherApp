@@ -136,9 +136,15 @@ static NSArray *dayOfWeek;
     return string;
 }
 
+-(NSString*)formatSummaryWithType:(NSString *)type{
+    NSString *icon = [self formattedIconSummary];
+    NSString *summary = [NSString localizedStringWithFormat:@"%@ currently with a high of %@ %@. The low tonight will be %@ %@.",icon,[self getTempInString:self.temperatureHigh withType:type], type, [self getTempInString:self.temperatureLow withType:type],type];
+    return summary;
+}
+
 -(NSString*)formatSummary{
     NSString *icon = [self formattedIconSummary];
-    NSString *summary = [NSString localizedStringWithFormat:@"%@ currently with a high of %d°F (%.0f°C). The low tonight will be %d°F (%.0f°C)",icon,self.temperatureHigh,((self.temperatureHigh-32)/1.8), self.temperatureLow,((self.temperatureLow-32)/1.8)];
+    NSString *summary = [NSString localizedStringWithFormat:@"%@ currently with a high of %d°F (%.0f°C). The low tonight will be %d°F (%.0f°C).",icon,self.temperatureHigh,((self.temperatureHigh-32)/1.8), self.temperatureLow,((self.temperatureLow-32)/1.8)];
     
     return summary;
 }

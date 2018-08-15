@@ -206,8 +206,9 @@ bool dataLoaded = NO;
 - (void)setTempTypeString:(NSString *)tempTypeString {
     _tempTypeString = tempTypeString;
     _todayWeatherView.tempTypeString = tempTypeString;
-    _weeklyView.tempType = tempTypeString;
     _hourlyView.tempTypeString = tempTypeString;
+    _dailyView.tempType = tempTypeString;
+    _weeklyView.tempType = tempTypeString;
     
 //    [self.mainCollectionView reloadData];
 }
