@@ -105,6 +105,8 @@ static int const numHoursInDay = 24;
             self.placeName = address[@"placename"];
             self.fullPlaceName = [self.placeName stringByAppendingString:[NSString stringWithFormat:@", %@, United States", address[@"adminCode1"]]];
             if (!self.placeName) {
+//                self.placeName = @"Menlo Park";
+//                self.fullPlaceName = @"Menlo Park, CA, United States";
                 self.placeName = @"Unknown";
                 self.fullPlaceName = self.placeName;
             }
