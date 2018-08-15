@@ -31,7 +31,7 @@ static NSString *cellID = @"hamburgerMenu";
     self.hamburgerTableView = [[UITableView alloc]initWithFrame:UIScreen.mainScreen.bounds style:UITableViewStylePlain];
     self.hamburgerTableView.dataSource = self;
     self.hamburgerTableView.delegate = self;
-    self.hamburgerTableView.backgroundColor = UIColor.clearColor;
+    self.hamburgerTableView.backgroundColor = UIColor.whiteColor;
     [self.hamburgerTableView registerClass:HamburgerTableViewCell.class forCellReuseIdentifier:cellID];
     [self.view addSubview:self.hamburgerTableView];
 }
@@ -44,7 +44,7 @@ static NSString *cellID = @"hamburgerMenu";
     }
     
     cell.sectionLabel.text = cellContent[indexPath.row];
-    cell.sectionLabel.textColor = UIColor.whiteColor;
+    cell.sectionLabel.textColor = UIColor.blackColor;
     cell.backgroundColor = UIColor.clearColor;
     cell.icon.image = [UIImage imageNamed:cellImages[indexPath.row]];
     return cell;

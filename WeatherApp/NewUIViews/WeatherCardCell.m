@@ -61,7 +61,7 @@
     _cardView = [[UIView alloc] init];
     _cardView.translatesAutoresizingMaskIntoConstraints = NO;
 
-    _cardView.backgroundColor = [UIColor.blueColor colorWithAlphaComponent:0.3];
+    _cardView.backgroundColor = [UIColor.grayColor colorWithAlphaComponent:0.1];
     _cardView.layer.cornerRadius = 10;
     [self.contentView addSubview:_cardView];
     

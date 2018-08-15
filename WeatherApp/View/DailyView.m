@@ -291,8 +291,8 @@
     self.sunriseLabel.text = [currentWeather getHourInDayWithTime:currentWeather.sunRise];
     [self.sunriseLabel sizeToFit];
     
-
-    
+    self.sunsetLabel.text = [currentWeather getHourInDayWithTime:currentWeather.sunSet];
+    [self.sunsetLabel sizeToFit];
 }
 
 - (void) refreshView {

@@ -63,6 +63,7 @@
     _hourlyStackView.distribution = UIStackViewDistributionFillProportionally;
     _hourlyStackView.alignment = UIStackViewAlignmentCenter;
     _hourlyStackView.translatesAutoresizingMaskIntoConstraints = NO;
+    _hourlyStackView.backgroundColor = UIColor.clearColor;
     [self.contentView addSubview:_hourlyStackView];
     
     [_hourlyStackView.topAnchor constraintEqualToAnchor:self.contentView.topAnchor].active = YES;
@@ -70,9 +71,10 @@
 }
 
 -(void)setCellBackground{
+    self.contentView.backgroundColor = [UIColor.whiteColor colorWithAlphaComponent:0.1];
     UIVisualEffect *blureffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
     _blureffectView = [[UIVisualEffectView alloc]initWithEffect:blureffect];
-    _blureffectView.alpha = 0.3;
+    _blureffectView.alpha = 0;
     _blureffectView.frame = CGRectMake(0, 0, self.contentView.frame.size.width, self.contentView.frame.size.height);
     _blureffectView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.contentView addSubview:_blureffectView];

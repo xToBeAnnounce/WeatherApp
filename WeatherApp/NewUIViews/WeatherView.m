@@ -45,7 +45,7 @@ bool dataLoaded = NO;
     self = [super initWithFrame:frame];
     if (self) {
         
-        defaultBackdrop = @"golden_san_fran";
+        defaultBackdrop = @"Sanfranciso";
         _backdropImageView = [[PFImageView alloc] initWithFrame:self.frame];
         _backdropImageView.image = [UIImage imageNamed:defaultBackdrop];
         _backdropImageView.contentMode = UIViewContentModeScaleAspectFill;
@@ -173,7 +173,13 @@ bool dataLoaded = NO;
 - (void)setLocation:(Location *)location {
     _location = location;
     
-    if([self.location.placeName  isEqual: @"Honolulu"]){
+    
+    
+    if (location.backdropImage) {
+        _backdropImageView.file = location.backdropImage;
+        [_backdropImageView loadInBackground];
+    }
+    else if([self.location.placeName  isEqual: @"Honolulu"]){
         _backdropImageView.image =[UIImage imageNamed:@"Hawaii"];
     }
     else if([self.location.placeName  isEqual: @"Menlo Park"]){
@@ -181,11 +187,6 @@ bool dataLoaded = NO;
     }
     else if([self.location.placeName  isEqual: @"San Francisco"]){
         _backdropImageView.image =[UIImage imageNamed:@"golden_san_fran"];
-    }
-    
-    if (location.backdropImage) {
-        _backdropImageView.file = location.backdropImage;
-        [_backdropImageView loadInBackground];
     }
     else {
         _backdropImageView.image = [UIImage imageNamed:defaultBackdrop];
