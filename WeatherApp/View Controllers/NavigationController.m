@@ -79,8 +79,22 @@
     self.revealVC.toggleAnimationDuration = 0.5;
     
     // Hamburger button
-    self.revealVC.navigationItem.leftBarButtonItem =
-    [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"hamburger"] style:UIBarButtonItemStylePlain target:self.revealVC action:@selector(revealToggle:)];
+    UIButton *hamburgerButton = [[UIButton alloc] init];
+    [hamburgerButton setImage:[[UIImage imageNamed:@"hamburger"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
+    hamburgerButton.tintColor = UIColor.whiteColor;
+    hamburgerButton.layer.shadowColor = [UIColor.blackColor CGColor];
+    hamburgerButton.layer.shadowOpacity = 1.0;
+    hamburgerButton.layer.shadowRadius = 2;
+    hamburgerButton.layer.shadowOffset = CGSizeMake(0.5, 1.0);
+    [hamburgerButton addTarget:self action:@selector(revealToggle:) forControlEvents:UIControlEventTouchUpInside];
+    self.revealVC.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:hamburgerButton];
+    
+//    self.revealVC.navigationItem.leftBarButtonItem =
+//    [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"hamburger"] style:UIBarButtonItemStylePlain target:self action:@selector(revealToggle:)];
+}
+
+- (IBAction)revealToggle:(id)sender {
+    [self.revealVC revealToggle:sender];
 }
 @end
 

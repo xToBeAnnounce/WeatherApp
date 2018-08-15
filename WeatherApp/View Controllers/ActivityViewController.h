@@ -11,5 +11,5 @@
 #import "Weather.h"
 
 @interface ActivityViewController : UIViewController
--(instancetype)initWithLocation:(Location*)loc Weather:(Weather*)weather;
+-(instancetype)initWithLocation:(Location*)loc weather:(Weather*)weather index:(int)idx;
 @end

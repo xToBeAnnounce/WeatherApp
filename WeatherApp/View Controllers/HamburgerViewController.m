@@ -25,14 +25,13 @@ static NSString *cellID = @"hamburgerMenu";
     [self setTableView];
     cellImages = @[@"weatherIcon",@"activities",@"map",@"settings",@"logout"];
     cellContent = @[@"Weather",@"Activies",@"Map",@"Settings",@"Logout"];
-    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"BlackG"]];
 }
 
 -(void)setTableView{
     self.hamburgerTableView = [[UITableView alloc]initWithFrame:UIScreen.mainScreen.bounds style:UITableViewStylePlain];
     self.hamburgerTableView.dataSource = self;
     self.hamburgerTableView.delegate = self;
-    self.hamburgerTableView.backgroundColor = UIColor.clearColor;
+    self.hamburgerTableView.backgroundColor = UIColor.whiteColor;
     [self.hamburgerTableView registerClass:HamburgerTableViewCell.class forCellReuseIdentifier:cellID];
     [self.view addSubview:self.hamburgerTableView];
 }
@@ -45,7 +44,7 @@ static NSString *cellID = @"hamburgerMenu";
     }
     
     cell.sectionLabel.text = cellContent[indexPath.row];
-    cell.sectionLabel.textColor = UIColor.whiteColor;
+    cell.sectionLabel.textColor = UIColor.blackColor;
     cell.backgroundColor = UIColor.clearColor;
     cell.icon.image = [UIImage imageNamed:cellImages[indexPath.row]];
     return cell;
@@ -53,13 +52,13 @@ static NSString *cellID = @"hamburgerMenu";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     SWRevealViewController *revealController = self.revealViewController;
+    
     if (indexPath.row == 0){
         [revealController pushFrontViewController:self.pageVC animated:YES];
     }
     if (indexPath.row == 2){
         [revealController pushFrontViewController:self.mapWVC animated:YES];
     }
-    
     if (indexPath.row == 3){
         [revealController pushFrontViewController:self.settingsVC animated:YES];
     }

@@ -17,72 +17,42 @@
 
 
 @implementation DailyView
-static bool loadDailyData = NO;
-static NSString *DailycellIdentifier = @"DailyTableViewCell";
-static int currentWeatherViewHeight;
-UIVisualEffectView *blureffectView;
-
-
+{
+    UIView *_lineView;
+    UIView *_lineView2;
+    UIView *_lineView3;
+}
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        [self setDailyUI];
+        [self displayCurrentWeather];
+    }
+    return self;
+}
+
 - (void)drawRect:(CGRect)rect {
     [super drawRect:rect];
-    [self setDailyUI];
-    [self displayCurrentWeather];
-    self.DailytableView.dataSource = self;
-    self.DailytableView.delegate = self;
 }
 
 - (void) updateDataIfNeeded {
-    if (self.location.dailyData.count == 0) {
-        [self.location fetchDataType:@"daily" WithCompletion:^(NSDictionary * data, NSError * error) {
+    if (self.location.weeklyData.count == 0) {
+        [self.location fetchDataType:@"weekly" WithCompletion:^(NSDictionary * data, NSError * error) {
             if(error == nil){
-                loadDailyData = YES;
                 [self displayCurrentWeather];
-                [self.DailytableView reloadData];
             }
             else NSLog(@"%@", error.localizedDescription);
         }];
     }
 }
 
--(void)scrollViewDidScroll:(UIScrollView *)scrollView{
-    CGFloat TableViewOffset = self.DailytableView.contentOffset.y;
-    if(self.oldframe.size.height-TableViewOffset > currentWeatherViewHeight){
-        [UIView animateWithDuration:0.1 delay:0 usingSpringWithDamping:50 initialSpringVelocity:1 options:UIViewAnimationOptionCurveEaseIn animations:^{
-            CGRect newFrame = CGRectMake(self.oldframe.origin.x, self.oldframe.origin.y, self.oldframe.size.width, self.oldframe.size.height-TableViewOffset);
-            self.currentWeatherView.frame = newFrame;
-            if(fabs(self.oldframe.size.height - self.currentWeatherView.frame.size.height) <= 10){
-                self.temperatureLabel.alpha = 1;
-            }
-            else if (TableViewOffset > currentWeatherViewHeight){
-                self.temperatureLabel.alpha = 0;
-            }
-            else{
-                self.temperatureLabel.alpha = 1 - (currentWeatherViewHeight / (self.oldframe.size.height-TableViewOffset));
-            }
-            [self layoutIfNeeded];
-        } completion:nil];
-    }
-}
-
 - (void) setLocation:(Location *)location {
-
-    if (_location.dailyData) location.dailyData = _location.dailyData;
-
+    if (_location.weeklyData) location.weeklyData = _location.weeklyData;
     _location = location;
-    if ([self.location.placeName isEqualToString:self.location.customName]) {
-        self.customNameLabel.font = [UIFont systemFontOfSize:45];
-        self.locationLabel.hidden = YES;
-    }
-    else {
-        self.locationLabel.hidden = NO;
-        self.customNameLabel.font = [UIFont systemFontOfSize:35];
-        self.locationLabel.text = self.location.placeName;
-        [self.locationLabel sizeToFit];
-    }
-    self.customNameLabel.text = self.location.customName;
-    
     [self updateDataIfNeeded];
     [self refreshView];
 }
@@ -93,152 +63,240 @@ UIVisualEffectView *blureffectView;
 }
 
 - (void) setDailyUI {
-    self.DailytableView = [[UITableView alloc] init];
-    [self.DailytableView registerClass:DailyTableViewCell.class forCellReuseIdentifier:@"DailyTableViewCell"];
-    self.DailytableView.estimatedRowHeight = 44.0;
-    self.DailytableView.rowHeight = UITableViewAutomaticDimension;
-    self.DailytableView.translatesAutoresizingMaskIntoConstraints = NO;
-    self.DailytableView.dataSource = self;
-    self.DailytableView.delegate = self;
-    self.DailytableView.backgroundColor = UIColor.clearColor;
-    self.DailytableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    [self addSubview:self.DailytableView];
-    
-    UIVisualEffect *blureffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
-    blureffectView = [[UIVisualEffectView alloc]initWithEffect:blureffect];
-    blureffectView.alpha = 0.3;
-    [self insertSubview:blureffectView belowSubview:self.DailytableView];
-    
-    self.currentWeatherView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height/2)];
-    [self addSubview:self.currentWeatherView];
-    
-    self.backgroundImageView = [[UIImageView alloc]initWithFrame:UIScreen.mainScreen.bounds];
-    self.backgroundImageView.contentMode = UIViewContentModeScaleAspectFill;
-    self.backgroundImageView.clipsToBounds = YES;
-    //self.backgroundImageView.image = [UIImage imageNamed:@"Sanfranciso"];
-    self.backgroundImageView.translatesAutoresizingMaskIntoConstraints = NO;
-    [self.currentWeatherView addSubview:self.backgroundImageView];
-    
-    UIImageView *backgroundIV = [[UIImageView alloc]initWithFrame:UIScreen.mainScreen.bounds];
-    backgroundIV.image = [UIImage imageNamed:@"golden_san_fran"];
-    backgroundIV.contentMode = UIViewContentModeScaleAspectFill;
-    backgroundIV.clipsToBounds = YES;
-    [self insertSubview:backgroundIV belowSubview:self.DailytableView];
-    
-    //setting up customNameLabel
-    self.customNameLabel = [[UILabel alloc]init];
-    self.customNameLabel.font = [UIFont systemFontOfSize:35];
-    self.customNameLabel.text = self.location.customName;
-    
-    //setting up locationLabel
-    self.locationLabel = [[UILabel alloc]init];
-    self.locationLabel.font = [UIFont systemFontOfSize:17];
-    self.locationLabel.text = @"---";
     
     //setting up icon image view
     self.iconImageView = [[UIImageView alloc]init];
     self.iconImageView.contentMode = UIViewContentModeScaleAspectFit;
     self.iconImageView.clipsToBounds = YES;
-    self.iconImageView.translatesAutoresizingMaskIntoConstraints = NO;
     
-    //setting up temperatureLabel
-    self.temperatureLabel = [[UILabel alloc]init];
-    self.temperatureLabel.textColor = UIColor.whiteColor;
-    self.temperatureLabel.font = [UIFont systemFontOfSize:60 weight:UIFontWeightThin];
-    self.temperatureLabel.text = @"--°";
+    //setting up humidity label
+    UILabel *humidityTitle = [[UILabel alloc]init];
+    humidityTitle.font = [UIFont systemFontOfSize:15];
+    humidityTitle.text = @"HUMIDITY";
+    humidityTitle.textColor = UIColor.whiteColor;
+    [humidityTitle sizeToFit];
+    self.humidityLabel = [[UILabel alloc]init];
+    self.humidityLabel.font = [UIFont systemFontOfSize:18];
+    self.humidityLabel.textColor = UIColor.whiteColor;
     
-    NSArray *weatherDisplayArray = @[self.customNameLabel,self.locationLabel, self.iconImageView, self.temperatureLabel];
-    self.weatherDisplayStackView = [[UIStackView alloc] initWithArrangedSubviews:weatherDisplayArray];
-    self.weatherDisplayStackView.axis = UILayoutConstraintAxisVertical;
-    self.weatherDisplayStackView.distribution = UIStackViewDistributionEqualSpacing;
-    self.weatherDisplayStackView.alignment = UIStackViewAlignmentCenter;
-    self.weatherDisplayStackView.translatesAutoresizingMaskIntoConstraints = NO;
-    [self.currentWeatherView addSubview:self.weatherDisplayStackView];
-    self.oldframe = self.currentWeatherView.frame;
-    currentWeatherViewHeight = self.oldframe.size.height / 2;
+    //setting up windspeed label
+    UILabel *windspeedTitle = [[UILabel alloc]init];
+    windspeedTitle.font = [UIFont systemFontOfSize:15];
+    windspeedTitle.text = @"WIND SPEED";
+    windspeedTitle.textColor = UIColor.whiteColor;
+    [windspeedTitle sizeToFit];
+    self.windspeedLabel = [[UILabel alloc]init];
+    self.windspeedLabel.font = [UIFont systemFontOfSize:18];
+    self.windspeedLabel.textColor = UIColor.whiteColor;
+    
+    //setting up uvIndex
+    UILabel *uvIndexTitle = [[UILabel alloc]init];
+    uvIndexTitle.font = [UIFont systemFontOfSize:15];
+    uvIndexTitle.text = @"UV INDEX";
+    uvIndexTitle.textColor = UIColor.whiteColor;
+    [uvIndexTitle sizeToFit];
+    self.uvIndexLabel = [[UILabel alloc]init];
+    self.uvIndexLabel.font = [UIFont systemFontOfSize:18];
+    self.uvIndexLabel.textColor = UIColor.whiteColor;
+    
+    //setting up rain chance
+    UILabel *rainChanceTitle = [[UILabel alloc]init];
+    rainChanceTitle.font = [UIFont systemFontOfSize:15];
+    rainChanceTitle.text = @"CHANCE OF RAIN";
+    rainChanceTitle.textColor = UIColor.whiteColor;
+    [rainChanceTitle sizeToFit];
+    self.rainChanceLabel = [[UILabel alloc]init];
+    self.rainChanceLabel.font = [UIFont systemFontOfSize:18];
+    self.rainChanceLabel.textColor = UIColor.whiteColor;
+    
+    //setting up summary
+    self.summaryLabel = [[UILabel alloc]init];
+    self.summaryLabel.text = @"--";
+    self.summaryLabel.numberOfLines = 0;
+    self.summaryLabel.font = [UIFont systemFontOfSize:17];
+    self.summaryLabel.textColor = UIColor.whiteColor;
+
+    UIImageView *sunriseIV = [[UIImageView alloc]init];
+    sunriseIV.image = [UIImage imageNamed:@"sunrise"];
+    UIImageView *sunsetIV = [[UIImageView alloc]init];
+    sunsetIV.image = [UIImage imageNamed:@"sunset"];
+
+    self.sunriseLabel = [[UILabel alloc]init];
+    self.sunriseLabel.font = [UIFont systemFontOfSize:18];
+    self.sunriseLabel.textColor = UIColor.whiteColor;
+
+    self.sunsetLabel = [[UILabel alloc]init];
+    self.sunsetLabel.font = [UIFont systemFontOfSize:18];
+    self.sunsetLabel.textColor = UIColor.whiteColor;
+
+    _lineView = [[UIView alloc]init];
+    _lineView.backgroundColor = UIColor.whiteColor;
+    _lineView.alpha = 0.7;
+    [self addSubview:_lineView];
+
+
+    _lineView2 = [[UIView alloc]init];
+    _lineView2.backgroundColor = UIColor.whiteColor;
+        _lineView2.alpha = 0.7;
+    [self addSubview:_lineView2];
+ 
+
+    _lineView3 = [[UIView alloc]init];
+    _lineView3.backgroundColor = UIColor.whiteColor;
+        _lineView3.alpha = 0.7;
+    [self addSubview:_lineView3];
+
+
+    self.IconSummaryStackView = [[UIStackView alloc]initWithArrangedSubviews:@[self.iconImageView,self.summaryLabel]];
+    [self addSubview:self.IconSummaryStackView];
+    
+    self.HumidityStack = [[UIStackView alloc]initWithArrangedSubviews:@[humidityTitle,self.humidityLabel]];
+    self.WindspeedStack = [[UIStackView alloc]initWithArrangedSubviews:@[windspeedTitle,self.windspeedLabel]];
+    self.HumidityWindStackView = [[UIStackView alloc]initWithArrangedSubviews:@[self.HumidityStack,self.WindspeedStack]];
+    [self addSubview:self.HumidityWindStackView];
+    
+    self.UVIndexStack = [[UIStackView alloc]initWithArrangedSubviews:@[uvIndexTitle,self.uvIndexLabel]];
+    self.ChanceOfRainStack = [[UIStackView alloc]initWithArrangedSubviews:@[rainChanceTitle,self.rainChanceLabel]];
+    self.UVIndexRainStackView = [[UIStackView alloc]initWithArrangedSubviews:@[self.UVIndexStack,self.ChanceOfRainStack]];
+    [self addSubview:self.UVIndexRainStackView];
+    
+    self.sunRiseStack = [[UIStackView alloc]initWithArrangedSubviews:@[sunriseIV,self.sunriseLabel]];
+    self.sunSetStack = [[UIStackView alloc]initWithArrangedSubviews:@[sunsetIV,self.sunsetLabel]];
+    self.sunRiseSetStackView = [[UIStackView alloc]initWithArrangedSubviews:@[self.sunRiseStack,self.sunSetStack]];
+    [self addSubview:self.sunRiseSetStackView];
+    
     
     [self setConstraints];
 }
 
-- (void) setConstraints {
-    // background image constraints
+-(void)setConstraints{
+    [self.iconImageView.heightAnchor constraintEqualToConstant:70].active = YES;
+    [self.iconImageView.widthAnchor constraintEqualToConstant:70].active = YES;
     
-    // stack view constraints
-    [self.weatherDisplayStackView.centerXAnchor constraintEqualToAnchor:self.currentWeatherView.centerXAnchor].active = YES;
-    [self.weatherDisplayStackView.topAnchor constraintEqualToAnchor:self.safeAreaLayoutGuide.topAnchor].active = YES;
-    [self.weatherDisplayStackView.bottomAnchor constraintEqualToAnchor:self.currentWeatherView.bottomAnchor constant:-8].active = YES;
+    _lineView.translatesAutoresizingMaskIntoConstraints = NO;
+    [_lineView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:5].active = YES;
+    [_lineView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:-5].active = YES;
+    [_lineView.heightAnchor constraintEqualToConstant:1].active = YES;
     
-    // icon contstraints
-    [self.iconImageView.heightAnchor constraintEqualToAnchor:self.currentWeatherView.heightAnchor multiplier:3.0/7.0].active = YES;
-    [self.iconImageView.widthAnchor constraintEqualToAnchor:self.iconImageView.heightAnchor multiplier:1.0/1.0].active = YES;
+    _lineView2.translatesAutoresizingMaskIntoConstraints = NO;
+    [_lineView2.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:27].active = YES;
+    [_lineView2.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:-27].active = YES;
+    [_lineView2.heightAnchor constraintEqualToConstant:1].active = YES;
     
-    // constraint between tableview and current weather view
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[weatherView]-0-[tableView]" options:NSLayoutFormatAlignAllCenterX metrics:nil views:@{@"weatherView":self.currentWeatherView, @"tableView":self.DailytableView}]];
+    _lineView3.translatesAutoresizingMaskIntoConstraints = NO;
+    [_lineView3.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:27].active = YES;
+    [_lineView3.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:-27].active = YES;
+    [_lineView3.heightAnchor constraintEqualToConstant:1].active = YES;
     
-    // table view constraints
-    [self.DailytableView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor].active = YES;
-    [self.DailytableView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor].active = YES;
-    [self.DailytableView.bottomAnchor constraintEqualToAnchor:self.safeAreaLayoutGuide.bottomAnchor].active = YES;
+    self.IconSummaryStackView.translatesAutoresizingMaskIntoConstraints = NO;
+    self.IconSummaryStackView.distribution = UIStackViewDistributionFillProportionally;
+    self.IconSummaryStackView.axis = UILayoutConstraintAxisHorizontal;
+    self.IconSummaryStackView.spacing = 15;
+    //self.IconSummaryStackView.alignment = UIStackViewAlignmentCenter; this breaks everything
+    [self.IconSummaryStackView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor].active = YES;
+    [self.IconSummaryStackView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor].active = YES;
+    [self.IconSummaryStackView.topAnchor constraintEqualToAnchor:self.topAnchor constant:8].active = YES;
     
-  
+    self.HumidityStack.translatesAutoresizingMaskIntoConstraints = NO;
+    self.HumidityStack.axis = UILayoutConstraintAxisVertical;
+    self.HumidityStack.alignment = UIStackViewAlignmentCenter;
+    self.HumidityStack.distribution = UIStackViewDistributionEqualCentering;
+    self.HumidityStack.spacing = 5;
+
+    self.WindspeedStack.translatesAutoresizingMaskIntoConstraints = NO;
+    self.WindspeedStack.axis = UILayoutConstraintAxisVertical;
+    self.WindspeedStack.alignment = UIStackViewAlignmentCenter;
+    self.WindspeedStack.distribution = UIStackViewDistributionEqualCentering;
+    self.WindspeedStack.spacing = 5;
     
+    self.HumidityWindStackView.translatesAutoresizingMaskIntoConstraints = NO;
+    self.HumidityWindStackView.axis = UILayoutConstraintAxisHorizontal;
+    self.HumidityWindStackView.distribution = UIStackViewDistributionEqualCentering;
+    [self.HumidityWindStackView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:55].active=YES;
+    [self.HumidityWindStackView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:-55].active=YES;
+    [_lineView.topAnchor constraintEqualToAnchor: self.IconSummaryStackView.bottomAnchor constant:5].active = YES;
+    [_lineView.bottomAnchor constraintEqualToAnchor:self.HumidityWindStackView.topAnchor constant:-5].active = YES;
+//    [self.IconSummaryStackView.bottomAnchor constraintEqualToAnchor:self.HumidityWindStackView.topAnchor constant:-5].active=YES;
+    
+    self.UVIndexStack.translatesAutoresizingMaskIntoConstraints = NO;
+    self.UVIndexStack.axis = UILayoutConstraintAxisVertical;
+    self.UVIndexStack.distribution = UIStackViewDistributionEqualCentering;
+    self.UVIndexStack.spacing = 5;
+    self.UVIndexStack.alignment = UIStackViewAlignmentCenter;
+
+    self.ChanceOfRainStack.translatesAutoresizingMaskIntoConstraints = NO;
+    self.ChanceOfRainStack.axis = UILayoutConstraintAxisVertical;
+    self.ChanceOfRainStack.distribution = UIStackViewAlignmentCenter;
+    self.ChanceOfRainStack.spacing = 5;
+    self.ChanceOfRainStack.alignment = UIStackViewAlignmentCenter;
+
+    self.UVIndexRainStackView.translatesAutoresizingMaskIntoConstraints = NO;
+    self.UVIndexRainStackView.axis = UILayoutConstraintAxisHorizontal;
+    self.UVIndexRainStackView.distribution = UIStackViewDistributionEqualCentering;
+    [self.UVIndexRainStackView.leadingAnchor constraintLessThanOrEqualToAnchor:self.leadingAnchor constant:50].active = YES;
+    [self.UVIndexRainStackView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:-50].active = YES;
+//    [self.HumidityWindStackView.bottomAnchor constraintEqualToAnchor:self.UVIndexRainStackView.topAnchor constant:-6].active = YES;
+    [_lineView2.topAnchor constraintEqualToAnchor: self.HumidityWindStackView.bottomAnchor constant:5].active = YES;
+    [_lineView2.bottomAnchor constraintEqualToAnchor:self.UVIndexRainStackView.topAnchor constant:-5].active = YES;
+
+    self.sunRiseStack.translatesAutoresizingMaskIntoConstraints = NO;
+    self.sunRiseStack.axis = UILayoutConstraintAxisVertical;
+    self.sunRiseStack.alignment = UIStackViewAlignmentCenter;
+    self.sunRiseStack.distribution = UIStackViewDistributionEqualCentering;
+    self.sunRiseStack.spacing = 5;
+   
+    self.sunSetStack.translatesAutoresizingMaskIntoConstraints = NO;
+    self.sunSetStack.axis = UILayoutConstraintAxisVertical;
+    self.sunSetStack.alignment = UIStackViewAlignmentCenter;
+    self.sunSetStack.distribution = UIStackViewDistributionEqualCentering;
+    self.sunSetStack.spacing = 5;
+
+    self.sunRiseSetStackView.translatesAutoresizingMaskIntoConstraints = NO;
+    self.sunRiseSetStackView.axis = UILayoutConstraintAxisHorizontal;
+    self.sunRiseSetStackView.distribution = UIStackViewDistributionEqualCentering;
+    self.sunRiseSetStackView.spacing = 40;
+    [self.sunRiseSetStackView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:55].active = YES;
+    [self.sunRiseSetStackView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant: -55].active = YES;
+    
+//    [self.UVIndexRainStackView.bottomAnchor constraintEqualToAnchor:self.sunRiseSetStackView.topAnchor constant:-9].active = YES;
+    [_lineView3.topAnchor constraintEqualToAnchor: self.UVIndexRainStackView.bottomAnchor constant:5].active = YES;
+    [_lineView3.bottomAnchor constraintEqualToAnchor:self.sunRiseSetStackView   .topAnchor constant:-5].active = YES;
+
+    [self.sunRiseSetStackView.bottomAnchor constraintEqualToAnchor:self.bottomAnchor constant:-8].active = YES;
 }
+
 
 -(void)displayCurrentWeather{
     Weather *currentWeather;
-    if (self.location.dailyData.count) currentWeather = self.location.dailyData[0];
+    if (self.location.weeklyData.count) currentWeather = self.location.weeklyData[0];
     
     self.iconImageView.image = [UIImage imageNamed:currentWeather.icon];
     
-    self.temperatureLabel.text = [currentWeather getTempInString:currentWeather.temperature withType:self.tempType];
-    [self.temperatureLabel sizeToFit];
+    self.humidityLabel.text = [currentWeather getHumidityInString:currentWeather.humidity];
+    [self.humidityLabel sizeToFit];
     
-    if ([self.location.customName isEqualToString:@"Current Location"]) {
-        [self.location updatePlaceNameWithBlock:^(NSDictionary *data, NSError *error) {
-            if (data) {
-                self.locationLabel.text = self.location.placeName;
-                [self.locationLabel sizeToFit];
-            }
-        }];
-    }
-    else if ([self.location.placeName isEqualToString:self.location.customName]) {
-        self.customNameLabel.font = [UIFont systemFontOfSize:45];
-        self.locationLabel.hidden = YES;
-    }
-    else {
-        self.locationLabel.text = self.location.placeName;
-        [self.locationLabel sizeToFit];
-    }
+    self.windspeedLabel.text = [currentWeather getWindSpeedInString:currentWeather.windSpeed];
+    [self.windspeedLabel sizeToFit];
+    
+
+    self.uvIndexLabel.text = [NSString stringWithFormat:@"%d", currentWeather.uvIndex];
+    [self.uvIndexLabel sizeToFit];
+    
+    self.summaryLabel.text = [currentWeather formatSummary];
+    [self.summaryLabel  sizeToFit];
+    
+    self.rainChanceLabel.text = [currentWeather getprecipProbabilityInString:currentWeather.precipProbability];
+    [self.rainChanceLabel sizeToFit];
+    
+    self.sunriseLabel.text = [currentWeather getHourInDayWithTime:currentWeather.sunRise];
+    [self.sunriseLabel sizeToFit];
+    
+    self.sunsetLabel.text = [currentWeather getHourInDayWithTime:currentWeather.sunSet];
+    [self.sunsetLabel sizeToFit];
 }
 
 - (void) refreshView {
     [self displayCurrentWeather];
-    [self.DailytableView reloadData];
 }
-
-/*--------TABLE VIEW DELEGATE METHODS----------*/
-- (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
-    DailyTableViewCell *cell = [self.DailytableView dequeueReusableCellWithIdentifier:DailycellIdentifier];
-    if(cell == nil){
-        cell = [[DailyTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:DailycellIdentifier];
-    }
-    if(loadDailyData){
-        cell.tempType = self.tempType;
-        Weather *hourlyWeather = self.location.dailyData[indexPath.row];
-        cell.hourWeather = hourlyWeather;
-        cell.backgroundColor = UIColor.clearColor;
-        cell.contentView.backgroundColor = UIColor.clearColor;
-    }
-    return cell;
-}
-
-- (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.location.dailyData.count;
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [self.DailytableView deselectRowAtIndexPath:indexPath animated:YES];
-}
-
 
 @end
